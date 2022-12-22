@@ -171,13 +171,13 @@ if __name__ == '__main__':
     detector = Detector(
         model_info="./vacl_info/model_info_yolov3.json",
         vdsp_params_info="./vacl_info/vdsp_params_yolov3_letterbox_rgb.json",
-        classes="/home/lance/workspace/VastDeploy/data/eval/coco2id.txt",
+        classes="/workspace/VastDeploy/data/eval/coco2id.txt",
         device_id=0,
         batch_size=1,
     )
 
     # Test one image from path
-    image_path = "/home/lance/workspace/VastDeploy/data/test/od/0.jpg"
+    image_path = "/workspace/VastDeploy/data/test/od/0.jpg"
     result = detector.detection(image_path)
     print(f"{image_path} => {result}")
 
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     print(f"{image_path} => {result}")
 
     # Test multiple images
-    images = glob.glob("/home/lance/workspace/VastDeploy/data/eval/det_coco_calib/*.jpg")
+    images = glob.glob("/workspace/VastDeploy/data/eval/det_coco_calib/*.jpg")
     time_begin = time.time()
     results = detector.detection_batch(images)
     for (image, result) in zip(images, results):
