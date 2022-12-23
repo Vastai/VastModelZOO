@@ -28,6 +28,7 @@ class Classifier:
             with open(classes) as f:
                 classes = [cls.strip() for cls in f.readlines()]
 
+        self.model_info = model_info
         self.device_id = device_id
         self.classes = classes
         self.input_id = 0

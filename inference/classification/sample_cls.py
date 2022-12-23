@@ -6,10 +6,11 @@ import time
 from image_classification import Classifier
 
 parse = argparse.ArgumentParser(description="RUN CLS WITH VACL")
-parse.add_argument("task", type=str, default="run", choices=["run", "topk"])
-parse.add_argument("--file_path", type=str, default="../../../VastDeploy_backup/data/eval/ILSVRC2012_img_val", help="img or dir  path")
-parse.add_argument("--model_info", type=str, default="./info/model_info_resnet50.json", help="model info")
-parse.add_argument("--vdsp_params_info", type=str, default="./info/vdsp_params_resnet50_rgb.json", help="vdsp op info")
+parse.add_argument("task", type=str, default="topk", choices=["run", "topk"])
+# parse.add_argument("--file_path", type=str, default="../../data/test/cls/cat.png", help="img or dir  path")
+parse.add_argument("--file_path", type=str, default="../../data/eval/ILSVRC2012_img_val", help="img or dir  path")
+parse.add_argument("--model_info", type=str, default="./info/model_info_resnet.json", help="model info")
+parse.add_argument("--vdsp_params_info", type=str, default="./info/vdsp_params_resnet_rgb.json", help="vdsp op info")
 parse.add_argument("--label_txt", type=str, default="../../data/label/imagenet.txt", help="label txt")
 parse.add_argument("--topk", type=int, default=5, help="top1 or top5")
 parse.add_argument("--device_id", type=int, default=0, help="device id")
@@ -48,7 +49,8 @@ if args.task == "run":
 
 # benchmark
 else:
-    fin = open(os.path.join(args.save_dir, "vacl_cls_result") + ".txt", "w")
+    model_name = classifier.model_info["model_name"]
+    fin = open(os.path.join(args.save_dir, model_name) + ".txt", "w")
     images = glob.glob( os.path.join(args.file_path + "/**/*"))
     time_begin = time.time()
     results = classifier.classify_batch(images)

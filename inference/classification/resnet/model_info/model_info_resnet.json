@@ -1,0 +1,7 @@
+{
+    "model_name": "resnet50",
+    "model_lib_path": "deploy_weights/resnet50-fp16-none-mutil_shape-vacc/resnet50.so",
+    "model_graph_path": "deploy_weights/resnet50-fp16-none-mutil_shape-vacc/resnet50.json",
+    "model_params_path": "deploy_weights/resnet50-fp16-none-mutil_shape-vacc/resnet50.params",
+    "hw_config_file": null
+}
