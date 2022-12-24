@@ -56,5 +56,5 @@ def imagenet_topk(txt_dir, model_name, topk=5, label_info=imagenet_info):
 
 
 if __name__ == "__main__":
-    imagenet_topk(txt_dir="./output", model_name="resnet", topk=5, label_info=imagenet_info)
+    imagenet_topk(txt_dir="./output", model_name="resnet50", topk=5, label_info=imagenet_info)
 

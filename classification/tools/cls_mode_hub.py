@@ -21,7 +21,7 @@ parse.add_argument("--size", type=int, default=224)
 parse.add_argument(
     "--pretrained_weights",
     type=str,
-    # default="../../weights/efficientnet/tf_efficientnet_b8.pth",
+    # default="../../weights/resnet/resnet50.pth",
     default=None,
     
     help="timm or torchvision or custom onnx weights path",

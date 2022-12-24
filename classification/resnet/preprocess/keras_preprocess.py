@@ -55,5 +55,5 @@ def get_image_data_v2(image_file, input_shape = [1, 3, 299, 299]):
 
 
 if __name__ == '__main__':
-    img = get_image_data("images/datasets/imagenet.jpg")
+    img = get_image_data("VastModelZOO/images/datasets/imagenet.jpg")
     print(img.shape)
