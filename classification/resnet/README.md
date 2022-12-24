@@ -4,7 +4,7 @@
 
 ## Model Arch
 
-<div align=center><img src="../../../images/resnet/arch.png"></div>
+<div align=center><img src="../../images/resnet/arch.png"></div>
 
 ### pre-processing
 
@@ -27,7 +27,7 @@ ResNet系列网络的后处理操作是对网络输出进行softmax作为每个�
 
 ResNet系列网络的backbone结构是由BasicBlock或Bottleneck搭成。ResNet网络名称后面的数字表示整个网络中包含参数层的数量。
 
-<div align=center><img src="../../../images/resnet/block.png"></div>
+<div align=center><img src="../../images/resnet/block.png"></div>
 
 ### head
 
@@ -98,7 +98,7 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接fc层�
 
 ### 测评数据集说明
 
-<div align=center><img src="../../../images/datasets/imagenet.jpg"></div>
+<div align=center><img src="../../images/datasets/imagenet.jpg"></div>
 
 [ImageNet](https://image-net.org) 是一个计算机视觉系统识别项目，是目前世界上图像识别最大的数据库。是美国斯坦福的计算机科学家，模拟人类的识别系统建立的。能够从图片中识别物体。ImageNet是一个非常有前景的研究项目，未来用在机器人身上，就可以直接辨认物品和人了。超过1400万的图像URL被ImageNet手动注释，以指示图片中的对象;在至少一百万张图像中，还提供了边界框。ImageNet包含2万多个类别; 一个典型的类别，如“气球”或“草莓”，每个类包含数百张图像。
 
@@ -122,11 +122,11 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 - 根据模型转换工具包内文档安装工具，了解参数说明：[模型转换工具VAMC](http://10.23.4.220:8080/vmc/1.1.0/?download=zip)
 - 准备校准数据集：[ILSVRC2012_img_calib](http://10.23.4.220:8080/datasets/cls/ImageNet/ILSVRC2012_img_calib/?download=zip)
 - 根据具体模型修改配置文件：[torch_resnet.yaml](./build_config/torch_resnet.yaml)
-- 命令行执行转换：`vamc build VastModelZOO/inference/classification/resnet/build_config/torch_resnet.yaml`
+- 命令行执行转换：`vamc build VastModelZOO/classification/resnet/build_config/torch_resnet.yaml`
 
 #### 3. 推理测试
 - 准备评估数据集：[ILSVRC2012_img_val](http://10.23.4.220:8080/datasets/cls/ImageNet/ILSVRC2012_img_val/?download=zip)，及其标签文件：[imagenet.txt](http://10.23.4.220:8080/datasets/cls/ImageNet/imagenet.txt)
-- runstream推理测试：[sample_cls.py](../sample_cls.py)，配置相关参数、三件套路径信息[model_info_resnet.json](./model_info/model_info_resnet.json)以及模型推理参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，运行脚本`python VastModelZOO/inference/classification/sample_cls.py`后，会在`save_dir`生成txt结果文件
+- runstream推理测试：[sample_cls.py](../../inference/classification/sample_cls.py)，配置相关参数、三件套路径信息[model_info_resnet.json](./model_info/model_info_resnet.json)以及模型推理参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，运行脚本`python VastModelZOO/inference/classification/sample_cls.py`后，会在`save_dir`生成txt结果文件
 - eval评估结果：[eval_topk.py](../tools/eval_topk.py)，配置推理结果保存路径及模型名称等参数后，运行脚本`python VastModelZOO/inference/classification/tools/eval_topk.py`，会打印topk精度指标值
 
 </details>
@@ -140,7 +140,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 #### 2. 模型转换
 - 同timm来源准备环境
 - 需要注意的是mmcls版的onnx文件自带softmax层，需要修改yaml的配置文件`add_extra_ops_to_graph.type` 为`null`，详见：[mmcls_resnet.yaml](./build_config/mmcls_resnet.yaml)
-- 命令行执行转换：`vamc build VastModelZOO/inference/classification/resnet/build_config/mmcls_resnet.yaml`
+- 命令行执行转换：`vamc build VastModelZOO/classification/resnet/build_config/mmcls_resnet.yaml`
   
 #### 3. 推理测试
 同timm/torchvision来源
@@ -160,7 +160,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 inputs:
     x: [1, 3, 224, 224]
 ```
-- 命令行执行转换：`vamc build VastModelZOO/inference/classification/resnet/build_config/ppcls_resnet.yaml`
+- 命令行执行转换：`vamc build VastModelZOO/classification/resnet/build_config/ppcls_resnet.yaml`
 
 #### 3. 推理测试
 同timm/torchvision来源
@@ -180,10 +180,60 @@ keras模型无需转换为onnx或torchscript，vacc可直接支持keras前端
      - resnet50等模型的输入尺寸为244，input_name设置为`input_1`，采用预处理脚本中的`get_image_data`预处理函数
      - resnet50v2等v2版本模型需的输入尺寸为299，input_name设置为`input_4`，采用预处理脚本中的`get_image_data_v2`预处理函数
 - 根据具体模型修改配置文件：[keras_resnet.yaml](./build_config/keras_resnet.yaml)
-- 命令行执行转换：`vamc build VastModelZOO/inference/classification/resnet/build_config/keras_resnet.yaml`
+- 命令行执行转换：`vamc build VastModelZOO/classification/resnet/build_config/keras_resnet.yaml`
 
 #### 3. 推理测试
-需要修改vdsp预处理图像尺寸等参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，其余与timm/torchvision来源相同。
+需要修改vdsp预处理图像尺寸等参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，参考如下：
+
+- renet50等模型
+```json
+{
+    "vdsp_op_type": 300,
+    "iimage_format": 5000,
+    "iimage_width": 256,
+    "iimage_height": 256,
+    "iimage_width_pitch": 256,
+    "iimage_height_pitch": 256,
+    "short_edge_threshold": 256,
+    "resize_type": 1,
+    "color_cvt_code": 2,
+    "color_space": 0,
+    "crop_size": 224,
+    "meanr": 14275,
+    "meang": 14156,
+    "meanb": 13951,
+    "stdr": 15360,
+    "stdg": 15360,
+    "stdb": 15360,
+    "norma_type": 1
+}
+```
+
+- renet50v2等，v2版本模型
+```json
+{
+    "vdsp_op_type": 300,
+    "iimage_format": 5000,
+    "iimage_width": 342,
+    "iimage_height": 342,
+    "iimage_width_pitch": 342,
+    "iimage_height_pitch": 342,
+    "short_edge_threshold": 342,
+    "resize_type": 1,
+    "color_cvt_code": 2,
+    "color_space": 0,
+    "crop_size": 299,
+    "meanr": 14275,
+    "meang": 14156,
+    "meanb": 13951,
+    "stdr": 15360,
+    "stdg": 15360,
+    "stdb": 15360,
+    "norma_type": 1
+}
+```
+
+
 </details>
 
 

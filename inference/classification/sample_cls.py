@@ -2,20 +2,21 @@ import argparse
 import glob
 import os
 import time
+from tqdm import tqdm
 
 from image_classification import Classifier
 
 parse = argparse.ArgumentParser(description="RUN CLS WITH VACL")
-parse.add_argument("task", type=str, default="topk", choices=["run", "topk"])
+parse.add_argument("--task", type=str, default="topk", choices=["run", "topk"])
 # parse.add_argument("--file_path", type=str, default="../../data/test/cls/cat.png", help="img or dir  path")
-parse.add_argument("--file_path", type=str, default="../../data/eval/ILSVRC2012_img_val", help="img or dir  path")
-parse.add_argument("--model_info", type=str, default="./info/model_info_resnet.json", help="model info")
-parse.add_argument("--vdsp_params_info", type=str, default="./info/vdsp_params_resnet_rgb.json", help="vdsp op info")
-parse.add_argument("--label_txt", type=str, default="../../data/label/imagenet.txt", help="label txt")
+parse.add_argument("--file_path", type=str, default="eval/ILSVRC2012_img_val", help="img or dir  path")
+parse.add_argument("--model_info", type=str, default="classification/resnet/model_info/model_info_resnet.json", help="model info")
+parse.add_argument("--vdsp_params_info", type=str, default="classification/resnet/model_info/vdsp_params_resnet_rgb.json", help="vdsp op info")
+parse.add_argument("--label_txt", type=str, default="eval/imagenet.txt", help="label txt")
 parse.add_argument("--topk", type=int, default=5, help="top1 or top5")
 parse.add_argument("--device_id", type=int, default=0, help="device id")
 parse.add_argument("--batch", type=int,default=1,help="bacth size")
-parse.add_argument("--save_dir", type=str, default="../../output", help="save_dir")
+parse.add_argument("--save_dir", type=str, default="./output", help="save_dir")
 
 args = parse.parse_args()
 print(args)
