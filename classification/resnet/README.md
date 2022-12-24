@@ -189,7 +189,7 @@ keras模型无需转换为onnx或torchscript，vacc可直接支持keras前端
 #### 3. 推理测试
 需要修改vdsp预处理图像尺寸等参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，参考如下：
 
-- renet50等模型
+- resnet50等模型
 ```json
 {
     "vdsp_op_type": 300,
@@ -213,7 +213,7 @@ keras模型无需转换为onnx或torchscript，vacc可直接支持keras前端
 }
 ```
 
-- renet50v2等，v2版本模型
+- resnet50v2等，v2版本模型
 ```json
 {
     "vdsp_op_type": 300,
