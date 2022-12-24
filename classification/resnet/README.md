@@ -41,29 +41,33 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接fc层�
 
 ### 模型性能
 
-
-| 模型  | 源码 | top1 | top5 | flops(G) | params(M) | input size | VA1 fp16 best_perf | VA1 fp16 best_latency(ms) | VA1 fp16 bset_batchsize |  VA1 fp16 max_batchsize |VA1 int8 best_perf | VA1 int8 best_latency(ms) | VA1 int8 bset_batchsize |  VA1 int8 max_batchsize | VA1 best_quant| 
-| :---: | :--: | :--: | :--: | :---: | :----: | :--------: |:--: | :--: | :---: | :----: | :--------: |:--: | :---: | :----: | :--------: |
-| resnet18 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)|   69.744   |   89.082   |   3.648    |    11.690    |        224    |4368|0.33|8|52|16426|0.18|104|104|percentile|
-| resnet26 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   75.300   |   92.578  | 4.744      |  15.995      |      224     |3040|0.45|10|10|10584|0.21|27|27|percentile|
-| resnet34 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   75.114   |   92.284  | 7.358      |  21.798      |      224      |2496|0.62|52|52|9776|0.32|104|104|kl_divergence|
-| resnet50 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   80.376   |   94.616  | 8.268      |  25.557      |      224      |1940|0.72|10|10|6966|0.32|27|27|max|
-| resnet101 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)    | 81.932   |   95.770  | 15.732      |  44.549      |      224      |1080|1.17|10|10|4158|0.55|27|27|kl_divergence|
-| resnet152 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)  |   82.820   |   96.130  | 23.208      | 60.193       |      224      |760|1.62|10|10|2916|0.73|27|27|percentile|
-| gluon_resnet18_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   70.834   |   89.762   |   4.053    |    11.690    |        224    |4472|0.33|52|52|16224|0.18|104|104|kl_divergence|
-| gluon_resnet34_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   74.588   |   91.988   |   8.175    |    21.798    |        224    |2496|0.63|52|52|9776|0.32|104|104|kl_divergence|
-| gluon_resnet50_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   77.580   |   93.722   |   9.186    |    25.557    |        224    |1940|0.72|10|10|6966|0.32|27|27|percentile|
-| gluon_resnet50_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   78.012   |   93.990  |   9.726    |    26.576    |        224    |1920|0.72|8|10|6842|0.32|8|27|percentile|
-| gluon_resnet50_v1d |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.076   |   94.472   |   9.727    |    25.576    |        224    |1952|0.71|8|10|6576|0.33|8|27|percentile|
-| gluon_resnet50_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   	78.712   |   94.240   |   12.219    |    25.681    |        224    |1648|0.81|8|8|6048|0.33|8|27|percentile|
-| gluon_resnet101_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.302   |   94.520   |   17.481   |    44.549    |        224    |1080|1.17|10|10|4158|0.55|27|27|percentile|
-| gluon_resnet101_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.534   |   94.580   |   18.021    |    44.568    |        224    |1072|1.17|8|10|3998|0.55|8|27|percentile|
+>
+> 翰博推理卡VA1、VE1性能，详见链接：http://10.23.4.220:8080/public/
+> 
+> 以下数据为模型来源官方数值指标
+> 
+| 模型  | 源码 | benchmark top1 | benchmark top5 | flops(G) | params(M) | input size |
+| :---: | :--: | :--: | :--: | :---: | :----: | :--------: |
+| resnet18 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)|   69.744   |   89.082   |   3.648    |    11.690    |        224    |
+| resnet26 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   75.300   |   92.578  | 4.744      |  15.995      |      224     |
+| resnet34 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   75.114   |   92.284  | 7.358      |  21.798      |      224      |
+| resnet50 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   80.376   |   94.616  | 8.268      |  25.557      |      224      |
+| resnet101 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)    | 81.932   |   95.770  | 15.732      |  44.549      |      224      |
+| resnet152 |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)  |   82.820   |   96.130  | 23.208      | 60.193       |      224      |
+| gluon_resnet18_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   70.834   |   89.762   |   4.053    |    11.690    |        224    |
+| gluon_resnet34_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   74.588   |   91.988   |   8.175    |    21.798    |        224    |
+| gluon_resnet50_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   77.580   |   93.722   |   9.186    |    25.557    |        224    |
+| gluon_resnet50_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   78.012   |   93.990  |   9.726    |    26.576    |        224    |
+| gluon_resnet50_v1d |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.076   |   94.472   |   9.727    |    25.576    |        224    |
+| gluon_resnet50_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   	78.712   |   94.240   |   12.219    |    25.681    |        224    |
+| gluon_resnet101_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.302   |   94.520   |   17.481   |    44.549    |        224    |
+| gluon_resnet101_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.534   |   94.580   |   18.021    |    44.568    |        224    |
 | gluon_resnet101_v1d |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   80.420   |   95.016   |   18.021   |    44.568   |        224    |1072|1.17|8|10|3996|0.55|27|27|percentile|
-| gluon_resnet101_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   80.298   |   95.164   |   20.514    |    44.673    |        224    |976|1.25|8|8|3780|0.54|27|27|percentile|
-| gluon_resnet152_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.680   |   94.738   |   25.787    |   60.193    |        224    |760|1.62|10|10|2916|0.74|27|27|percentile|
-| gluon_resnet152_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.908   |   94.848   |   26.326    |    60.212    |        224    |752|1.62|8|10|2862|0.74|27|27|percentile|
-| gluon_resnet152_v1d |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   80.476   |   95.204   |   26.327    |    60.212   |        224    |752|1.60|8|10|2862|0.74|27|27|percentile|
-| gluon_resnet152_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   81.016   |   95.412   |   28.819    |    60.317    |        224    |704|1.70|8|8|2754|0.74|27|27|kl_divergence|
+| gluon_resnet101_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   80.298   |   95.164   |   20.514    |    44.673    |        224    |
+| gluon_resnet152_v1b |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.680   |   94.738   |   25.787    |   60.193    |        224    |
+| gluon_resnet152_v1c |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   79.908   |   94.848   |   26.326    |    60.212    |        224    |
+| gluon_resnet152_v1d |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   80.476   |   95.204   |   26.327    |    60.212   |        224    |
+| gluon_resnet152_v1s |[timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/gluon_resnet.py)|   81.016   |   95.412   |   28.819    |    60.317    |        224    |
 | resnet18 |[torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)|   69.758   |   89.078   |   3.648    |   11.690     |     224       |
 | resnet34 |[torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)   |   73.314   |   91.42  |  7.358     |  21.798      |    224        |
 | resnet50 |[torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)   |   76.130   |   92.862 |   8.268    |  25.557      |    224        |
