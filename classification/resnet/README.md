@@ -93,12 +93,6 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接fc层�
 | resnet152 |[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)  |   78.3   |   94.0  | 23.05      | 60.19       |   224        |
 | resnet152_vd |[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)  |   80.6   |   95.3  | 23.53      | 60.21       |   224        |
 | resnet200_vd |[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)  |   80.9   |   95.3  | 30.53      | 74.74       |   224        |
-| resnet50 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet.py)  |   74.86   |   92.038  | 7.76      | 25.6       |   224        |
-| resnet101 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet.py)  |   76.418   |   92.792  | 15.2      | 44.7       |   224        |
-| resnet152 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet.py)  |   76.598   |   93.124  | 22.6      | 60.4       |   224        |
-| resnet50v2 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet_v2.py)  |   69.404   |   89.736  | 13.1      | 25.7       |   299        |
-| resnet101v2 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet_v2.py)  |   70.658   |   90.742  | 26.8      | 44.7      |   299        |
-| resnet152v2 |[keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/resnet_v2.py)  |   71.502   |   91.124  | 40.5      | 60.4       |   299        |
 
 ### 测评数据集说明
 
@@ -131,7 +125,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 #### 3. 推理测试
 - 准备评估数据集：[ILSVRC2012_img_val](http://10.23.4.220:8080/datasets/cls/ImageNet/ILSVRC2012_img_val/?download=zip)，及其标签文件：[imagenet.txt](http://10.23.4.220:8080/datasets/cls/ImageNet/imagenet.txt)
 - runstream推理测试：[sample_cls.py](../../inference/classification/sample_cls.py)，配置相关参数、三件套路径信息[model_info_resnet.json](./model_info/model_info_resnet.json)以及模型推理参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，运行脚本`python VastModelZOO/inference/classification/sample_cls.py`后，会在`save_dir`生成txt结果文件
-- eval评估结果：[eval_topk.py](../tools/eval_topk.py)，配置推理结果保存路径及模型名称等参数后，运行脚本`python VastModelZOO/inference/classification/tools/eval_topk.py`，会打印topk精度指标值
+- eval评估结果：[eval_topk.py](../../inference/classification/eval_topk.py)，配置推理结果保存路径及模型名称等参数后，运行脚本`python VastModelZOO/inference/classification/tools/eval_topk.py`，会打印topk精度指标值
 
 </details>
 
@@ -171,74 +165,6 @@ inputs:
 </details>
 
 
-### keras来源
-<details><summary>build & run</summary>
-
-#### 1. 模型导出
-keras模型无需转换为onnx或torchscript，vacc可直接支持keras前端
-
-#### 2. 模型转换
-- 同timm来源准备环境
-- 准备数据预处理函数：[keras_preprocess.py](./preprocess/keras_preprocess.py)
-  - 注意resnet50与resnet50v2等所用的输入尺寸与预处理均有所不同
-     - resnet50等模型的输入尺寸为244，input_name设置为`input_1`，采用预处理脚本中的`get_image_data`预处理函数
-     - resnet50v2等v2版本模型需的输入尺寸为299，input_name设置为`input_4`，采用预处理脚本中的`get_image_data_v2`预处理函数
-- 根据具体模型修改配置文件：[keras_resnet.yaml](./build_config/keras_resnet.yaml)
-- 命令行执行转换：`vamc build VastModelZOO/classification/resnet/build_config/keras_resnet.yaml`
-
-#### 3. 推理测试
-需要修改vdsp预处理图像尺寸等参数[vdsp_params_resnet_rgb.json](./model_info/vdsp_params_resnet_rgb.json)，参考如下：
-
-- resnet50等模型
-```json
-{
-    "vdsp_op_type": 300,
-    "iimage_format": 5000,
-    "iimage_width": 256,
-    "iimage_height": 256,
-    "iimage_width_pitch": 256,
-    "iimage_height_pitch": 256,
-    "short_edge_threshold": 256,
-    "resize_type": 1,
-    "color_cvt_code": 2,
-    "color_space": 0,
-    "crop_size": 224,
-    "meanr": 14275,
-    "meang": 14156,
-    "meanb": 13951,
-    "stdr": 15360,
-    "stdg": 15360,
-    "stdb": 15360,
-    "norma_type": 1
-}
-```
-
-- resnet50v2等，v2版本模型
-```json
-{
-    "vdsp_op_type": 300,
-    "iimage_format": 5000,
-    "iimage_width": 342,
-    "iimage_height": 342,
-    "iimage_width_pitch": 342,
-    "iimage_height_pitch": 342,
-    "short_edge_threshold": 342,
-    "resize_type": 1,
-    "color_cvt_code": 2,
-    "color_space": 0,
-    "crop_size": 299,
-    "meanr": 14275,
-    "meang": 14156,
-    "meanb": 13951,
-    "stdr": 15360,
-    "stdg": 15360,
-    "stdb": 15360,
-    "norma_type": 1
-}
-```
-
-
-</details>
 
 
 ## Reference

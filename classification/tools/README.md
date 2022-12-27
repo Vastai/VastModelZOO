@@ -9,7 +9,4 @@
 
 [base_preprocess.py](./base_preprocess.py)
 
-## 分类模型评估
-
-[eval_topk.py](./eval_topk.py)
 
