@@ -15,7 +15,7 @@ engine:
     per_channel: true
 
 dataset:
-  path: eval/ILSVRC2012_img_calib_mid
+  path: eval/ILSVRC2012_img_calib
   sampler:
     suffix: JPEG
     get_data_num: 1000

@@ -1,5 +1,5 @@
 import os
-from classification.tools.imagenet import imagenet_info
+from imagenet_info import imagenet_info
 
 
 def is_match_class(line, label_info):
