@@ -8,7 +8,6 @@ from image_classification import Classifier
 
 parse = argparse.ArgumentParser(description="RUN CLS WITH VACL")
 parse.add_argument("--task", type=str, default="topk", choices=["run", "topk"])
-# parse.add_argument("--file_path", type=str, default="../../data/test/cls/cat.png", help="img or dir  path")
 parse.add_argument("--file_path", type=str, default="eval/ILSVRC2012_img_val", help="img or dir  path")
 parse.add_argument("--model_info", type=str, default="classification/resnet/model_info/model_info_resnet.json", help="model info")
 parse.add_argument("--vdsp_params_info", type=str, default="classification/resnet/model_info/vdsp_params_resnet_rgb.json", help="vdsp op info")

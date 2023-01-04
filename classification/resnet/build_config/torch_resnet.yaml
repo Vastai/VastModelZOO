@@ -11,7 +11,7 @@ engine:
   add_extra_ops_to_graph:
     type: softmax
   calibration:
-    quant_mode: kl_divergence
+    quant_mode: percentile
     per_channel: true
 
 dataset:
