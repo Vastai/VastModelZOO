@@ -19,7 +19,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 <div align=center><img src="../../images/bert/bert_backbone.jpg" width="60%"></div>
 
-具体的，在论文中作者分别用 L 来表示 BertLayer 的层数，即 BertEncoder 是由 L 个 BertLayer 所构成；用 H 来表示模型的维度；用 A 来表示多头注意力中多 头的个数。同时，在论文中作者分别就 $`BERT_{BASE}`$ (L=12, H=768, A=12) 和 $`BERT_{LARGE}`$ (L=24, H=1024, A=16) 这两种尺寸的 BERT 模型进行了实验对比。 
+具体的，在论文中作者分别用 L 来表示 BertLayer 的层数，即 BertEncoder 是由 L 个 BertLayer 所构成；用 H 来表示模型的维度；用 A 来表示多头注意力中多头的个数。同时，在论文中作者分别就 $BERT_{BASE}$ (L=12, H=768, A=12) 和 $BERT_{LARGE}$ (L=24, H=1024, A=16) 这两种尺寸的 BERT 模型进行了实验对比。 
 
 ### MLM 与 NSP 任务
 为了能够更好训练 BERT 网络，论文作者在 BERT 的训练过程中引入两个任务，MLM 和 NSP。对于 MLM 任务来说，其做法是随机掩盖掉输入序列中 15% 的 Token（即用 “[MASK]” 替换掉原有的 Token），然后在 BERT 的输出结果中取对应掩盖位置上的向量进行真实值预测。虽然 MLM 的这种做法能够得到一个很好的预训练模型，但是仍旧存在不足之处。由于在 fine-tuning 时，由于输入序列中并不存在“[MASK]” 这样的 Token，因此这将导致 pre-training 和 fine-tuning 之间存在不匹配不一致的问题（GAP）。为了解决这一问题，作者在原始 MLM 的基础了做了部分改动，即先选定15%的 Token，然后将其中的80%替换为“[MASK]”、10%随机替换为其它 Token、剩下的 10% 不变。最后取这 15% 的 Token 对应的输出做分类来预测其真实值。
@@ -29,6 +29,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 <div align=center><img src="../../images/bert/LML_NSP_task_network.png" width="60%"></div>
 
 如上图所示便是 ML 和 NSP 这两个任务在 BERT 预训练时的输入输出示意图，其中最上层输出的C在预训练时用于 NSP 中的分类任务；其它位置上的 $`T_{i}`$ , $`T^{'}_{j}`$ 则用于预测被掩盖的 Token。
+
+<br/>
 
 ## **Model Info**
 > - 以下数据为模型来源官方数值指标
@@ -77,17 +79,19 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 - "I-LOC":地名
 测试集样本：4646个；评价指标：F1和Accuracy。
 
+<br/>
+
 ## **VACC**
 
 ### step.1 模型finetune 
-#### 1. google-bert
-- bert-base-mrpc - 模型微调说明：[google_bert_mrpc.md](./finetune/google_bert_mrpc.md)
+#### 1. google
+- bert-base-mrpc 模型微调说明：[google_bert_mrpc.md](./finetune/google_bert_mrpc.md)
 
 #### 2. bert4torch 
-- bert-base-ner - 模型微调说明：[bert4torch_ner_crf.md](./finetune/bert4torch_ner_crf.md)
+- bert-base-ner 模型微调说明：[bert4torch_ner_crf.md](./finetune/bert4torch_ner_crf.md)
 
 ### step.2 准备预训练模型
-#### 1. google-bert
+#### 1. google
 - bert-base-mrpc
     - 从 step.1 google-bert 获得预训练模型；
     - 将预训练模型导出 pb， 代码可参考： [ckpt2pb_classifer.py](./tools/ckpt2pb_classifer.py)
@@ -136,7 +140,7 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 
 1. 根据具体模型修改配置文件
    - [google_bert_mprc](./build_config/google_bert_mprc.yaml)
-   - [bert4torh_ner](./build_config/bert4torh_ner.yaml)
+   - [bert4torch_ner](./build_config/bert4torch_ner.yaml)
 
 2. 命令行执行转换
 
