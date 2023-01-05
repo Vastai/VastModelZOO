@@ -4,8 +4,6 @@
 ## **Model Arch**
 [ModelArch](../../sentence_classification/bert/README.md)
 
-<br/>
-
 ## **测评数据集说明**
 ### china-people-daily-ner-corpus
 对于任意一个NLP任务来说模型最后所要完成的基本上都可看作是一个分类任务。根据给出的标签来看，对于原始句子中的每个字符来说其都有一个对应的类别标签，因此对于NER任务来说只需要对原始句子里的每个字符进行分类即可，然后再将预测后的结果进行后处理便能够得到句子从存在的相应实体。
@@ -21,7 +19,6 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 - "I-LOC":地名
 测试集样本：4646个；评价指标：F1和Accuracy。
 
-<br/>
 
 ## **VACC**
 
