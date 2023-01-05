@@ -15,7 +15,7 @@
 
 ### **step.2 数据集准备**
 
-- 根据[官网](https://github.com/Tongjilibo/bert4torch/tree/master/examples)提供的数据下载地址，下载中文命名实体识别数据集 [china-people-daily-ner-corpus](http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz) , 并放置到 `path/to/bert4torch/datasets` 目录下。
+- 根据[源仓库](https://github.com/Tongjilibo/bert4torch/tree/master/examples)提供的数据下载地址，下载中文命名实体识别数据集 [china-people-daily-ner-corpus](http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz) , 并放置到 `path/to/bert4torch/datasets` 目录下。
 
 ### **step.3 预训练模型准备**
 

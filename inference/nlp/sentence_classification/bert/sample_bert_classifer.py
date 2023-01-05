@@ -5,9 +5,11 @@ from __future__ import print_function
 import os
 import argparse
 from typing import Dict
+import sys
+sys.path.append('../')
 import numpy as np
 
-from nlp_bert import Bert
+from utils.nlp_bert import Bert 
 
 
 class BertMRPCPairSentenceClassification(Bert):

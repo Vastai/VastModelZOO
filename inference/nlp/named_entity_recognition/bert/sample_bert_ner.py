@@ -4,12 +4,14 @@ from __future__ import print_function
 
 import os
 import argparse
+import sys
+sys.path.append('../')
 from typing import Dict
 
 import numpy as np
 from seqeval.metrics import accuracy_score, f1_score
 
-from nlp_bert import Bert
+from utils.nlp_bert import Bert
 
 
 class BertChineseNER(Bert):

@@ -8,7 +8,7 @@ import sys
 sys.path.append('./')
 from queue import Queue
 from threading import Event, Thread
-from typing import Dict, Generator, Iterable, Union, SupportsInt, List
+from typing import Dict, Iterable, List
 
 import cv2
 import numpy as np
