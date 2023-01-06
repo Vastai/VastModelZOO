@@ -7,7 +7,7 @@ BERT是2018年10月由Google AI研究院提出的一种预训练模型。BERT的
 
 ### Embedding
 BERT的 Embedding 处理由三种 Embedding 求和而成：
-<div align=center><img src="../../../images/bert/bert_token.png"></div>
+<div align=center><img src="../../images/bert/bert_token.png"></div>
 
 其中：
 - Token Embeddings是词向量，第一个单词是CLS标志，可以用于之后的分类任务
@@ -17,7 +17,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 ### BertEncoder
 如下图所示便是 Bert Encoder 的结构示意图，其整体由多个 BertLayer（也就是论文中所指代的 Transformer blocks）所构成
 
-<div align=center><img src="../../../images/bert/bert_backbone.jpg" width="60%"></div>
+<div align=center><img src="../../images/bert/bert_backbone.jpg" width="60%"></div>
 
 具体的，在论文中作者分别用 L 来表示 BertLayer 的层数，即 BertEncoder 是由 L 个 BertLayer 所构成；用 H 来表示模型的维度；用 A 来表示多头注意力中多头的个数。同时，在论文中作者分别就 $BERT_{BASE}$ (L=12, H=768, A=12) 和 $BERT_{LARGE}$ (L=24, H=1024, A=16) 这两种尺寸的 BERT 模型进行了实验对比。
 
@@ -26,7 +26,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 由于很多下游任务需要依赖于分析两句话之间的关系来进行建模，例如情感分析，问答等。为了使得模型能够具备有这样的能力，作者在论文中又提出了二分类的下句预测任务具体地，对于每个样本来说都是由 A 和 B 两句话构成，其中 50% 的情况 B 确实为 A 的下一句话（标签为 IsNext），另外的 50% 的情况是 B 为语料中其它 的随机句子（标签为 NotNext），然后模型来预测 B 是否为 A 的下一句话。
 
-<div align=center><img src="../../../images/bert/LML_NSP_task_network.png" width="60%"></div>
+<div align=center><img src="../../images/bert/LML_NSP_task_network.png" width="60%"></div>
 
 如上图所示便是 ML 和 NSP 这两个任务在 BERT 预训练时的输入输出示意图，其中最上层输出的C在预训练时用于 NSP 中的分类任务；其它位置上的 $T_{i}$ , $T^{'}_{j}$ 则用于预测被掩盖的 Token。
 
@@ -47,7 +47,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 ## **测评数据集说明**
 ###  MRPC
-<div align=center><img src="../../../images/datasets/mrpc.jpg" width="50%"></div>
+<div align=center><img src="../../images/datasets/mrpc.jpg" width="50%"></div>
 MRPC(The Microsoft Research Paraphrase Corpus，微软研究院释义语料库)，相似性和释义任务，是从在线新闻源中自动抽取句子对语料库，并人工注释句子对中的句子是否在语义上等效。类别并不平衡，其中68%的正样本，所以遵循常规的做法，评估准确率（accuracy）和F1值。
 
 - 样本个数：训练集3668个，验证集408个，测试集1725个。
@@ -126,4 +126,13 @@ MRPC(The Microsoft Research Paraphrase Corpus，微软研究院释义语料库)�
 -  在执行 `sample_bert_classifer.py` 脚本后， 会在模型推理阶段结束后进行精度评估，并保存精度评估结果
 
 
+-  基于`VE1`性能参考
+    | model name | data type | through output | latency | batchsize |  quant mode  |  O-F1   |  R-F1  |  O-Acc  | R-Acc  | max sequence |
+    | :--------: | :-------: | :------------: | :-----: | :-------: | :-----------: | :----: | :----: | :-----: |:----: | :-------: |
+    |  bert-base-cls  |   int8    |      596      |  1.68   |    1     |       max      | 88.74 | 88.23 | 83.82 | 83.58 | 128 |
+-  基于`VA1`性能参考
+    | model name | data type | through output | latency | batchsize |  quant mode  |  O-F1   |  R-F1  |  O-Acc  | R-Acc  | max sequence |
+    | :--------: | :-------: | :------------: | :-----: | :-------: | :-----------: | :----: | :----: | :-----: |:----: | :-------: |
+    |  bert-base-cls  |   int8    |      978      |  1.02   |    1     |       max      | 88.74 | 88.23 | 83.82 | 83.58 | 128 |
 
+    > O-* 表示量化前的精度， R-* 表示量化后的精度
