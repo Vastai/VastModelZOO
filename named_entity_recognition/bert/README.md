@@ -73,5 +73,9 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 
 -  在执行 `sample_bert_ner.py` 脚本后， 会在模型推理阶段结束后进行精度评估，并保存精度评估结果
 
-
-
+-  基于`VE1`性能参考
+    | model name | data type | through output | latency | batchsize |  quant mode  |  O-F1   |  R-F1  |  O-Acc  | R-Acc  | max sequence |
+    | :--------: | :-------: | :------------: | :-----: | :-------: | :-----------: | :----: | :----: | :-----: |:----: | :-------: |
+    |  bert-base-ner  |   int8    |      440      |  2.27   |    8     |       max      | 95.35 | 94.65 | 98.64 | 98.54 | 256 |
+    
+    > O-* 表示量化前的精度， R-* 表示量化后的精度
