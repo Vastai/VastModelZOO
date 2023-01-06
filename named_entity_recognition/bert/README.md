@@ -22,7 +22,7 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 
 ## **VACC**
 
-### step.1 模型 finetune 
+### step.1 模型 finetune
 - bert4torch  模型微调说明：[bert4torch_ner_crf](./finetune/bert4torch_ner_crf.md)
 
 ### step.2 准备预训练模型
@@ -33,7 +33,7 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
     - china-people-daily-ner-corpus 数据集为 bert ner 任务微调使用的公开数据集， 用户可自行准备数据集, [china-people-daily](http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz)
         ```
         ├── china-people-daily-ner-corpus
-        |   ├── example.train  
+        |   ├── example.train
         │   ├── example.dev
         |   ├── example.test
         |   ├── .....
@@ -51,7 +51,7 @@ china-people-daily-ner-corpus 是一个中文命名实体识别数据集，共�
 
 ### step.5 模型推理和精度评估
 - 根据step.4 配置模型三件套信息，[model_info](./model_info/model_info_bert_ner.json)
-- 执行推理，调用入口 [sample_bert_ner](../../../inference/nlp/named_entity_recognition/bert/sample_bert_ner.py)， 源码可参考 [nlp_bert](../../../inference/nlp/utils/nlp_bert.py)
+- 执行推理，调用入口 [sample_bert_ner](../../inference/nlp/named_entity_recognition/bert/sample_bert_ner.py)， 源码可参考 [nlp_bert](../../inference/nlp/utils/nlp_bert.py)
     ```bash
     # 执行run stream 脚本
     cd ../../inference/nlp/bert

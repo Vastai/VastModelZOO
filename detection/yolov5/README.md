@@ -160,25 +160,28 @@ train
    - txt: step.4阶段测试的结果
 
 2. 基于`VE1`性能参考
-   | model name | data type | through output | latency | batchsize | quant mode |  shape  |
-   | :--------: | :-------: | :------------: | :-----: | :-------: | :--------: | :-----: |
-   |  yolov5n   |   FP16    |      527       |  2.11   |     2     |     \      | 640*640 |
-   |  yolov5n   |   INT8    |      972       |  1.18   |     2     |    max     | 640*640 |
-   |  yolov5s   |   FP16    |      494       |  2.02   |     1     |     \      | 640*640 |
-   |  yolov5s   |   INT8    |      986       |  1.18   |     2     |    max     | 640*640 |
-   |  yolov5m   |   FP16    |      225       |  4.44   |     1     |     \      | 640*640 |
-   |  yolov5m   |   INT8    |      728       |  1.46   |     2     | percentile | 640*640 |
-   |  yolov5l   |   FP16    |      118       |  8.47   |     1     |     \      | 640*640 |
-   |  yolov5l   |   INT8    |      434       |  2.35   |     2     | percentile | 640*640 |
-   |  yolov5x   |   FP16    |       48       |  20.83  |     1     |     \      | 640*640 |
-   |  yolov5x   |   INT8    |      232       |  4.31   |     1     | percentile | 640*640 |
-   |  yolov5n6  |   FP16    |      502       |  2.16   |     2     |     \      | 640*640 |
-   |  yolov5n6  |   INT8    |      948       |  1.22   |     2     | percentile | 640*640 |
-   |  yolov5s6  |   FP16    |      487       |  2.05   |     1     |     \      | 640*640 |
-   |  yolov5s6  |   INT8    |      943       |  1.14   |     2     | percentile | 640*640 |
-   |  yolov5m6  |   FP16    |      209       |  4.78   |     1     |     \      | 640*640 |
-   |  yolov5m6  |   INT8    |      656       |  1.61   |     2     |    max     | 640*640 |
-   |  yolov5l6  |   FP16    |      105       |  9.52   |     1     |     \      | 640*640 |
-   |  yolov5l6  |   INT8    |      391       |  2.77   |     2     |    max     | 640*640 |
-   |  yolov5x6  |   FP16    |       45       |  22.22  |     1     |     \      | 640*640 |
-   |  yolov5x6  |   INT8    |      189       |  5.29   |     1     | percentile | 640*640 |
+   > codebase: timm
+   > nms threshold: 0.45, confidence: 0.25
+
+   | model name | data type | through output | latency | batchsize | quant mode | mAP@0.5-0.95 |  shape  |
+   | :--------: | :-------: | :------------: | :-----: | :-------: | :--------: | :----------: | :-----: |
+   |  yolov5n   |   FP16    |      376       |  2.72   |     2     |     \      |    23.22     | 640*640 |
+   |  yolov5n   |   INT8    |      972       |  1.18   |     2     |    max     |    22.08     | 640*640 |
+   |  yolov5s   |   FP16    |      494       |  2.02   |     1     |     \      |    32.92     | 640*640 |
+   |  yolov5s   |   INT8    |      986       |  1.18   |     2     |    max     |    31.07     | 640*640 |
+   |  yolov5m   |   FP16    |      225       |  4.44   |     1     |     \      |    40.50     | 640*640 |
+   |  yolov5m   |   INT8    |      728       |  1.46   |     2     | percentile |    38.57     | 640*640 |
+   |  yolov5l   |   FP16    |      118       |  8.47   |     1     |     \      |    44.54     | 640*640 |
+   |  yolov5l   |   INT8    |      434       |  2.35   |     2     | percentile |    43.62     | 640*640 |
+   |  yolov5x   |   FP16    |       48       |  20.83  |     1     |     \      |    46.25     | 640*640 |
+   |  yolov5x   |   INT8    |      232       |  4.31   |     1     | percentile |    45.00     | 640*640 |
+   |  yolov5n6  |   FP16    |      502       |  2.16   |     2     |     \      |    25.14     | 640*640 |
+   |  yolov5n6  |   INT8    |      948       |  1.22   |     2     | percentile |    23.78     | 640*640 |
+   |  yolov5s6  |   FP16    |      487       |  2.05   |     1     |     \      |    33.94     | 640*640 |
+   |  yolov5s6  |   INT8    |      943       |  1.14   |     2     | percentile |    32.66     | 640*640 |
+   |  yolov5m6  |   FP16    |      209       |  4.78   |     1     |     \      |    41.968    | 640*640 |
+   |  yolov5m6  |   INT8    |      656       |  1.61   |     2     |    max     |    40.00     | 640*640 |
+   |  yolov5l6  |   FP16    |      105       |  9.52   |     1     |     \      |    44.860    | 640*640 |
+   |  yolov5l6  |   INT8    |      391       |  2.77   |     2     |    max     |    42.66     | 640*640 |
+   |  yolov5x6  |   FP16    |       45       |  22.22  |     1     |     \      |    46.41     | 640*640 |
+   |  yolov5x6  |   INT8    |      189       |  5.29   |     1     | percentile |    44.24     | 640*640 |
