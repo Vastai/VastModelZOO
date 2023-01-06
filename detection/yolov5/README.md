@@ -160,7 +160,6 @@ train
    - txt: step.4阶段测试的结果
 
 2. 基于`VE1`性能参考
-   > codebase: timm
    > nms threshold: 0.45, confidence: 0.25
 
    | model name | data type | through output | latency | batchsize | quant mode | mAP@0.5-0.95 |  shape  |
