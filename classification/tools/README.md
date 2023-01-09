@@ -10,3 +10,6 @@
 [base_preprocess.py](./base_preprocess.py)
 
 
+## x2uint16
+
+将浮点数转换为uint16数值：[half_to_uint16](../../inference/utils/utils.py#L10)

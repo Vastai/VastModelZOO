@@ -128,3 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 ./deploy_weights/*
+
+# prj
+.history/*
+deploy_weights/*
+output/*
