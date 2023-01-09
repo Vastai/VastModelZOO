@@ -75,21 +75,21 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接fc层�
 |      resnet50       | [mmcls](https://github.com/open-mmlab/mmclassification/blob/master/configs/resnet/resnet50_b32x8_imagenet.py)  | 76.55  | 93.06  |   8.24   |   25.56   |    224     |
 |      resnet101      | [mmcls](https://github.com/open-mmlab/mmclassification/blob/master/configs/resnet/resnet101_b32x8_imagenet.py) | 77.97  | 94.06  |   15.7   |   44.55   |    224     |
 |      resnet152      | [mmcls](https://github.com/open-mmlab/mmclassification/blob/master/configs/resnet/resnet152_b32x8_imagenet.py) | 78.48  | 94.13  |  23.16   |   60.19   |    224     |
-|      resnet18       |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  71.0  |  89.9  |   3.66   |   11.69   |    224     |
-|     resnet18_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  72.3  |  90.8  |   4.14   |   11.71   |    224     |
-|      resnet34       |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  74.6  |  92.1  |   7.36   |   21.8    |    224     |
-|     resnet34_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  76.0  |  93.0  |   7.39   |   21.82   |    224     |
-|  resnet34_vd_ssld   |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  79.7  |  94.9  |   7.39   |   21.82   |    224     |
-|      resnet50       |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  76.5  |  93.0  |   8.19   |   25.56   |    224     |
-|     resnet50_vc     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  78.4  |  94.0  |   8.67   |   25.58   |    224     |
-|     resnet50_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  79.1  |  94.4  |   8.67   |   25.58   |    224     |
-|  resnet50_vd_ssld   |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  83.0  |  96.4  |   8.67   |   25.58   |    224     |
-|      resnet101      |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  77.6  |  93.6  |  15.52   |   44.55   |    224     |
-|    resnet101_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.2  |  95.0  |   16.1   |   44.57   |    224     |
-|  resnet101_vd_ssld  |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  83.7  |  96.7  |   16.1   |   44.57   |    224     |
-|      resnet152      |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  78.3  |  94.0  |  23.05   |   60.19   |    224     |
-|    resnet152_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.6  |  95.3  |  23.53   |   60.21   |    224     |
-|    resnet200_vd     |          [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.9  |  95.3  |  30.53   |   74.74   |    224     |
+|      resnet18       |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  71.0  |  89.9  |   3.66   |   11.69   |    224     |
+|     resnet18_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  72.3  |  90.8  |   4.14   |   11.71   |    224     |
+|      resnet34       |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  74.6  |  92.1  |   7.36   |   21.8    |    224     |
+|     resnet34_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  76.0  |  93.0  |   7.39   |   21.82   |    224     |
+|  resnet34_vd_ssld   |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  79.7  |  94.9  |   7.39   |   21.82   |    224     |
+|      resnet50       |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  76.5  |  93.0  |   8.19   |   25.56   |    224     |
+|     resnet50_vc     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  78.4  |  94.0  |   8.67   |   25.58   |    224     |
+|     resnet50_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  79.1  |  94.4  |   8.67   |   25.58   |    224     |
+|  resnet50_vd_ssld   |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  83.0  |  96.4  |   8.67   |   25.58   |    224     |
+|      resnet101      |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  77.6  |  93.6  |  15.52   |   44.55   |    224     |
+|    resnet101_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.2  |  95.0  |   16.1   |   44.57   |    224     |
+|  resnet101_vd_ssld  |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  83.7  |  96.7  |   16.1   |   44.57   |    224     |
+|      resnet152      |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  78.3  |  94.0  |  23.05   |   60.19   |    224     |
+|    resnet152_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.6  |  95.3  |  23.53   |   60.21   |    224     |
+|    resnet200_vd     |          [ppclas](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/ResNet.md)           |  80.9  |  95.3  |  30.53   |   74.74   |    224     |
 
 ### 数据集
 
@@ -152,7 +152,7 @@ goldfish, Carassius auratus
 1. 根据具体模型修改配置文件
    - [torchvision/timm](./build_config/torch_resnet.yaml)
    - [mmcls](./build_config/mmcls_resnet.yaml)
-   - [ppclas](./build_config/ppcls_resnet.yaml)
+   - [ppclas](./build_config/ppclas_resnet.yaml)
 2. 命令行执行转换
 
    ```bash
@@ -161,7 +161,12 @@ goldfish, Carassius auratus
 
 ### step.4 模型推理
 1. 根据step.3配置模型三件套信息，[model_info](./model_info/model_info_resnet.json)
-2. 配置数据预处理流程，[vdsp_params](./model_info/vdsp_params_resnet_rgb.json)
+2. 配置数据预处理流程vdsp_params参数
+   - [torchvision/timm](./model_info/torch_vdsp_params_resnet_rgb.json)
+   - [mmcls](./model_info/mmcls_vdsp_params_resnet_rgb.json)
+   - [ppclas](./model_info/ppclas_vdsp_params_resnet_rgb.json)
+
+
 3. 执行推理，调用入口[sample_cls](../../inference/classification/sample_cls.py)，源码可参考[image_classification](../../inference/classification/image_classification.py)
     ```bash
     # 执行精度评测
