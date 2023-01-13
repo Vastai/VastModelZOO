@@ -1,14 +1,15 @@
+# Copyright (C) 2022-2023 VASTAI Technologies Co., Ltd. All Rights Reserved.
 import numpy as np
 from PIL import Image
 
 
-def get_image_data(image_file, input_shape = [1, 3, 224, 224]):
+def get_image_data(image_file, input_shape=[1, 3, 224, 224]):
     """
     image pre_processing function for classfication models.
     Args:
         image_file: input image file path
         imput_shape: model input shape
-    Returns: 
+    Returns:
         image: image numpy data in NCHW shape
     """
 
@@ -24,8 +25,8 @@ def get_image_data(image_file, input_shape = [1, 3, 224, 224]):
     # std = 128.0
 
     image = Image.open(image_file)
-    if image.mode != "RGB":
-        image = image.convert("RGB")
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
     if len(hints) != 0:
         y1 = max(0, int(round((hints[0] - size[0]) / 2.0)))
         x1 = max(0, int(round((hints[1] - size[1]) / 2.0)))
@@ -53,5 +54,5 @@ def get_image_data(image_file, input_shape = [1, 3, 224, 224]):
 
 
 if __name__ == '__main__':
-    img = get_image_data("images/datasets/imagenet.jpg")
+    img = get_image_data('images/datasets/imagenet.jpg')
     print(img.shape)

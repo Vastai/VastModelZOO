@@ -1,3 +1,4 @@
+# Copyright (C) 2022-2023 VASTAI Technologies Co., Ltd. All Rights Reserved.
 import ctypes
 import json
 from queue import Queue
@@ -6,6 +7,7 @@ from typing import Dict, Generator, Iterable, List, Union
 
 import cv2 as cv
 import numpy as np
+
 import vacl_stream
 import vaststream
 
@@ -40,17 +42,20 @@ class Classifier:
 
         balance_mode = 0
 
-        def callback(output_description, ulOutPointerArray, ulArraySize, user_data_ptr):
-            user_data = ctypes.cast(user_data_ptr, ctypes.POINTER(vacl_stream.StreamInfo))
+        def callback(output_description, ulOutPointerArray, ulArraySize,
+                     user_data_ptr):
+            user_data = ctypes.cast(user_data_ptr,
+                                    ctypes.POINTER(vacl_stream.StreamInfo))
             input_id = output_description.contents.input_id
 
             device_ddr = self.input_dict.pop(input_id)
             self.vast_stream.free_data_on_device(device_ddr, self.device_id)
 
             model_name = user_data.contents.model_name
-            stream_output_list = self.vast_stream.stream_get_stream_output(model_name, ulOutPointerArray, ulArraySize)
+            stream_output_list = self.vast_stream.stream_get_stream_output(
+                model_name, ulOutPointerArray, ulArraySize)
             data_list = np.squeeze(stream_output_list[0])
-            ind = data_list.argsort()[-(self.topk) :][::-1]
+            ind = data_list.argsort()[-(self.topk):][::-1]
             classes = [self.classes[i] for i in ind]
             scores = data_list[ind]
             self.result_dict[input_id] = (ind, classes, scores)
@@ -93,7 +98,10 @@ class Classifier:
         del self.event_dict[input_id]
         return result
 
-    def classify_batch(self, images: Iterable[Union[str, np.ndarray]]) -> Generator[str, None, None]:
+    def classify_batch(
+        self,
+        images: Iterable[Union[str,
+                               np.ndarray]]) -> Generator[str, None, None]:
         queue = Queue(20)
 
         def input_thread():
@@ -113,34 +121,37 @@ class Classifier:
             del self.event_dict[input_id]
             yield result
 
+
 if __name__ == '__main__':
     import glob
     import time
     classifier = Classifier(
-        model_info="./models/model_info_resnet50.json",
-        vdsp_params_info="./models/vdsp_params_resnet50_rgb.json",
-        classes="./datasets/res_test2/class2id.txt",
+        model_info='./models/model_info_resnet50.json',
+        vdsp_params_info='./models/vdsp_params_resnet50_rgb.json',
+        classes='./datasets/res_test2/class2id.txt',
         device_id=0,
         batch_size=1,
     )
 
     # Test one image from path
-    image_path = "./datasets/res_test2/normal/ok_test_14.bmp"
+    image_path = './datasets/res_test2/normal/ok_test_14.bmp'
     result = classifier.classify(image_path)
-    print(f"{image_path} => {result}")
+    print(f'{image_path} => {result}')
 
     # Test one image from numpy array
     image = cv.imread(image_path, cv.IMREAD_COLOR)
     image = np.stack(cv.split(cv.cvtColor(image, cv.COLOR_BGR2RGB)))
     result = classifier.classify(image)
-    print(f"{image_path} => {result}")
+    print(f'{image_path} => {result}')
 
     # Test multiple images
-    images = glob.glob("./datasets/res_test2/**/*.bmp", recursive=True)
+    images = glob.glob('./datasets/res_test2/**/*.bmp', recursive=True)
     time_begin = time.time()
     results = classifier.classify_batch(images)
     for (image, result) in zip(images, results):
-        print(f"{image} => {result}")
+        print(f'{image} => {result}')
     time_end = time.time()
 
-    print(f"\n{len(images)} images in {time_end - time_begin} seconds, ({len(images) / (time_end - time_begin)} images/second)\n")
+    print(
+        f'\n{len(images)} images in {time_end - time_begin} seconds, ({len(images) / (time_end - time_begin)} images/second)\n'
+    )
