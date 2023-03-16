@@ -1,0 +1,20 @@
+{
+    "vdsp_op_type": 300,
+    "iimage_format": 5000,
+    "iimage_width": 288,
+    "iimage_height": 288,
+    "iimage_width_pitch": 288,
+    "iimage_height_pitch": 288,
+    "short_edge_threshold": 288,
+    "resize_type": 1,
+    "color_cvt_code": 2,
+    "color_space": 0,
+    "crop_size": 256,
+    "meanr": 22459,
+    "meang": 22340,
+    "meanb": 22136,
+    "stdr": 21325,
+    "stdg": 21284,
+    "stdb": 21292,
+    "norma_type": 4
+}

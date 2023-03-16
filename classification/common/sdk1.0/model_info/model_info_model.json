@@ -1,0 +1,7 @@
+{
+    "model_name": "densenet",
+    "model_lib_path": "/home/lance/workspace/weights/vacc/densenet-int8-kl_divergence-3_224_224-vacc/densenet.so",
+    "model_graph_path": "/home/lance/workspace/weights/vacc/densenet-int8-kl_divergence-3_224_224-vacc/densenet.json",
+    "model_params_path": "/home/lance/workspace/weights/vacc/densenet-int8-kl_divergence-3_224_224-vacc/densenet.params",
+    "hw_config_file": "/home/lance/workspace/vastmodelzoo/classification/common/hw_config/hw_conf.bin"
+}
