@@ -148,11 +148,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
 
-
-## appending
-注意：`mmcls`实现，转onnx时,opset需设置为11，设为10时报错：
-```
-torch.onnx.CheckerError: Node (Pad_11) has input size 2 not in range [min=1, max=1].
-
-==> Context: Bad node spec for node. Name: Pad_11 OpType: Pad
-```

@@ -1,12 +1,16 @@
+# ==============================================================================
+# 
+# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# 
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 '''
-Copyright (C) 2022-2023 VASTAI Technologies Co., Ltd. All Rights Reserved.
+@Author :     vastml
+@Time  : 2023/04/07 22:02:05
+'''
 
-The information contained herein is confidential property of the company.
-The user, copying, transfer or disclosure of such information is prohibited
-except by express written agreement with VASTAI Technologies Co., Ltd.
-'''
 import argparse
-
 from imagenet_info import imagenet_info
 
 parse = argparse.ArgumentParser(description="IMAGENET TOPK")

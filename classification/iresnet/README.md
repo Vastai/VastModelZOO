@@ -147,9 +147,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-
-### Appending
-
-iresnet int8结果异常，其余皆正常：
-- iresnet200 int8结果：top1值为0.128，top5值为0.79
-

@@ -184,7 +184,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-
-## Appending
-
-1. densenet vacc & trt int8均有精度损失

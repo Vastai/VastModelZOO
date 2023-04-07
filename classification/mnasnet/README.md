@@ -151,8 +151,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-
-
-## Appending
-1. mnasnet系列网络量化后都有掉点，其中`mnasnet0_5`网络基于percentile方式量化掉点9个点左右，`mnasnet1_0`网络基于percentile方式量化掉点2个点左右
-2. mnasnet系列网络fp16转换后，掉点1-2个点左右

@@ -154,7 +154,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
    ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-
-## appending
-1. RepVGG 系列模型使用int8`PQT`方案基本都会掉点，建议选用`QAT`方案或者`RepOPT`
-2. int8 `PQT` 效果较好的是`kl_divergence`

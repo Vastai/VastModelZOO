@@ -149,6 +149,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-
-## appending
-1. 基于timm库实现的VOVNet系列网络包含`hardsigmoid`算子，导致无法转换为onnx格式，因此进行模型转换三件套时仅支持从torchscript格式转换

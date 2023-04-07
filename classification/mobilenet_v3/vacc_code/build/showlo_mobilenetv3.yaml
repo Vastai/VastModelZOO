@@ -1,0 +1,39 @@
+model:
+  name: mobilenetv3
+  inputs:
+    input: [1, 3, 224, 224]
+  checkpoint: /home/rzhang/Desktop/cmcc-9/mobilenet_v3/model/onnx/mobilenetv3-small.onnx
+
+engine:
+  type: vacc
+  common:
+    do_quantization: true
+    cluster_mode: 1 # (optional) 适用于小模型场景, 1:开启， 0：关闭，默认为0
+  add_extra_ops_to_graph:
+    type: softmax
+  calibration:
+    quant_mode: percentile
+    per_channel: true
+    skip_conv_layers: [0, 1, 8, 9, 10, 11, 12, 13, 14, 15, 21, 22, 23, 24, 28, 29, 35, 36, 42, 43, 49, 50, 55, 56, 57, 61, 62, 67, 68, 69, 70]
+    ops_usingfp: ['multiply2affine']
+
+dataset:
+  path: /home/rzhang/Documents/project/det_data/cls_calib
+  sampler:
+    suffix: JPEG
+    get_data_num: 1000
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: CenterCrop
+      crop_size: [224, 224]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights
+  enable_ir: false
+  save_log: true

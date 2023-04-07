@@ -194,6 +194,3 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
     ```
-## appending
-
-注意：`mmcls`转换为onnx时，op_set需设置为11，10会报错。
