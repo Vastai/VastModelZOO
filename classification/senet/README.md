@@ -129,26 +129,27 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
                 --opset_version 10
     ```
 ### step.2 准备数据集
-本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
-```
-├── ImageNet
-|   ├── val
-|   |    ├── ILSVRC2012_val_00000001.JPEG
-│   |    ├── ILSVRC2012_val_00000002.JPEG
-│   |    ├── ......
-|   ├── val_label.txt
-````
+- 本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
 
-```bash
-sh ./data_prep_sh_files/valprep.sh
-```
+    ```
+    ├── ImageNet
+    |   ├── val
+    |   |    ├── ILSVRC2012_val_00000001.JPEG
+    │   |    ├── ILSVRC2012_val_00000002.JPEG
+    │   |    ├── ......
+    |   ├── val_label.txt
+    ```
 
-```bash
-# label.txt
-tench, Tinca tinca
-goldfish, Carassius auratus
-...
-```
+    ```bash
+    sh ./data_prep_sh_files/valprep.sh
+    ```
+
+    ```bash
+    # label.txt
+    tench, Tinca tinca
+    goldfish, Carassius auratus
+    ...
+    ```
 
 ### step.3 模型转换
 1. 使用模型转换工具vamc，根据具体模型修改配置文件

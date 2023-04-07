@@ -68,19 +68,19 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
 ## Deploy
 ### step.1 获取模型
+1. ppcls
+    ```bash
+    pip install PaddlePaddle==2.3.2  Paddle2ONNX==1.0.0
 
-```bash
-pip install PaddlePaddle==2.3.2  Paddle2ONNX==1.0.0
-
-paddle2onnx  --model_dir /path/to/dlanet_paddle_model/ \
-            --model_filename model.pdmodel \
-            --params_filename model.pdiparams \
-            --save_file model.onnx \
-            --enable_dev_version False \
-            --opset_version 10
-```
+    paddle2onnx  --model_dir /path/to/dlanet_paddle_model/ \
+                --model_filename model.pdmodel \
+                --params_filename model.pdiparams \
+                --save_file model.onnx \
+                --enable_dev_version False \
+                --opset_version 10
+    ```
 ### step.2 获取数据集
-- 本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集> 中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
+- 本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
 
     ```
     ├── ImageNet
