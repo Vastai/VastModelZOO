@@ -167,9 +167,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     ./vamp -m cspresnet50-int8-percentile-3_256_256-vacc/cspresnet50 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-cspresnet50-vdsp_params.json  -i 8 -p 1 -b 16
     ```
-    > 根据不同子模型配置C++版vdsp_params, 见 ./vdsp_params/vamp
-    >
-    > 调整i、p、b参数以刚好达满板卡AI利用率为佳
+    
 3. 获取精度信息
     ```bash
     ./vamp -m cspresnet50-int8-percentile-3_256_256-vacc/cspresnet50 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-cspresnet50-vdsp_params.json  -i 1 -p 1 -b 1 \

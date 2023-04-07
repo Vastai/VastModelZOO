@@ -156,9 +156,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```bash
     ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22
     ```
-    > 根据不同子模型配置C++版vdsp_params, 见 ./vdsp_params/vamp
-    >
-    > 调整i、p、b参数以刚好达满板卡AI利用率为佳
+    
 3. 获取精度信息
     ```bash
     ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22 --datalist npz_datalist.txt --path_output output
