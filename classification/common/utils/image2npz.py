@@ -1,11 +1,3 @@
-'''
-Author: rzhang rui.zhang@vastaitech.com
-Date: 2023-03-16 14:02:59
-LastEditors: rzhang rui.zhang@vastaitech.com
-LastEditTime: 2023-04-07 22:04:47
-FilePath: /VastModelZOO/classification/common/utils/image2npz.py
-Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
-'''
 # ==============================================================================
 # 
 # Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
