@@ -196,37 +196,40 @@ goldfish, Carassius auratus
 - 在keras来源模型中，有v2版本参数不太一样，注意修改[resnet_keras.yaml](./vacc_code/build/keras_resnet.yaml) 
   - resnet50、resnet101、resnet152所需的输入尺寸为224，input_name应设置为`input_1`;
   - resnet50v2、resnet101v2、resnet152v2所需的输入尺寸为299，input_name应设置为`input_4`；
-  - 同时，提供函数脚本式预处理[keras_preprocess.py](./vacc_code/build/keras_preprocess.py)，注意，v2模型应采用下述代码中的`get_image_data_v2`函数
+  - 同时，也可使用函数脚本式预处理[keras_preprocess.py](./vacc_code/build/keras_preprocess.py)，注意，v2模型应采用下述代码中的`get_image_data_v2`函数
+    <details><summary>keras.yaml</summary>
+
     ```yaml
     model:
-    name: resnet50
-    inputs:
-        input_1: [1, 3, 224, 224]
-    checkpoint: weights/keras/resnet50.h5
+        name: resnet50
+        inputs:
+            input_1: [1, 3, 224, 224]
+        checkpoint: weights/keras/resnet50.h5
 
     engine:
-    type: vacc
-    common:
-        do_quantization: true
-    add_extra_ops_to_graph:
-        type: null
-    calibration:
-        quant_mode: percentile
-        per_channel: true
+        type: vacc
+        common:
+            do_quantization: true
+        add_extra_ops_to_graph:
+            type: null
+        calibration:
+            quant_mode: percentile
+            per_channel: true
 
     dataset:
-    path: eval/ILSVRC2012_img_calib
-    sampler:
-        suffix: JPEG
-        get_data_num: 1000
-    transform_ops:
-      - type: CustomFunc
-      module_path: classification/resnet/vacc_code/build/keras_preprocess.py
-      func_name: get_image_data
-      input_shape: [1, 3, 224, 224]
+        path: eval/ILSVRC2012_img_calib
+        sampler:
+            suffix: JPEG
+            get_data_num: 1000
+        transform_ops:
+        - type: CustomFunc
+          module_path: classification/resnet/vacc_code/build/keras_preprocess.py
+          func_name: get_image_data
+          input_shape: [1, 3, 224, 224]
 
     workspace:
-    work_dir: ./deploy_weights/
-    enable_ir: false
-    save_log: true
+        work_dir: ./deploy_weights/
+        enable_ir: false
+        save_log: true
     ```
+    </details>
