@@ -1,0 +1,7 @@
+{
+    "model_name": "inception_v3",
+    "model_lib_path": "deploy_weights/inception_v3-int8-kl_divergence-3_224_224-vacc/inception_v3.so",
+    "model_graph_path": "deploy_weights/inception_v3-int8-kl_divergence-3_224_224-vacc/inception_v3.json",
+    "model_params_path": "deploy_weights/inception_v3-int8-kl_divergence-3_224_224-vacc/inception_v3.params",
+    "hw_config_file": "classification/common/hw_config/hw_conf.bin"
+}

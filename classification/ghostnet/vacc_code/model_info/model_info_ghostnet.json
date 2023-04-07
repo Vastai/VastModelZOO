@@ -1,0 +1,7 @@
+{
+    "model_name": "ghostnet_100",
+    "model_lib_path": "deploy_weights/ghostnet_100-int8-kl_divergence-3_224_224-vacc/ghostnet_100.so",
+    "model_graph_path": "deploy_weights/ghostnet_100-int8-kl_divergence-3_224_224-vacc/ghostnet_100.json",
+    "model_params_path": "deploy_weights/ghostnet_100-int8-kl_divergence-3_224_224-vacc/ghostnet_100.params",
+    "hw_config_file": "classification/common/hw_config/hw_conf.bin"
+}

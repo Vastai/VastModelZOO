@@ -1,0 +1,7 @@
+{
+    "model_name": "efficientnet_b0",
+    "model_lib_path": "deploy_weights/efficientnet_b0-int8-kl_divergence-3_224_224-vacc/efficientnet_b0.so",
+    "model_graph_path": "deploy_weights/efficientnet_b0-int8-kl_divergence-3_224_224-vacc/efficientnet_b0.json",
+    "model_params_path": "deploy_weights/efficientnet_b0-int8-kl_divergence-3_224_224-vacc/efficientnet_b0.params",
+    "hw_config_file": "classification/common/hw_config/hw_conf.bin"
+}

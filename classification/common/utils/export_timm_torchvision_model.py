@@ -1,11 +1,10 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-"""
-@Author :          lance
-@Email :  	  wangyl306@163.com
-@Time  : 	2022/07/07 11:29:49
-"""
+'''
+Copyright (C) 2022-2023 VASTAI Technologies Co., Ltd. All Rights Reserved.
 
+The information contained herein is confidential property of the company.
+The user, copying, transfer or disclosure of such information is prohibited
+except by express written agreement with VASTAI Technologies Co., Ltd.
+'''
 import argparse
 import os
 

@@ -1,0 +1,7 @@
+{
+    "model_name": "efficientnetv2_rw_t",
+    "model_lib_path": "deploy_weights/efficientnetv2_rw_t-int8-kl_divergence-3_224_224-vacc/efficientnetv2_rw_t.so",
+    "model_graph_path": "deploy_weights/efficientnetv2_rw_t-int8-kl_divergence-3_224_224-vacc/efficientnetv2_rw_t.json",
+    "model_params_path": "deploy_weights/efficientnetv2_rw_t-int8-kl_divergence-3_224_224-vacc/efficientnetv2_rw_t.params",
+    "hw_config_file": "classification/common/hw_config/hw_conf.bin"
+}

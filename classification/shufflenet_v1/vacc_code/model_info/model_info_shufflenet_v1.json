@@ -1,0 +1,7 @@
+{
+    "model_name": "shufflenet_v1",
+    "model_lib_path": "deploy_weights/shufflenet_v1-int8-kl_divergence-3_224_224-vacc/shufflenet_v1.so",
+    "model_graph_path": "deploy_weights/shufflenet_v1-int8-kl_divergence-3_224_224-vacc/shufflenet_v1.json",
+    "model_params_path": "deploy_weights/shufflenet_v1-int8-kl_divergence-3_224_224-vacc/shufflenet_v1.params",
+    "hw_config_file": "classification/common/hw_config/hw_conf.bin"
+}
