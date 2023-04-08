@@ -139,38 +139,22 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     - [mmcls](./vacc_code/build/mmcls_shufflenetv2.yaml)
     - [torchvision](./vacc_code/build/torchvision_shufflenetv2.yaml)
 
-### step.4 模型推理
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_shufflenet_v2.json)
-2. 配置数据预处理流程vdsp_params参数
-   - [megvii](./vacc_code/vdsp_params/sdk1.0/megvii-shufflenet_v2_x0.5-vdsp_params.json)
-   - [ppcls](./vacc_code/vdsp_params/sdk1.0/ppcls-shufflenet_v2_swish-vdsp_params.json)
-   - [mmcls](./vacc_code/vdsp_params/sdk1.0/mmcls-shufflenet_v2-vdsp_params.json)
-   - [torchvision](./vacc_code/vdsp_params/sdk1.0/ppcls-shufflenet_v2_swish-vdsp_params.json)
-
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/shufflenet_v2_result.txt
-    ```
-
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/shufflenet_v2_result.txt
-   ```
 
 
-### step.5 benchmark
+
+### step.4 benchmark
 1. 生成推理数据`npz`以及对应的`datalist.txt`
     ```bash
     python ../common/utils/image2npz.py --dataset_path /path/to/ILSVRC2012_img_val --target_path  /path/to/input_npz  --text_path npz_datalist.txt
     ```
 2. 性能测试
     ```bash
-    ./vamp -m shufflenet_v2-int8-percentile-3_299_299-vacc/shufflenet_v2 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-shufflenet_v2-vdsp_params.json  -i 1 -p 1 -b 1
+    ./vamp -m shufflenet_v2-int8-percentile-3_299_299-vacc/shufflenet_v2 --vdsp_params ./vacc_code/vdsp_params/timm-shufflenet_v2-vdsp_params.json  -i 1 -p 1 -b 1
     ```
     
 3. 获取精度信息
     ```bash
-    ./vamp -m shufflenet_v2-int8-percentile-3_299_299-vacc/shufflenet_v2 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-shufflenet_v2-vdsp_params.json  -i 1 -p 1 -b 1 --datalist npz_datalist.txt --path_output output
+    ./vamp -m shufflenet_v2-int8-percentile-3_299_299-vacc/shufflenet_v2 --vdsp_params ./vacc_code/vdsp_params/timm-shufflenet_v2-vdsp_params.json  -i 1 -p 1 -b 1 --datalist npz_datalist.txt --path_output output
     ```
 4. 结果解析及精度评估
    ```bash

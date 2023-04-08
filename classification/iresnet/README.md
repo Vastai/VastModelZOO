@@ -114,22 +114,8 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     - [official](./vacc_code/build/official_iresnet.yaml)
 
 
-### step.4 模型推理
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_iresnet.json)
-2. 配置python版数据预处理流程vdsp_params参数
-   - [official](./vacc_code/vdsp_params/sdk1.0/official-iresnet50-vdsp_params.json)
-   
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/iresnet50_result.txt
-    ```
 
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/iresnet50_result.txt
-   ```
-
-### step.5 benchmark
+### step.4 benchmark
 1. 生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
     python ../common/utils/image2npz.py --dataset_path /path/to/ILSVRC2012_img_val --target_path  /path/to/input_npz  --text_path npz_datalist.txt

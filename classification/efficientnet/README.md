@@ -114,24 +114,8 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
    - [timm](./vacc_code/build/timm_efficientnet.yaml)
 
 
-### step.4 模型推理
 
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_efficient.json)
-2. 配置python版数据预处理流程vdsp_params参数
-   - [timm](./vacc_code/vdsp_params/sdk1.0/timm-efficientnet_b0-vdsp_params.json)
-
-
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/efficientnet_result.txt
-    ```
-
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/efficientnet_result.txt
-   ```
-
-### step.5 benchmark
+### step.4 benchmark
 
 1. 生成推理数据`npz`以及对应的`datalist.txt`
     ```bash
@@ -139,12 +123,12 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```
 2. 性能测试
     ```bash
-    ./vamp -m efficientnet-int8-percentile-3_256_256-vacc/efficientnet --vdsp_params ./vacc_code/vdsp_params/vamp/timm-efficientnet_b0-vdsp_params.json  -i 16 -p 1 -b 20
+    ./vamp -m efficientnet-int8-percentile-3_256_256-vacc/efficientnet --vdsp_params ./vacc_code/vdsp_params/timm-efficientnet_b0-vdsp_params.json  -i 16 -p 1 -b 20
     ```
     
 3. 获取精度信息
     ```bash
-    ./vamp -m efficientnet-int8-kl_divergence-3_224_224-vacc/efficientnet --vdsp_params ./vacc_code/vdsp_params/vamp/timm-efficientnet_b0-vdsp_params.json  -i 16 -p 1 -b 20  --datalist npz_datalist.txt --path_output output
+    ./vamp -m efficientnet-int8-kl_divergence-3_224_224-vacc/efficientnet --vdsp_params ./vacc_code/vdsp_params/timm-efficientnet_b0-vdsp_params.json  -i 16 -p 1 -b 20  --datalist npz_datalist.txt --path_output output
     ```
 4. 结果解析及精度评估
    ```bash

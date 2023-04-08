@@ -130,36 +130,19 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     - [ppcls](./vacc_code/build/ppcls_inceptionv3.yaml)
 
 
-### step.4 模型推理
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_inception_v3.json)
-2. 配置python版数据预处理流程vdsp_params参数
-   - [timm](./vacc_code/vdsp_params/sdk1.0/timm-inception_v3-vdsp_params.json)
-   - [ppcls](./vacc_code/vdsp_params/sdk1.0/ppcls-inception_v3-vdsp_params.json)
-   - [torchvision](./vacc_code/vdsp_params/sdk1.0/torchvision-inception_v3-vdsp_params.json)
-   
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/inception_v3_result.txt
-    ```
-
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/inception_v3_result.txt
-   ```
-
-### step.5 benchmark
+### step.4 benchmark
 1. 生成推理数据`npz`以及对应的`datalist.txt`
     ```bash
     python ../common/utils/image2npz.py --dataset_path /path/to/ILSVRC2012_img_val --target_path  /path/to/input_npz  --text_path npz_datalist.txt
     ```
 2. 性能测试
     ```bash
-    ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22
+    ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22
     ```
     
 3. 获取精度信息
     ```bash
-    ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/vamp/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22 --datalist npz_datalist.txt --path_output output
+    ./vamp -m inception_v3-int8-percentile-3_299_299-vacc/inception_v3 --vdsp_params ./vacc_code/vdsp_params/timm-inception_v3-vdsp_params.json  -i 8 -p 1 -b 22 --datalist npz_datalist.txt --path_output output
     ```
 4. 结果解析及精度评估
     ```bash

@@ -145,26 +145,9 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
    - [keras](./vacc_code/build/keras_densenet.yaml)
 
 
-### step.4 模型推理
-
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_densenet.json)
-2. 配置python版数据预处理流程vdsp_params参数
-   - [timm](./vacc_code/vdsp_params/sdk1.0/timm_vdsp_params_densenet_rgb.json)
-   - [mmcls](./vacc_code/vdsp_params/sdk1.0/mmcls_vdsp_params_densenet_rgb.json)
-   - [torchvision](./vacc_code/vdsp_params/sdk1.0/torch_vdsp_params_densenet_rgb.json)
 
 
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/densenet_result.txt
-    ```
-
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/densenet_result.txt
-   ```
-
-### step.5 benchmark
+### step.4 benchmark
 
 1. 生成推理数据`npz`以及对应的`datalist.txt`
     ```bash
@@ -172,12 +155,12 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```
 2. 性能测试
     ```bash
-    ./vamp -m densenet-int8-percentile-3_256_256-vacc/densenet --vdsp_params ./vacc_code/vdsp_params/vamp/timm-densenet-vdsp_params.json  -i 8 -p 1 -b 16
+    ./vamp -m densenet-int8-percentile-3_256_256-vacc/densenet --vdsp_params ./vacc_code/vdsp_params/timm-densenet-vdsp_params.json  -i 8 -p 1 -b 16
     ```
     
 3. 获取精度信息
     ```bash
-    ./vamp -m densenet-int8-percentile-3_256_256-vacc/densenet --vdsp_params ./vacc_code/vdsp_params/vamp/timm-densenet-vdsp_params.json  -i 8 -p 1 -b 16 --datalist npz_datalist.txt --path_output output
+    ./vamp -m densenet-int8-percentile-3_256_256-vacc/densenet --vdsp_params ./vacc_code/vdsp_params/timm-densenet-vdsp_params.json  -i 8 -p 1 -b 16 --datalist npz_datalist.txt --path_output output
     ```
 
 4. 结果解析及精度评估

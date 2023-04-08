@@ -117,33 +117,21 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
    - [timm](./vacc_code/build/timm_vovnet.yaml)
 
 
-### step.4 模型推理
-1. 根据step.3配置模型三件套信息，[model_info](./vacc_code/model_info/model_info_vovnet.json)
-2. 配置数据预处理流程vdsp_params参数
-   - [timm](./vacc_code/vdsp_params/sdk1.0/timm-ese_vovnet19b_dw-vdsp_params.json)
 
-3. 执行推理，参考[runstream](../common/sdk1.0/sample_cls.py)
-    ```bash
-    python ../common/sdk1.0/sample_cls.py --save_dir output/vovnet_result.txt
 
-4. 精度评估
-   ```bash
-    python ../common/eval/eval_topk.py output/vovnet_result.txt
-   ```
-
-### step.5 benchmark
+### step.4 benchmark
 1. 生成推理数据`npz`以及对应的`datalist.txt`
     ```bash
     python ../common/utils/image2npz.py --dataset_path /path/to/ILSVRC2012_img_val --target_path  /path/to/input_npz  --text_path npz_datalist.txt
     ```
 2. 性能测试
     ```bash
-    ./vamp -m ese_vovnet39b-int8-percentile-3_256_256-vacc/ese_vovnet39b --vdsp_params ./vacc_code/vdsp_params/vamp/timm-ese_vovnet39b-vdsp_params.json  -i 8 -p 1 -b 22
+    ./vamp -m ese_vovnet39b-int8-percentile-3_256_256-vacc/ese_vovnet39b --vdsp_params ./vacc_code/vdsp_params/timm-ese_vovnet39b-vdsp_params.json  -i 8 -p 1 -b 22
     ```
     
 3. 获取精度信息
     ```bash
-    ./vamp -m ese_vovnet39b-int8-percentile-3_256_256-vacc/ese_vovnet39b --vdsp_params ./vacc_code/vdsp_params/vamp/timm-ese_vovnet39b-vdsp_params.json  -i 8 -p 1 -b 22 --datalist npz_datalist.txt --path_output output
+    ./vamp -m ese_vovnet39b-int8-percentile-3_256_256-vacc/ese_vovnet39b --vdsp_params ./vacc_code/vdsp_params/timm-ese_vovnet39b-vdsp_params.json  -i 8 -p 1 -b 22 --datalist npz_datalist.txt --path_output output
     ```
 4. 结果解析及精度评估
     ```bash
