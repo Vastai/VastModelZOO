@@ -111,6 +111,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
 
 ### step.4 benchmark
+
 1. 生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
     python ../common/utils/image2npz.py --dataset_path /path/to/ILSVRC2012_img_val --target_path  /path/to/input_npz  --text_path npz_datalist.txt
