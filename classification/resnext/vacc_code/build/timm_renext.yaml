@@ -1,0 +1,36 @@
+model:
+  name: gluon_resnext50_32x4d
+  inputs:
+    input: [1, 3, 224, 224]
+  checkpoint: ./resnext/onnx/timm/gluon_resnext50_32x4d.onnx
+
+engine:
+  type: debug
+  common:
+    do_quantization: true
+  add_extra_ops_to_graph:
+    type: softmax
+  calibration:
+    quant_mode: max
+    per_channel: true
+
+dataset:
+  path: ./det_data/cls_calib
+  sampler:
+    suffix: JPEG
+    get_data_num: 1000
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: CenterCrop
+      crop_size: [224, 224]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./resnext/vacc
+  enable_ir: false
+  save_log: true
