@@ -1,0 +1,107 @@
+{
+  "vdsp_op_type": "RGB_RESIZE_CVTCOLOR_CROP_NORMALIZATION_TENSORIZATION_U8",
+  "config": [
+    {
+      "Property": "iimage_format",
+      "DType": "UINT_32",
+      "ParamType": "ELEMENT",
+      "Value": "RGB_PLANAR"
+    },
+    {
+      "Property": "iimage_width",
+      "DType": "INT",
+      "ParamType": "ELEMENT",
+      "Value": 256
+    },
+    {
+      "Property": "iimage_height",
+      "DType": "INT",
+      "ParamType": "ELEMENT",
+      "Value": 256
+    },
+    {
+      "Property": "iimage_width_pitch",
+      "DType": "UINT_32",
+      "ParamType": "ELEMENT",
+      "Value": 256
+    },
+    {
+      "Property": "iimage_height_pitch",
+      "DType": "UINT_32",
+      "ParamType": "ELEMENT",
+      "Value": 256
+    },
+    {
+      "Property": "short_edge_threshold",
+      "DType": "INT",
+      "ParamType": "ELEMENT",
+      "Value": 256
+    },
+    {
+      "Property": "crop_size",
+      "DType": "UINT_32",
+      "ParamType": "ELEMENT",
+      "Value": 224
+    },
+    {
+      "Property": "meanr",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 0
+    },
+    {
+      "Property": "meang",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 0
+    },
+    {
+      "Property": "meanb",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 0
+    },
+    {
+      "Property": "stdr",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 15360
+    },
+    {
+      "Property": "stdg",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 15360
+    },
+    {
+      "Property": "stdb",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": 15360
+    },
+    {
+      "Property": "norma_type",
+      "DType": "INT",
+      "ParamType": "ELEMENT",
+      "Value": "MINUSMEAN_DIVSTD"
+    },
+    {
+      "Property": "resize_type",
+      "DType": "INT",
+      "ParamType": "ELEMENT",
+      "Value": "BILINEAR_CV"
+    },
+    {
+      "Property": "color_cvt_code",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": "COLOR_BGR2RGB"
+    },
+    {
+      "Property": "color_space",
+      "DType": "UINT_16",
+      "ParamType": "ELEMENT",
+      "Value": "COLOR_SPACE_BT709"
+    }
+  ]
+}

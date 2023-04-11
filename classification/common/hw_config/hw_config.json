@@ -1,0 +1,25 @@
+{
+  "model": {
+    "batch_size": "1",
+    "idma": "0"
+  },
+  "global": {
+    "odma": {
+      "prefetch_threshold": "0",
+      "data_exp_wr_qos": "0",
+      "outstand_num_rd": "127",
+      "outstand_num_wr": "127",
+      "burst_len": "11"
+    },
+    "wddma": {
+      "rd_qos": "0",
+      "outstand_num_rd": "3",
+      "burst_len": "15"
+    },
+    "cdma": {
+      "rd_qos": "1",
+      "outstand_num_rd": "10"
+    }
+  },
+  "pipelines": []
+}
