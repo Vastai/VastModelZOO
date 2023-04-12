@@ -75,6 +75,17 @@ HRNet系列网络的head层由global-average-pooling层和一层全连接层组�
 |        hrnet_w44         |     [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/hrnet.py)      | 78.896 | 94.37  |  33.320  |  67.065   |    224     |
 |        hrnet_w48         |     [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/hrnet.py)      |  79.3  | 94.514 |  38.658  |  77.470   |    224     |
 |        hrnet_w64         |     [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/hrnet.py)      | 79.47  | 94.654 |  64.535  |  128.060  |    224     |
+|        hrnet_w18_c         |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 76.92|  93.39	 |  4.32| 21.35   |    224     |
+|        hrnet_w18_c_ssld    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 81.162|  95.804	 |  4.32| 21.35   |    224     |
+|        hrnet_w30_c    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 78.04| 94.02	 |  8.15| 37.78  |    224     |
+|        hrnet_w32_c    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 78.28	 |94.24	 | 8.97	 |41.30  |    224     |
+|        hrnet_w40_c    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 78.77	 |94.47	 | 12.74	 |57.64  |    224     |
+|        hrnet_w44_c    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 79.00	 |94.51		 |14.94	 |67.16 |    224     |
+|        hrnet_w48_c	|     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 78.95	 |94.42	| 17.34	 |77.57 |    224     |
+|        hrnet_w48_c_ssld   |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 83.63	 |96.82	| 17.34	 |77.57|    224     |
+|        hrnet_w64_c	    |     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 79.30	 |94.61	| 28.97	 |128.18|    224     |
+|        se_hrnet_w64_c_ssld|     [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)      | 84.75	 |97.26	| 29.00	 |129.12 |    224     |
+
 
 ### 测评数据集说明
 
@@ -126,6 +137,24 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     python tools/export.py --cfg_file experiments/cls_hrnet_w64_sgd_lr5e-2_wd1e-4_bs32_x100.yaml --weight_path /path/to/weights_path --save_name hrnetv2_w64
     ```
+
+4. ppcls
+   
+    在[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#hrnet-系列-13)下载inference模型，基于`paddle2onnx`工具转换为onnx，使用[rename_onnx_model.py](https://github.com/PaddlePaddle/Paddle2ONNX/blob/develop/tools/onnx/rename_onnx_model.py)，修改onnx输入输出名称。
+    ```bash
+    pip install PaddlePaddle==2.3.2  Paddle2ONNX==1.0.0
+
+    cd {PaddleClas}
+
+    paddle2onnx  --model_dir /path/to/resnet_paddle_model/ \
+                --model_filename model.pdmodel \
+                --params_filename model.pdiparams \
+                --save_file model.onnx \
+                --enable_dev_version False \
+                --opset_version 10
+    ```
+
+
 ### step.2 获取数据集
 - 本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
 
@@ -158,6 +187,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     - [timm](./vacc_code/build/timm_hrnet.yaml)
     - [official](./vacc_code/build/official_hrnet.yaml)
     - [mmcls](./vacc_code/build/mmcls_hrnet.yaml)
+    - [ppcls](./vacc_code/build/ppcls_hrnet.yaml)
 
 
 
