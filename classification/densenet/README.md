@@ -62,6 +62,11 @@ DenseNet系列网络的head层由global-average-pooling层和一层全连接层�
 |   densenet121    |         [keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/densenet.py)         |  75.0  |  92.3  |  2.84   |    8.1    |    224     |
 |   densenet169    |         [keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/densenet.py)         |  76.2  |  93.2  |  3.37   |   14.3    |    224     |
 |   densenet201    |         [keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/densenet.py)         |  77.3  |  93.6  |  4.30   |   20.2    |    224     |
+|   densenet121    | [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#DPN&DenseNet) | 75.66|  92.58  | 2.87	|8.06    |    224     |
+|   densenet161    | [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#DPN&DenseNet) | 78.57|  94.14  |  7.79	|28.90   |    224     |
+|   densenet169    | [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#DPN&DenseNet) | 76.81|  93.31  |  3.40	|14.31   |    224     |
+|   densenet201    | [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#DPN&DenseNet) | 77.63|  93.66	  |  4.34	|20.24   |    224     |
+|   densenet264    | [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#DPN&DenseNet) | 77.96|  93.85  |  5.82	| 33.74   |    224     |
 
 ### 测评数据集说明
 
@@ -109,6 +114,23 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     ⚠️ keras h5 is directly supported formats!
 
+5. ppcls
+
+    在[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.4/docs/zh_CN/algorithm_introduction/ImageNet_models.md#dpn-与-densenet-系列-1415)下载inference模型，基于`paddle2onnx`工具转换为onnx，使用[rename_onnx_model.py](https://github.com/PaddlePaddle/Paddle2ONNX/blob/develop/tools/onnx/rename_onnx_model.py)，修改onnx输入输出名称。
+    ```bash
+    pip install PaddlePaddle==2.3.2  Paddle2ONNX==1.0.0
+
+    cd {PaddleClas}
+
+    paddle2onnx  --model_dir /path/to/paddle_model/ \
+                --model_filename model.pdmodel \
+                --params_filename model.pdiparams \
+                --save_file model.onnx \
+                --enable_dev_version False \
+                --opset_version 10
+    ```
+
+
 ### step.2 获取数据集
 - 本模型使用ImageNet官网ILSVRC2012的5万张验证集进行测试，针对`int8`校准数据可从该数据集中任选1000张，为了保证量化精度，请保证每个类别都有数据，请用户自行获取该数据集，[ILSVRC2012](https://image-net.org/challenges/LSVRC/2012/index.php)
 
@@ -143,6 +165,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
    - [torchvision](./vacc_code/build/timm_densenet.yaml)
    - [mmcls](./vacc_code/build/mmcls_densenet.yaml)
    - [keras](./vacc_code/build/keras_densenet.yaml)
+   - [ppcls](./vacc_code/build/ppcls_densenet.yaml)
 
 
 
