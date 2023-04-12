@@ -155,5 +155,5 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     ```
 4. 结果解析及精度评估
    ```bash
-   python ../common/eval/eval_imagenet.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
+   python ../common/eval/vamp_eval.py --result_path output  --datalist npz_datalist.txt --label data/label/imagenet.txt
    ```
