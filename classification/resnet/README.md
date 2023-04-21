@@ -1,3 +1,5 @@
+<div align=center><img src="../../images/resnet/block.png"></div>
+
 # ResNet
 
 [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
@@ -23,6 +25,7 @@ link: https://github.com/Oneflow-Inc/vision
 tag: v0.2.1
 ```
 
+
 ## Model Arch
 
 <div align=center><img src="../../images/resnet/arch.png"></div>
@@ -36,7 +39,7 @@ ResNet系列网络的预处理操作可以按照如下步骤进行，即先对�
     torchvision.transforms.Resize(256),
     torchvision.transforms.CenterCrop(224),
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225],),
 ]
 ```
 
@@ -45,9 +48,8 @@ ResNet系列网络的预处理操作可以按照如下步骤进行，即先对�
 ResNet系列网络的后处理操作是对网络输出进行softmax作为每个类别的预测值，然后根据预测值进行排序，选择topk作为输入图片的预测分数以及类别
 
 ### backbone
-ResNet系列网络的backbone结构是由BasicBlock或Bottleneck搭成。ResNet网络名称后面的数字表示整个网络中包含参数层的数量。
 
-<div align=center><img src="../../images/resnet/block.png"></div>
+ResNet系列网络的backbone结构是由BasicBlock或Bottleneck搭成。ResNet网络名称后面的数字表示整个网络中包含参数层的数量
 
 ### head
 
@@ -60,8 +62,6 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接层组
 ## Model Info
 
 ### 模型性能
-> 以下数据为模型来源官方数值指标
->
 
 | 模型  | 源码 | top1 | top5 | flops(G) | params(M) | input size |
 | :---: | :--: | :--: | :--: | :---: | :----: | :--------: |
@@ -122,7 +122,6 @@ ResNet系列网络的head层由global-average-pooling层和一层全连接层组
 | resnet101 |[oneflow](https://github.com/Oneflow-Inc/vision/blob/main/flowvision/models/resnet.py)  |   77.366   |   93.5628  | 7.9      | 44.6       |   224        |
 | resnet152 |[oneflow](https://github.com/Oneflow-Inc/vision/blob/main/flowvision/models/resnet.py)  |   78.314   |   94.060  | 11.6      | 60.2       |   224        |
 
-
 ### 数据集
 
 <div align=center><img src="../../images/datasets/imagenet.jpg"></div>
@@ -137,7 +136,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 - top5准确率: 测试图片中正确标签包含在前五个分类概率中的个数除以总的样本数
 
 ## Deploy
-> 不同codebase的模型仅在模型转换部分有区别
+
 
 ### step.1 准备预训练模型
 1. timm
