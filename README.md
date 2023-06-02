@@ -114,5 +114,15 @@
 
 - `*`: 表示精度存在问题
 
+## Contribute
+- todo
+
+
+## Disclaimers 
+- `VastModelZoo`为提供复现，针对具体模型，我们将提供对应公共数据集以及预训练模型的下载链接，该链接及文件并不属于`VastModelZoo`, 我们将不对其质量或维护承担责任。请您在使用公共数据集和预训练模型的过程中，确保符合其对应的使用许可。
+
+- `VastModelZoo`的License具体内容请参见[LICENSE](./LICENSE)文件
+
+
 ## References
 - [瀚博半导体官网-vastaitech](http://www.vastaitech.com/)
