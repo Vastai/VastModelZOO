@@ -70,7 +70,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 
 ### step.3 数据集准备
-使用 [mrpc_process.py](../common/mrpc_process.py) 处理校验数据集
+使用 [mrpc_process.py](../common/utils/mrpc_process.py) 处理校验数据集
 - tensorflow
     ```bash
     cd  path/to/VastModelZOO/sentence_classification/common
@@ -98,8 +98,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     ```bash
     vamc build ./vacc_code/build/tensorflow_bert_cls.yaml
     ```
-   - [tensorflow](./tensorflow/vacc_code/build/tensorflow_bert_cls.yaml)
-   - [huggingface](./huggingface/vacc_code/build/huggingface_bert_cls.yaml)
+   - [tensorflow](./tensorflow/vacc_code/build/tf_bert_cls.yaml)
+   - [huggingface](./huggingface/vacc_code/build/hf_bert_cls.yaml)
 
 
 ### step.5 benchmark
