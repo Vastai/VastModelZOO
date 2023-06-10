@@ -102,7 +102,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 ### step.5 benchmark
 1. 获取并安装 [vamp](../../docs/doc_vamp.md) 工具
 
-2. 使用 [mrpc_process.py](../common/mrpc_process.py) 处理校验数据集
+2. 使用 [mrpc_process.py](../common/utils/mrpc_process.py) 处理校验数据集
     ```bash
     cd  path/to/VastModelZOO/sentence_classification/common
     python mrpc_process.py \
