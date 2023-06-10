@@ -1,0 +1,28 @@
+model:
+  name: bert
+  inputs:
+    input_ids_1: [1, 128]
+    input_mask_1: [1, 128]
+    segment_ids_2: [1, 128]
+  checkpoint: ./weights/inference_output_graph.pb
+
+engine:
+  type: vacc
+  common:
+    do_quantization: true
+    cluster_mode: 0
+  calibration:
+    quant_mode: mse
+    per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+dataset:
+  path: path/to/mrpc/tf_calib
+  sampler:
+    get_data_num: 10
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
