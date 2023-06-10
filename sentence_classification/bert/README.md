@@ -127,8 +127,6 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
         --datalist ./data/lists/npz_datalist.txt \
         --path_output ./save/bert
     ```
-    > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../common/vamp_info/) 目录下找到
-    >
     > 参数`iterations`，`batch_size`，`instance`，`processes`的选择参考VAMP文档，以刚好使得板卡AI利用率达满为佳
     >
     > 如果仅测试模型性能可不设置 `datalist`、`path_output` 参数

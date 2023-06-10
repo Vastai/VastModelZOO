@@ -1,0 +1,28 @@
+model:
+  name: roberta_base_cls_en
+  inputs:
+    input_ids: [1, 128]
+    token_type_ids: [1, 128]
+    attention_mask: [1, 128]
+  checkpoint: ./weights/roberta_cls.torchscript.pt
+
+engine:
+  type: vacc
+  common:
+    do_quantization: true
+    cluster_mode: 0
+  calibration:
+    quant_mode: mse
+    per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+dataset:
+  path: path/to/mrpc/hgface_calib
+  sampler:
+    get_data_num: 10
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
