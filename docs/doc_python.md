@@ -48,3 +48,4 @@
 | flowvision |  0.2.1      |
 | oneflow_onnx |  0.6.0      |
 | basicsr | 1.4.2      |
+| transformers | 4.21.0      |
