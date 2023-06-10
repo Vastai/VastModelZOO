@@ -96,7 +96,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 1. 获取并安装 [vamc](../../docs/doc_vamc.md) 模型转换工具
 2. 根据具体模型修改配置文件,此处以 tensorflow 为例
     ```bash
-    vamc build ./vacc_code/build/tensorflow_bert_cls.yaml
+    vamc build ./vacc_code/build/tf_bert_cls.yaml
     ```
    - [tensorflow](./tensorflow/vacc_code/build/tf_bert_cls.yaml)
    - [huggingface](./huggingface/vacc_code/build/hf_bert_cls.yaml)
