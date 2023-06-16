@@ -1,4 +1,4 @@
-# **Bert - finetune**
+# **finetune**
 
 ## **Bert MRPC任务微调**
 
