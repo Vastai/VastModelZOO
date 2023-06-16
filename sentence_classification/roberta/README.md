@@ -91,7 +91,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     ```
 
 ### step.4 模型转换
-1. 获取并安装 [vamc](../../docs/doc_vamc.md) 模型转换工具
+1. 获取并安装 `vamc` 模型转换工具
 2. 根据具体模型修改配置文件,此处以 huggingface 为例
     ```bash
     vamc build ./vacc_code/build/hf_roberta_cls.yaml
@@ -100,7 +100,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
 
 ### step.5 benchmark
-1. 获取并安装 [vamp](../../docs/doc_vamp.md) 工具
+1. 获取并安装 `vamp` 工具
 
 2. 使用 [mrpc_process.py](../common/utils/mrpc_process.py) 处理校验数据集
     ```bash

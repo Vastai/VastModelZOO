@@ -135,7 +135,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 
 
 ### step.4 模型转换
-1. 获取并安装 [vamc](../../docs/doc_vamc.md) 模型转换工具
+1. 获取并安装 `vamc` 模型转换工具
 2. 根据具体模型修改配置文件,此处以 huggingface 为例
     ```bash
     vamc build ./vacc_code/build/hf_ernie_cls.yaml
@@ -144,7 +144,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 
 
 ### step.5 benchmark
-1. 获取并安装 [vamp](../../docs/doc_vamp.md) 工具
+1. 获取并安装 `vamp` 工具
 
 2. 使用 [mrpc_process.py](../common/utils/mrpc_process.py) 处理校验数据集
     ```bash

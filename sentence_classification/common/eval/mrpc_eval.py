@@ -1,7 +1,18 @@
+# ==============================================================================
+# 
+# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# 
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Author :     vastml
+@Time  : 2023/06/16 10:31:21
+'''
+
 import os
 import numpy as np
 import argparse
-
 
 def get_predcit(pre_dir):
     file_names = os.listdir(pre_dir)
@@ -83,6 +94,5 @@ if __name__ == '__main__':
         help="MRPC-dev file path "
     )
     args = parse.parse_args()
-
     evaluate(get_predcit(args.result_dir), args.eval_path)
     

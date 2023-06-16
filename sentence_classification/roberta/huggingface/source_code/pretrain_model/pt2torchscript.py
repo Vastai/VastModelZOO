@@ -1,3 +1,15 @@
+# ==============================================================================
+# 
+# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# 
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Author :     vastml
+@Time  : 2023/06/16 10:31:21
+'''
+
 import os
 import argparse
 from packaging import version
@@ -77,7 +89,6 @@ def modify_bert_embeddings(model, max_seq=128):
     embeddings_new.dropout = model.bert.embeddings.dropout
     embeddings_new.position_embedding_type = model.bert.embeddings.position_embedding_type
     model.bert.embeddings = embeddings_new
-    
     return model
 
 

@@ -1,3 +1,15 @@
+# ==============================================================================
+# 
+# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# 
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Author :     vastml
+@Time  : 2023/06/16 10:31:21
+'''
+
 import argparse
 import os
 
