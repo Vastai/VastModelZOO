@@ -29,6 +29,14 @@ for i in range(15):
         'l_lip', 'neck', 'neck_l',
         'cloth', 'hair', 'hat']
 
+    ok_label_list = [
+        'skin', 'nose', 'eye_g',
+        'l_eye', 'r_eye', 'l_brow',
+        'r_brow', 'l_ear', 'r_ear',
+        'mouth', 'u_lip', 'l_lip',
+        'hair', 'hat', 'ear_r',
+        'neck_l', 'neck', 'cloth']
+
     for j in range(i * 2000, (i + 1) * 2000):
 
         mask = np.zeros((512, 512))

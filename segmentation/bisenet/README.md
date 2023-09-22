@@ -2,23 +2,30 @@
 
 [BiSeNet: Bilateral Segmentation Network for Real-time Semantic Segmentation](https://arxiv.org/abs/1808.00897)
 
-## Code Source
+[BiSeNet V2: Bilateral Network with Guided Aggregation for Real-time Semantic Segmentation](https://arxiv.org/abs/2004.02147)
 
+
+## Code Source
 ```
+# zllrunning for face-parsing
 link: https://github.com/zllrunning/face-parsing.PyTorch
 branch: master
 commit: d2e684cf1588b46145635e8fe7bcc29544e5537e
+
+# CoinCheung
+link: https://github.com/CoinCheung/BiSeNet
+branch: master
+commit: f2b901599752ce50656d2e50908acecd06f7eb47
 ```
 
 ## Model Arch
-
 <div  align="center">
 <img src="../../images/bisenet/arch.png">
 </div>
 
 ### pre-processing
 
-BiSeNet网络的预处理操作可以按照如下步骤进行，即先对图片进行resize至一定尺寸(512)，然后对其进行归一化、减均值除方差等操作
+BiSeNet网络的预处理操作可以按照如下步骤进行，即先对图片进行resize至一定尺寸(512)，然后对其进行归一化、减均值除方差等操作（不同来源或数据集可能不一样，实际参考推理脚本）
 
 ```python
 [
@@ -44,6 +51,11 @@ BiSeNet是一种新的双向分割网络，设计了一个带有小步长的空�
 - ARM使用在上下文路径中，用于优化每一阶段的特征，使用全局平均池化指导特征学习，计算成本可以忽略。ARM应用全局平均池化来获取全局语义信息然后计算一个attention vector来知到特征学习。这个结构能够精细画Context Path中各个阶段的结果。它可以不用上采样就集成全局语义信息，计算代价较小。
 - FFM，在特征的不同层级给定的情况下，特征融合模块首先连接Spatial Path和Context Path的输出特征；接着，通过批归一化平衡特征的尺度。下一步，像SENt一样，把相连接的特征池化为一个特征向量，并计算一个权重向量。这一权重向量可以重新加权特征，起到特征选择和结合的作用。将两个部分特征图通过concate方式叠加，然后使用类似SE模块的方式计算加权特征，起到特征选择和结合的作用。
 
+相比于初版BiSeNetV1：
+- V2简化了原始结构，使网络更加高效
+- 使用更加紧凑的网络结构以及精心设计的组件，加深了Semantic Branch的网络，使用更加轻巧的深度可分离卷积来加速模型。
+- 设计了更为有效的Aggregation Layer，以增强Semantic Branch和Detail Branch之间的链接。
+
 ### common
 
 - Components of the Attention Refinement Module (ARM)
@@ -53,25 +65,46 @@ BiSeNet是一种新的双向分割网络，设计了一个带有小步长的空�
 
 ### 模型精度
 
-|                          Methods                          | FLOPs(G) | Params(M) | MIoU |   Shapes   |
-| :--------------------------------------------------------: | :------: | :-------: | :---: | :---------: |
-| [BiSeNet](https://github.com/zllrunning/face-parsing.PyTorch) |  30.746  |  13.300  | 0.744 | 3×512×512 |
-|                 BiSeNet**vacc fp16**                 |    -    |     -     | 0.746 | 3×512×512 |
-|               BiSeNet**vacc int8 kl**               |    -    |     -     | 0.741 | 3×512×512 |
+|Methods|Source|FLOPs(G)|Params(M)|MIoU|Shapes|dataset|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|BiSeNet|[zllrunning/face-parsing](https://github.com/zllrunning/face-parsing.PyTorch)| 30.746 | 13.300 | 0.744 | 3×512×512 |CelebAMask-HQ|
+|BiSeNet **vacc fp16**	|-|-|-| 0.746 | 3×512×512 |CelebAMask-HQ|
+|BiSeNet **vacc int8 kl**	|-|-|-| 0.741 | 3×512×512 |CelebAMask-HQ|
+|BiSeNet_2class|[zllrunning/face-parsing](https://github.com/zllrunning/face-parsing.PyTorch)| 30.694 | 13.290 | 0.977 | 3×512×512 |CelebAMask-HQ|
+|BiSeNet_2class **vacc fp16**	|-|-|-| 0.977 | 3×512×512 |CelebAMask-HQ|
+|BiSeNet_2class **vacc int8 kl**	|-|-|-| 0.977 | 3×512×512 |CelebAMask-HQ|
+|BiSeNetv1|[CoinCheung](https://github.com/CoinCheung/BiSeNet)| 89.191 | 13.276 | 0.676 | 3×736×960 |CityScapes|
+|BiSeNetv1 **vacc fp16**	|-|-|-| 0.675 | 3×736×960 |CityScapes|
+|BiSeNetv1 **vacc int8 kl**	|-|-|-| 0.646 | 3×736×960 |CityScapes|
+|BiSeNetv2|[CoinCheung](https://github.com/CoinCheung/BiSeNet)| 74.315 | 3.359 | 0.698 | 3×736×960 |CityScapes|
+|BiSeNetv2 **vacc fp16**	|-|-|-| 0.698 | 3×736×960 |CityScapes|
+|BiSeNetv2 **vacc int8 kl**	|-|-|-| 0.681 | 3×736×960 |CityScapes|
+
+> Tips
+> 
+> `zllrunning/face-parsing`来源模型是基于`CoinCheung`来源BiSeNetv1模型的精简版本；其中BiSeNet_2class为自训练模型，合并背景&Cloth为标签0，合并人脸其它组分为1
+
 
 ### 测评数据集说明
 
 [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ)是一个大规模的面部图像数据集，通过遵循CelebA-HQ从CelebA数据集中选择了30,000张高分辨率面部图像。 每个图像具有对应于CelebA的面部属性的分割MASK，其采用512 x 512尺寸手动标注，分为19类，包括所有面部组件和配件，例如皮肤，鼻子，眼睛，眉毛，耳朵，嘴巴，嘴唇，头发，帽子，眼镜，耳环，项链，脖子和布。CelebAMask-HQ可用于训练和评估人脸解析，人脸识别以及用于人脸生成和编辑的GAN的算法。
 
 <div  align="center">
-<img src="../../images/datasets/celebamask-hq.png" width="60%" height="60%">
+<img src="../../images/dataset/celebamask-hq.png" width="60%" height="60%">
 </div>
 
-### 指标说明
+[CityScapes](https://www.cityscapes-dataset.com/)数据集，即城市景观数据集，这是一个新的大规模数据集，其中包含不同的立体视频序列，记录在50个不同城市的街道场景。数据集被分为2975 train，500 val，1525 test，它具有19个类别的密集像素标注。
 
+<div  align="center">
+<img src="../../images/dataset/cityscapes.png" width="80%" height="80%">
+</div>
+
+
+### 指标说明
 - IoU并交比：两个区域重叠的部分除以两个区域的集合部分，取值TP/(TP+FN+FP)
 - MIoU平均并交比：分割图像一般都有好几个类别，把每个分类得出的分数进行平均得到mean IoU，也就是mIoU，其是各种基准数据集最常用的标准之一，绝大数的图像语义分割论文中模型评估比较都以此作为主要评估指标。
 
 ## VACC部署
-
 - [zllrunning.md](./source_code/zllrunning.md)
+- [zllrunning_2class.md](./source_code/zllrunning_2class.md)
+- [coincheung.md](./source_code/coincheung.md)
