@@ -78,7 +78,7 @@ STDC Module的优势：
 [CityScapes](https://www.cityscapes-dataset.com/)数据集，即城市景观数据集，这是一个新的大规模数据集，其中包含不同的立体视频序列，记录在50个不同城市的街道场景。数据集被分为2975 train，500 val，1525 test，它具有19个类别的密集像素标注。
 
 <div  align="center">
-<img src="../../images/dataset/cityscapes.png" width="80%" height="80%">
+<img src="../../images/datasets/cityscapes.png" width="80%" height="80%">
 </div>
 
 

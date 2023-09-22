@@ -53,7 +53,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 - 自然背景 - 所有图像都包含原始无替换的背景。
 
 <div  align="center">
-<img src="../../images/dataset/ppm-100.jpg" width="70%" height="70%">
+<img src="../../images/datasets/ppm-100.jpg" width="70%" height="70%">
 </div>
 
 

@@ -90,13 +90,13 @@ BiSeNet是一种新的双向分割网络，设计了一个带有小步长的空�
 [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ)是一个大规模的面部图像数据集，通过遵循CelebA-HQ从CelebA数据集中选择了30,000张高分辨率面部图像。 每个图像具有对应于CelebA的面部属性的分割MASK，其采用512 x 512尺寸手动标注，分为19类，包括所有面部组件和配件，例如皮肤，鼻子，眼睛，眉毛，耳朵，嘴巴，嘴唇，头发，帽子，眼镜，耳环，项链，脖子和布。CelebAMask-HQ可用于训练和评估人脸解析，人脸识别以及用于人脸生成和编辑的GAN的算法。
 
 <div  align="center">
-<img src="../../images/dataset/celebamask-hq.png" width="60%" height="60%">
+<img src="../../images/datasets/celebamask-hq.png" width="60%" height="60%">
 </div>
 
 [CityScapes](https://www.cityscapes-dataset.com/)数据集，即城市景观数据集，这是一个新的大规模数据集，其中包含不同的立体视频序列，记录在50个不同城市的街道场景。数据集被分为2975 train，500 val，1525 test，它具有19个类别的密集像素标注。
 
 <div  align="center">
-<img src="../../images/dataset/cityscapes.png" width="80%" height="80%">
+<img src="../../images/datasets/cityscapes.png" width="80%" height="80%">
 </div>
 
 
