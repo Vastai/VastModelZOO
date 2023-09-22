@@ -1,0 +1,42 @@
+model:
+  name: EDSR_Mx2
+  inputs:
+    input: [1, 3, 768, 1024]
+  checkpoint: EDSR_Mx2_f64b16_DIV2K_official-3ba7b086.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/X2
+  # path: /home/simplew/dataset/sr/deblur/data_720_1280/GOPR0384_11_00/blur 
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [768, 1024]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/vastmodelzoo/0331/vastmodelzoo/deploy_weights/EDSR_Mx2-int8-percentile-3_678_1024-vacc/EDSR_Mx2 --vdsp_params /home/simplew/code/vastmodelzoo/0331/vastmodelzoo/super_resolution/edsr/vacc_code/vdsp_params/basicsr-edsr_m2x-vdsp_params.json  --datalist /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/npz_datalist_X2.txt --path_output ./outputs/rcan -i 1 -p 1 -b 1  -s [3,678,1024]
+

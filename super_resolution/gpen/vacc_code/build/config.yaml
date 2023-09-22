@@ -1,0 +1,48 @@
+model:
+  name: gpen
+  inputs:
+    input: [1, 3, 512, 512]
+  checkpoint: gpen-512.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    output_ddr: [-1, 1]
+    switch_lhs_rhs: True
+    opt_level: 2
+    data_type: 0
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: mse
+    quantize_per_channel: true
+    weight_scale: power2
+    output_ddr: [-1]
+    exclude_layers: [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    quantize_mode: manual
+
+dataset:
+  path: /home/simplew/code/eval/GPEN/lq
+  sampler:
+    suffix: jpg
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+    - type: ToTensor
+
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/deploy_weights/gpen-int8-mse-3_512_512-vacc/gpen --vdsp_params /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/super_resolution/gpen/vacc_code/vdsp_params/official-gpen-vdsp_params.json -i 1 p 1 -b 1 -s [3,512,512] --datalist /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/datalist_npz.txt --path_output ./save/gpen
+
