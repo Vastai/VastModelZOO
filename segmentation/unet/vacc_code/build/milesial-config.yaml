@@ -1,0 +1,42 @@
+model:
+  name: unet_scale0.5
+  inputs:
+    input: [1, 3, 512, 512]
+  checkpoint: unet_scale0.5-512.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+    quantize_dsp_ops: ["vacc_upsampling"]
+
+dataset:
+  path: /home/simplew/dataset/seg/carvana/imgs
+  sampler:
+    suffix: jpg
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+      cv2_flags: 1
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      norm_type: null
+      # mean: [0.485, 0.456, 0.406]
+      # std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/modelzoo/0319/vastmodelzoo/deploy_weights/unet_carvana_scale0.5-int8-kl_divergence-3_512_512-vacc/unet_carvana_scale0.5 --vdsp_params /home/simplew/code/modelzoo/0319/vastmodelzoo/segmentation/unet/vacc_code/vdsp_params/milesial-unet_scale0.5-vdsp_params.json --datalist /home/simplew/code/modelzoo/0319/vastmodelzoo/npz_datalist.txt --path_output ./outputs/unet -i 1 -b 1 -p 1 -s [3,512,512]
+# ./vamp -m /home/simplew/code/modelzoo/0319/vastmodelzoo/deploy_weights/unet_carvana_scale0.5-int8-kl_divergence-3_512_512-vacc/unet_carvana_scale0.5 --vdsp_params /home/simplew/code/modelzoo/0319/vastmodelzoo/segmentation/unet/vacc_code/vdsp_params/milesial-unet_scale0.5-vdsp_params.json --datalist /home/simplew/code/modelzoo/0319/vastmodelzoo/npz_datalist.txt --path_output ./outputs/unet -i 1 -b 1 -p 1 -s [3,512,512]

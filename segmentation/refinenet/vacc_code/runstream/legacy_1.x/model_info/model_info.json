@@ -1,7 +1,0 @@
-{
-    "model_name": "refinenet_resnet101",
-    "model_lib_path": "deploy_weights/refinenet_resnet101-int8-kl_divergence-3_500_500-vacc/refinenet_resnet101.so",
-    "model_graph_path": "deploy_weights/refinenet_resnet101-int8-kl_divergence-3_500_500-vacc/refinenet_resnet101.json",
-    "model_params_path": "deploy_weights/refinenet_resnet101-int8-kl_divergence-3_500_500-vacc/refinenet_resnet101.params",
-    "hw_config_file": "segmentation/refinenet/vacc_code/runstream/legacy_1.x/model_info/hw_config_standard.json"
-}

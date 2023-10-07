@@ -1,0 +1,41 @@
+model:
+  name: r2u_net
+  inputs:
+    input: [1, 3, 96, 96]
+  checkpoint: r2u_net-96.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+    
+dataset:
+  path: /home/simplew/code/model_check/UnetPlusPlus/dsb2018_256_val/images
+  sampler:
+    suffix: png
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2BGR
+    - type: Resize
+      size: [96, 96]
+    - type: Normalize
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/modelzoo/0319/vastmodelzoo/deploy_weights/r2u_net-fp16-none-3_96_96-vacc/r2u_net --vdsp_params /home/simplew/code/modelzoo/0319/vastmodelzoo/segmentation/r2u_net/vacc_code/vdsp_params/unetzoo-r2u_net-vdsp_params.json --datalist /home/simplew/code/modelzoo/0319/vastmodelzoo/npz_datalist.txt --path_output ./outputs/r2u_net -i 1 -b 1 -p 1 -s [3,96,96]
+# ./vamp -m /home/simplew/code/modelzoo/0319/vastmodelzoo/deploy_weights/r2u_net-int8-kl_divergence-3_96_96-vacc/r2u_net --vdsp_params /home/simplew/code/modelzoo/0319/vastmodelzoo/segmentation/r2u_net/vacc_code/vdsp_params/unetzoo-r2u_net-vdsp_params.json --datalist /home/simplew/code/modelzoo/0319/vastmodelzoo/npz_datalist.txt --path_output ./outputs/r2u_net -i 1 -b 1 -p 1 -s [3,96,96]

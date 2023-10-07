@@ -1,0 +1,169 @@
+model:
+  name: bisenetv1
+  inputs:
+    input: [1, 3, 736, 960]
+  checkpoint: bisenetv1-736_960.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/dataset/seg/cityscapes/quant
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [736, 960]
+    - type: Normalize
+      mean: [0.3257, 0.3690, 0.3223]
+      std: [0.2112, 0.2148, 0.2115]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+# VastPipe Version: 2.2.5
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/seg/BiSeNet/deploy_weights/model_final_v2_city0629-fp16-none-3_736_960-vacc/model_final_v2_city0629 --vdsp_params /home/simplew/code/model_check/seg/BiSeNet/vacc_code/vdsp_params/new_vdsp.json -i 1 -b 1 -p 1 -s [3,736,960] 
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 96.3379
+#   temperature (°C): 50.6879
+#   card power (W): 42.2236
+#   die memory used (MB): 0
+#   throughput (qps): 67.2933
+#   e2e latency (us):
+#     avg latency: 24993
+#     min latency: 18941
+#     max latency: 36341
+#     p50 latency: 24820
+#     p90 latency: 30459
+#     p95 latency: 30675
+#     p99 latency: 30935
+#   model latency (us):
+#     avg latency: 24943
+#     min latency: 18892
+#     max latency: 35832
+#     p50 latency: 24799
+#     p90 latency: 30419
+#     p95 latency: 30622
+#     p99 latency: 30906
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/seg/BiSeNet/deploy_weights/model_final_v2_city0629-int8-kl_divergence-3_736_960-vacc/model_final_v2_city0629 --vdsp_params /home/simplew/code/model_check/seg/BiSeNet/vacc_code/vdsp_params/new_vdsp.json -i 1 -b 1 -p 1 -s [3,736,960] 
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 86.6509
+#   temperature (°C): 47.2017
+#   card power (W): 34.379
+#   die memory used (MB): 0
+#   throughput (qps): 92.43
+#   e2e latency (us):
+#     avg latency: 14136
+#     min latency: 13606
+#     max latency: 15850
+#     p50 latency: 14106
+#     p90 latency: 14399
+#     p95 latency: 14632
+#     p99 latency: 15070
+#   model latency (us):
+#     avg latency: 14088
+#     min latency: 13549
+#     max latency: 15802
+#     p50 latency: 14059
+#     p90 latency: 14350
+#     p95 latency: 14583
+#     p99 latency: 15026
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/seg/BiSeNet/deploy_weights/model_final_v2_city0629-int8-kl_divergence-3_512_512-vacc/model_final_v2_city0629 --vdsp_params /home/simplew/code/model_check/seg/BiSeNet/vacc_code/vdsp_params/new_vdsp.json -i 1 -b 1 -p 1 -s [3,512,512] 
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 65.9083
+#   temperature (°C): 45.7378
+#   card power (W): 31.6912
+#   die memory used (MB): 0
+#   throughput (qps): 89.3754
+#   e2e latency (us):
+#     avg latency: 11245
+#     min latency: 10671
+#     max latency: 15048
+#     p50 latency: 11142
+#     p90 latency: 11603
+#     p95 latency: 11905
+#     p99 latency: 12370
+#   model latency (us):
+#     avg latency: 11193
+#     min latency: 10630
+#     max latency: 14999
+#     p50 latency: 11091
+#     p90 latency: 11553
+#     p95 latency: 11854
+#     p99 latency: 12300
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/seg/BiSeNet/deploy_weights/model_final_v1_city0629-fp16-none-3_736_960-vacc/model_final_v1_city0629 --vdsp_params /home/simplew/code/model_check/seg/BiSeNet/vacc_code/vdsp_params/new_vdsp.json -i 1 -b 1 -p 1 -s [3,736,960] 
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.4648
+#   temperature (°C): 51.5167
+#   card power (W): 46.5589
+#   die memory used (MB): 0
+#   throughput (qps): 69.0789
+#   e2e latency (us):
+#     avg latency: 23985
+#     min latency: 18727
+#     max latency: 30613
+#     p50 latency: 24618
+#     p90 latency: 28870
+#     p95 latency: 29162
+#     p99 latency: 30202
+#   model latency (us):
+#     avg latency: 23935
+#     min latency: 18709
+#     max latency: 30569
+#     p50 latency: 24562
+#     p90 latency: 28821
+#     p95 latency: 29114
+#     p99 latency: 30151
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/seg/BiSeNet/deploy_weights/model_final_v1_city0629-int8-kl_divergence-3_736_960-vacc/model_final_v1_city0629 --vdsp_params /home/simplew/code/model_check/seg/BiSeNet/vacc_code/vdsp_params/new_vdsp.json -i 1 -b 1 -p 1 -s [3,736,960] 
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 83.9429
+#   temperature (°C): 47.8992
+#   card power (W): 35.9174
+#   die memory used (MB): 0
+#   throughput (qps): 92.6279
+#   e2e latency (us):
+#     avg latency: 14081
+#     min latency: 13487
+#     max latency: 15795
+#     p50 latency: 14053
+#     p90 latency: 14336
+#     p95 latency: 14563
+#     p99 latency: 14982
+#   model latency (us):
+#     avg latency: 14036
+#     min latency: 13474
+#     max latency: 15760
+#     p50 latency: 14007
+#     p90 latency: 14289
+#     p95 latency: 14515
+#     p99 latency: 14945

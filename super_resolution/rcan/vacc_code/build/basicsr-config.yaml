@@ -1,0 +1,36 @@
+model:
+  name: Settings_4
+  inputs:
+    input: [1, 3, 1080, 1920]
+  checkpoint: Settings_4-1080.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path: DIV2K/DIV2K_valid_LR_bicubic/X2
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [1080, 1920]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true

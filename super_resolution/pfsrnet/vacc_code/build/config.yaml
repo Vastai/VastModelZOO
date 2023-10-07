@@ -1,0 +1,57 @@
+model:
+  name: pfsrnet
+  inputs:
+    input: [1, 3, 16, 16]
+  checkpoint: pfsrnet-16.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/dataset/sr/CelebA/Img/img_align_celeba_1k
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+      backend: pillow
+    - type: CenterCrop
+      crop_size: [178, 178]
+      backend: pillow
+    - type: Resize
+      size: [128, 128]
+      backend: pillow
+    - type: Resize
+      size: [64, 64]
+      backend: pillow
+    - type: Resize
+      size: [32, 32]
+      backend: pillow
+    - type: Resize
+      size: [16, 16]
+      backend: pillow
+    - type: Normalize
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# """
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/deploy_weights/pfsrnet-fp16-none-3_16_16-vacc/pfsrnet --vdsp_params /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/super_resolution/pfsrnet/vacc_code/vdsp_params/official-pfsrnet-vdsp_params.json --datalist /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/npz_datalist.txt --path_output ./outputs/pfsrnet -i 1 -b 1 -p 1 -s [3,16,16]
+# ./vamp -m /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/deploy_weights/pfsrnet-int8-kl_divergence-3_16_16-vacc/pfsrnet --vdsp_params /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/super_resolution/pfsrnet/vacc_code/vdsp_params/official-pfsrnet-vdsp_params.json --datalist /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/npz_datalist.txt --path_output ./outputs/pfsrnet -i 1 -b 1 -p 1 -s [3,16,16]
+
+# """
