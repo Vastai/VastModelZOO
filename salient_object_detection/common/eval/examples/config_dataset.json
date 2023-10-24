@@ -1,0 +1,14 @@
+{
+  "ECSSD": {
+    "image": {
+      "path": "/home/simplew/dataset/sod/ECSSD/image",
+      "prefix": "",
+      "suffix": ".jpg"
+    },
+    "mask": {
+      "path": "/home/simplew/dataset/sod/ECSSD/mask",
+      "prefix": "",
+      "suffix": ".png"
+    }
+  }
+}
