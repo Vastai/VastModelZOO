@@ -63,5 +63,4 @@ commit: 59ff37fbd693b99972c76fcefe97caa14aeb619f
 
 
 ### Tips
-- vacc int8均有掉点，其中percentile量化方式下掉点较少
 - STDC1-Seg50和STDC1-Seg75模型结构是一致的，只是训练和推理时的图像尺寸缩放系数不一致，所以这里只放了一个模型

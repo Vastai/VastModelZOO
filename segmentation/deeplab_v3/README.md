@@ -95,4 +95,3 @@ DeepLab_v3+的主要改进：
 
 ## Tips
 
-- 各子模型均有轻微掉点，其中deeplab_v3_plus_mobilenet掉点严重

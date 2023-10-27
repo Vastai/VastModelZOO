@@ -90,6 +90,3 @@ onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
 
 
 ### Tips
-
-- 所有模型，fp16精度异常
-- RefineNet-LW-MobileNetv2模型，fp16 build error

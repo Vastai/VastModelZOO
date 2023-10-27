@@ -72,4 +72,3 @@ onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
 
 ### Tips
 - 训练的原始PyTorch模型精度不高，有些结果图为全黑图
-- vacc fp16掉点严重

@@ -105,4 +105,3 @@ DenseASPP由包含扩张率为3，6，12，18的扩张卷积，每组数字的�
 ## Tips
 
 - 官方未提供预训练模型，自训练了DenseNet121和DenseNet161骨架的网络，精度一般；
-- DenseASPP-DenseNet161在320 size下精度异常
