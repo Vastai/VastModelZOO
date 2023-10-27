@@ -81,4 +81,3 @@ with torch.no_grad():
    - 执行评估：`python eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json`，即可获得多个精度评估信息
 
 ### Tips
-- 1080*1920 vacc fp16&int8 build ok, run超内存

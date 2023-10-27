@@ -79,4 +79,3 @@ onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
 ### Tips
 - 源仓库用到了timm，需要限定版本0.1.12
 - 源仓库提供的训练权重链接，已无法下载。基于给定数据集自己训练了5个模型，精度有差异
-- 2023/03/20，当前只支持deeplabv3plus_resnet18，unet_resnet18和unet_mobilenetv2三个模型，其中deeplabv3plus_resnet18，vacc fp16 run error。其他模型bulid会报错。

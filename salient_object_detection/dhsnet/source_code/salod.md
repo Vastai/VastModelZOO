@@ -85,4 +85,3 @@ with torch.no_grad():
 
 ### Tips
 - DHSNet评估精度一般
-- 512 size fp16&int8，run超时

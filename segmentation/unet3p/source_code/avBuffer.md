@@ -140,4 +140,3 @@ commit: 263534e4a48964e907324622b14b90f1c3b4270d
 
 ### Tips
 - 原始仓库未提供预训练权重，基于AutoPortraitMatting自训练了两个子模型，精度一般
-- DeepSupervision + CGM类别指引模块，build报错前端算子不支持，`['aten::einsum']`爱因斯坦求和约定，寻找替代算子实现，暂未能成功

@@ -72,5 +72,3 @@ commit: 8ab373232c5c3a1877f3e84e6f5d97404089c20f
 
 
 ### Tips
-
-- unet_resnet_voc，512 size，int8 & fp16会超时，需缩小尺寸为256

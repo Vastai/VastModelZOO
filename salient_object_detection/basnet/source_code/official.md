@@ -83,4 +83,3 @@ with torch.no_grad():
 
 
 ### Tips
-- 512 size fp16&int8，run超时

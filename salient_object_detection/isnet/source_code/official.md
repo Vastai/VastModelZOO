@@ -80,4 +80,3 @@ with torch.no_grad():
    - 配置模型推理结果路径及图片格式：[config_method.json](../../common/eval/examples/config_method.json)
    - 执行评估：`python eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json`，即可获得多个精度评估信息
 ### Tips
-- AI 1.5.2 SP5 fix [#17527](http://openproject.vastai.com/work_packages/17527/activity)

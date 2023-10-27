@@ -82,4 +82,3 @@ with torch.no_grad():
    - 执行评估：`python eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json`，即可获得多个精度评估信息
 
 ### Tips
-- vacc fp16&int8均掉点较多
