@@ -1,0 +1,41 @@
+model:
+  name: yolof
+  inputs:
+    input: [1, 3, 1280, 1280]
+  checkpoint: yolof.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path:  /home/andy/datasets/detection/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  transform_ops:
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2BGR
+    - type: Resize
+      size: [1280, -1]
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: false
+      mean: [103.530, 116.280, 123.675]
+      std: [1, 1, 1]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
