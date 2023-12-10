@@ -1,0 +1,42 @@
+model:
+  name: yolofastv2
+  inputs:
+    input.1:
+    - 1
+    - 3
+    - 352
+    - 352
+  checkpoint: yolofastv2-352.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+dataset:
+  path: /path/to/datasets/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 500
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 352
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true

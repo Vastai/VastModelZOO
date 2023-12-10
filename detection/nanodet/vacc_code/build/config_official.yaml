@@ -1,0 +1,49 @@
+model:
+  name: nanodet_plus_m
+  inputs:
+    input:
+    - 1
+    - 3
+    - 416
+    - 416
+  checkpoint: nanodet_plus_m-416.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+dataset:
+  path: datasets/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 500
+  transform_ops:
+  - type: DecodeImage
+  - type: CvtColor
+    code: COLOR_RGB2BGR
+  - type: Resize
+    size:
+    - 416
+    - -1
+    adaptive_side: long
+  - type: Normalize
+    div255: true
+    mean:
+    - 0.406
+    - 0.456
+    - 0.485
+    std:
+    - 0.225
+    - 0.224
+    - 0.229
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true

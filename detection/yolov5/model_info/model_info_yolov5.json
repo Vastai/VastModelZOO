@@ -1,7 +1,0 @@
-{
-    "model_name": "yolov5s",
-    "model_lib_path": "/path/to/deploy_weights/yolov5s-int8-max-3_640_640-vacc/yolov5s.so",
-    "model_graph_path": "/path/to/deploy_weights/yolov5s-int8-max-3_640_640-vacc/yolov5s.json",
-    "model_params_path": "/path/to/deploy_weights/yolov5s-int8-max-3_640_640-vacc/yolov5s.params",
-    "hw_config_file": "inference/utils/hw_conf.bin"
-}

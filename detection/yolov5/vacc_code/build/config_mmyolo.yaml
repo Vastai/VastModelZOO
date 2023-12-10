@@ -1,0 +1,41 @@
+model:
+  name: yolov5s
+  inputs:
+    input:
+    - 1
+    - 3
+    - 640
+    - 640
+  checkpoint: yolov5s.onnx
+engine:
+  type: vacc
+  dtype: fp16
+  common:
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+dataset:
+  path: /home/andy/datasets/detection/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 1000
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 640
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true

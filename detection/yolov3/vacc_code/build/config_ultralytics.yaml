@@ -1,0 +1,69 @@
+model:
+  name: yolov3
+  inputs:
+    input:
+    - 1
+    - 3
+    - 416
+    - 416
+  checkpoint: path/to/yolov3.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: yolov5_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.45
+      confidence_threshold: 0.25
+      anchor:
+      - 10
+      - 13
+      - 16
+      - 30
+      - 33
+      - 23
+      - 30
+      - 61
+      - 62
+      - 45
+      - 59
+      - 119
+      - 116
+      - 90
+      - 156
+      - 198
+      - 373
+      - 326
+      strides:
+      - 8
+      - 16
+      - 32
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+dataset:
+  path: /path/to/eval/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 500
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 416
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true

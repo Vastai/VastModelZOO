@@ -1,0 +1,68 @@
+model:
+  name: yolov7
+  inputs:
+    input:
+    - 1
+    - 3
+    - 640
+    - 640
+  checkpoint: /home/rzhang/Documents/project/vacc_auto_convert/weights/det/yolov7/official/official/onnx/yolov7-640.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 3
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: yolov5_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.45
+      confidence_threshold: 0.25
+      anchor:
+      - 12
+      - 16
+      - 19
+      - 36
+      - 40
+      - 28
+      - 36
+      - 75
+      - 76
+      - 55
+      - 72
+      - 146
+      - 142
+      - 110
+      - 192
+      - 243
+      - 459
+      - 401
+      strides:
+      - 8
+      - 16
+      - 32
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+dataset:
+  path: ./calib/det/COCO2017/det_coco_calib
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 640
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./weights/det/yolov7/official/vacc/yolov7
+  enable_ir: false
+  save_log: true
