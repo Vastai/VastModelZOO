@@ -1,0 +1,45 @@
+model:
+  name: modnet
+  inputs:
+    input: [1, 3, 480, 288]
+  checkpoint: modnet.onnx
+
+engine:
+  type: vacc
+  dtype: fp16int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: datasets/PPM-100/image
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [480, 288]
+    - type: Normalize
+      div255: false
+      mean: [127.5, 127.5, 127.5]
+      std: [127.5, 127.5, 127.5]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet-fp16-none-3_480_288-vacc/modnet --vdsp_params /home/simplew/code/model_check/seg/MODNet/human_seg/vacc_code/vdsp_params/official-modnet-vdsp_params.json --datalist /home/simplew/code/model_check/seg/MODNet/datasets/PPM-100/npz_datalist.txt --path_output ./outputs -i 1 -b 1 -p 1
+# ./vamp -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet-int8-kl_divergence-3_480_288-vacc/modnet --vdsp_params /home/simplew/code/model_check/seg/MODNet/human_seg/vacc_code/vdsp_params/official-modnet-vdsp_params.json --datalist /home/simplew/code/model_check/seg/MODNet/datasets/PPM-100/npz_datalist.txt --path_output ./outputs -i 1 -b 1 -p 1
+
+# ./vamp_14 -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet-fp16-none-3_480_288-vacc/modnet  -i 1 -b 1 -p 1  --datalist /home/simplew/code/model_check/seg/MODNet/datasets/PPM-100/npz_datalist.txt --path_output ./outputs
+# ./vamp_14 -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet-int8-kl_divergence-3_480_288-vacc/modnet  -i 1 -b 1 -p 1
+# ./vamp_14 -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet_com-fp16-none-3_480_288-vacc/modnet_com  -i 1 -b 1 -p 1
+# ./vamp_14 -m /home/simplew/code/model_check/seg/MODNet/deploy_weights/modnet_com-int8-kl_divergence-3_480_288-vacc/modnet_com  -i 1 -b 1 -p 1

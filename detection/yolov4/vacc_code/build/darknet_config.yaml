@@ -1,0 +1,66 @@
+model:
+  name: yolov4
+  inputs:
+    input:
+    - 1
+    - 3
+    - 416
+    - 416
+  checkpoint: models/yolov4.weights
+engine:
+  type: vacc
+  dtype: fp16
+  common:
+    data_transport_mode: 3
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: yolov4_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      anchor:
+      - 12
+      - 16
+      - 19
+      - 36
+      - 40
+      - 28
+      - 36
+      - 75
+      - 76
+      - 55
+      - 72
+      - 146
+      - 142
+      - 110
+      - 192
+      - 243
+      - 459
+      - 401
+      strides:
+      - 8
+      - 16
+      - 32
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+dataset:
+  path: datasets/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 416
+    - 416
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true

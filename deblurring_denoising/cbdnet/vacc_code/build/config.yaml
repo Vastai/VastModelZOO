@@ -1,0 +1,97 @@
+model:
+  name: cbdnet
+  inputs:
+    input: [1, 3, 256, 256]
+  checkpoint: checkpoint.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/dataset/denoise/SIDD/val/input
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# vamp -m /home/simplew/code/vastmodelzoo/1226/algorithm_modelzoo/deploy_weights/cbdnet-int8-max-1_3_256_256-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/1226/algorithm_modelzoo/deblurring_denoising/cbdnet/vacc_code/vdsp_params/pytorch-cbdnet-vdsp_params.json -i 1 p 1 -b 1 
+# --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# [max_batch_size_]: 5
+# [input_count]: 1
+# input[0]: [3,256,256], dtype:u1
+# [output_count]: 1
+# output[0]: [1,3,256,256], dtype:f2
+
+# *** number of instances in each device:1 ****
+# Inference start time: [2024-01-04 14:05:14]
+# Inference end time: [2024-01-04 14:05:15]
+# number of samples in each process: 1024
+# number of process:1
+
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   samples: 1024
+#   forwad time (s): 1.31991
+#   throughput (qps): 775.808
+#   ai utilize (%): 96.4176
+#   die memory used (MB): 1356.75
+#   e2e latency (us):
+#     avg latency: 21697
+#     min latency: 1883
+#     max latency: 21965
+#   model latency (us):
+#     avg latency: 1241
+#     min latency: 1241
+#     max latency: 1241
+
+# vamp -m /home/simplew/code/vastmodelzoo/1226/algorithm_modelzoo/deploy_weights/cbdnet-fp16-none-1_3_256_256-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/1226/algorithm_modelzoo/deblurring_denoising/cbdnet/vacc_code/vdsp_params/pytorch-cbdnet-vdsp_params.json -i 1 p 1 -b 1 
+# --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# [max_batch_size_]: 2
+# [input_count]: 1
+# input[0]: [3,256,256], dtype:u1
+# [output_count]: 1
+# output[0]: [1,3,256,256], dtype:f2
+
+# *** number of instances in each device:1 ****
+# Inference start time: [2024-01-04 14:02:09]
+# Inference end time: [2024-01-04 14:02:14]
+# number of samples in each process: 1024
+# number of process:1
+
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   samples: 1024
+#   forwad time (s): 4.8147
+#   throughput (qps): 212.682
+#   ai utilize (%): 96.9891
+#   die memory used (MB): 1372.72
+#   e2e latency (us):
+#     avg latency: 79259
+#     min latency: 28144
+#     max latency: 93870
+#   model latency (us):
+#     avg latency: 4559
+#     min latency: 4559
+#     max latency: 4559

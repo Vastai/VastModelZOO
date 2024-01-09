@@ -1,0 +1,76 @@
+model:
+  name: yolor
+  inputs:
+    input:
+    - 1
+    - 3
+    - 640
+    - 640
+  checkpoint: yolor-d6.torchscript.pt
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: yolov5_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.45
+      confidence_threshold: 0.25
+      anchor:
+      - 19
+      - 27
+      - 44
+      - 40
+      - 38
+      - 94
+      - 96
+      - 68
+      - 86
+      - 152
+      - 180
+      - 137
+      - 140
+      - 301
+      - 303
+      - 264
+      - 238
+      - 542
+      - 436
+      - 615
+      - 739
+      - 380
+      - 925
+      - 792
+      strides:
+      - 8
+      - 16
+      - 32
+      - 64
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+dataset:
+  path: /path/to/datasets/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 10
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 640
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true

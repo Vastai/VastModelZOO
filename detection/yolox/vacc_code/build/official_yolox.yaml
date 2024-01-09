@@ -1,0 +1,46 @@
+model:
+  name: yolox_s
+  inputs:
+    input:
+    - 1
+    - 3
+    - 640
+    - 640
+  checkpoint: yolox/onnx/official/yolox_s-640.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 3
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: yolox_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.45
+      confidence_threshold: 0.25
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+dataset:
+  path: /home/rzhang/Documents/project/det_data/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 640
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: false
+    norm_type: null
+  - type: ToTensor
+workspace:
+  work_dir: yolox/vacc/official
+  enable_ir: true
+  save_log: true

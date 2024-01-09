@@ -1,0 +1,151 @@
+model:
+  name: ecbsr_plain_2x
+  inputs:
+    input: [1, 1, 1080, 1920]
+  checkpoint: ecbsr_plain_2x-3_1080_1920.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/X2
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2YCrCb
+    - type: Resize
+      size: [1080, 1920]
+    - type: ChannelSplit
+      index: 0
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# 在AI 1.5.2 SP2环境下int8 和 fp16均ok
+
+# 与其它大尺寸超分模型不同，`enable_graph_partition`量化参数`不能`设置为True
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/sr/ECBSR/deploy_weights/model_ecbsr_jit-int8-percentile-1_1_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/super_resolution/ecbsr/vacc_code/vdsp_params/official-plain-vdsp_params.json -i 1 -p 1 -b 1 --datalist /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/npz_datalist.txt --path_output npz_output
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/sr/ECBSR/deploy_weights/model_ecbsr_jit-int8-percentile-1_1_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/super_resolution/ecbsr/vacc_code/vdsp_params/official-plain-vdsp_params.json -i 1 -p 1 -b 1
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.8649
+#   temperature (°C): 48.943
+#   card power (W): 31.3268
+#   die memory used (MB): 1516.57
+#   throughput (qps): 81.5982
+#   e2e latency (us):
+#     avg latency: 30605
+#     min latency: 15839
+#     max latency: 40253
+#     p50 latency: 27758
+#     p90 latency: 36881
+#     p95 latency: 36950
+#     p99 latency: 37072
+#   model latency (us):
+#     avg latency: 30558
+#     min latency: 15792
+#     max latency: 40212
+#     p50 latency: 27745
+#     p90 latency: 36834
+#     p95 latency: 36900
+#     p99 latency: 37020
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/sr/ECBSR/deploy_weights/model_ecbsr_jit-fp16-none-1_1_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/super_resolution/ecbsr/vacc_code/vdsp_params/official-plain-vdsp_params.json -i 1 -p 1 -b 1
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.9318
+#   temperature (°C): 49.7983
+#   card power (W): 34.3038
+#   die memory used (MB): 1580.57
+#   throughput (qps): 69.1445
+#   e2e latency (us):
+#     avg latency: 36191
+#     min latency: 18735
+#     max latency: 47783
+#     p50 latency: 42042
+#     p90 latency: 43777
+#     p95 latency: 43924
+#     p99 latency: 44244
+#   model latency (us):
+#     avg latency: 36143
+#     min latency: 18681
+#     max latency: 47726
+#     p50 latency: 41976
+#     p90 latency: 43730
+#     p95 latency: 43878
+#     p99 latency: 44192
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/sr/ECBSR/deploy_weights/model_plain_jit-int8-percentile-1_1_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/super_resolution/ecbsr/vacc_code/vdsp_params/official-plain-vdsp_params.json -i 1 -p 1 -b 1
+# model input shape 0: [3,1080,1920], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.9018
+#   temperature (°C): 49.1461
+#   card power (W): 31.4001
+#   die memory used (MB): 1516.29
+#   throughput (qps): 81.5821
+#   e2e latency (us):
+#     avg latency: 30608
+#     min latency: 15915
+#     max latency: 40200
+#     p50 latency: 27915
+#     p90 latency: 36888
+#     p95 latency: 36942
+#     p99 latency: 37039
+#   model latency (us):
+#     avg latency: 30561
+#     min latency: 15873
+#     max latency: 40153
+#     p50 latency: 27849
+#     p90 latency: 36840
+#     p95 latency: 36894
+#     p99 latency: 36984
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/sr/ECBSR/deploy_weights/model_plain_jit-fp16-none-1_1_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0828/algorithm_modelzoo/super_resolution/ecbsr/vacc_code/vdsp_params/official-plain-vdsp_params.json -i 1 -p 1 -b 1
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.947
+#   temperature (°C): 49.7054
+#   card power (W): 34.19
+#   die memory used (MB): 1580.57
+#   throughput (qps): 69.1167
+#   e2e latency (us):
+#     avg latency: 36204
+#     min latency: 18866
+#     max latency: 47633
+#     p50 latency: 42401
+#     p90 latency: 43846
+#     p95 latency: 43953
+#     p99 latency: 44222
+#   model latency (us):
+#     avg latency: 36157
+#     min latency: 18807
+#     max latency: 47579
+#     p50 latency: 42347
+#     p90 latency: 43798
+#     p95 latency: 43925
+#     p99 latency: 44190

@@ -1,0 +1,75 @@
+model:
+  name: stdc1
+  inputs:
+    input: [1, 3, 512, 512]
+  checkpoint: stdc1.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    
+dataset:
+  path: /home/simplew/dataset/seg/cityscapes/quant
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp_14 -m /home/simplew/code/model_check/seg/STDC-Seg/deploy_weights/model_maxmIOU501-int8-percentile-3_512_512-vacc/model_maxmIOU501 --vdsp_params /home/simplew/code/model_check/seg/STDC-Seg/vacc_code/vdsp_params/official-stdc1-vdsp_params.json --datalist /home/simplew/dataset/seg/cityscapes/npz_datalist.txt --path_output ./outputs -i 1 -b 1 -p 1
+# ./vamp_14 -m /home/simplew/code/model_check/seg/STDC-Seg/deploy_weights/model_maxmIOU501-fp16-none-3_512_512-vacc/model_maxmIOU501 --vdsp_params /home/simplew/code/model_check/seg/STDC-Seg/vacc_code/vdsp_params/official-stdc1-vdsp_params.json --datalist /home/simplew/dataset/seg/cityscapes/npz_datalist.txt --path_output ./outputs -i 1 -b 1 -p 1
+
+
+# ./vamp_14 -m /home/simplew/code/model_check/seg/STDC-Seg/deploy_weights/model_maxmIOU50-int8-kl_divergence-3_512_512-vacc/model_maxmIOU50 -i 4 -b 1 -p 1
+
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch szie: 1
+#   ai utilize (%): 32.4726
+#   temperature (°C): 44.939
+#   card power (W): 29.2731
+#   die memory used (MB): 1198.29
+#   throughput (qps): 45.5098
+
+# - number of instances in each device: 4
+#   devices: [0]
+#   batch szie: 1
+#   ai utilize (%): 64.5377
+#   temperature (°C): 44.6602
+#   card power (W): 29.9253
+#   die memory used (MB): 1252.76
+#   throughput (qps): 90.9602
+
+
+# cluster_mode: 1
+# ./vamp_14 -m /home/simplew/code/model_check/seg/STDC-Seg/deploy_weights/model_maxmIOU501-int8-percentile-3_512_512-vacc/model_maxmIOU501 -i 1 -b 1 -p 1
+
+
+# ./vamp_14 -m /home/simplew/code/model_check/seg/STDC-Seg/deploy_weights/bisenet-int8-kl_divergence-3_512_512-vacc/bisenet -i 1 -b 1 -p 1
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch szie: 1
+#   ai utilize (%): 9.88608
+#   temperature (°C): 44.5957
+#   card power (W): 29.7751
+#   die memory used (MB): 1198.27
+#   throughput (qps): 84.0192

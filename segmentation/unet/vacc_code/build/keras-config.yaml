@@ -1,0 +1,39 @@
+model:
+  name: unet
+  inputs:
+    input_1: [1, 3, 256, 256]
+  checkpoint: unet-256.h5
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/keras_unet/data/membrane/test
+  sampler:
+    suffix: null
+    get_data_num: 1000
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
+
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/model_check/keras_unet/deploy_weights/unet_membrane_3-int8-percentile-3_256_256-vacc/unet_membrane_3 --vdsp_params /home/simplew/code/model_check/keras_unet/vacc_code/vdsp_params/keras-unet-vdsp_params.json --datalist /home/simplew/code/model_check/keras_unet/npz_datalist.txt --path_output ./outputs/unet -i 1 -b 1 -p 1 -s [3,256,256]
+# ./vamp -m /home/simplew/code/model_check/keras_unet/deploy_weights/unet_membrane_3-fp16-none-3_256_256-vacc/unet_membrane_3 --vdsp_params /home/simplew/code/model_check/keras_unet/vacc_code/vdsp_params/keras-unet-vdsp_params.json --datalist /home/simplew/code/model_check/keras_unet/npz_datalist.txt --path_output ./outputs/unet -i 1 -b 1 -p 1 -s [3,256,256]

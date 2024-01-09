@@ -1,0 +1,70 @@
+model:
+  name: NCNet
+  inputs:
+    input: [1, 3, 1080, 1920]
+  checkpoint: ncnet.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/X2/
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [1080, 1920]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# """
+# fp16 run会导致死机
+# int8 runmodel build error: Segmentation fault
+
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+
+# ./vamp_2.1.0 -m /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/deploy_weights/ncnet_model_best-int8-max-1_3_1080_1920-vacc/mod --
+# vdsp_params /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/super_resolution/rcan/vacc_code/vdsp_params/official-rcan-vdsp_params.json -i 1 p 1 -b 1 
+# model input shape 0: [3,1080,1920], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 93.5597
+#   temperature (°C): 46.2237
+#   card power (W): 36.3562
+#   die memory used (MB): 1676.69
+#   throughput (qps): 34.1024
+#   e2e latency (us):
+#     avg latency: 73148
+#     min latency: 36641
+#     max latency: 95027
+#     p50 latency: 65792
+#     p90 latency: 87857
+#     p95 latency: 87884
+#     p99 latency: 87957
+#   model latency (us):
+#     avg latency: 73101
+#     min latency: 36589
+#     max latency: 94976
+#     p50 latency: 65737
+#     p90 latency: 87807
+#     p95 latency: 87835
+#     p99 latency: 87893

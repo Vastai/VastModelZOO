@@ -1,0 +1,51 @@
+### step.1 获取预训练模型
+
+1. v6.1
+
+    基于分支v6.0/v6.1通过原始项目提供的脚本[export.py](https://github.com/ultralytics/yolov5/blob/v6.1/export.py)转换至torchscript或onnx模型
+
+2. v7.0
+
+    基于分支v7.0可以修改项目中[此行代码](https://github.com/ultralytics/yolov5/blob/v7.0/models/yolo.py#L79)如下
+    ```python
+    return torch.cat(z, 1), x
+    ```
+    然后运行如下命令转换生成onnx模型
+    ```bash
+    python export.py --weights yolov5s.pt --include onnx 
+    ```
+
+### step.2 准备数据集
+- 准备[COCO](https://cocodataset.org/#download)数据集
+
+### step.3 模型转换
+
+1. 获取vamc模型转换工具
+
+2. 根据具体模型修改模型转换配置文件[config_ultralytics.yaml](../vacc_code/build/config_ultralytics.yaml)：
+    ```bash
+    vamc build ../vacc_code/build/config_ultralytics.yaml
+    ```
+
+### step.4 性能精度
+1. 获取vamp性能测试工具
+2. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
+    ```bash
+    python ../../common/utils/image2npz.py --dataset_path path/to/coco_val2017 --target_path  path/to/coco_val2017_npz  --text_path npz_datalist.txt
+    ```
+3. 性能测试
+    ```bash
+    vamp -m deploy_weights/yolo5s-int8-kl_divergence-3_640_640-vacc/yolo5s --vdsp_params ../vacc_code/vdsp_params/ultralytics-yolo5s-vdsp_params.json -i 2 p 2 -b 1
+    ```
+4. npz结果输出
+    ```bash
+    vamp -m deploy_weights/yolo5s-int8-kl_divergence-3_640_640-vacc/yolo5s --vdsp_params ../vacc_code/vdsp_params/ultralytics-yolo5s-vdsp_params.json -i 2 p 2 -b 1 --datalist datasets/coco_npz_datalist.txt --path_output npz_output
+    ```
+5. [vamp_decode.py](../vacc_code/vdsp_params/vamp_decode.py)，解析vamp输出的npz文件，进行绘图和保存txt结果
+    ```bash
+    python ../vacc_code/vdsp_params/vamp_decode.py --txt result_npz --label_txt datasets/coco.txt --input_image_dir datasets/coco_val2017 --model_size 640 640 --vamp_datalist_path datasets/coco_npz_datalist.txt --vamp_output_dir npz_output
+    ```
+6. [eval_map.py](../../common/eval/eval_map.py)，精度统计，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
+   ```bash
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt path/to/vamp_draw_output
+   ```

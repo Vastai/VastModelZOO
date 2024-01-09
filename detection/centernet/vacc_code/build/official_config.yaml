@@ -1,0 +1,48 @@
+model:
+  name: centernet_res18
+  inputs:
+    input:
+    - 1
+    - 3
+    - 512
+    - 512
+  checkpoint: centernet_res18-512.onnx
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    cluster_mode: 0
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+dataset:
+  path: /home/simplew/code/eval/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 500
+  transform_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 512
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    mean:
+    - 0.485
+    - 0.456
+    - 0.406
+    std:
+    - 0.229
+    - 0.224
+    - 0.225
+  - type: ToTensor
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true

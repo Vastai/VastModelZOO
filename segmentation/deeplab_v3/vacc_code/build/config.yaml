@@ -1,0 +1,39 @@
+model:
+  name: deeplab_v3_resnet50
+  inputs:
+    input: [1, 3, 513, 513]
+  checkpoint: deeplab_v3_resnet50-513.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/dataset/seg/VOCdevkit/VOC2012/JPEGImages_val
+  sampler:
+    suffix: jpg
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [513, 513]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/modelzoo/0314/vastmodelzoo/deploy_weights/deeplab_v3_plus_mobilenet-fp16-none-3_513_513-vacc/deeplab_v3_plus_mobilenet --vdsp_params /home/simplew/code/modelzoo/0314/vastmodelzoo/segmentation/deeplab_v3/vacc_code/vdsp_params/vainf-deeplab_v3_plus_mobilenet-vdsp_params.json --datalist /home/simplew/code/modelzoo/0314/vastmodelzoo/npz_datalist.txt --path_output ./outputs/deeplab_v3_mobilenet -i 1 -b 1 -p 1 -s [3,513,513]
+# ./vamp -m /home/simplew/code/modelzoo/0314/vastmodelzoo/deploy_weights/deeplab_v3_plus_mobilenet-int8-kl_divergence-3_513_513-vacc/deeplab_v3_plus_mobilenet --vdsp_params /home/simplew/code/modelzoo/0314/vastmodelzoo/segmentation/deeplab_v3/vacc_code/vdsp_params/vainf-deeplab_v3_plus_mobilenet-vdsp_params.json --datalist /home/simplew/code/modelzoo/0314/vastmodelzoo/npz_datalist.txt --path_output ./outputs/deeplab_v3_mobilenet -i 1 -b 1 -p 1 -s [3,513,513]

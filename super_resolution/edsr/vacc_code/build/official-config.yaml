@@ -1,0 +1,41 @@
+model:
+  name: EDSR_x2
+  inputs:
+    input: [1, 3, 256, 256]
+  checkpoint: edsr_x2.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/X2
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: ToTensor
+
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/model_check/SR/sr/EDSR-PyTorch/deploy_weights/edsr_baseline_x2-int8-kl_divergence-3_256_256-vacc/edsr_baseline_x2 --vdsp_params /home/simplew/code/vastmodelzoo/0331/vastmodelzoo/super_resolution/edsr/vacc_code/vdsp_params/official-edsr_baseline_x2-vdsp_params.json  --datalist /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/npz_datalist_X2.txt --path_output ./outputs/edsr -i 1 -p 1 -b 1  -s [3,256,256]
+
+# ./vamp -m /home/simplew/code/model_check/SR/sr/EDSR-PyTorch/deploy_weights/EDSR_x2-int8-kl_divergence-3_256_256-vacc/EDSR_x2 --vdsp_params /home/simplew/code/vastmodelzoo/0331/vastmodelzoo/super_resolution/edsr/vacc_code/vdsp_params/official-edsr_x2-vdsp_params.json  --datalist /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/npz_datalist_X2.txt --path_output ./outputs/edsr -i 1 -p 1 -b 1  -s [3,256,256]
+

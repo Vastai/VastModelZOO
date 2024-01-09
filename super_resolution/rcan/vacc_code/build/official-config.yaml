@@ -1,0 +1,118 @@
+model:
+  name: RCAN
+  inputs:
+    input: [1, 3, 1080, 1920]
+  checkpoint: rcan.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/BasicSR/datasets/DIV2K/DIV2K_valid_LR_bicubic/X2/
+  sampler:
+    suffix: null
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [1080, 1920]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# """
+# fp16  run会导致死机
+# runmodel build error: Segmentation fault
+
+# runmodel int8
+# free_var %subst0: Tensor[(1, 4, 1080, 1920), int8]
+# strided_slice(%subst0, begin=[0, 0, 0, 1968], end=[1, 4, 144, 1920], strides=[], slice_mode="12-22-0-48-48-0-21") an internal invariant was violated while typechecking your program [10:07:59] /jenkins/workspace/02_SW_DEV_AI_automation_test_daily/ai-compiler-test-scripts/vastai/vaststream/tvm/src/relay/op/tensor/transform.cc:2152: Check failed: begin_v < end_v (1968 vs. 1920) : strided_slice get empty slice at axis 3; 
+
+# 03/07/2023 10:08:00 - vamc - ERROR    - err info: 
+# Traceback (most recent call last):
+#   File "/home/simplew/code/080101_latest/0222_1.3.0_SR4k/package/tvm/python/tvm/_ffi/_ctypes/function.py", line 207, in __call__
+#     raise get_last_ffi_error()
+# tvm._ffi.base.TVMError:   File "error.cc", line 143
+# TVMError: 
+# Error(s) have occurred. The program has been annotated with them:
+
+# In `main`: 
+# ---------------------subgraph(1/1)---------------------
+# free_var %subst0: Tensor[(1, 4, 1080, 1920), int8]
+# strided_slice(%subst0, begin=[0, 0, 0, 1968], end=[1, 4, 144, 1920], strides=[], slice_mode="12-22-0-48-48-0-21") an internal invariant was violated while typechecking your program [10:07:59] /jenkins/workspace/02_SW_DEV_AI_automation_test_daily/ai-compiler-test-scripts/vastai/vaststream/tvm/src/relay/op/tensor/transform.cc:2152: Check failed: begin_v < end_v (1968 vs. 1920) : strided_slice get empty slice at axis 3; 
+
+# """
+
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+
+# ./vamp_2.1.0 -m /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/deploy_weights/2216_128_model_best-int8-max-1_3_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/super_resolution/rcan/vacc_code/vdsp_params/official-rcan-vdsp_params.json -i 1 p 1 -b 1 
+# --datalist /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# model input shape 0: [3,1080,1920], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.381
+#   temperature (°C): 48.5141
+#   card power (W): 36.9088
+#   die memory used (MB): 1708.98
+#   throughput (qps): 36.1415
+#   e2e latency (us):
+#     avg latency: 69068
+#     min latency: 35048
+#     max latency: 90097
+#     p50 latency: 62426
+#     p90 latency: 83008
+#     p95 latency: 83048
+#     p99 latency: 83121
+#   model latency (us):
+#     avg latency: 69019
+#     min latency: 34996
+#     max latency: 90050
+#     p50 latency: 62369
+#     p90 latency: 82954
+#     p95 latency: 82991
+#     p99 latency: 83058
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/deploy_weights/2216_128_model_best-int8-max-1_3_1080_1920-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0818/algorithm_modelzoo/super_resolution/rcan/vacc_code/vdsp_params/official-rcan-vdsp_params.json -i 2 p 1 -b 1
+# model input shape 0: [3,1080,1920], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 2
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 94.4871
+#   temperature (°C): 46.6082
+#   card power (W): 36.819
+#   die memory used (MB): 2142.22
+#   throughput (qps): 40.0713
+#   e2e latency (us):
+#     avg latency: 144288
+#     min latency: 35060
+#     max latency: 221249
+#     p50 latency: 165582
+#     p90 latency: 192943
+#     p95 latency: 193437
+#     p99 latency: 193622
+#   model latency (us):
+#     avg latency: 144249
+#     min latency: 34993
+#     max latency: 221169
+#     p50 latency: 165556
+#     p90 latency: 192915
+#     p95 latency: 193405
+#     p99 latency: 193572

@@ -1,0 +1,43 @@
+model:
+  name: vdsr
+  inputs:
+    input: [1, 1, 256, 256]
+  checkpoint: vdsr-256.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/model_check/SR/sr/pytorch-vdsr/Set5_BMP/scale_4
+  sampler:
+    suffix: bmp
+    get_data_num: 5
+  transform_ops:
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2YCrCb
+    - type: Resize
+      size: [256, 256]
+    - type: ChannelSplit
+      index: 0
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/deploy_weights/vdsr-fp16-none-1_256_256-vacc/vdsr --vdsp_params /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/super_resolution/vdsr/vacc_code/vamp_info/pytorch-vdsr-vdsp_params.json --datalist /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/npz_datalist.txt --path_output ./outputs/drrn -i 1 -b 1 -p 1 -s [1,256,256]
+# ./vamp -m /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/deploy_weights/vdsr-int8-kl_divergence-1_256_256-vacc/vdsr --vdsp_params /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/super_resolution/vdsr/vacc_code/vamp_info/pytorch-vdsr-vdsp_params.json --datalist /home/simplew/code/vastmodelzoo/0324/vastmodelzoo/npz_datalist.txt --path_output ./outputs/drrn -i 1 -b 1 -p 1 -s [1,256,256]

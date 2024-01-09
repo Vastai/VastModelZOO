@@ -1,0 +1,92 @@
+model:
+  name: bisenet
+  inputs:
+    input: [1, 3, 512, 512]
+  checkpoint: bisenet_2class-512.torchscript.pt
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/dataset/sr/CelebAMask-HQ/bisegnet_test_img
+  sampler:
+    suffix: jpg
+    get_data_num: 100
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/0.2.0
+# ./vamp -m /home/simplew/code/vastmodelzoo/0613/algorithm_modelzoo/deploy_weights/bisenet-int8-kl_divergence-3_512_512-vacc/bisenet -i 1 p 1 -b 1
+# model input shape 0: [3,512,512], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch szie: 1
+#   ai utilize (%): 12.1867
+#   temperature (°C): 42.9231
+#   card power (W): 22.7904
+#   die memory used (MB): 1393.25
+#   throughput (qps): 88.0774
+#   e2e latency (us):
+#     avg latency: 27736
+#     min latency: 13589
+#     max latency: 39024
+#     p50 latency: 28110
+#     p90 latency: 33144
+#     p95 latency: 33797
+#     p99 latency: 35029
+#   model latency (us):
+#     avg latency: 23103
+#     min latency: 13415
+#     max latency: 38062
+#     p50 latency: 23026
+#     p90 latency: 23881
+#     p95 latency: 24423
+#     p99 latency: 26264
+
+
+#  ./vamp_410 -m /home/simplew/code/vastmodelzoo/0613/algorithm_modelzoo/deploy_weights/bisenet_2class_quchu_cloth-int8-kl_divergence-3_512_512-vacc/bisenet_2class_quchu_cloth -i 1 p 1 -b 1
+
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 36.6923
+#   temperature (°C): 49.7415
+#   card power (W): 35.3444
+#   die memory used (MB): 0
+#   throughput (qps): 517.006
+#   e2e latency (us):
+#     avg latency: 4740
+#     min latency: 2816
+#     max latency: 6082
+#     p50 latency: 5198
+#     p90 latency: 5528
+#     p95 latency: 5611
+#     p99 latency: 5848
+#   model latency (us):
+#     avg latency: 4077
+#     min latency: 2730
+#     max latency: 5894
+#     p50 latency: 3926
+#     p90 latency: 5185
+#     p95 latency: 5447
+#     p99 latency: 5586
