@@ -1,0 +1,151 @@
+model:
+  name: MIMO-UNet
+  inputs:
+    input: [1, 3, 360, 640] # [1, 3, 720, 1280] [1, 3, 360, 640]
+  checkpoint: weights/MIMO-UNet360_640dynamicbilinear.onnx
+
+engine:
+  type: vacc
+  dtype: int8
+  common:
+    data_transport_mode: 1
+    force_tiny_oc_1x1_to_3x3: True
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  path: GoPro/test/input
+  sampler:
+    suffix: null
+    get_data_num: 50
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [360, 640]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/deblur_denoise/MIMO-UNet/deploy_weights/MIMO-UNet-fp16-none-1_3_360_640-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deblurring_denoising/mimo_unet/vacc_code/vdsp_params/official-mimo_unet-vdsp_params.json -i 1 p 1 -b 1 --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# model input shape 0: [3,360,640], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 90.4339
+#   temperature (°C): 57.0485
+#   card power (W): 55.869
+#   die memory used (MB): 1420.88
+#   throughput (qps): 22.7082
+#   e2e latency (us):
+#     avg latency: 109891
+#     min latency: 45215
+#     max latency: 132954
+#     p50 latency: 89053
+#     p90 latency: 132213
+#     p95 latency: 132392
+#     p99 latency: 132679
+#   model latency (us):
+#     avg latency: 109838
+#     min latency: 45173
+#     max latency: 132903
+#     p50 latency: 89011
+#     p90 latency: 132157
+#     p95 latency: 132336
+#     p99 latency: 132631
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/deblur_denoise/MIMO-UNet/deploy_weights/MIMO-UNet-int8-percentile-1_3_360_640-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deblurring_denoising/mimo_unet/vacc_code/vdsp_params/official-mimo_unet-vdsp_params.json -i 1 p 1 -b 1 
+# model input shape 0: [3,360,640], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 93.5311
+#   temperature (°C): 46.7177
+#   card power (W): 40.2804
+#   die memory used (MB): 1292.98
+#   throughput (qps): 29.7627
+#   e2e latency (us):
+#     avg latency: 83825
+#     min latency: 34574
+#     max latency: 101531
+#     p50 latency: 68048
+#     p90 latency: 100714
+#     p95 latency: 100764
+#     p99 latency: 100841
+#   model latency (us):
+#     avg latency: 83773
+#     min latency: 34522
+#     max latency: 101475
+#     p50 latency: 67995
+#     p90 latency: 100664
+#     p95 latency: 100703
+#     p99 latency: 100791
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deploy_weights/MIMO-UNetPlus-fp16-none-1_3_360_640-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deblurring_denoising/mimo_unet/vacc_code/vdsp_params/official-mimo_unet-vdsp_params.json -i 1 p 1 -b 1 --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# model input shape 0: [3,360,640], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 84.6422
+#   temperature (°C): 57.1006
+#   card power (W): 57.8757
+#   die memory used (MB): 1453.07
+#   throughput (qps): 11.5427
+#   e2e latency (us):
+#     avg latency: 216292
+#     min latency: 87562
+#     max latency: 261343
+#     p50 latency: 174403
+#     p90 latency: 260146
+#     p95 latency: 260406
+#     p99 latency: 260790
+#   model latency (us):
+#     avg latency: 216236
+#     min latency: 87511
+#     max latency: 261322
+#     p50 latency: 174292
+#     p90 latency: 260085
+#     p95 latency: 260353
+#     p99 latency: 260736
+
+# ./vamp_2.1.0 -m /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deploy_weights/MIMO-UNetPlus-int8-percentile-1_3_360_640-vacc/mod --vdsp_params /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deblurring_denoising/mimo_unet/vacc_code/vdsp_params/official-mimo_unet-vdsp_params.json -i 1 p 1 -b 1 --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/npz_datalist.txt --path_output ./outputs
+# model input shape 0: [3,360,640], dtype: u1
+# load model and init graph done
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 90.3441
+#   temperature (°C): 51.9829
+#   card power (W): 47.5735
+#   die memory used (MB): 1293.28
+#   throughput (qps): 22.7453
+#   e2e latency (us):
+#     avg latency: 109702
+#     min latency: 44942
+#     max latency: 132505
+#     p50 latency: 90311
+#     p90 latency: 131801
+#     p95 latency: 131850
+#     p99 latency: 131959
+#   model latency (us):
+#     avg latency: 109650
+#     min latency: 44933
+#     max latency: 132496
+#     p50 latency: 90245
+#     p90 latency: 131749
+#     p95 latency: 131797
+#     p99 latency: 131888
