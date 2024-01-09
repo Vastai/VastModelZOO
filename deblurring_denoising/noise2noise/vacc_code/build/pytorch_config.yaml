@@ -1,0 +1,90 @@
+model:
+  name: gaussian_dynamic
+  inputs:
+    input: [1, 3, 256, 256]
+  checkpoint: ckpts/gaussian/n2n-gaussian.torchscript.pt
+
+engine:
+  type: debug
+  dtype: int8
+  common:
+    data_transport_mode: 1
+  add_extra_ops_to_graph:
+    type: null
+  calibration:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/deploy_weights/SIDD/lr_sigma-25
+  sampler:
+    suffix: null
+    get_data_num: 50
+  transform_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [256, 256]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+
+# cd /home/simplew/code/vamc/vamp/2.1.0
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/deblur_denoise/noise2noise-pytorch/deploy_weights/gaussian_dynamic-fp16-none-1_3_256_256-vacc/mod --vdsp_params /home/simplew/code/model_check/SR/deblur_denoise/noise2noise-pytorch/noise2noise/vacc_code/vdsp_params/pytorch-noise2noise-vdsp_params.json -i 1 p 1 -b 1 --datalist /home/simplew/code/vastmodelzoo/0914/algorithm_modelzoo/idr_npz_datalist.txt --path_output ./outputs
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 95.125
+#   temperature (°C): 48.9519
+#   card power (W): 64.3675
+#   die memory used (MB): 1164.73
+#   throughput (qps): 533.794
+#   e2e latency (us):
+#     avg latency: 4587
+#     min latency: 2458
+#     max latency: 6020
+#     p50 latency: 4229
+#     p90 latency: 5528
+#     p95 latency: 5556
+#     p99 latency: 5608
+#   model latency (us):
+#     avg latency: 4541
+#     min latency: 2404
+#     max latency: 5953
+#     p50 latency: 4166
+#     p90 latency: 5481
+#     p95 latency: 5503
+#     p99 latency: 5551
+
+
+# ./vamp_2.1.0 -m /home/simplew/code/model_check/SR/deblur_denoise/noise2noise-pytorch/deploy_weights/gaussian_dynamic-int8-kl_divergence-1_3_256_256-vacc/mod --vdsp_params /home/simplew/code/model_check/SR/deblur_denoise/noise2noise-pytorch/noise2noise/vacc_code/vdsp_params/pytorch-noise2noise-vdsp_params.json -i 1 p 1 -b 1
+# - number of instances in each device: 1
+#   devices: [0]
+#   batch size: 1
+#   ai utilize (%): 97.25
+#   temperature (°C): 44.03
+#   card power (W): 60.2181
+#   die memory used (MB): 1164.99
+#   throughput (qps): 1840.61
+#   e2e latency (us):
+#     avg latency: 1291
+#     min latency: 952
+#     max latency: 4227
+#     p50 latency: 1395
+#     p90 latency: 1558
+#     p95 latency: 1580
+#     p99 latency: 1619
+#   model latency (us):
+#     avg latency: 1278
+#     min latency: 940
+#     max latency: 4210
+#     p50 latency: 1390
+#     p90 latency: 1543
+#     p95 latency: 1564
+#     p99 latency: 1594
