@@ -223,7 +223,7 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 3. Eval
 
     - 使用前述已启动的vllm openapi服务
-    - 配置数据集和模型服务: [eval/eval_ds.py](./eval/eval_ds.py)
+    - 配置数据集和模型服务: [eval/eval_ds.py](./pytorch/eval/eval_ds.py)
 
     ```bash
     # 设置精度测试数据集: cluewsc + math_500 + mmlu
