@@ -1,0 +1,38 @@
+name: llm
+frontend:
+  checkpoint: meta-llama/Llama-2-7b-hf
+  type: huggingface
+  shape:
+    input_ids: [[512], [1024]]
+  quantize:
+    type: w8a16_gptq
+    device: cuda:5
+    calib_args:
+      true_sequential: false
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  merge_params: true
+  compile:
+    data_type: 0
+
+dataset:
+  type: huggingface
+  nsamples: 128
+
+  # name: c4
+  # path: allenai/c4
+  # seqlen: 1024
+
+  # name: ceval
+  # path: quant_model/ceval/ceval-exam
+  # seqlen: 128
+
+  name: alpaca
+  path: /path/to/en_alpaca_data.json
+  seqlen: 512
+
+workspace:
+  path: vamc_results
+  workers: 1
