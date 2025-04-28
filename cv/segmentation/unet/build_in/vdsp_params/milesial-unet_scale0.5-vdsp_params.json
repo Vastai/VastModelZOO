@@ -1,0 +1,25 @@
+{
+    "OpType": "FUSION_OP_RGB_RESIZE_CVTCOLOR_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "RGB_PLANAR",
+        "IimageWidth": 512,
+        "IimageHeight": 512,
+        "OimageWidth": 512,
+        "OimageHeight": 512,
+        "IimageWidthPitch": 512,
+        "IimageHeightPitch": 512,
+        "Mean": [
+            0.485107421875,
+            0.4560546875,
+            0.406005859375
+        ],
+        "Std": [
+            0.22900390625,
+            0.2239990234375,
+            0.2249755859375
+        ],
+        "NormaType": "DIV255",
+        "ColorCvtCode": "NO_CHANGE",
+        "ResizeType": "BILINEAR_CV"
+    }
+}
