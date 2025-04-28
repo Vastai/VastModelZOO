@@ -1,0 +1,29 @@
+{
+    "OpType": "FUSION_OP_RGB_RESIZE_CVTCOLOR_CROP_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "RGB_PLANAR",
+        "IimageWidth": 341,
+        "IimageHeight": 341,
+        "OimageWidth": 320,
+        "OimageHeight": 320,
+        "CropX": 10,
+        "CropY": 10,
+        "ResizeWidth": 341,
+        "ResizeHeight": 341,
+        "IimageWidthPitch": 341,
+        "IimageHeightPitch": 341,
+        "Mean": [
+            0.485107421875,
+            0.4560546875,
+            0.406005859375
+        ],
+        "Std": [
+            0.22900390625,
+            0.2239990234375,
+            0.2249755859375
+        ],
+        "NormaType": "DIV255_MINUSMEAN_DIVSTD",
+        "ColorCvtCode": "NO_CHANGE",
+        "ResizeType": "BILINEAR_CV"
+    }
+}
