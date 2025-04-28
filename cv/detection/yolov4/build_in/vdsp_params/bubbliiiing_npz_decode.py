@@ -1,3 +1,17 @@
+
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Author :    zpwen
+@Email  :    algorithm@vastaitech.com
+@Time   :    2025/04/24 16:17:38
+'''
+
 import os
 import cv2
 import glob
@@ -147,20 +161,20 @@ if __name__ == "__main__":
     parse.add_argument(
         "--input_image_dir",
         type=str,
-        default="/home/simplew/code/eval/coco_val2017",
+        default="./eval/coco_val2017",
         help="input source image folder",
     )
     parse.add_argument(
         "--vamp_datalist_path",
         type=str,
-        default="/home/simplew/code/eval/npz_datalist_coco_eval.txt",
-        # default="/home/simplew/code/eval/npz_datalist_coco_eval.txt",
+        default="./eval/npz_datalist_coco_eval.txt",
+        # default="./eval/npz_datalist_coco_eval.txt",
         help="vamp datalist folder, set as None in vamc run case",
     )
     parse.add_argument(
         "--vamp_output_dir",
         type=str,
-        default="/home/simplew/code/vamc/vamp/0.2.0/outputs/yolov4",
+        default="./vamc/vamp/0.2.0/outputs/yolov4",
         help="vamp output folder",
     )
     parse.add_argument(
@@ -170,7 +184,7 @@ if __name__ == "__main__":
         help="vdsp_params file path",
     )
     parse.add_argument(
-        "--label_txt", type=str, default="/home/simplew/code/eval/coco.txt", help="label txt"
+        "--label_txt", type=str, default="./eval/coco.txt", help="label txt"
     )
     parse.add_argument(
         "--draw_image", type=bool, default=False, help="save the draw image"
