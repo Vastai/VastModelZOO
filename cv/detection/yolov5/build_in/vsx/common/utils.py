@@ -1,3 +1,17 @@
+
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Author :    zpwen
+@Email  :    algorithm@vastaitech.com
+@Time   :    2025/04/24 16:17:38
+'''
+
 import cv2
 import numpy as np
 import vaststreamx as vsx
