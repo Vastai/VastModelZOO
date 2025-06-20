@@ -133,7 +133,7 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 
 ### step.2 模型推理
 
-1. 参考瀚博训推软件生态链文档，`vllm_vacc`和`torch_vacc`: [vastai_software.md](../../../docs/vastai_software.md)
+1. 参考瀚博训推软件生态链文档，`vllm_vacc`和`torch_vacc`: [vastai_software.md](../../docs/vastai_software.md)
 2. vllm docker
     ```bash
     # 基于开源vllm，构建cpu版本docker镜像
