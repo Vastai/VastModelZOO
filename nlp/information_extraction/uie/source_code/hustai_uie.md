@@ -1,6 +1,6 @@
 ## hustai_uie
 
-### step.1 获取预训练模型
+### step.1 模型准备
 
 1. 克隆github仓库
     ```
@@ -30,12 +30,13 @@
 
 4. 固定输入shape，并简化onnx: 
     ```bash
+    cd export
     python -m onnxsim inference.onnx uie_base.onnx \
     --input-shape input_ids:1,512 token_type_ids:1,512 attention_mask:1,512
     ```
 
 
-### step.2 准备数据集
+### step.2 数据集
 1. 下载原仓库数据集：[doccano_ext.json](https://bj.bcebos.com/paddlenlp/datasets/uie/doccano_ext.json)
 2. 替换上述文件`doccano_ext.json`中的关键词"目的地"为"终点站"，修改后文件：[doccano_ext.json](./doccano_ext.json)
     > 关联源仓库issue：[#issues/37](https://github.com/HUSTAI/uie_pytorch/issues/37)
@@ -56,7 +57,7 @@
   
 
 ### step.3 模型转换
-1. 获取模型转换工具：[vamc 3.x](../../../../docs/vastai_software.md)
+1. 参考瀚博训推软件生态链文档，获取模型转换工具：[vamc 3.x](../../../../docs/vastai_software.md)
 2. 根据具体模型修改配置文件
     - [hustai_uie_base.yaml](../vacc_code/build/hustai_uie_base.yaml)
 3. 执行转换
@@ -67,7 +68,7 @@
 
 ### step.4 模型推理
 
-- 获取模型推理工具：[vaststreamx 2.8.4](../../../../docs/vastai_software.md)
+- 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx 2.8.4](../../../../docs/vastai_software.md)
 - runstream推理示例，参考：[uie_vsx_infer.py](../vacc_code/vsx/python/uie_vsx_infer.py)
   ```bash
   cd ../vacc_code/vsx/python/

@@ -114,6 +114,12 @@
 | [bge]((./nlp/text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
 | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
 
+- information extraction
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+|  [UIE](./nlp/information_extraction/uie/README.md)  |   [uie_pytorch](https://github.com/HUSTAI/uie_pytorch)   |  <details> <summary>model name</summary><ul><li align="left">uie-base</li></ul></details>   | Embedding model  |  Build_In |
+
 </details>
 
 
