@@ -118,7 +118,7 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-|  [UIE](./nlp/information_extraction/uie/README.md)  |   [uie_pytorch](https://github.com/HUSTAI/uie_pytorch)   |  <details> <summary>model name</summary><ul><li align="left">uie-base</li></ul></details>   | Embedding model  |  Build_In |
+|  [uie](./nlp/information_extraction/uie/README.md)  |   [uie_pytorch](https://github.com/HUSTAI/uie_pytorch)   |  <details> <summary>model name</summary><ul><li align="left">uie-base</li></ul></details>   | Information extraction  |  Build_In |
 
 </details>
 
