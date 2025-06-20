@@ -1,5 +1,37 @@
 ## hustai_uie
 
+#### 前置条件
+
+1. 已安装驱动，确认方式 lsmod | grep -i vastai_pci ,  如无显示，请先安装正确版本的驱动，安装说明参考开发者中心文档说明
+    ```bash
+    lsmod | grep -i vastai_pci
+    ```
+
+2. 获取基础运行镜像
+    ```bash
+    docker pull harbor.vastaitech.com/ai_deliver/vamc:latest
+    ```
+
+3. 版本说明
+    - VastStream: v3.0.0
+    - VAMC: 3.3.0
+    - Pytorch: 2.1.0
+    - Driver: V3.3.0
+
+4. 容器启动
+    ```bash
+    docker run --rm -it --privileged harbor.vastaitech.com/ai_deliver/vamc:latest /bin/bash
+    ```
+
+- 声明
+
+    - 本代码仓提到的数据集和模型仅作为示例，这些数据集和模型仅供您用于非商业目的，如您使用这些数据集来完成示例，请您特别注意应遵守对应数据集合模型的License，如您因使用数据集或者模型而产生侵权纠纷，瀚博半导体不承担任何责任。
+
+    - 如您在使用本地代码的过程中，发现任何问题（包括但不限于功能问题、合规问题），请在本代码仓提交issue，我们将及时审视并解答。
+
+
+
+
 ### step.1 模型准备
 
 1. 克隆github仓库
