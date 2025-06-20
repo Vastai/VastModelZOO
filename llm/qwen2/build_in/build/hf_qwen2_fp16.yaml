@@ -1,0 +1,25 @@
+name: Qwen2-7B-fp16-tp4-1024-2048
+
+frontend:
+  checkpoint: /media/vastml/modelzoo/llm/Qwen/Qwen2-7B
+  type: huggingface
+
+  shape:
+    input_ids: [[1024], [2048]]
+
+  model_kwargs:
+    b2s: true
+    tp: 4
+    model_arch: vacc
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  merge_params: true
+  compile:
+    data_type: 0
+    gather_data_vccl_dsp_enable: true
+    
+workspace:
+  path: ./vacc_deploy
+  workers: 4

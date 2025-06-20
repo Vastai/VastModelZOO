@@ -1,0 +1,41 @@
+name: official_unet3p_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 128
+    - 128
+  type: onnx
+  checkpoint: ./onnx/unet3p-3_128_128.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/AutoPortraitMatting/testing/images
+  sampler:
+    suffix: png
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2BGR
+    - type: Resize
+      size: [128, 128]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

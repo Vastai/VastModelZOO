@@ -1,0 +1,28 @@
+name: bce-reranker-base_v1-512-fp16
+
+frontend:
+  checkpoint: onnx_weights/bce/bce-reranker-base_v1-512-sim.onnx
+  shape:
+    input_ids:
+    - 1
+    - 512
+    attention_mask:
+    - 1
+    - 512
+    token_type_ids:
+    - 1
+    - 512
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    cluster_mode: 0
+    data_type: 0
+    # attention_split_num : 4  # for seqlen=2048
+    # attention_split_num : 8  # for seqlen=4096
+    # attention_split_num : 16  # for seqlen=8192
+
+
+workspace:
+  path: ./vacc_deploy

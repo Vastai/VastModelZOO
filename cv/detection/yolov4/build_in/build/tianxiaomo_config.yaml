@@ -1,0 +1,72 @@
+name: tianxiaomo_yolov4_e2e_run_stream_int8
+
+frontend:
+  checkpoint: /path/to/yolov4-416.onnx
+  shape:
+    input: [1, 3, 416, 416]
+  type: onnx
+  dtype: fp32
+
+graph:
+  extra_ops:
+    type: yolov4_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      anchor:
+      - 12
+      - 16
+      - 19
+      - 36
+      - 40
+      - 28
+      - 36
+      - 75
+      - 76
+      - 55
+      - 72
+      - 146
+      - 142
+      - 110
+      - 192
+      - 243
+      - 459
+      - 401
+      strides:
+      - 8
+      - 16
+      - 32
+
+dataset:
+  type: tvm
+  path: /path/to/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 416
+      - -1
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: true
+      norm_type: null
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+  compile:
+    data_transport_mode: 3
+    cluster_mode: 0
+
+workspace:
+  path: ./deploy_weights/

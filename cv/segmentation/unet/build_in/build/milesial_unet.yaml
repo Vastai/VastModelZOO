@@ -1,0 +1,41 @@
+name: milesial_unet_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 512
+    - 512
+  type: onnx
+  checkpoint: ./onnx/unet_scale0.5/unet_scale0.5-512.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+    quantize_dsp_ops: ["vacc_upsampling"]
+
+dataset:
+  type: tvm
+  path: /path/to/carvana/imgs
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+      cv2_flags: 1
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

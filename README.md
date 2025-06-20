@@ -100,17 +100,19 @@
 
 </details>
 
-<details><summary>Text2Vec Models</summary>
+<details><summary>NLP Models</summary>
+
+- Text2Vec
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [bge](./text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li><li align="left">bge-small-zh-v1.5</li><li align="left">bge-base-zh-v1.5</li><li align="left">bge-large-zh-v1.5</li></ul></details> | Embedding model  |  Build_In | 
-| [bce](./text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
+| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li><li align="left">bge-small-zh-v1.5</li><li align="left">bge-base-zh-v1.5</li><li align="left">bge-large-zh-v1.5</li></ul></details> | Embedding model  |  Build_In | 
+| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [bge]((./text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
-| [bce](./text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
+| [bge]((./nlp/text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
+| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
 
 </details>
 

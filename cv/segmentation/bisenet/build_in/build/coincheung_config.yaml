@@ -1,0 +1,35 @@
+name: coincheung_run_stream_int8
+
+frontend:
+  checkpoint: ./torchscript/bisenetv1-736_960.torchscript.pt
+  shape:
+    input: [1, 3, 736, 960]
+  type: pytorch
+  dtype: fp32
+
+dataset:
+  type: tvm
+  path: path/to/cityscapes/leftImg8bit/val/frankfurt
+  sampler:
+    suffix: png
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size: [736, 960]
+    - type: Normalize
+      mean: [0.3257, 0.3690, 0.3223]
+      std: [0.2112, 0.2148, 0.2115]
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+  compile:
+    data_transport_mode: 1
+
+workspace:
+  path: ./deploy_weights

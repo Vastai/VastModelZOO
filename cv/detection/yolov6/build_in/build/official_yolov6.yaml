@@ -1,0 +1,54 @@
+name: official_yolov6_run_stream_int8
+
+frontend:
+  checkpoint: /path/to/yolov6_n-640.onnx
+  shape:
+    images:
+    - 1
+    - 3
+    - 640
+    - 640
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 3
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+graph:
+  extra_ops:
+    extra_ops:
+    type: null
+    params:
+      num_classes: 80
+      nms_threshold: 0.45
+      confidence_threshold: 0.01
+
+dataset:
+  type: tvm
+  path: /path/to/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 640
+      - -1
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: true
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
