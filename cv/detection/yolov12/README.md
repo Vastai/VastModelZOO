@@ -163,51 +163,6 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
     vamp -m deploy_weights/official_yolov12_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/official-yolov12s-vdsp_params.json -i 1 -b 1 -d 0 -p 1
     ```
 
-    <details><summary>点击查看性能测试结果</summary>
-
-    ```bash
-    # fp16
-    - number of instances in each device: 1
-    devices: [0]
-    batch size: 1
-    samples: 1024
-    forwad time (s): 15.5398
-    throughput (qps): 65.8953
-    ai utilize (%): 95.8243
-    die memory used (MB): 835.613
-    e2e latency (us):
-        avg latency: 255913
-        min latency: 16150
-        max latency: 259072
-    model latency (us):
-        avg latency: 14541
-        min latency: 14541
-        max latency: 14541
-
-    
-    # 硬件信息
-    Smi version:3.2.1
-    SPI production for Bbox mode information of
-    =====================================================================
-    Appointed Entry:0 Device_Id:0 Die_Id:0 Die_Index:0x00000000
-    ---------------------------------------------------------------------
-    #               Field Name                    Value
-    0              FileVersion                       V2
-    1                 CardType                  VA1-16G
-    2                      S/N             FCA129E00172
-    3                 BboxMode              Highperf-AI
-    =====================================================================
-    =====================================================================
-    Appointed Entry:0 Device_Id:0 Die_Id:0 Die_Index:0x00000000
-    ---------------------------------------------------------------------
-    OCLK:       880 MHz    ODSPCLK:    835 MHz    VCLK:       300 MHz    
-    ECLK:        20 MHz    DCLK:        20 MHz    VDSPCLK:    900 MHz    
-    UCLK:      1067 MHz    V3DCLK:     100 MHz    CCLK:      1000 MHz    
-    XSPICLK:     50 MHz    PERCLK:     200 MHz    CEDARCLK:   500 MHz
-    ```
-
-    </details>
-
 2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
 
