@@ -43,6 +43,20 @@ DeepSeek-R1-Zero展示出自我验证、反思和长链思维推理能力，甚�
 ### DeepSeek-R1-Distill
 DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种尺寸的模型进行了SFT微调，证实在不用RL的情况下，可以极大的提高小模型的推理能力。
 
+### DeepSeek-R1-0528
+仍基于DeepSeek V3 Base模型作为基座，通过更多的算力和后训练策略提升思维深度和推理能力。
+- 数学与编程能力大幅增强
+
+    根据 Live CodeBench 测试数据显示，DeepSeek-R1-0528 在编程、逻辑推理和交互能力方面表现突出，整体性能接近 OpenAI 的 o3 高版本与 o4 mini 模型 。尤其在代码生成方面，它超越了 xAI 的 Grok 3 mini 和阿里巴巴的 Qwen 3，显示出强大的编程能力。
+
+- 幻觉生成显著减少
+
+    通过优化模型架构和训练方法，DeepSeek-R1-0528 在减少 AI 幻觉（hallucination）方面取得显著进展，使得生成内容更加准确可靠，提升了模型的实用性和可信度。
+
+- 支持函数调用（FunctionCall）
+
+    DeepSeek-R1 现已支持函数调用功能，使得大型语言模型（LLM）能够通过标准化接口调用外部工具和服务，极大地扩展了其功能边界。这一功能的引入，使得模型在执行复杂任务时更加高效和智能。
+
 
 ## Build_In Deploy
 
@@ -129,6 +143,7 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 | models  |tips |
 | :--- | :--: |
 | [deepseek-ai/DeepSeek-R1](https://hf-mirror.com/deepseek-ai/DeepSeek-R1) |  MOE，MLA |
+| [deepseek-ai/DeepSeek-R1-0528](https://hf-mirror.com/deepseek-ai/DeepSeek-R1-0528) |  MOE，MLA |
 
 
 ### step.2 模型推理
@@ -197,53 +212,22 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 
 
 ### step.4 精度测试
-1. OpenCompass
+1. 基于[evalscope](https://evalscope.readthedocs.io/zh-cn/latest/get_started/introduction.html)工具，测评模型精度
     ```bash
-    conda create -n opencompass python=3.10
-    conda activate opencompass
+    conda create -n evalscope python=3.10
+    conda activate evalscope
 
-    git clone https://github.com/open-compass/opencompass.git # git clone https://ghfast.top/https://github.com/open-compass/opencompass.git
-    cd opencompass && git checkout 0.4.1 && pip install -e ".[full]" -i https://mirrors.aliyun.com/pypi/simple/
+    pip install 'evalscope[all]'
     ```
 
-2. Datasets
-    ```bash
-    # Download dataset to opencompass/data folder
-    # wget https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/OpenCompassData-core-20240207.zip
-    # wget http://opencompass.oss-cn-shanghai.aliyuncs.com/datasets/data/math.zip
-
-    unzip OpenCompassData-core-20240207.zip
-    unzip -o math.zip  -d ./data/
-
-    # some datasets can automatic download
-    # pip install ModelScope
-    # export DATASET_SOURCE=ModelScope # if not use auto download: unset DATASET_SOURCE
-    ```
-
-3. Eval
-
+2. 执行测评
     - 使用前述已启动的vllm openapi服务
-    - 配置数据集和模型服务: [eval/eval_ds.py](./pytorch/eval/eval_ds.py)
+    - 配置数据集和模型服务: 
+        - [eval_ds.py](../common/eval/eval_ds.py)：可选'mmlu_pro','drop', 'ifeval', 'gpqa', 'live_code_bench','aime24', 'math_500','ceval'等数据集，其它支持数据集参见：[LLM评测集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html#id1)
+        - [eval_ds_cluewsc.py](../common/eval/eval_ds_cluewsc.py)：cluewsc数据集原生不支持，通过[custom_dataset](https://evalscope.readthedocs.io/zh-cn/latest/advanced_guides/custom_dataset/llm.html)特性转换数据，基于general_mcq测评
 
-    ```bash
-    # 设置精度测试数据集: cluewsc + math_500 + mmlu
-    opencompass eval/eval_ds.py --dry-run  # 校验数据集是否完整
-    opencompass eval/eval_ds.py            # 启动测试
-    ```
-
-    ```
-    # 精度测试结果，输出格式类似如下
-
-    | dataset | version | metric | mode | DeepSeek-R1-va16-0403-32768 |
-    |----- | ----- | ----- | ----- | -----|
-    | cluewsc-dev | 5ab83b | accuracy | gen | 97.48 |
-    | cluewsc-test | 5ab83b | accuracy | gen | 95.18 |
-    | avg |  | accuracy | gen | 96.33 |
-
-    | dataset | version | metric | mode | DeepSeek-R1-h800-32768 |
-    |----- | ----- | ----- | ----- | -----|
-    | cluewsc-dev | 5ab83b | accuracy | gen | 96.86 |
-    | cluewsc-test | 5ab83b | accuracy | gen | 95.59 |
-    | avg |  | accuracy | gen | 96.225 |
-    ```
-
+    - 执行脚本
+        ```bash
+        python ../common/eval/eval_ds.py
+        python ../common/eval/eval_ds_cluewsc.py
+        ```
