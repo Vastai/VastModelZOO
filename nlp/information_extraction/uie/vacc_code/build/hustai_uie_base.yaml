@@ -1,0 +1,21 @@
+name: uie_base_fp16
+
+frontend:
+  checkpoint: /path/to/uie_base.onnx
+  shape:
+    input_ids: [1, 512]
+    token_type_ids: [1, 512]
+    attention_mask: [1, 512]
+  type: onnx
+  dtype: int64
+
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+  
+
+workspace:
+  path: ./deploy_weights/
