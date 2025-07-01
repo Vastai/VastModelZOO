@@ -44,23 +44,20 @@
 
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [zllrunning_config.yaml](../build_in/build/zllrunning_config.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
     ```bash
     vamc compile ./build_in/build/zllrunning_config.yaml
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-2. runstream推理，参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，执行进行runstream推理及获得精度指标
+1. runstream推理，参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，执行进行runstream推理及获得精度指标
     ```bash
     python ../build_in/vsx/zllrunning_vsx_inference.py \
         --image_dir /path/to/CelebAMask-HQ/bisegnet_test_img \
@@ -72,9 +69,8 @@
     - 注意替换命令行中--image_dir和--mask_dir为实际路径
 
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-2. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
+### step.5 性能精度测试
+1. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ../../common/utils/image2npz.py \
     --dataset_path CelebAMask-HQ/bisegnet_test_img \
@@ -82,7 +78,7 @@
     --text_path npz_datalist.txt
     ```
 
-3. 性能测试，配置vdsp参数[zllrunning-bisenet-vdsp_params.json](../build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json)，执行：
+2. 性能测试，配置vdsp参数[zllrunning-bisenet-vdsp_params.json](../build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/bisenet-int8-kl_divergence-3_512_512-vacc/bisenet \
     --vdsp_params ../build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json \
@@ -91,7 +87,7 @@
 
 > 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
 
-4. 精度测试，推理得到npz结果：
+3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/bisenet-int8-kl_divergence-3_512_512-vacc/bisenet \
     --vdsp_params build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json \
@@ -99,7 +95,7 @@
     --datalist npz_datalist.txt \
     --path_output npz_output
     ```
-5. [zllrunning_vamp_eval.py](../build_in/vdsp_params/zllrunning_vamp_eval.py)，解析npz结果，绘图并统计精度：
+4. [zllrunning_vamp_eval.py](../build_in/vdsp_params/zllrunning_vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
     python ../build_in/vdsp_params/zllrunning_vamp_eval.py \
     --src_dir CelebAMask-HQ/bisegnet_test_img \
