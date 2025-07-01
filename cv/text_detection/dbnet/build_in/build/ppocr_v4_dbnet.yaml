@@ -1,0 +1,40 @@
+name: ppocr_v4_dbnet_run_stream_int8
+
+frontend:
+  checkpoint: path/to/ch_PP-OCRv4_det/det_model.onnx
+  shape:
+    x: [1, 3, 736, 1280]
+  type: onnx
+  dtype: fp32
+
+dataset:
+  type: tvm
+  path: path/to/icdar2015/Challenge4/ch4_test_images
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size: [736, 1280]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_type: 2
+    opt_level: 2
+    data_transport_mode: 1
+    enable_float_to_half: true
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    calibrate_chunk_by: -1
+
+workspace:
+  path: ./deploy_weights
+
