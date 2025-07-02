@@ -1,0 +1,26 @@
+services:
+  vllm-ds-v3:
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:ds3_0530
+    privileged: true
+    network_mode: host
+    container_name: vllm_deepseek-v3
+    restart: always
+    environment:
+      - VLLM_CORES=${VLLM_CPU_CORES}
+      - VACC_LOG_LEVEL=critical,critical
+      - VCCL_SOCKET_IFNAME=lo
+      - VLLM_VACC_KVCACHE_SPACE=16
+      - VLLM_MLA_PERFORM_MATRIX_ABSORPTION=0
+      - OPENAI_API_KEY=token-abc123
+      - VACC_VISIBLE_DEVICES=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+    volumes:
+      - ${DS_V3_MODEL_PATH}:/weights/DeepSeek-V3
+    entrypoint: >
+      sh -c "
+      if dmesg | grep -q \"iommu is enable\"; then echo \"Error! IOMMU is enable, please close IOMMU first\"; sleep 10; exit 1; fi;
+      unset VNNL_MODEL_SYNC VCCL_MODEL_SYNC LOG_TRAIN_SCHEDULE VACM_LOG_CFG VACC_RT_MODELSAVE_EN;
+      for i in $$(seq 0 31); do if [ ! -e /dev/vacc$$i ]; then sleep 5; exit 1; fi; done;        
+      taskset -c $${VLLM_CORES} vllm serve /weights/DeepSeek-V3 --trust-remote-code --tensor-parallel-size 32 --max-model-len 65536 \
+      --enforce-eager --api-key token-abc123 --enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/examples/tool_chat_template_deepseekv3.jinja \
+      --host 0.0.0.0  --port 8000 --served-model-name DeepSeek-V3;
+      "
