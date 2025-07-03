@@ -10,9 +10,9 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
 
 WORKDIR /vacc
 
-RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430079113596899328/vllm_vacc-0.7.2.1109-1109-py3-none-linux_x86_64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430079113596899328&X_Amz_Date=2025-06-30T20:39:18Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=05911bdd4d2c0743b9eb038beaadcd770af5d02a8b90ddd8d998bd50a62866d2" \
+RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430079113596899328/vllm_vacc-0.7.2.1109-1109-py3-none-linux_x86_64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430079113596899328&X_Amz_Date=2025-06-30T20:39:18Z&X_Amz_Expires=2592000&X_Amz_SignedHeaders=host&X_Amz_Signature=05911bdd4d2c0743b9eb038beaadcd770af5d02a8b90ddd8d998bd50a62866d2" \
     -O /tmp/vllm_vacc-0.7.2.1109-1109-py3-none-linux_x86_64.whl --no-check-certificate
-RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430078936572104704/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_x86_64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430078936572104704&X_Amz_Date=2025-06-30T20:39:42Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=6e068fff3c082b0f90bf281914da281055a5356424c155dba3f6acb1ead689bb" \
+RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430078936572104704/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_x86_64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430078936572104704&X_Amz_Date=2025-06-30T20:39:42Z&X_Amz_Expires=2592000&X_Amz_SignedHeaders=host&X_Amz_Signature=6e068fff3c082b0f90bf281914da281055a5356424c155dba3f6acb1ead689bb" \
     -O /tmp/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_x86_64.whl --no-check-certificate
 
 

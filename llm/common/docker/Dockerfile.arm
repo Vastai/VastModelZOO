@@ -10,10 +10,10 @@ RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
 
 WORKDIR /vacc
 
-RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430098348964450304/vllm_vacc-0.7.2.1109-1109-py3-none-linux_aarch64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430098348964450304&X_Amz_Date=2025-06-30T20:54:25Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=5f4c1571108fe240702baca06cda3240e8e857567dfda56b6235a920b11a3361" \
+RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430098348964450304/vllm_vacc-0.7.2.1109-1109-py3-none-linux_aarch64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430098348964450304&X_Amz_Date=2025-06-30T20:54:25Z&X_Amz_Expires=2592000&X_Amz_SignedHeaders=host&X_Amz_Signature=5f4c1571108fe240702baca06cda3240e8e857567dfda56b6235a920b11a3361" \
     -O /tmp/vllm_vacc-0.7.2.1109-1109-py3-none-linux_aarch64.whl --no-check-certificate
 
-RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430097511936561152/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_aarch64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430097511936561152&X_Amz_Date=2025-06-30T20:55:05Z&X_Amz_Expires=1209600&X_Amz_SignedHeaders=host&X_Amz_Signature=31f49a081db075437ff2241547a951a3d2fd860774c249ece43f4f2ff6774666" \
+RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430097511936561152/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_aarch64.whl?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430097511936561152&X_Amz_Date=2025-06-30T20:55:05Z&X_Amz_Expires=2592000&X_Amz_SignedHeaders=host&X_Amz_Signature=31f49a081db075437ff2241547a951a3d2fd860774c249ece43f4f2ff6774666" \
     -O /tmp/torch_vacc-1.3.0.1109-1109-cp310-cp310-linux_aarch64.whl --no-check-certificate
 
 
@@ -56,7 +56,7 @@ ENV PATH="/vacc:${PATH}" \
     VLLM_MLA_PERFORM_MATRIX_ABSORPTION="0"
 # COPY ./docker/arm/vasmi /vacc/
 
-RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430097401865441280/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430097401865441280&X_Amz_Date=2025-06-30T20:55:55Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=6a6763149b1883f391af058353179c0db658a8012afe70c0e0f92d7dbd300a15" \
+RUN wget -c "https://storage.vastaitech.com/storage/v1/download/430097401865441280/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin?X_Amz_Algorithm=AES&X_Amz_Credential=backend-430097401865441280&X_Amz_Date=2025-06-30T20:55:55Z&X_Amz_Expires=2592000&X_Amz_SignedHeaders=host&X_Amz_Signature=6a6763149b1883f391af058353179c0db658a8012afe70c0e0f92d7dbd300a15" \
     -O /tmp/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin --no-check-certificate
 RUN chmod +x /tmp/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin && /tmp/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin 
 RUN rm /tmp/Tools-3.3.1_sp2-2025040218-a72a36a1-linux-aarch64-sv100.bin
