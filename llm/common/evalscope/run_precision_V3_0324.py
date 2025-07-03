@@ -1,12 +1,11 @@
-# coding=utf-8
 from evalscope import TaskConfig, run_task
 from evalscope.constants import EvalType
 
 task_cfg = TaskConfig(
-    model='DeepSeek-V3-0324',   # 模~^~K~P~M称 (~\~@~A~N~C署~W~Z~D模~^~K~P~M称~@~G)
-    api_url='http://127.0.0.1:8000/v1',  # ~N~P~F~\~M~J~\~]~@
+    model='DeepSeek-V3-0324',   # 模型名称 (需要与部署时的模型名称一致) 
+    api_url='http://127.0.0.1:8000/v1',  # 推理服务地址
     api_key='token-abc123',
-    eval_type=EvalType.SERVICE,   # ~D~K类~^~K~LSERVICE表示~D~K~N~P~F~\~M~J
+    eval_type=EvalType.SERVICE,   # 评测类型，SERVICE表示评测推理服务
     datasets=[
         'mmlu_pro',
         'drop', 
@@ -15,7 +14,7 @@ task_cfg = TaskConfig(
         'live_code_bench',
         'aime24', 
         'math_500',
-        'ceval',   
+        'ceval',        
         'general_mcq',     # 选择题格式固定为 'general_mcq'
     ],
     dataset_args={
@@ -51,11 +50,9 @@ task_cfg = TaskConfig(
             "eval_split": 'test'
         }
     },
-
     eval_batch_size=2,       # 发送请求的并发数
     generation_config={       # 模型推理配置
-        'max_tokens': 32768,  # 最大生成token数，V3-0324: 32768, V3: 16384
-        #'max_tokens': 16384  # for V3 
+        'max_tokens': 61440,  # 最大生成token数
         'temperature': 0.6,   # 采样温度 (deepseek 报告推荐值)
         'top_p': 0.95,        # top-p采样 (deepseek 报告推荐值)
         'n': 1                # 每个请求产生的回复数量 (注意 lmdeploy 目前只支持 n=1)
