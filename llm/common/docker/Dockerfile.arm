@@ -36,7 +36,7 @@ RUN mv /usr/local/bin/vllm /usr/local/bin/vllm_bak
 COPY ./docker/vllm .
 RUN chmod +x vllm
 
-
+RUN pip install triton -i https://mirrors.ustc.edu.cn/pypi/web/simple
 # 创建entrypoint脚本（使用printf避免换行符问题）
 RUN printf '#!/bin/sh\n\
 unset VNNL_MODEL_SYNC\n\
@@ -68,13 +68,13 @@ CMD ["/bin/bash"]
 WORKDIR /root
 
 RUN mkdir -p /test/
-COPY ./scripts /test/scripts
+# COPY ./scripts /test/scripts
 COPY ./benchmark /test/benchmark
 
-COPY ./tool_patch/deepseek_v3_tool_parser.patch /test/deepseek_v3_tool_parser.patch
-COPY ./tool_patch/tool_chat_template_deepseekr1.jinja /workspace/examples/tool_chat_template_deepseekr1.jinja
-COPY ./tool_patch/tool_chat_template_deepseekv3.jinja /workspace/examples/tool_chat_template_deepseekv3.jinja
-RUN cd /usr/local/lib/python3.10/dist-packages && patch -p1 < /test/deepseek_v3_tool_parser.patch && rm /test/deepseek_v3_tool_parser.patch
-RUN pip install triton -i https://mirrors.ustc.edu.cn/pypi/web/simple
+# COPY ./tool_patch/deepseek_v3_tool_parser.patch /test/deepseek_v3_tool_parser.patch
+# COPY ./tool_patch/tool_chat_template_deepseekr1.jinja /workspace/examples/tool_chat_template_deepseekr1.jinja
+# COPY ./tool_patch/tool_chat_template_deepseekv3.jinja /workspace/examples/tool_chat_template_deepseekv3.jinja
+# RUN cd /usr/local/lib/python3.10/dist-packages && patch -p1 < /test/deepseek_v3_tool_parser.patch && rm /test/deepseek_v3_tool_parser.patch
+
 
 WORKDIR /test

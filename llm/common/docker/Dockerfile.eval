@@ -35,11 +35,11 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # #     && cd opencompass && git checkout 0.4.1 && pip install -e ".[full]" -i https://mirrors.ustc.edu.cn/pypi/web/simple
 # RUN pip install opencompass[full]==0.4.1 -i https://mirrors.ustc.edu.cn/pypi/web/simple
 
-# RUN mkdir -p /root/opencompass/eval
+# RUN mkdir -p /root/opencompass/evalscope
 # WORKDIR /root/opencompass
-# COPY ./eval/opencompass_eval.py /root/opencompass/eval/opencompass_eval.py
-# COPY ./eval/dataset/OpenCompassData-core-20240207.zip /root/opencompass/
-# COPY ./eval/dataset/math.zip /root/opencompass/
+# COPY ./evalscope/opencompass_eval.py /root/opencompass/evalscope/opencompass_eval.py
+# COPY ./evalscope/dataset/OpenCompassData-core-20240207.zip /root/opencompass/
+# COPY ./evalscope/dataset/math.zip /root/opencompass/
 # RUN unzip OpenCompassData-core-20240207.zip && \
 #     unzip -o math.zip -d ./data/
 
@@ -59,19 +59,18 @@ RUN echo "conda init" >> ~/.bashrc
 RUN echo "source activate evalscope" >> ~/.bashrc
 ENV PATH /opt/conda/envs/evalscope/bin:$PATH
 
-RUN mkdir -p /root/evalscope/
+RUN mkdir -p /root/evalscope/data
 WORKDIR /root/evalscope
-COPY ./eval/run_precision_R1_0528.py /root/evalscope/run_precision_R1_0528.py
-COPY ./eval/run_precision_V3_0324.py /root/evalscope/run_precision_V3_0324.py
-COPY ./eval/dataset/data.zip /root/evalscope/
-RUN unzip data.zip 
-COPY ./eval/dataset/cluewsc_custom /root/evalscope/data/cluewsc_custom
-COPY ./eval/run_performance.py /root/evalscope/run_performance.py
-COPY ./eval/utils.py /root/evalscope/utils.py
+COPY ./evalscope/run_precision_R1_0528.py /root/evalscope/run_precision_R1_0528.py
+COPY ./evalscope/run_precision_V3_0324.py /root/evalscope/run_precision_V3_0324.py
+
+COPY ./evalscope/dataset/cluewsc_custom /root/evalscope/data/cluewsc_custom
+COPY ./evalscope/run_performance.py /root/evalscope/run_performance.py
+COPY ./evalscope/utils.py /root/evalscope/utils.py
 
 
 RUN mkdir -p /root/nltk_data/tokenizers 
-COPY ./eval/dataset/punkt_tab.zip /root/evalscope/
+COPY ./evalscope/dataset/punkt_tab.zip /root/evalscope/
 RUN unzip punkt_tab.zip -d /root/nltk_data/tokenizers/
 
 # 设置默认命令（如果需要）

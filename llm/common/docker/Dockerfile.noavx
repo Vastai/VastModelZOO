@@ -67,13 +67,13 @@ CMD ["/bin/bash"]
 WORKDIR /root
 
 RUN mkdir -p /test/
-COPY ./scripts /test/scripts
+# COPY ./scripts /test/scripts
 COPY ./benchmark /test/benchmark
 
 #patch for tool-parser [optional]
-COPY ./tool_patch/deepseek_v3_tool_parser.patch /test/deepseek_v3_tool_parser.patch
-COPY ./tool_patch/tool_chat_template_deepseekr1.jinja /workspace/examples/tool_chat_template_deepseekr1.jinja
-COPY ./tool_patch/tool_chat_template_deepseekv3.jinja /workspace/examples/tool_chat_template_deepseekv3.jinja
-RUN cd /usr/local/lib/python3.10/dist-packages && patch -p1 < /test/deepseek_v3_tool_parser.patch && rm /test/deepseek_v3_tool_parser.patch
+# COPY ./tool_patch/deepseek_v3_tool_parser.patch /test/deepseek_v3_tool_parser.patch
+# COPY ./tool_patch/tool_chat_template_deepseekr1.jinja /workspace/examples/tool_chat_template_deepseekr1.jinja
+# COPY ./tool_patch/tool_chat_template_deepseekv3.jinja /workspace/examples/tool_chat_template_deepseekv3.jinja
+# RUN cd /usr/local/lib/python3.10/dist-packages && patch -p1 < /test/deepseek_v3_tool_parser.patch && rm /test/deepseek_v3_tool_parser.patch
 
 WORKDIR /test
