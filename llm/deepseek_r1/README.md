@@ -178,12 +178,12 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 2.** 根据实际情况修改“docker-compose/.env”文件中“DS_xx_MODEL_PATH”参数。
 
-其中，“DS_xx_MODEL_PATH”表示DeepSeek V3或 R1系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
+其中，“DS_xx_MODEL_PATH”表示DeepSeek R1系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
 
 **步骤 3.** （可选）根据实际CPU类型修改“ds-xxx-docker-compose.yaml”中 Image 镜像名称。
 
 
-其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3或 R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+其中，“ds-xxx-docker-compose.yaml”为 DeepSeek R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
 
 
 - 针对非 ARM CPU，如果支持AVX-512，则无需修改，否则需将“image”修改为“`harbor.vastaitech.com/ai_deliver/vllm_vacc:version_noavx`”。`version`为 DeepSeek部署版本号，请根据实际情况替换。可通过`lscpu | grep -i avx512`查看是否支持AVX-512。
@@ -251,7 +251,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“/docker-compose/ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3或 R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+- `--port`：vLLM 推理服务端口，需在“/docker-compose/ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
@@ -462,15 +462,6 @@ python run_performance.py
 python run_precision_R1_0528.py
 ```
 
-
-- 针对 DeepSeek V3系列模型，其执行命令为：
-```shell
-python run_precision_V3_0324.py
-```
-
-
-测试模型精度前需根据实际情况修改“run_precision_xxx”中如下参数。其中，xxx为R1_0528 或 V3_0324，请根据实际情况替换。
-
 - model：模型名称。
 
 - api_url：vLLM 服务所在地址。
@@ -533,7 +524,7 @@ docker run --ipc=host --rm -it  --network host \
        deepseek_eval:latest bash
 ```
 
-**步骤 4.** 根据实际情况修改精度测试脚本“/root/evalscope/run_precision_V3_0324.py”中的模型名称、 vLLM服务地址、最大Token，类似如下所示。
+**步骤 4.** 根据实际情况修改精度测试脚本“/root/evalscope/run_precision_R1_0528.py”中的模型名称、 vLLM服务地址、最大Token，类似如下所示。
 
 ```{code-block} 
 # set dataset
