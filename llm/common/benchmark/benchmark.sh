@@ -1,47 +1,39 @@
 #!/bin/bash
+
 # 获取service_num参数（默认为1）
 SERVICE_NUM=${1:-1}
-if ! [[ "$SERVICE_NUM" =~ ^[1-9][0-9]*$ ]]; then
-    echo "错误：service_num 必须是正整数"
+if ! [[ "$SERVICE_NUM" =~ ^[0-9]+$ ]] || ((SERVICE_NUM < 1)); then
+    echo "错误：service_num必须是正整数"
     exit 1
 fi
 
 # 计算并发级别数组
 MAX_CONCURRENCIES=()
-max_concurrency=$((4 * SERVICE_NUM))
-for ((i=1; i<=max_concurrency; i*=2)); do
-    MAX_CONCURRENCIES+=($i)
+current=$((4 * SERVICE_NUM))
+while ((current >= 1)); do
+    MAX_CONCURRENCIES+=($current)
+    current=$((current / 2))
 done
 
-export OPENAI_API_KEY="token-abc123"
-# 定义可配置参数
-MODEL_PATH="/weights/DeepSeek-V3-0324"
-MODEL_NAME="DeepSeek-V3-0324"
-HOST="127.0.0.1"
+MODEL_PATH="DeepSeek-V3-0324"
+TOKENIZER_PATH="/logs/DeepSeek-V3-0324"
+HOST="10.24.73.25"
 PORT=8000
 DATASET_NAME="random"
 PER_REQ_NUM_PROMPTS=5
-INPUT_LENS=(128 256 512 1024 2048 4096 7900 16384 32768 54272)
+INPUT_LENS=(128 256 512 1024 2048 4096 8192 16384 32768 54272 65536)
 OUTPUT_LENS=(1024 8192)
+MAX_SEQLEN=65536
+MAX_PER_REQUEST=56320
 
-MAX_SEQLEN=$((65536 * SERVICE_NUM))
-MAX_PER_REQUEST=$((57344 * SERVICE_NUM))
-MIN_BLOCK_SIZE=8192
-
-# 检查 Python 脚本是否存在
-if ! [[ -f "benchmark_serving.py" ]]; then
-    echo "错误：找不到 benchmark_serving.py"
-    exit 1
-fi
-
-# 初始化日志目录
+# 使用本地日期初始化日志目录
 CURRENT_DATE=$(date +"%Y%m%d")
 LOG_DIR="./benchmark_logs_${CURRENT_DATE}"
 LOG_FILE="${LOG_DIR}/benchmark.log"
 
 # 创建日志目录和文件
-mkdir -p "$LOG_DIR" || { echo "无法创建日志目录 $LOG_DIR"; exit 1; }
-> "$LOG_FILE" || { echo "无法清空日志文件 $LOG_FILE"; exit 1; }
+mkdir -p "$LOG_DIR"
+> "$LOG_FILE"
 
 # 定义带时间戳的日志函数
 log() {
@@ -52,22 +44,30 @@ log() {
 # 记录开始时间
 start_time=$(date +%s)
 log "=== Benchmark Started ==="
-log "参数:"
+log "Service Config     :"
 log "  SERVICE_NUM       : $SERVICE_NUM"
-log "  MAX_SEQLEN(total)  : $MAX_SEQLEN (所有请求总长度限制)"
-log "  MAX_PER_REQUEST    : $MAX_PER_REQUEST (仅限制单请求input长度)"
+log "  Concurrency Levels: ${MAX_CONCURRENCIES[*]}"
+log "System Constraints:"
+log "  MAX_SEQLEN(total) : $MAX_SEQLEN (所有请求总长度限制)"
+log "  MAX_PER_REQUEST   : $MAX_PER_REQUEST (仅限制单请求input长度)"
 log "Testing Combinations:"
-log "  Concurrency Levels : ${MAX_CONCURRENCIES[*]}"
-log "  Output Lengths     : ${OUTPUT_LENS[*]}"
+log "  Output Lengths    : ${OUTPUT_LENS[*]}"
 log "API Endpoint       : ${HOST}:${PORT}"
 log "----------------------------------------"
 
 # 遍历所有参数组合
 for output_len in "${OUTPUT_LENS[@]}"; do
     for concurrency in "${MAX_CONCURRENCIES[@]}"; do
+        # 计算实际用于资源分配的并发数 (如果是4的倍数则用4，否则用原值)
+        calc_concurrency=$concurrency
+        if (( concurrency % 4 == 0 )); then
+            calc_concurrency=4
+            log "[ADJUST] 并发数$concurrency是4的倍数，资源分配计算使用concurrency=4"
+        fi
+
         # 计算允许的最大总长度（总资源分配）
-        max_total_per_concurrency=$(( MAX_SEQLEN / concurrency ))
-        # 现在MAX_PER_REQUEST只限制输入长度，输出长度可以独立
+        max_total_per_concurrency=$(( MAX_SEQLEN / calc_concurrency ))
+        # MAX_PER_REQUEST只限制输入长度，输出长度可以独立
         max_input_len=$MAX_PER_REQUEST
 
         # 跳过无效配置的两种情况
@@ -79,12 +79,7 @@ for output_len in "${OUTPUT_LENS[@]}"; do
         # 检查是否存在有效输入长度
         valid_inputs=()
         for input_len in "${INPUT_LENS[@]}"; do
-            ceil_input=$(( ((input_len + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE * MIN_BLOCK_SIZE )))
-            ceil_total=$(( ((input_len + output_len + MIN_BLOCK_SIZE - 1) / MIN_BLOCK_SIZE * MIN_BLOCK_SIZE )))
-            if (( ceil_input <= max_input_len && ceil_total <= max_total_per_concurrency )); then
-                log "  input=$input_len + output=$output_len = total=$ceil_total"
-                valid_inputs+=("$input_len")
-            fi            
+            (( input_len <= max_input_len )) && (( (input_len + output_len) <= max_total_per_concurrency )) && valid_inputs+=($input_len)
         done
 
         if (( ${#valid_inputs[@]} == 0 )); then
@@ -93,7 +88,7 @@ for output_len in "${OUTPUT_LENS[@]}"; do
         fi
 
         # 执行有效测试组合
-        log "---- Testing concurrency=$concurrency output=$output_len (允许input_len≤$max_input_len, 总长度≤$max_total_per_concurrency) ----"
+        log "---- Testing concurrency=$concurrency output=$output_len (资源计算并发=$calc_concurrency, 允许input_len≤$max_input_len, 总长度≤$max_total_per_concurrency) ----"
         for input_len in "${valid_inputs[@]}"; do
             log "[START] input=$input_len + output=$output_len = total=$((input_len + output_len))"
 
@@ -112,8 +107,8 @@ for output_len in "${OUTPUT_LENS[@]}"; do
                 --ignore-eos \
                 --random-output-len $output_len \
                 --max-concurrency $concurrency \
-                --served_model_name "$MODEL_NAME" \
                 --save-result \
+                --tokenizer "$TOKENIZER_PATH" \
                 --result-filename "$result_file" 2>&1 |
                 awk '{print strftime("[%Y-%m-%d %H:%M:%S]")" [PYTHON] "$0}' >> "$LOG_FILE"
             then
@@ -135,8 +130,10 @@ log "总耗时: $(( total_duration / 3600 ))小时 $(( (total_duration % 3600) /
 log "日志目录: $LOG_DIR"
 log "关键参数:"
 log "  SERVICE_NUM      = $SERVICE_NUM"
+log "  MODEL_PATH       = $MODEL_PATH"
+log "  TOKENIZER_PATH   = $TOKENIZER_PATH"
 log "  HOST:PORT        = ${HOST}:${PORT}"
-log "  MAX_SEQLEN     = $MAX_SEQLEN"
-log "  MAX_PER_REQUEST= $MAX_PER_REQUEST (仅限制输入长度)"
+log "  MAX_SEQLEN       = $MAX_SEQLEN"
+log "  MAX_PER_REQUEST  = $MAX_PER_REQUEST (仅限制输入长度)"
 log "  CONCURRENCIES    = ${MAX_CONCURRENCIES[*]}"
 log "============================================="

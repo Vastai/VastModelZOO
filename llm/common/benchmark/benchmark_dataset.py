@@ -87,10 +87,10 @@ class BenchmarkDataset(ABC):
     def load_data(self) -> None:
         """
         Load data from the dataset path into self.data.
-        
+
         This method must be overridden by subclasses since the method to load
         data will vary depending on the dataset format and source.
-        
+
         Raises:
             NotImplementedError: If a subclass does not implement this method.
         """
@@ -107,18 +107,18 @@ class BenchmarkDataset(ABC):
         """
         Optionally select a random LoRA request and return its associated
         tokenizer.
-        
+
         This method is used when LoRA parameters are provided.  It randomly
         selects a LoRA based on max_loras and retrieves a cached tokenizer for
         that LoRA if available. Otherwise, it returns the base tokenizer.
-        
+
         Args:
             tokenizer (PreTrainedTokenizerBase): The base tokenizer to use if no
             LoRA is selected.  max_loras (Optional[int]): The maximum number of
             LoRAs available. If None, LoRA is not used.  lora_path
             (Optional[str]): Path to the LoRA parameters on disk. If None, LoRA
             is not used.
-        
+
         Returns:
             tuple[Optional[LoRARequest], AnyTokenizer]: A tuple where the first
             element is a LoRARequest (or None if not applicable) and the second
@@ -146,15 +146,15 @@ class BenchmarkDataset(ABC):
                num_requests: int) -> list[SampleRequest]:
         """
         Abstract method to generate sample requests from the dataset.
-        
+
         Subclasses must override this method to implement dataset-specific logic
         for generating a list of SampleRequest objects.
-        
+
         Args:
             tokenizer (PreTrainedTokenizerBase): The tokenizer to be used
              for processing the dataset's text.
             num_requests (int): The number of sample requests to generate.
-        
+
         Returns:
             list[SampleRequest]: A list of sample requests generated from the
             dataset.
@@ -353,11 +353,12 @@ class ShareGPTDataset(BenchmarkDataset):
             prompt_len = len(prompt_ids)
             new_output_len = (len(completion_ids)
                               if output_len is None else output_len)
-            if not is_valid_sequence(prompt_len,
-                                     new_output_len,
-                                     skip_min_output_len_check=output_len
-                                     is not None):
-                continue
+            # NOTE（lancew）
+            # if not is_valid_sequence(prompt_len,
+            #                          new_output_len,
+            #                          skip_min_output_len_check=output_len
+            #                          is not None):
+            #     continue
             samples.append(
                 SampleRequest(
                     prompt=prompt,

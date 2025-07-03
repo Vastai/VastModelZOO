@@ -35,7 +35,7 @@ import warnings
 from collections.abc import AsyncGenerator, Iterable
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, AsyncGenerator, Collection, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 from backend_request_func import (ASYNC_REQUEST_FUNCS, RequestFuncInput,
@@ -59,8 +59,6 @@ from benchmark_dataset import (BurstGPTDataset, HuggingFaceDataset,
 from benchmark_utils import convert_to_pytorch_benchmark_format, write_to_json
 
 MILLISECONDS_TO_SECONDS_CONVERSION = 1000
-
-import monitor_manage
 
 
 @dataclass
@@ -264,8 +262,6 @@ async def benchmark(
     goodput_config_dict: dict[str, float],
     max_concurrency: Optional[int],
     lora_modules: Optional[Iterable[str]],
-    cpu_list: Optional[List[int]] = None,  # ✅ 新增
-    gpu_list: Optional[List[int]] = None,  # ✅ 新增
 ):
     if backend in ASYNC_REQUEST_FUNCS:
         request_func = ASYNC_REQUEST_FUNCS[backend]
@@ -283,43 +279,25 @@ async def benchmark(
         raise ValueError(
             "Multi-modal content is only supported on 'openai-chat' backend.")
     assert test_mm_content is None or isinstance(test_mm_content, dict)
+    test_input = RequestFuncInput(
+        model=model_id,
+        model_name=model_name,
+        prompt=test_prompt,
+        api_url=api_url,
+        prompt_len=test_prompt_len,
+        output_len=test_output_len,
+        logprobs=logprobs,
+        multi_modal_content=test_mm_content,
+        ignore_eos=ignore_eos,
+    )
 
-    semaphore = (asyncio.Semaphore(max_concurrency)
-                 if max_concurrency else None)
-
-    async def limited_request_func(request_func_input, pbar):
-        if semaphore is None:
-            return await request_func(request_func_input=request_func_input,
-                                      pbar=pbar)
-        async with semaphore:
-            return await request_func(request_func_input=request_func_input,
-                                      pbar=pbar)
-    test_tasks: list[asyncio.Task] = []
-    test_count = max_concurrency if max_concurrency else 1
-    for _ in range(test_count):
-        test_input = RequestFuncInput(
-            model=model_id,
-            model_name=model_name,
-            prompt=test_prompt,
-            api_url=api_url,
-            prompt_len=test_prompt_len,
-            output_len=test_output_len,
-            logprobs=logprobs,
-            multi_modal_content=test_mm_content,
-            ignore_eos=ignore_eos,
-        )
-        test_tasks.append(
-            asyncio.create_task(
-                limited_request_func(request_func_input=test_input,pbar=None)))
-    test_outputs = await asyncio.gather(*test_tasks)
-
-    for test_output in test_outputs:
-        if not test_output.success:
-            raise ValueError(
-                "Initial test run failed - Please make sure benchmark arguments "
-                f"are correctly specified. Error: {test_output.error}")
-
-    print("Initial test run completed. Starting main benchmark run...")
+    test_output = await request_func(request_func_input=test_input)
+    if not test_output.success:
+        raise ValueError(
+            "Initial test run failed - Please make sure benchmark arguments "
+            f"are correctly specified. Error: {test_output.error}")
+    else:
+        print("Initial test run completed. Starting main benchmark run...")
 
     if lora_modules:
         # For each input request, choose a LoRA module at random.
@@ -367,17 +345,9 @@ async def benchmark(
         async with semaphore:
             return await request_func(request_func_input=request_func_input,
                                       pbar=pbar)
-    print(f"cpu list {cpu_list}")
-    print(f"gpu list {gpu_list}")
+
     benchmark_start_time = time.perf_counter()
     tasks: list[asyncio.Task] = []
-    if gpu_list is not None:
-        print("start vaml profile******************\n")
-        vaml_monitor =  monitor_manage.VAML_MonitorManager(cpu_list=cpu_list, gpu_list=gpu_list)
-        vaml_monitor.start_profile()
-    else:
-        vaml_monitor = None
-        print("non vaml profile ******************\n")
     async for request in get_request(input_requests, request_rate, burstiness):
         prompt, prompt_len, output_len, mm_content = request.prompt, \
             request.prompt_len, request.expected_output_len, \
@@ -401,20 +371,7 @@ async def benchmark(
                 limited_request_func(request_func_input=request_func_input,
                                      pbar=pbar)))
     outputs: list[RequestFuncOutput] = await asyncio.gather(*tasks)
-    resource_summary = None
-    if vaml_monitor:
-        vaml_monitor.stop_profile()
-        resource_summary= vaml_monitor.get_profile_summary()
-        print(f"summary: {resource_summary}")
-        cpu_use_list = vaml_monitor.monitor.cpu_use  # 假设 vaml_monitor 是 self，并且 monitor 是其属性
-        if cpu_use_list:
-            resource_summary["cpu"] = {
-                "avg": sum(cpu_use_list) / len(cpu_use_list),
-                "p99": np.percentile(cpu_use_list, 99),
-                "median": vaml_monitor._calculate_median(cpu_use_list)
-            }
-        else:
-            resource_summary["cpu"] = {"avg": 0, "p99": 0, "median": 0}
+
     if profile:
         print("Stopping profiler...")
         profile_input = RequestFuncInput(
@@ -453,11 +410,6 @@ async def benchmark(
                                  metrics.total_output))
     print("{:<40} {:<10.2f}".format("Request throughput (req/s):",
                                     metrics.request_throughput))
-    print("{:<40} {:<10.2f}".format("Decode Token throughput (tok/s):",
-                                    1000/metrics.mean_tpot_ms*max_concurrency))
-    print("{:<40} {:<10.2f}".format("Per-req Decode Token throughput (tok/s):",
-                                    1000/metrics.mean_tpot_ms))
-
     if goodput_config_dict:
         print("{:<40} {:<10.2f}".format("Request goodput (req/s):",
                                         metrics.request_goodput))
@@ -521,6 +473,8 @@ async def benchmark(
     process_one_metric("itl", "ITL", "Inter-token Latency")
     process_one_metric("e2el", "E2EL", "End-to-end Latency")
 
+    print("=" * 50)
+    # NOTE(lancew.0315): add for benchmark
     from utils import save_to_csv
     data = [
                 {
@@ -534,38 +488,13 @@ async def benchmark(
                     "Total Token throughput (tok/s)": metrics.total_token_throughput,
                     "Mean TTFT (ms)": getattr(metrics, "mean_ttft_ms"),
                     "Mean TPOT (ms)" : getattr(metrics, "mean_tpot_ms"),
-                    "Decode Token throughput (tok/s)": 1000/getattr(metrics, "mean_tpot_ms")*max_concurrency,
-                    "Per-req Decoding token throughput (tok/s)": 1000/getattr(metrics, "mean_tpot_ms"),
+                    "Decoding token throughput (tok/s)" :  1000 / getattr(metrics, "mean_itl_ms") * max_concurrency,
+                    "Per-req Decoding token throughput (tok/s)" : 1000 / getattr(metrics, "mean_itl_ms"),
                 }
         ]
-    if resource_summary is not None:
-      print("{s:{c}^{n}}".format(s="ai resource", n=50, c='-'))
-      for key, value in resource_summary.items():
-        if 'ai' in key:
-            print(f"{key}: {value}")
-
-      print("{s:{c}^{n}}".format(s="cpu resource", n=50, c='-'))
-      print(resource_summary['cpu'])
-      print("=" * 50)
-      data[0].update({
-        "Temperature (℃)": resource_summary.get('temperature'),
-        "GPU Memory(GB)": resource_summary.get('mem'),
-        "AI利用率(%)": resource_summary.get('ai'),
-        "CPU利用率(%)": resource_summary['cpu'].get('avg')
-      })
-
-
-    save_to_csv(data, "./benchmark.csv")
+    save_to_csv(data, "../benchmark.csv")
     return result
-def parse_range_list(input_str):
-    result = []
-    for part in input_str.split(','):
-        if '-' in part:
-            start, end = map(int, part.split('-'))
-            result.extend(range(start, end + 1))
-        else:
-            result.append(int(part))
-    return result
+
 
 def check_goodput_args(args):
     # Check and parse goodput arguments
@@ -721,14 +650,14 @@ def main(args: argparse.Namespace):
         except KeyError as err:
             raise ValueError(f"Unknown dataset: {args.dataset_name}") from err
     goodput_config_dict = check_goodput_args(args)
-    # 解析 CPU / GPU 列表参数（假设你已经加了 args.cpu_list 和 args.gpu_list）
-    cpu_list = parse_range_list(args.cpu_list) if args.cpu_list else None
-    gpu_list = parse_range_list(args.gpu_list) if args.gpu_list else None
 
     # Avoid GC processing "static" data - reduce pause times.
     gc.collect()
     gc.freeze()
-
+    # -----------------------------------------------
+    for index in range(len(input_requests)):
+        print(f"Warning Batchsize_{args.max_concurrency} Test input_{index+1} ---> model_prompt_len: {len(tokenizer.encode(input_requests[index].prompt))}, set_prompt_len : {input_requests[index].prompt_len}, expected_output_len: {input_requests[index].expected_output_len}" )
+    # -----------------------------------------------
     benchmark_result = asyncio.run(
         benchmark(
             backend=backend,
@@ -751,9 +680,6 @@ def main(args: argparse.Namespace):
             goodput_config_dict=goodput_config_dict,
             max_concurrency=args.max_concurrency,
             lora_modules=args.lora_modules,
-            cpu_list=cpu_list,       # ✅ 新增
-            gpu_list=gpu_list        # ✅ 新增
-
         ))
 
     # Save config and results to json
@@ -1085,18 +1011,6 @@ if __name__ == "__main__":
                         help="A subset of LoRA module names passed in when "
                         "launching the server. For each request, the "
                         "script chooses a LoRA module at random.")
-    parser.add_argument(
-        "--cpu-list",
-        type=str,
-        default=None,
-        help="Comma-separated list or range (e.g., 0,2,4 or 0-7) of CPU cores to monitor."
-    )
-    parser.add_argument(
-        "--gpu-list",
-        type=str,
-        default=None,
-        help="Comma-separated list or range (e.g., 0,1,2 or 0-3) of GPU (TP) IDs to monitor."
-    )
 
     args = parser.parse_args()
 
