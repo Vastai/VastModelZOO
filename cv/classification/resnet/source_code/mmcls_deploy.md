@@ -17,17 +17,14 @@ python tools/deployment/pytorch2onnx.py \
 
 ### step.3 模型转换
 
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [mmcls_resnet.yaml](../build_in/build/mmcls_resnet.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd mobilenet_v2
@@ -38,9 +35,7 @@ python tools/deployment/pytorch2onnx.py \
 
 ### step.4 模型推理
 
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream
+1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
@@ -68,15 +63,13 @@ python tools/deployment/pytorch2onnx.py \
     ```
 
 ### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+1. 性能测试
     - 配置[mmcls-resnet50-vdsp_params.json](../build_in/vdsp_params/mmcls-resnet50-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/mmcls_resnet50_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/mmcls-resnet50-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`

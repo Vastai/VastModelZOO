@@ -13,17 +13,23 @@
 
 `VastModelZOO`旨在基于瀚博半导体的硬件产品和软件SDK，展示最佳的编程实践，以达成模型的快速移植和最优性能。
 
-为方便大家使用`VastModelZOO`，我们将持续增加典型模型和基础插件。如果您有任何需求，请提交`issues`，我们会及时处理, 谢谢！
+为方便大家使用`VastModelZOO`，我们将持续增加典型模型和基础插件。
 
-
-[TOC]
 
 ## 依赖软件
-- 瀚博训推软件生态链：[vastai_software.md](docs/vastai_software.md)
+
 - 瀚博推理引擎类型：
     - Build_In: 瀚博自研软件栈推理引擎
     - PyTorch: VACC Extension for PyTorch插件
 
+- 版本说明
+
+    |  组件 |    版本    | 
+    | :------: | :------: |
+    | Driver | 3.1.1 |
+    | VastStream | 2.0.T3 |
+    | VAMC | 3.4.1 |
+    | Pytorch | 2.1.0 |
 
 ## 模型列表
 
@@ -66,6 +72,7 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
+|  [Yolov12](./cv/detection/yolov12/README.md)   | [official](https://github.com/sunsmarterjie/yolov12.git) |    <details> <summary>model name</summary><ul><li align="left">yolov12n</li><li align="left">yolov12s</li><li align="left">yolov12m</li><li align="left">yolov12l</li><li align="left">yolov12x</li></ul></details>    |   object detection   |   Build_In   |
 | [yolov10](./cv/detection/yolov10/README.md) | [yolov10](https://github.com/THU-MIG/yolov10.git) |  <details> <summary>model name</summary><ul><li align="left">YOLOv10-N</li><li align="left">YOLOv10-S</li><li align="left">YOLOv10-M</li><li align="left">YOLOv10-B</li><li align="left">YOLOv10-L</li><li align="left">YOLOv10-X</li></ul></details> |  object detection   |  Build_In | 
 | [yolov8](./cv/detection/yolov8/README.md) | [yolov8](https://github.com/ultralytics/ultralytics) |  <details> <summary>model name</summary><ul><li align="left">YOLOv8n</li><li align="left">YOLOv8s</li><li align="left">YOLOv8m</li><li align="left">YOLOv8b</li><li align="left">YOLOv8l</li><li align="left">YOLOv8x</li></ul></details> |  object detection   |  Build_In | 
 | [yolov7](./cv/detection/yolov7/README.md) | [yolov7](https://github.com/WongKinYiu/yolov7) |  <details> <summary>model name</summary><ul><li align="left">YOLOv7</li><li align="left">YOLOv7x</li><li align="left">YOLOv7-w6</li><li align="left">YOLOv7-e6</li><li align="left">YOLOv7-d6</li><li align="left">YOLOv7-e6e</li></ul></details> |  object detection   |  Build_In |
@@ -97,6 +104,58 @@
 |  [BiSeNet](./cv/segmentation/bisenet/README.md)  |   [pytorch](https://github.com/zllrunning/face-parsing.PyTorch)   |  <details> <summary>model name</summary><ul><li align="left">bisenet</li><li align="left">bisenet_2class</li></ul></details>  |  face segmentation   | Build_In |
 |  [BiSeNet](./cv/segmentation/bisenet/README.md)  |     [pytorch](https://github.com/CoinCheung/BiSeNet/)     |   <details> <summary>model name</summary><ul><li align="left">bisenetv1</li><li align="left">bisenetv2</li></ul></details>    |     segmentation     | Build_In | 
 
+- face detection
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: | 
+|  [RetinaFace](./cv/face_detection/retinaface/README.md)  | [pytorch](https://github.com/biubug6/Pytorch_Retinaface)  |    <details> <summary>model name</summary><ul><li align="left">retinaface-resnet50</li><li align="left">retinaface-mobilenet0.25</li></ul></details>    |    face detection    |   Build_In   |
+
+- face alignment
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: | 
+|  [PIPNet](./cv/face_alignment/pipnet/README.md)  |   [official](https://github.com/jhb86253817/PIPNet/tree/master)   | <details> <summary>model name</summary><ul><li align="left">pip_resnet18</li><li align="left">pip_resnet101</li><li align="left">pipnet_mobilenet_v2</li><li align="left">pipnet_mobilenet_v3</li></ul></details> |    face alignment    |   Build_In   |
+
+- face recognize
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: | 
+| [FaceNet](./cv/face_recognize/facenet/README.md) |  [tensorflow](https://github.com/davidsandberg/facenet)   |   <details> <summary>model name</summary><ul><li align="left">facenet_vggface2</li><li align="left">facenet_casia_webface</li></ul></details>   |    face recognize    |   Build_In   |
+| [FaceNet](./cv/face_recognize/facenet/README.md) |  [pytorch](https://github.com/timesler/facenet-pytorch)   |   <details> <summary>model name</summary><ul><li align="left">facenet_vggface2</li><li align="left">facenet_casia_webface</li></ul></details>   |    face recognize    |   Build_In   |
+
+- facial attribute
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+|  [FairFace](./cv/facial_attribute/fairface/README.md)   | [official](https://github.com/dchen236/FairFace) | <details> <summary>model name</summary><ul><li align="left">fairface_res34</li></ul></details>  |    face attribute    | Build_In |  
+
+- pose
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+|  [Yolov8_Pose](./cv/pose/yolov8_pose/README.md)  |  [ultralytics](https://docs.ultralytics.com/tasks/pose/)  | <details> <summary>model name</summary><ul><li align="left">yolov8n_pose</li><li align="left">yolov8s_pose</li><li align="left">yolov8m_pose</li><li align="left">yolov8l_pose</li><li align="left">yolov8x_pose</li><li align="left">yolov8x_pose_p6</li></ul></details> |    pose    | Build_In |
+
+- super_resolution
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+|  [GPEN](./cv/super_resolution/gpen/README.md)  |   [official](https://github.com/yangxy/GPEN)    |  <details> <summary>model name</summary><ul><li align="left">gpen</li></ul></details>   |    face super resolution | Build_In |
+| [RCAN](./cv/super_resolution/rcan/README.md) | [official](https://github.com/yulunzhang/RCAN)  |    <details> <summary>model name</summary><ul><li align="left">rcan</li><li align="left">rcan2</li></ul></details>    |   super resolution   | Build_In |
+| [RCAN](./cv/super_resolution/rcan/README.md) |     [basicsr](https://github.com/XPixelGroup/BasicSR)     |  <details> <summary>model name</summary><ul><li align="left">rcan</li></ul></details>   |   super resolution   | Build_In |
+
+- text recognition
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [CRNN](./cv/text_recognition/crnn/README.md) | [ppocr](https://github.com/PaddlePaddle/PaddleOCR/blob/v2.6.0/doc/doc_ch/algorithm_rec_crnn.md) |   <details> <summary>model name</summary><ul><li align="left">resnet34_vd</li></ul></details>   |    text recognition     | Build_In |
+
+- text detection
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [DBNet](./cv/text_detection/dbnet/README.md) |   [ppocr](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_det_db.md)    |  <details> <summary>model name</summary><ul><li align="left">dbnet_mobilenet_v3</li><li align="left">dbnet_resnet50_vd</li><li align="left">ch_PP_OCRv3_det</li><li align="left">ch_PP_OCRv4_det</li><li align="left">en_PP_OCRv3_det</li></ul></details>  |    text detection     | Build_In |
+| [DBNet](./cv/text_detection/dbnet/README.md) |    [official](https://github.com/MhLiao/DB) |  <details> <summary>model name</summary><ul><li align="left">dbnet_resnet18</li><li align="left">dbnet_resnet50</li></ul></details>   |    text detection     | Build_In |
+| [DBNet](./cv/text_detection/dbnet/README.md) | [mmocr](https://github.com/open-mmlab/mmocr/tree/main/configs/textdet/dbnet)  |   <details> <summary>model name</summary><ul><li align="left">dbnet_resnet18_fpnc_1200e_icdar2015</li><li align="left">dbnet_resnet18_fpnc_1200e_totaltext</li><li align="left">dbnet_resnet18_fpnc_100k_synthtext</li><li align="left">dbnet_resnet50_1200e_icdar2015</li><li align="left">dbnet_resnet50_oclip_1200e_icdar2015</li></ul></details>    |    text detection     | Build_In |
 
 </details>
 
@@ -143,12 +202,7 @@
 
 </details>
 
-## 免责声明
-- `VastModelZOO`提供的模型仅供您用于非商业目的，请参考原始模型来源许可证进行使用
-- `VastModelZOO`描述的数据集均为开源数据集，如您使用这些数据集，请参考原始数据集来源许可证进行使用
-- 如您不希望您的数据集或模型公布在`VastModelZOO`上，请您提交issue，我们将尽快处理
+## 声明
 
-
-## 使用许可
-- `VastModelZOO`提供的模型，如原始模型有许可证描述，请以该许可证为准
-- `VastModelZOO`遵循[Apache 2.0](LICENSE)许可证许可
+- 本代码仓提到的数据集和模型仅作为示例，这些数据集和模型仅供您用于非商业目的，如您使用这些数据集来完成示例，请您特别注意应遵守对应数据集合模型的License，如您因使用数据集或者模型而产生侵权纠纷，瀚博半导体不承担任何责任。
+- 如您在使用本地代码的过程中，发现任何问题（包括但不限于功能问题、合规问题），请在本代码仓提交issue，我们将及时审视并解答。

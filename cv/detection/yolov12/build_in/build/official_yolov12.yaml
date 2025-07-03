@@ -1,0 +1,30 @@
+name: official_yolov12_run_stream_fp16
+
+frontend:
+  checkpoint: /path/to/yolov12s-640.onnx
+  shape:
+    images: [1, 3, 640, 640]
+  type: onnx
+  dtype: fp32
+
+graph:
+  extra_ops:
+    type: yolov8_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      strides:
+      - 8
+      - 16
+      - 32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 3
+    cluster_mode: 0
+    
+workspace:
+  path: ./deploy_weights/

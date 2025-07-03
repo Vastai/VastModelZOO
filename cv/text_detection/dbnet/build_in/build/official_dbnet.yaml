@@ -1,0 +1,51 @@
+name: official_dbnet_run_stream_int8
+
+frontend:
+  checkpoint: path/to/dbnet_resnet18-640.onnx
+  shape:
+    input: [1, 3, 640, 640]
+  type: onnx
+  dtype: fp32
+
+dataset:
+  type: tvm
+  path: /path/to/icdar2015/Challenge4/ch4_test_images
+  sampler:
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2BGR
+    - type: Resize
+      size:
+      - 640
+      - 640
+    - type: Normalize
+      mean:
+      - 0.48109378
+      - 0.45752458
+      - 0.40787054
+      std:
+      - 1
+      - 1
+      - 1
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    nearest_interpol_on_dsp: true
+    data_transport_mode: 1
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    nearest_interpol_on_dsp: true
+    quantize_dsp_ops:
+      - vacc_upsampling
+      - vacc_pixelshuffle
+
+workspace:
+  path: ./deploy_weights
+
