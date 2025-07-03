@@ -1,0 +1,77 @@
+FROM ubuntu:20.04
+ENV TZ=Asia/Shanghai  
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone  
+
+RUN cd /etc/apt/ && mv sources.list sources.list.bak  \
+    && echo "deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse" >> sources.list \
+    && echo "deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse" >> sources.list \
+    && echo "deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse" >> sources.list \
+    && echo "deb http://security.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse" >> sources.list 
+
+
+RUN apt -y update && apt -y upgrade
+RUN apt install -y  python3-pip
+RUN cd /usr/bin && ln -s python3.8 python
+
+RUN pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
+RUN pip config set global.trusted-host mirrors.ustc.edu.cn
+
+COPY ./docker/vasmi /vacc/
+
+#CMD ["/bin/bash"]
+
+WORKDIR /root
+
+RUN apt install wget -y
+# install conda 
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
+    && /bin/bash ~/miniconda.sh -b -p /opt/conda && rm ~/miniconda.sh && /opt/conda/bin/conda clean -tip 
+# RUN /opt/conda/bin/conda create -n opencompass python=3.10 -y
+# SHELL ["/opt/conda/bin/conda", "run", "-n", "opencompass", "/bin/bash", "-c"]
+# RUN pip install openai -i https://mirrors.ustc.edu.cn/pypi/web/simple
+
+# # install opencompass
+# # RUN git clone https://ghfast.top/https://github.com/open-compass/opencompass.git \
+# #     && cd opencompass && git checkout 0.4.1 && pip install -e ".[full]" -i https://mirrors.ustc.edu.cn/pypi/web/simple
+# RUN pip install opencompass[full]==0.4.1 -i https://mirrors.ustc.edu.cn/pypi/web/simple
+
+# RUN mkdir -p /root/opencompass/evalscope
+# WORKDIR /root/opencompass
+# COPY ./evalscope/opencompass_eval.py /root/opencompass/evalscope/opencompass_eval.py
+# COPY ./evalscope/dataset/OpenCompassData-core-20240207.zip /root/opencompass/
+# COPY ./evalscope/dataset/math.zip /root/opencompass/
+# RUN unzip OpenCompassData-core-20240207.zip && \
+#     unzip -o math.zip -d ./data/
+
+
+RUN /opt/conda/bin/conda create -n evalscope python=3.10 -y
+SHELL ["/opt/conda/bin/conda", "run", "-n", "evalscope", "/bin/bash", "-c"]
+RUN pip install 'evalscope[all]==0.16.1'  -i https://mirrors.ustc.edu.cn/pypi/web/simple
+ #1.26.0
+RUN pip install --upgrade modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple    
+RUN pip install datasets==3.2.0 -i https://mirrors.ustc.edu.cn/pypi/web/simple
+
+RUN apt install unzip vim -y
+
+# 设置conda环境
+RUN echo "export PATH=/opt/conda/bin:$PATH" >> ~/.bashrc
+RUN echo "conda init" >> ~/.bashrc
+RUN echo "source activate evalscope" >> ~/.bashrc
+ENV PATH /opt/conda/envs/evalscope/bin:$PATH
+
+RUN mkdir -p /root/evalscope/data
+WORKDIR /root/evalscope
+COPY ./evalscope/run_precision_R1_0528.py /root/evalscope/run_precision_R1_0528.py
+COPY ./evalscope/run_precision_V3_0324.py /root/evalscope/run_precision_V3_0324.py
+
+COPY ./evalscope/dataset/cluewsc_custom /root/evalscope/data/cluewsc_custom
+COPY ./evalscope/run_performance.py /root/evalscope/run_performance.py
+COPY ./evalscope/utils.py /root/evalscope/utils.py
+
+
+RUN mkdir -p /root/nltk_data/tokenizers 
+COPY ./evalscope/dataset/punkt_tab.zip /root/evalscope/
+RUN unzip punkt_tab.zip -d /root/nltk_data/tokenizers/
+
+# 设置默认命令（如果需要）
+CMD ["/bin/bash"]
