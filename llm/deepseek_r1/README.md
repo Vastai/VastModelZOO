@@ -472,7 +472,7 @@ from evalscope import TaskConfig, run_task
 from evalscope.constants import EvalType
 
 task_cfg = TaskConfig(
-    model='DeepSeek-R1',   # 模型名称 (需要与部署时的模型名称一致)
+    model='DeepSeek-R1-0528',   # 模型名称 (需要与部署时的模型名称一致)
     api_url='http://127.0.0.1:8000/v1',  # 推理服务地址
     api_key='token-abc123',
     eval_type=EvalType.SERVICE,   # 评测类型，SERVICE表示评测推理服务
