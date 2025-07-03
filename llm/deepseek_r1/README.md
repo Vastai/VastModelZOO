@@ -104,6 +104,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 <a id="install"></a>
 # 环境安装
 
+部署DeepSeek-R1  系列模型前，请先安装配套版本的Driver。本文档不涉及Driver安装的详细说明
 
 
 
