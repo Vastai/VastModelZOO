@@ -173,7 +173,7 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 1.** 获取模型 Docker Compose 配置文件。
 
-- DeepSeek-V3 系列模型：获取[DeepSeek-V3 系列模型 Docker Compse文件](https://github.com/Vastai/VastModelZOO/tree/feature_ds3/llm/deepseek_v3/docker-compose)，如下所示。
+- DeepSeek-V3 系列模型：获取[DeepSeek-V3 系列模型 Docker Compse文件](./docker-compose/)，如下所示。
 
 ```shell
 ├── ds-v3-0324-docker-compose.yaml
