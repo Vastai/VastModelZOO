@@ -569,8 +569,12 @@ cd /root/evalscope
 python run_precision_R1-0528.py
 ```
 
-本次测试使用了MMLU、MATH-500、CLUEWSC数据集。其中，MATH-500和CLUEWSC为全量数据集，MMLU仅使用了前10个子集（涵盖哲学、历史、计算机科学等学科）。
+本次测试使用了MMLU、MATH-500、CLUEWSC数据集。其中，MATH-500和CLUEWSC为全量数据集，MMLU仅使用了前10个子集（涵盖哲学、历史、计算机科学等学科）。精度结果如下所示。
 
+| Model            | MMLU_cuda | MMLU_vacc | math500_cuda  | math500_vacc | cluewsc_cuda | cluewsc_vacc  |
+|------------------|-----------|-----------|---------------|--------------|--------------|---------------|
+| DeepSeek-R1      | 90.113    | 90.832    | 97.20         | 97.20        | 96.225       | 96.385        |
+| DeepSeek-R1-0528 | 92.71     | 92.38     | 96.60         | 96.60        | 96.76        | 96.39         |
 
 
 <a id="webui"></a>

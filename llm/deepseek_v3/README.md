@@ -577,8 +577,11 @@ cd /root/evalscope
 python run_precision_V3_0324.py
 ```
 
-本次测试使用了MMLU、MATH-500、CLUEWSC数据集。其中，MATH-500和CLUEWSC为全量数据集，MMLU仅使用了前10个子集（涵盖哲学、历史、计算机科学等学科）。
+本次测试使用了MMLU、MATH-500、CLUEWSC数据集。其中，MATH-500和CLUEWSC为全量数据集，MMLU仅使用了前10个子集（涵盖哲学、历史、计算机科学等学科）。精度结果如下所示。
 
+| Model            | MMLU_cuda | MMLU_vacc | math500_cuda  | math500_vacc | cluewsc_cuda | cluewsc_vacc  |
+|------------------|-----------|-----------|---------------|--------------|--------------|---------------|
+| DeepSeek-V3-0324 | 83.153    | 83.752    | 95.20         | 94.60        | 95.10        | 95.100        |
 
 
 <a id="webui"></a>
