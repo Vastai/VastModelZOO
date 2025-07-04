@@ -108,41 +108,6 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-<a id="modifycpu"></a>
-## 调整 CPU 频率
-
-
-
-**步骤 1.** 安装 cpupower 工具。
-
-```shell
-apt-get install -y linux-tools-common linux-tools-$(uname -r)
-```
-
-**步骤 2.** 开启 CPU 高性能模式。
-
-```shell
-cpupower frequency-set --governor performance
-```
-
-
-**步骤 3.** 查看 CPU 当前频率。
-
-```shell
-cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq
-```
-
-此时会显示 CPU 所有核的频率。
-
-
-**步骤 4.** 查看 CPU 支持的最大频率。
-
-```shell
-lscpu | grep "MHz"
-```
-如果“步骤 3.”显示的当前频率和“步骤 4.”显示的最大频率相差不大，则说明当前CPU已处于高性能模式。
-
-
 <a id="vastai_vllm"></a>
 # 启动 vLLM 服务
 
@@ -377,7 +342,7 @@ docker run --ipc=host --rm -it  --network host \
 ```
 
 
-**步骤 4.** 根据实际情况修改精度测试脚本“/root/evalscope/run_performance.py”中的模型名称、vLLM 服务地址，类似如下所示。
+**步骤 4.** 根据实际情况修改性能测试脚本“/root/evalscope/run_performance.py”中的模型名称、vLLM 服务地址，类似如下所示。
 
 
 ```{code-block}
