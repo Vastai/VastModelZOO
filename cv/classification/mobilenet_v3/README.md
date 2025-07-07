@@ -79,7 +79,6 @@ MobileNetV3进行了修改，将其放在avg pooling的后面，首先利用avg 
 |    mobilenetv3_small_050     |           [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/mobilenetv3.py)           | 57.890 | 80.194 |  22.600  |   1.590   |    224     |
 |    mobilenetv3_small_075     |           [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/mobilenetv3.py)           | 65.242 | 85.438 |  46.020  |   2.040   |    224     |
 |    mobilenetv3_small_100     |           [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/mobilenetv3.py)           | 67.656 | 87.634 |  63.670  |   2.540   |    224     |
-|    mobilenetv3_small     |           [showlo](https://github.com/ShowLo/MobileNetV3)           | 67.52 | 87.58 |  62.47  |   2.533   |    224     |
 |      MobileNetV3_small       |            [sqlai](https://github.com/xiaolai-sqlai/mobilenetv3)            | 69.048 | 88.274 |  65.639  |   2.951   |    224     |
 |      MobileNetV3_large       |            [sqlai](https://github.com/xiaolai-sqlai/mobilenetv3)            | 75.796 | 92.440 | 231.038  |   5.179   |    224     |
 ### 测评数据集说明
@@ -98,7 +97,6 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 ## Build_In Deploy
 
 - [ppcls_mobilenetv3.md](source_code/ppcls_mobilenetv3.md)
-- [showlo_mobilenetv3.md](source_code/showlo_mobilenetv3.md)
 - [sqlai_mobilenetv3.md](source_code/sqlai_mobilenetv3.md)
 - [timm_mobilenetv3.md](source_code/timm_mobilenetv3.md)
 - [torchvision_mobilenetv3.md](source_code/torchvision_mobilenetv3.md)

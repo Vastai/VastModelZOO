@@ -75,7 +75,6 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 ## Build_In Deploy
 
 ### step.1 获取模型
-
 ```bash
 pip install timm==0.6.5
 python ../common/utils/export_timm_torchvision_model.py --model_library timm  --model_name efficientnet_b0 --save_dir ./onnx  --size 224 --pretrained_weights xxx.pth
@@ -84,22 +83,18 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [timm_efficientnet.yaml](../build_in/build/timm_efficientnet.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd efficientnet
@@ -109,9 +104,7 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream
+1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
@@ -137,16 +130,14 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
     top1_rate: 71.158 top5_rate: 90.2
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置[timm-efficientnet_b0-vdsp_params.json](../build_in/vdsp_params/timm-efficientnet_b0-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/timm_efficientnet_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/timm-efficientnet_b0-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
@@ -168,8 +159,3 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
     ```bash
     python ../../common/eval/eval_topk.py imagenet_result.txt
     ```
-
-
-## appending
-1. EfficientNet 系列模型使用int8`PQT`方案基本都会掉点
-2. int8 `PQT` 效果较好的是`percentile`, gap在5个点左右

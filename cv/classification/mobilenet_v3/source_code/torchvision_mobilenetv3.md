@@ -6,22 +6,18 @@ python ../common/utils/export_timm_torchvision_model.py --model_library torchvis
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [torchvision_mobilenetv3.yaml](../build_in/build/torchvision_mobilenetv3.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd mobilenet_v3
@@ -31,10 +27,7 @@ python ../common/utils/export_timm_torchvision_model.py --model_library torchvis
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream
+1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
@@ -63,16 +56,14 @@ python ../common/utils/export_timm_torchvision_model.py --model_library torchvis
     top1_rate: 1.036 top5_rate: 3.43
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置[torchvision-mobilenet_v3_small-vdsp_params.json](../build_in/vdsp_params/torchvision-mobilenet_v3_small-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/torch_mobilenetv3_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/torchvision-mobilenet_v3_small-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
@@ -93,25 +84,4 @@ python ../common/utils/export_timm_torchvision_model.py --model_library torchvis
     - 精度评估，参考：[eval_topk.py](../../common/eval/eval_topk.py)
     ```bash
     python ../../common/eval/eval_topk.py imagenet_result.txt
-    ```
-
-### appending
-- torchvision：torchscript，FP16精度正常，INT8掉点严重
-    ```bash
-    MobileNetV3_small
-    benchmark:{"top1": 67.668, "top5": 87.402}
-    fp16：{"top1": 67.186, "top5": 87.032}
-    int8-percentile:{'top1_rate': 0.782, 'top5_rate': 2.716}
-
-    MobileNetV3_large
-    benchmark:{"top1": 74.042, "top5": 91.34}
-    fp16:{"top1": 73.892, "top5": 90.257}
-    int8-percentile:{"top1": 0.62, "top5": 2.126}
-    ```
-- torchvision：onnx，FP16精度正常，INT8掉点严重
-    ```bash
-    MobileNetV3_small
-    benchmark：{"top1": 67.668, "top5": 87.402}
-    fp16：{'top1_rate': 65.66, 'top5_rate': 86.366}
-    int8-percentile：{'top1_rate': 0.762, 'top5_rate': 2.388}
     ```
