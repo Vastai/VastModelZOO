@@ -1,6 +1,6 @@
 services:
   vllm-ds-v3:
-    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:latest
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP4_0704
     privileged: true
     network_mode: host
     container_name: vllm_service

@@ -27,7 +27,7 @@
 
 当前支持的模型如下所示：
 
-- [Qwen3-30B-A3B](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
+- [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
 
 
 模型下载步骤如下所示。
@@ -45,7 +45,7 @@ export PATH=$PATH:~/.local/bin
 
 `$Model_Name`：
 
-- Qwen3-30B-A3B
+- Qwen3-30B-A3B-FP8
 
 
 
@@ -196,11 +196,11 @@ python3 benchmark_serving.py \
 - `--result-filename`：测试结果文件名称。
 
 
-本节以 Qwen3-30B-A3B 模型为例进行说明如何测试模型性能。
+本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型性能。
 
 **步骤 1.** 启动 vLLM 服务。
 
-**步骤 2.** 测试Qwen3-30B-A3B模型性能。
+**步骤 2.** 测试Qwen3-30B-A3B-FP8模型性能。
 
 ```shell
 docker exec -it  vllm_service bash
@@ -208,9 +208,9 @@ cd /test/benchmark
 mkdir benchmark_result
 export OPENAI_API_KEY="token-abc123"
 python3 benchmark_serving.py \
-    --host 127.0.0.1 \
+    --host <IP> \
     --port 8000 \
-    --model /weights/Qwen3-30B-A3B \
+    --model /weights/Qwen3-30B-A3B-FP8 \
     --dataset-name random \
     --num-prompts 5 \
     --random-input-len 128 \
@@ -222,7 +222,7 @@ python3 benchmark_serving.py \
     --result-dir ./benchmark_result \
     --result-filename result.json     
 ```
-其中，“vllm_service”为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询。
+其中，“vllm_service”为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；“host”为本机ip地址。
 
 
 本次测试使用“/test/benchmark/benchmark.sh”进行批量测试。
@@ -418,7 +418,7 @@ work_dir: ./outputs_eval_qwen3
 
 - work_dir：评测结果保存路径。
 
-本节以 Qwen3-30B-A3B 模型为例进行说明如何测试模型精度，其中数据集使用原生数据集。
+本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型精度，其中数据集使用原生数据集。
 
 **步骤 1.** 单击[config_eval_qwen3.yaml](./config/config_eval_qwen3.yaml)下载精度配置文件。
 
@@ -484,7 +484,7 @@ limit: 50
 
 
 
-**步骤 6.**  测试 Qwen3-30B-A3B 模型精度。
+**步骤 6.**  测试 Qwen3-30B-A3B-FP8 模型精度。
 
 ```shell
 conda activate vaeval
@@ -510,7 +510,7 @@ vaeval eval config_eval_qwen3.yaml
 
 # 启动 Open WebUI 服务
 
-Open WebUI通过容器启动，本节以 Qwen3-30B-A3B 模型为例进行说明如何访问 Open WebUI。
+Open WebUI通过容器启动，本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何访问 Open WebUI。
 
 
 
@@ -533,7 +533,7 @@ docker run -d \
     --network=host \
     -e PORT=18080 \
     -e OPENAI_API_BASE_URL="http://127.0.0.1:8000/v1" \
-    -e DEFAULT_MODELS="/weights/Qwen3-30B-A3B" \
+    -e DEFAULT_MODELS="/weights/Qwen3-30B-A3B-FP8" \
     -e DEFAULT_LOCALE="cn" \
     --name vast-webui \
     --restart always \
@@ -562,7 +562,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
 
-**步骤 5.** 连接 vLLM 服务并添加Qwen3-30B-A3B模型。
+**步骤 5.** 连接 vLLM 服务并添加Qwen3-30B-A3B-FP8模型。
 
 
 如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
@@ -573,7 +573,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 ![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:42:48Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=4d560101e15d964799bba542eeed1e61f69397398c1277965bed2568c851f858)
 
-2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和Qwen3-30B-A3B模型地址并保存。
+2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和Qwen3-30B-A3B-FP8模型地址并保存。
 
 -  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
 

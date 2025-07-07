@@ -244,7 +244,7 @@ cd /test/benchmark
 mkdir benchmark_result
 export OPENAI_API_KEY="token-abc123"
 python3 benchmark_serving.py \
-    --host 127.0.0.1 \
+    --host <IP> \
     --port 8000 \
     --model /weights/DeepSeek-V3-0324 \
     --dataset-name random \
@@ -258,7 +258,7 @@ python3 benchmark_serving.py \
     --result-dir ./benchmark_result \
     --result-filename result.json     
 ```
-其中，“vllm_service”为vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询。
+其中，“vllm_service”为vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；“host”为本机ip地址。
 
 
 
