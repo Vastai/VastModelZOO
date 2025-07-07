@@ -20,4 +20,4 @@ eval_batch_size: 2
 limit: 50
 stream: true
 timeout: 6000000  
-work_dir: ./outputs_0704/outputs_eval_ds_v3                        
+work_dir: ./outputs_eval_ds_v3                        

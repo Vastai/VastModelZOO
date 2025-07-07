@@ -3,7 +3,7 @@ model: "Qwen3"
 api_url: "http://localhost:8000/v1/chat/completions"
 api_key: "EMPTY"
 eval_type: "service"
-work_dir: "./outputs_0704/outputs_eval_qwen3"
+work_dir: "./outputs_eval_qwen3"
 
 datasets:
   - "mmlu_pro"

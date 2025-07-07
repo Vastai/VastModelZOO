@@ -4,12 +4,10 @@
 本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3 系列模型，以及测试模型的精度和性能。
 
 
-<a id="hardware"></a>
 # 硬件要求
 
 部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
-<a id="overview_info"></a>
 # 版本配套说明
 
 
@@ -23,7 +21,6 @@
 
 
 
-<a id="supportmodel"></a>
 ## 支持的模型
 
 当前支持的模型如下所示：
@@ -42,8 +39,8 @@
 1. 安装 ModelScope。
 
 ```shell
-pip install modelscope \
-    -i https://mirrors.ustc.edu.cn/pypi/web/simple export PATH=$PATH:~/.local/bin
+pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
+export PATH=$PATH:~/.local/bin
 ```
 
 
@@ -77,7 +74,6 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-<a id="notice"></a>
 ## 注意事项
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
@@ -94,14 +90,18 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-<a id="install"></a>
 # 环境安装
 
-部署DeepSeek-V3  系列模型前，请先安装配套版本的Driver。本文档不涉及Driver安装的详细说明
 
 
-<a id="vastai_vllm"></a>
-# 启动 vLLM 服务
+
+部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+
+
+
+
+
+## 启动 vLLM 服务
 
 **前提条件**
 
@@ -125,7 +125,7 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 1.** 获取模型 Docker Compose 配置文件。
 
-- DeepSeek-V3 系列模型：获取[DeepSeek-V3 系列模型 Docker Compse文件](./docker-compose/)，如下所示。
+- DeepSeek-V3 系列模型：在GitHub 上获取[DeepSeek-V3 系列模型 Docker Compse文件](https://github.com/Vastai/VastModelZOO/tree/develop/llm/deepseek_v3/docker-compose)，如下所示。
 
 ```shell
 ├── ds-v3-0324-docker-compose.yaml
@@ -135,7 +135,8 @@ chmod +x /usr/local/bin/docker-compose
 
 
 
-**步骤 2.** 根据实际情况修改“docker-compose/.env”文件中“DS_xx_MODEL_PATH”参数。
+
+**步骤 2.** 根据实际情况修改“.env”文件中“DS_xx_MODEL_PATH”参数。
 
 其中，“DS_xx_MODEL_PATH”表示DeepSeek V3系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
 
@@ -153,36 +154,33 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 4.**  启动 vLLM 服务。
 ```bash 
-docker-compose -f docker-compose/ds-xxx-docker-compose.yaml up -d
+docker-compose -f ds-xxx-docker-compose.yaml up -d
 ```
 
-启动完成后会生成 vLLM 容器名称，例如“vllm_deepseek-xx”,其中，“xx”为模型版本。
+启动完成后会显示 vLLM 容器名称，例如“vllm_service”。
 
 
 **步骤 5.** 查看 vLLM 服务的输出日志。
 
 ```bash
-docker logs -f xxx
+docker logs -f vllm_service
 ```
 
-其中，“xxx”为 vLLM 容器名称，根据“步骤 3.”获取，请根据实际情况替换。
 
 **步骤 6.** （可选）停止 vLLM 服务。
 
 如果需停止服务，可执行该步骤。
 
 ```bash
-docker-compose -f docker-compose/ds-xxx-docker-compose.yaml down
+docker-compose -f ds-xxx-docker-compose.yaml down
 ```
 
 
 
-<a id="performance"></a>
 # 测试模型性能
 
-模型性能包含吞吐和推理时延，可通过 vLLM 服务加载模型，并使用 vLLM 自带框架或 EvalScope 框架进行性能测试。
+模型性能包含吞吐和推理时延，可通过 vLLM 服务加载模型，并使用 vLLM 自带框架进行性能测试。
 
-<a id="performancevllm"></a>
 ## vLLM 自带框架测试模型性能
 
 通过 vLLM 自带框架进行模型测试的指令如下所示，所在路径为容器（启动 vLLM 服务的容器）内的“/test/benchmark”目录下。
@@ -210,7 +208,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“/docker-compose/ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+- `--port`：vLLM 推理服务端口，需在“ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3 系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
@@ -226,7 +224,7 @@ python3 benchmark_serving.py \
 
 - `--max-concurrency`：最大请求并发数。
 
-- `--served_model_name`：API 中使用的模型名称。
+- `--served_model_name`：API 中使用的模型名称，默认设置为 DS3-V3。
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -236,152 +234,39 @@ python3 benchmark_serving.py \
 
 
 
+**步骤 1.** 启动  vLLM 服务。
 
-本节以 DeepSeek-V3 模型为例进行说明如何测试模型性能。
-
-**步骤 1.** 启动  vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
-
-**步骤 2.** 测试DeepSeek-V3模型性能。
+**步骤 2.** 测试DeepSeek-V3-0324模型性能。
 
 ```shell
+docker exec -it  vllm_service bash
 cd /test/benchmark
 mkdir benchmark_result
 export OPENAI_API_KEY="token-abc123"
 python3 benchmark_serving.py \
     --host 127.0.0.1 \
     --port 8000 \
-    --model /weights/DeepSeek-V3 \
+    --model /weights/DeepSeek-V3-0324 \
     --dataset-name random \
     --num-prompts 5 \
     --random-input-len 128 \
     --ignore-eos \
     --random-output-len 1024 \    
     --max-concurrency 1 \
-    --served_model_name DeepSeek-V3 \
+    --served_model_name DS3-V3 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
 ```
-结果说明可参考<a href="#user-content-performancedes" target="_self">性能结果指标说明</a>。
+其中，“vllm_service”为vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询。
+
 
 
 
 本次测试使用“/test/benchmark/benchmark.sh”进行批量测试。
 
-<a id="performanceeval"></a>
-## EvalScope 测试模型性能
-
-通过 EvalScope 框架测试模型性能的指令如下所示，所在路径为容器（测试模型精度的容器）内的“/root/evalscope”目录下。
-
-```shell
-python run_performance.py
-```
-测试模型性能前，需根据实际情况修改以下参数。
-
-- model_name：模型名称。
-
-- url：vLLM服务地址。
-
-```{code-block}
-import csv
-import os
-from typing import List, Dict, Any
-from evalscope.perf.main import run_perf_benchmark
-from evalscope.perf.arguments import Arguments
-
-from utils import save_to_csv
-
-# 常量定义
-MILLISECONDS_PER_SECOND = 1000
-
-# 配置参数 - 建议改为从环境变量或配置文件中读取
-model_name = "DeepSeek-V3-0324"
-tokenizer_path = f"deepseek-ai/{model_name}"
-url = os.getenv("API_URL", "http://127.0.0.1:8000/v1/chat/completions")
-api = "openai"
-api_key = os.getenv("API_KEY", "token-abc123")  # 从环境变量读取API密钥
-dataset = "random"
-max_concurrencies = [1, 2, 4]
-pre_req_nums = 1
-input_tokens_list = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 54272, 65536]
-output_tokens_list = [1024, 8192]
-max_seqlen = 65536
-max_per_request = 56320
-csv_file_path = "evalscope_benchmark.csv"
-... ...
-... ...
-```
 
 
-
-本节以 DeepSeek-V3 模型为例进行说明如何通过EvalScope 框架测试模型性能。
-
-
-
-**步骤 1.** 启动 vLLM服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
-
-**步骤 2.** 新打开一个终端拉取测试模型精度的镜像。
-
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/deepseek_eval:latest
-```
-
-**步骤 3.** 在新打开的终端运行测试模型精度的容器。
-
-```shell
-docker run --ipc=host --rm -it  --network host \
-       --name=deepseek_eval harbor.vastaitech.com/ai_deliver/\
-       deepseek_eval:latest bash
-```
-
-
-**步骤 4.** 根据实际情况修改性能测试脚本“/root/evalscope/run_performance.py”中的模型名称、vLLM 服务地址，类似如下所示。
-
-
-```{code-block}
-import csv
-import os
-from typing import List, Dict, Any
-from evalscope.perf.main import run_perf_benchmark
-from evalscope.perf.arguments import Arguments
-
-from utils import save_to_csv
-
-# 常量定义
-MILLISECONDS_PER_SECOND = 1000
-
-# 配置参数 - 建议改为从环境变量或配置文件中读取
-model_name = "DeepSeek-V3"
-tokenizer_path = f"deepseek-ai/{model_name}"
-url = os.getenv("API_URL", "http://127.0.0.1:8000/v1/chat/completions")
-api = "openai"
-api_key = os.getenv("API_KEY", "token-abc123")  # 从环境变量读取API密钥
-dataset = "random"
-max_concurrencies = [1, 2, 4]
-pre_req_nums = 1
-input_tokens_list = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 54272, 65536]
-output_tokens_list = [1024, 8192]
-max_seqlen = 65536
-max_per_request = 56320
-csv_file_path = "evalscope_benchmark.csv"
-... ...
-... ...
-```
-
-
-
-
-**步骤 5.**  测试 DeepSeek-V3 模型性能。
-
-```shell
-cd /root/evalscope
-python run_performance.py
-```
-
-性能结果保存在`${csv_file_path}`中，结果说明可参考<a href="#user-content-performancedes" target="_self">性能结果指标说明</a>。
-
-
-<a id="performancedes"></a>
 ## 性能结果指标说明
 
 - Maximum req： 最大并发数。
@@ -410,143 +295,274 @@ python run_performance.py
 
 
 
-<a id="precision"></a>
 # 测试模型精度
 
 
-模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 框架进行评估。测试指令如下所示，所在路径为容器（测试模型精度的容器）内的“/root/evalscope”目录下。
+模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
-- 针对 DeepSeek V3系列模型，其执行命令为：
-```shell
-python run_precision_V3_0324.py
+EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
+
+使用原生数据集进行精度测试，配置文件如下所示。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
+
+- DeepSeek-V3 系列模型： 单击[config_eval_ds_v3.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_v3/config/config_eval_ds_v3.yaml)获取精度测试配置文件。
+
+```yaml
+# vaeval 评估配置文件
+model: "DS3-V3"
+api_url: "http://localhost:8000/v1/chat/completions"
+api_key: "EMPTY"
+eval_type: "service"
+work_dir: "./outputs_eval_ds_v3"
+
+datasets:
+  - "mmlu_pro"
+  - "drop"
+  - "ifeval"
+  - "gpqa"
+  - "live_code_bench"
+  - "aime24"
+  - "math_500"
+  - "ceval"
+
+dataset_args:
+  mmlu_pro:
+    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
+  gpqa:
+    subset_list: ["gpqa_diamond"]
+  ceval:
+    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+
+eval_batch_size: 4
+
+generation_config:
+  max_tokens: 61440
+  temperature: 0.6
+  top_p: 0.95
+  n: 1
+
+stream: true
+timeout: 6000000
+limit: 50                   
 ```
 
+参数说明如下所示。
+- model：模型名称。
 
+- api_url：vLLM 服务地址。
+
+- api_key：API 密钥。默认值：Empty。
+
+- eval_type：评测类型，设置为service。
+
+
+- work_dir：评测结果保存路径。
+
+- datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
+
+- dataset_args：数据集参数
+
+  - subset_list：评测数据子集列表，指定后将只使用子集数据。
+
+- eval_batch_size：评测批次大小。
+
+- generation_config：生成参数。
+
+  - max_tokens：生成的最大Token数量。
+
+  - temperature：生成温度。
+
+  - top_p：生成top-p。
+
+   - n： 生成序列数量。
+
+- stream：是否使用流式输出，默认值：false。
+
+- timeout：请求超时时间。
+
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
+
+
+
+
+
+使用自定义数据集进行精度测试，配置文件如下所示。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
+
+- DeepSeek-V3 系列模型： 单击[config_eval_general_mcq_dsv3.yam](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_v3/config/config_eval_general_mcq_dsv3.yaml)获取精度测试配置文件。
+
+
+```yaml
+model: DS3-V3
+api_url: http://localhost:8000/v1/chat/completions
+api_key: EMPTY
+eval_type: service
+datasets:
+  - general_mcq
+dataset_args:
+  general_mcq:
+    local_path: "/path/to/cluewsc_custom"
+    subset_list:
+      - "cluewsc"
+    prompt_template: "以下问题的答案有AB两个选项，选出正确答案，请直接回答A或B\n\n{query}"
+    eval_split: 'test'
+generation_config:
+  max_tokens: 61440
+  temperature: 0.6
+  top_p: 0.95
+  n: 1
+eval_batch_size: 4
+limit: 50
+stream: true
+timeout: 6000000  
+work_dir: ./outputs_eval_ds_v3                          
+```
+
+参数说明如下所示。
 
 - model：模型名称。
 
-- api_url：vLLM 服务所在地址。
+- api_url：vLLM 服务地址。
 
-```{code-block} 
-# set dataset
-from evalscope import TaskConfig, run_task
-from evalscope.constants import EvalType
+- api_key：API密钥。
 
-task_cfg = TaskConfig(
-    model='DeepSeek-V3-0324',   # 模型名称 (需要与部署时的模型名称一致)
-    api_url='http://127.0.0.1:8000/v1',  # 推理服务地址
-    api_key='token-abc123',
-    eval_type=EvalType.SERVICE,   # 评测类型，SERVICE表示评测推理服务
-    datasets=[
-        'mmlu_pro',
-        'drop', 
-        'ifeval', 
-        'gpqa', 
-        'live_code_bench',
-        'aime24', 
-        'math_500',
-        'ceval',        
-        'general_mcq',     # 选择题格式固定为 'general_mcq'
-    ],
-    ... ...
-    ... ...
-    generation_config={       # 模型推理配置
-        'max_tokens': 61440,  # 最大生成token数
-        'temperature': 0.6,   # 采样温度 (deepseek 报告推荐值)
-        'top_p': 0.95,        # top-p采样 (deepseek 报告推荐值)
-        'n': 1                # 每个请求产生的回复数量 (注意 lmdeploy 目前只支持 n=1)
-    },
-   ... ...
-```
+- eval_type：评测类型，设置为service。
 
 
+- datasets：自定义数据集名称
+
+- dataset_args：数据集参数
 
 
+   - general_xxx：自定义数据集名称，根据实际情况替换。
 
+   - local_path：自定义数据集路径。
 
+   - subset_list：自定义数据集子集名称。
 
-本节以 DeepSeek-V3 模型为例进行说明如何测试模型精度。
+   - prompt_template：Prompt模板，
 
+   - eval_split：评测数据集划分。
 
+- generation_config：生成参数
 
-**步骤 1.** 启动 vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
+  - max_tokens：生成的最大Token数量。
 
-**步骤 2.** 新打开一个终端拉取测试模型精度的镜像。
+  - temperature：生成温度。
 
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/deepseek_eval:latest
-```
+  - top_p：生成top-p。
 
-**步骤 3.** 在新打开的终端运行测试模型精度的容器。
+   - n： 生成序列数量。
+
+- eval_batch_size：评测批次大小。
+
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
+
+- stream：是否使用流式输出，默认值：false。
+
+- timeout：请求超时时间。
+
+- work_dir：评测结果保存路径。
+
+本节以 DeepSeek-V3 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
+
+**步骤 1.** 单击[config_eval_ds_v3.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_v3/config/config_eval_ds_v3.yaml)获下载精度配置文件。
+
+假设下载后目录为“/home/username”目录，请根据实际情况替换。
+
+**步骤 2.** 启动 vLLM 服务。
+
+**步骤 3.** 新打开一个终端拉取测试模型精度的镜像。
 
 ```shell
-docker run --ipc=host --rm -it  --network host \
-       --name=deepseek_eval harbor.vastaitech.com/ai_deliver/\
-       deepseek_eval:latest bash
+docker pull harbor.vastaitech.com/ai_deliver/vaeval:0.1 
 ```
 
-**步骤 4.** 根据实际情况修改精度测试脚本“/root/evalscope/run_precision_V3_0324.py”中的模型名称、 vLLM服务地址、最大Token，类似如下所示。
-
-```{code-block} 
-# set dataset
-from evalscope import TaskConfig, run_task
-from evalscope.constants import EvalType
-
-task_cfg = TaskConfig(
-    model='DeepSeek-V3',   # 模型名称 (需要与部署时的模型名称一致)
-    api_url='http://127.0.0.1:8000/v1',  # 推理服务地址
-    api_key='token-abc123',
-    eval_type=EvalType.SERVICE,    # 评测类型，SERVICE表示评测推理服务
-    datasets=[
-        'mmlu_pro',
-        'drop', 
-        'ifeval', 
-        'gpqa', 
-        'live_code_bench',
-        'aime24', 
-        'math_500',
-        'ceval',   
-        'general_mcq',     # 选择题格式固定为 'general_mcq'
-    ],
-    ... ...
-    ... ...
-    generation_config={       # 模型推理配置
-        'max_tokens': 61440,  # 最大生成token数
-        'temperature': 0.6,   # 采样温度 (deepseek 报告推荐值)
-        'top_p': 0.95,        # top-p采样 (deepseek 报告推荐值)
-        'n': 1                # 每个请求产生的回复数量 (注意 lmdeploy 目前只支持 n=1)
-    },
-   ... ...
-```
-
-
-
-
-**步骤 5.**  测试 DeepSeek-V3 模型精度。
+**步骤 4.** 在新打开的终端运行测试模型精度的容器。
 
 ```shell
-cd /root/evalscope
-python run_precision_V3_0324.py
+docker run --ipc=host -it --ipc=host --privileged \
+      --name=vaeval -v /home/username:/data harbor.vastaitech.com/ai_deliver/vaeval:0.1 bash
+```
+其中，“/home/username”为精度测试配置文件所在目录，请根据实际情况替换。
+
+**步骤 4.** 根据实际情况修改精度测试配置文件。
+
+```yaml
+# vaeval 评估配置文件
+model: "DS3-V3"
+api_url: "http://localhost:8000/v1/chat/completions"
+api_key: token-abc123
+eval_type: "service"
+work_dir: "./outputs_eval_ds_v3"
+
+datasets:
+  - "mmlu_pro"
+  - "drop"
+  - "ifeval"
+  - "gpqa"
+  - "live_code_bench"
+  - "aime24"
+  - "math_500"
+  - "ceval"
+
+dataset_args:
+  mmlu_pro:
+    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
+  gpqa:
+    subset_list: ["gpqa_diamond"]
+  ceval:
+    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+
+eval_batch_size: 2
+
+generation_config:
+  max_tokens: 61440
+  temperature: 0.6
+  top_p: 0.95
+  n: 1
+
+stream: true
+timeout: 6000000
+limit: 50                   
 ```
 
-本次测试使用了MMLU、MATH-500、CLUEWSC数据集。其中，MATH-500和CLUEWSC为全量数据集，MMLU仅使用了前10个子集（涵盖哲学、历史、计算机科学等学科）。精度结果如下所示。
-
-| Model            | MMLU_cuda | MMLU_vacc | math500_cuda  | math500_vacc | cluewsc_cuda | cluewsc_vacc  |
-|------------------|-----------|-----------|---------------|--------------|--------------|---------------|
-| DeepSeek-V3-0324 | 83.153    | 83.752    | 95.20         | 94.60        | 95.10        | 95.100        |
 
 
-<a id="webui"></a>
+
+**步骤 5.**  测试 DeepSeek-V3-0324 模型精度。
+
+```shell
+conda activate vaeval
+vaeval eval config_eval_ds_v3.yaml]
+```
+
+本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
+其中，“Score_VACC”表示在瀚博硬件设备上的精度测试结果，“Score_NV”表示在NVIDIA上的精度测试结果。
+
+- DeepSeek-V3-0324 精度结果如下所示。
+
+| Model | Dataset |Subset_Num|Sample_Num|Score_VACC|Score_NV|
+| --- | --- |--- |--- |--- |--- |
+| DeepSeek-V3-0324 |cluewsc  |1|50|0.92|0.92|
+| DeepSeek-V3-0324 |aime24  |1|30|0.5333|0.5|
+| DeepSeek-V3-0324 |ceval  |5|115|0.887|0.8783|
+| DeepSeek-V3-0324 |drop  |1|50|0.92|0.92|
+| DeepSeek-V3-0324 |gpqa  |1|50|0.64|0.66|
+| DeepSeek-V3-0324 |ifeval  |1|50|0.84|0.82|
+| DeepSeek-V3-0324 |live_code_bench  |1|50|0.92|0.94|
+| DeepSeek-V3-0324 |math_500  |5|243|0.9588|0.9506|
+| DeepSeek-V3-0324 |mmlu_pro  |5|250|0.796|0.784|
+
+
 # 启动 Open WebUI 服务
 
-Open WebUI通过容器启动，本节以 DeepSeek-V3 模型为例进行说明如何访问 Open WebUI。
+Open WebUI通过容器启动，本节以 DeepSeek-V3-0324 模型为例进行说明如何访问 Open WebUI。
 
 
 
 
 **操作步骤**
 
-**步骤 1.** 启动 vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
+**步骤 1.** 启动 vLLM 服务。
 
 **步骤 2.** 新打开一个终端拉取 Open WebUI 镜像。
 ```shell
@@ -562,7 +578,7 @@ docker run -d \
     --network=host \
     -e PORT=18080 \
     -e OPENAI_API_BASE_URL="http://127.0.0.1:8000/v1" \
-    -e DEFAULT_MODELS="/weights/DeepSeek-V3" \
+    -e DEFAULT_MODELS="/weights/DeepSeek-V3-0324" \
     -e DEFAULT_LOCALE="cn" \
     --name vast-webui \
     --restart always \
@@ -585,12 +601,13 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
 
-![vastai_openwebui.png](https://storage.vastaitech.com/storage/v1/download/430387876463775744/vastai_openwebui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387876463775744&X_Amz_Date=2025-07-03T10:45:22Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fdadf129ea33b8791c60c3f51b5a779c7902b71c930909893993b19e777aea72)
+
+![vastai_openwebui.png](https://storage.vastaitech.com/storage/v1/download/432625543565938688/vastai_openwebui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625543565938688&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fac6acbd303efcf8d28fee80a695473a7830c47e7f5e7858f19b10c264c1d7e0)
 
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
 
-**步骤 5.** 连接 vLLM 服务并添加DeepSeek-V3模型。
+**步骤 5.** 连接 vLLM 服务并添加DeepSeek-V3-0324模型。
 
 
 如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
@@ -599,9 +616,9 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
 
 
-![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-03T10:45:22Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=c9206a5739e497178b680de6322d52eb47a5a560052abc0b0589d68b388b531a)
+![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=379cad9298d9ad989876c2a1573aac7d5ba5be005998d1cf424f1528c237b549)
 
-2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3模型地址并保存。
+2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3-0324模型地址并保存。
 
 -  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
 
@@ -611,22 +628,19 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 
 
-![add_url_model.png](https://storage.vastaitech.com/storage/v1/download/430387014215536640/add_url_model.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387014215536640&X_Amz_Date=2025-07-03T10:45:22Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=7f2a81b3aeda44e1c0385f4011b947f987fb6fdb4eb7b7aaaba57c186f9105dd)
+![add_url_model.png](https://storage.vastaitech.com/storage/v1/download/430387014215536640/add_url_model.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387014215536640&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fa2d747530970b28d1fcbdd652d50962b8d4cb73236538e59682e637929ff2aa)
 
 3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 
 
-![disable_ui.png](https://storage.vastaitech.com/storage/v1/download/430387118813089792/disable_ui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387118813089792&X_Amz_Date=2025-07-03T10:45:22Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=3a6a052e8f71ff87400239edf29138f6d57f3a9ea9008d1fd13709c9e6b3908c)
+![disable_ui.png](https://storage.vastaitech.com/storage/v1/download/430387118813089792/disable_ui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387118813089792&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=8558bb133536f00eb312cebc878c623fafc95c12171ac9635693806f7d22a889)
 
 **步骤 6.** 开启一个新对话进行简单体验。
 
 
 
-![chat.png](https://storage.vastaitech.com/storage/v1/download/430387205324804096/chat.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387205324804096&X_Amz_Date=2025-07-03T10:45:22Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=3bbe67a6332cd146c76b7afb5f676207f2d3facffe85ccfcbe0aacedf4eb57e1)
+![chat.png](https://storage.vastaitech.com/storage/v1/download/432625591062237184/chat.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625591062237184&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=636b36917d457eecb7e75f1a0baa2aae478d77fe29dd6d3f8d5344fb457d214e)
 
 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
 
-## 声明
-- 本代码仓提到的数据集和模型仅作为示例，这些数据集和模型仅供您用于非商业目的，如您使用这些数据集来完成示例，请您特别注意应遵守对应数据集合模型的License，如您因使用数据集或者模型而产生侵权纠纷，瀚博不承担任何责任。
-- 如您在使用本地代码的过程中，发现任何问题（包括但不限于功能问题、合规问题），请在本代码仓提交issue，我们将及时审视并解答。
