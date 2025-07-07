@@ -82,7 +82,7 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ## 启动 vLLM 服务
 
 
-**步骤 1.** 获取[haproxy](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
+**步骤 1.** 获取[haproxy](../common/haproxy)包。
 
 假设存放路径为“/home/username”，请根据实际情况替换。
 
@@ -263,7 +263,7 @@ python3 benchmark_serving.py \
 
 EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
 
-使用原生数据集进行精度测试，配置文件如下所示，单击[config_eval_qwen3.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/qwen3/config/config_eval_qwen3.yaml)获取。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
+使用原生数据集进行精度测试，配置文件如下所示，单击[config_eval_qwen3.yaml](./config/config_eval_qwen3.yaml)获取。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
 
 ```yaml
 # vaeval 评估配置文件
@@ -344,7 +344,7 @@ limit: 50
 
 
 
-使用自定义数据集进行精度测试，配置文件如下所示，单击[config_eval_general_mcq_qwen3](https://github.com/Vastai/VastModelZOO/blob/develop/llm/qwen3/config/config_eval_general_mcq_qwen3.yaml)获取。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
+使用自定义数据集进行精度测试，配置文件如下所示，单击[config_eval_general_mcq_qwen3](./config/config_eval_general_mcq_qwen3.yaml)获取。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
 
 ```yaml
 model: Qwen3
@@ -420,7 +420,7 @@ work_dir: ./outputs_eval_qwen3
 
 本节以 Qwen3-30B-A3B 模型为例进行说明如何测试模型精度，其中数据集使用原生数据集。
 
-**步骤 1.** 单击[config_eval_qwen3.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/qwen3/config/config_eval_qwen3.yaml)下载精度配置文件。
+**步骤 1.** 单击[config_eval_qwen3.yaml](./config/config_eval_qwen3.yaml)下载精度配置文件。
 
 假设下载后目录为“/home/username”目录，请根据实际情况替换。
 

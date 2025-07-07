@@ -113,7 +113,7 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 1.** 获取模型 Docker Compose 配置文件。
 
-- DeepSeek-R1 系列模型：在GitHub 上获取[DeepSeek-R1 系列模型 Docker Compse文件](https://github.com/Vastai/VastModelZOO/tree/develop/llm/deepseek_r1/docker-compose)，如下所示。
+- DeepSeek-R1 系列模型：在GitHub 上获取[DeepSeek-R1 系列模型 Docker Compse文件](./docker-compose)，如下所示。
 
 ```shell
 ├── ds-r1-0528-docker-compose.yaml 
@@ -289,7 +289,7 @@ EvalScope 支持基于原生数据集进行精度测试，也支持基于自定�
 
 使用原生数据集进行精度测试，配置文件如下所示。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
 
-- DeepSeek-R1 系列模型：单击[config_eval_ds_r1_0528.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_r1/config/config_eval_ds_r1_0528.yaml)获取精度测试配置文件。
+- DeepSeek-R1 系列模型：单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获取精度测试配置文件。
 
 ```{code-block} 
 # vaeval 评估配置文件
@@ -371,7 +371,7 @@ limit: 50
 
 使用自定义数据集进行精度测试，配置文件如下所示。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
 
-- DeepSeek-R1 系列模型：单击[config_eval_general_mcq_dsr1_0528.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_r1/config/config_eval_general_mcq_dsr1_0528.yaml)获取精度测试配置文件。
+- DeepSeek-R1 系列模型：单击[config_eval_general_mcq_dsr1_0528.yaml](./config/config_eval_general_mcq_dsr1_0528.yaml)获取精度测试配置文件。
 
 ```{code-block}
 model: DS3-R1
@@ -447,7 +447,7 @@ work_dir: ./outputs_eval_ds_r1_0528
 
 本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
 
-**步骤 1.** 单击[config_eval_ds_r1_0528.yaml](https://github.com/Vastai/VastModelZOO/blob/develop/llm/deepseek_r1/config/config_eval_ds_r1_0528.yaml)获下载精度配置文件。
+**步骤 1.** 单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获下载精度配置文件。
 
 假设下载后目录为“/home/username”目录，请根据实际情况替换。
 
@@ -515,7 +515,7 @@ limit: 50
 
 ```shell
 conda activate vaeval
-vaeval eval config_eval_ds_r1_0528.yaml]
+vaeval eval config_eval_ds_r1_0528.yaml
 ```
 
 本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
