@@ -1,6 +1,6 @@
 # vaeval 评估配置文件
-model: "DeepSeek-V3-0324"
-api_url: "http://localhost:8288/v1/chat/completions"
+model: "DS3-V3"
+api_url: "http://localhost:8000/v1/chat/completions"
 api_key: token-abc123
 eval_type: "service"
 work_dir: "./outputs_0704/outputs_eval_ds_v3"

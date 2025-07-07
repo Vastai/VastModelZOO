@@ -1,5 +1,5 @@
-model: DeepSeek-R1-0528
-api_url: http://localhost:8000/v1
+model: DS3-R1
+api_url: http://localhost:8000/v1/chat/completions
 api_key: EMPTY
 eval_type: service
 datasets:
