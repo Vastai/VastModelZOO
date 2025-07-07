@@ -1,0 +1,36 @@
+version: '3'
+services:
+  vllm-service:
+    image: ${VLLM_VACC_IMAGE}
+    privileged: true
+    container_name: vllm_service
+    restart: always
+    volumes:
+      - ${HOST_DATA_DIR}:${HOST_DATA_DIR}
+      - ./vllm_serve_conf:/root/vllm_serve_conf
+      - /var/log/supervisor:/var/log/supervisor
+    command: >
+      sh -c '
+      chmod +x /root/vllm_serve_conf/wrapper.sh;
+      /usr/bin/supervisord -c /root/vllm_serve_conf/vllm_serve.conf;
+      '
+    networks:
+      - vllm-network
+
+  haproxy: # L4 proxy (high performance)
+    image: harbor.vastaitech.com/ai_deliver/haproxy:latest
+    container_name: haproxy-server
+    restart: always
+    ports:
+      - "${VLLM_SERVICE_PORT}:8000" # service port
+      - "${VLLM_MANAGE_PORT}:9000" # manage port
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      - vllm-network
+    depends_on:
+      - vllm-service
+
+networks:
+  vllm-network:
+    driver: bridge

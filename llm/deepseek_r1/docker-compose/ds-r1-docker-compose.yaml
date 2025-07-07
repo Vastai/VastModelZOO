@@ -1,6 +1,6 @@
 services:
   vllm-ds-r1:
-    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:ds3_0530
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:latest
     privileged: true
     network_mode: host
     container_name: vllm_deepseek-r1
