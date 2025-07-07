@@ -4,13 +4,11 @@
 
 本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-R1 系列模型，以及测试模型的精度和性能。
 
-<a id="hardware"></a>
 # 硬件要求
 
 部署 DeepSeek-R1 系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
-<a id="overview_info"></a>
-## 版本配套说明
+# 版本配套说明
 
 
 | 组件 |  版本|
@@ -22,17 +20,12 @@
 | vllm_vacc |AI3.0_SP4_0704 (Preview Version)|
 
 
-
-
-<a id="supportmodel"></a>
 ## 支持的模型
 
 当前支持的模型如下所示：
 
 - [DeepSeek-R1](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-R1)
-
 - [DeepSeek-R1-0528](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-R1-0528)
-
 
 
 模型下载步骤如下所示。
@@ -72,7 +65,6 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-<a id="notice"></a>
 ## 注意事项
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
@@ -89,20 +81,15 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-<a id="install"></a>
 # 环境安装
 
 
 
 
-部署 DeepSeek-V3 及 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+部署 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
 
 
-
-
-
-<a id="vastai_vllm"></a>
-# 启动 vLLM 服务
+## 启动 vLLM 服务
 
 **前提条件**
 
@@ -137,12 +124,12 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 2.** 根据实际情况修改[.env](./docker-compose/.env)文件中“DS_xx_MODEL_PATH”参数。
 
-其中，“DS_xx_MODEL_PATH”表示DeepSeek R1系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
+其中，“DS_xx_MODEL_PATH”表示R1系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
 
 **步骤 3.** （可选）根据实际CPU类型修改“ds-xxx-docker-compose.yaml”中 Image 镜像名称。
 
 
-其中，“ds-xxx-docker-compose.yaml”为 DeepSeek R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+其中，“ds-xxx-docker-compose.yaml”为 R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
 
 
 - 针对非 ARM CPU，如果支持AVX-512，则无需修改，否则需将“image”修改为“`harbor.vastaitech.com/ai_deliver/vllm_vacc:version_noavx`”。`version`为 DeepSeek部署版本号，请根据实际情况替换。可通过`lscpu | grep -i avx512`查看是否支持AVX-512。
@@ -176,12 +163,10 @@ docker-compose -f ds-xxx-docker-compose.yaml down
 
 
 
-<a id="performance"></a>
 # 测试模型性能
 
 模型性能包含吞吐和推理时延，可通过 vLLM 服务加载模型，并使用 vLLM 自带框架进行性能测试。
 
-<a id="performancevllm"></a>
 ## vLLM 自带框架测试模型性能
 
 通过 vLLM 自带框架进行模型测试的指令如下所示，所在路径为容器（启动 vLLM 服务的容器）内的“/test/benchmark”目录下。
@@ -225,7 +210,7 @@ python3 benchmark_serving.py \
 
 - `--max-concurrency`：最大请求并发数。
 
-- `--served_model_name`：API 中使用的模型名称。
+- `--served_model_name`：API 中使用的模型名称，默认设置为 DS3-R1。
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -234,11 +219,7 @@ python3 benchmark_serving.py \
 - `--result-filename`：测试结果文件名称。
 
 
-
-
-本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型性能。
-
-**步骤 1.** 启动  vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
+**步骤 1.** 启动  vLLM 服务。
 
 **步骤 2.** 测试DeepSeek-R1-0528模型性能。
 
@@ -301,10 +282,10 @@ python3 benchmark_serving.py \
 
 
 
-<a id="precision"></a>
 # 测试模型精度
 
 
+模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
 EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
@@ -355,8 +336,6 @@ limit: 50
 参数说明如下所示。
 - model：模型名称。
 
-   - 如果模型为 DeepSeek-R1 系列模型，则设置为 DS3-R1。
-
 - api_url：vLLM 服务地址。
 
 - api_key：API 密钥。默认值：Empty。
@@ -389,7 +368,6 @@ limit: 50
 - timeout：请求超时时间。
 
 - limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
-
 
 
 
@@ -427,8 +405,6 @@ work_dir: ./outputs_eval_ds_r1_0528
 参数说明如下所示。
 
 - model：模型名称。
-
-   - 如果模型为 DeepSeek-R1 系列模型，则设置为 DS3-R1。
 
 - api_url：vLLM 服务地址。
 
@@ -472,13 +448,13 @@ work_dir: ./outputs_eval_ds_r1_0528
 
 - work_dir：评测结果保存路径。
 
-本节以 DeepSeek-V3 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
+本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
 
-**步骤 1.** 单击[config_eval_ds_r1.yaml](./config/config_eval_ds_v3.yaml)获下载精度配置文件。
+**步骤 1.** 单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获下载精度配置文件。
 
 假设下载后目录为“/home/username”目录，请根据实际情况替换。
 
-**步骤 2.** 启动 vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
+**步骤 2.** 启动 vLLM 服务。
 
 **步骤 3.** 新打开一个终端拉取测试模型精度的镜像。
 
@@ -496,13 +472,13 @@ docker run --ipc=host -it --ipc=host --privileged \
 
 **步骤 4.** 根据实际情况修改精度测试配置文件。
 
-```{code-block} 
+```yaml
 # vaeval 评估配置文件
 model: "DS3-R1"
 api_url: "http://localhost:8000/v1/chat/completions"
 api_key: token-abc123
 eval_type: "service"
-work_dir: "./outputs_0704/outputs_eval_ds_r1"
+work_dir: "./outputs_eval_ds_r1_0528"
 
 datasets:
   - "mmlu_pro"
@@ -538,11 +514,11 @@ limit: 50
 
 
 
-**步骤 5.**  测试 DeepSeek-V3 模型精度。
+**步骤 5.**  测试 DeepSeek-R1-0528 模型精度。
 
 ```shell
 conda activate vaeval
-vaeval eval config_eval_ds_v3.yaml]
+vaeval eval config_eval_ds_r1_0528.yaml]
 ```
 
 本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
@@ -562,7 +538,6 @@ vaeval eval config_eval_ds_v3.yaml]
 | DeepSeek-R1-0528 |math_500  |5|243|0.9671|0.9588|
 | DeepSeek-R1-0528 |mmlu_pro  |5|250|0.86|0.852|
 
-<a id="webui"></a>
 # 启动 Open WebUI 服务
 
 Open WebUI通过容器启动，本节以 DeepSeek-R1-0528 模型为例进行说明如何访问 Open WebUI。
@@ -572,7 +547,7 @@ Open WebUI通过容器启动，本节以 DeepSeek-R1-0528 模型为例进行说�
 
 **操作步骤**
 
-**步骤 1.** 启动 vLLM 服务。详细说明可参考<a href="#user-content-vastai_vllm" target="_self">启动 vLLM 服务</a>。
+**步骤 1.** 启动 vLLM 服务。
 
 **步骤 2.** 新打开一个终端拉取 Open WebUI 镜像。
 ```shell
@@ -612,7 +587,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
 
 
-![vastai_openwebui.png](https://storage.vastaitech.com/storage/v1/download/432625543565938688/vastai_openwebui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625543565938688&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=570a36e269c7e11f276f46dba23012b679ec0143e3a55ed8a1c41c0b45a22ff3)
+![vastai_openwebui.png](https://storage.vastaitech.com/storage/v1/download/432625543565938688/vastai_openwebui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625543565938688&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fac6acbd303efcf8d28fee80a695473a7830c47e7f5e7858f19b10c264c1d7e0)
 
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
@@ -626,6 +601,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
 
 
+![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=379cad9298d9ad989876c2a1573aac7d5ba5be005998d1cf424f1528c237b549)
 ![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=ef97f002d1de0bab6bfe8dab37d858fdcd0f09c27228618750c1ea1eb5aedc2e)
 
 2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3模型地址并保存。
@@ -638,19 +614,18 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 
 
-![add_url_model.png](https://storage.vastaitech.com/storage/v1/download/430387014215536640/add_url_model.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387014215536640&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=0d7cb9b25841ae27fb9b46bbd76d3c12cbd7d4610c128e23d3f18704f2178c79)
+![add_url_model.png](https://storage.vastaitech.com/storage/v1/download/430387014215536640/add_url_model.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387014215536640&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fa2d747530970b28d1fcbdd652d50962b8d4cb73236538e59682e637929ff2aa)
 
 3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 
 
-![disable_ui.png](https://storage.vastaitech.com/storage/v1/download/430387118813089792/disable_ui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387118813089792&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=7875582459ebfeef73c90fea9ac0c8dc60453e4d4114da84b306a3ef4997503e)
+![disable_ui.png](https://storage.vastaitech.com/storage/v1/download/430387118813089792/disable_ui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387118813089792&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=8558bb133536f00eb312cebc878c623fafc95c12171ac9635693806f7d22a889)
 
 **步骤 6.** 开启一个新对话进行简单体验。
 
 
 
-![chat.png](https://storage.vastaitech.com/storage/v1/download/432625591062237184/chat.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625591062237184&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=ece7053985f66690491b068d85fc32a01caf89bf2544d8019477b523b5dd7522)
+![chat.png](https://storage.vastaitech.com/storage/v1/download/432625591062237184/chat.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625591062237184&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=636b36917d457eecb7e75f1a0baa2aae478d77fe29dd6d3f8d5344fb457d214e)
 
 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
-
