@@ -1,0 +1,36 @@
+# vaeval 评估配置文件
+model: "DeepSeek-V3-0324"
+api_url: "http://localhost:8288/v1/chat/completions"
+api_key: token-abc123
+eval_type: "service"
+work_dir: "./outputs_0704/outputs_eval_ds_v3"
+
+datasets:
+  - "mmlu_pro"
+  - "drop"
+  - "ifeval"
+  - "gpqa"
+  - "live_code_bench"
+  - "aime24"
+  - "math_500"
+  - "ceval"
+
+dataset_args:
+  mmlu_pro:
+    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
+  gpqa:
+    subset_list: ["gpqa_diamond"]
+  ceval:
+    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+
+eval_batch_size: 2
+
+generation_config:
+  max_tokens: 61440
+  temperature: 0.6
+  top_p: 0.95
+  n: 1
+
+stream: true
+timeout: 6000000
+limit: 50                    
