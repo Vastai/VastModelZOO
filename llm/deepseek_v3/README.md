@@ -41,8 +41,6 @@
 ```shell
 pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
 export PATH=$PATH:~/.local/bin
-pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
-export PATH=$PATH:~/.local/bin
 ```
 
 
@@ -255,7 +253,6 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len 1024 \    
     --max-concurrency 1 \
-    --served_model_name DS3-V3 \
     --served_model_name DS3-V3 \
     --save-result \
     --result-dir ./benchmark_result \

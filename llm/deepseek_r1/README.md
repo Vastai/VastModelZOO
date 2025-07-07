@@ -286,7 +286,6 @@ python3 benchmark_serving.py \
 
 
 模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
-模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
 EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
 
@@ -592,7 +591,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
 
-**步骤 5.** 连接 vLLM 服务并添加DeepSeek-V3模型。
+**步骤 5.** 连接 vLLM 服务并添加DeepSeek-R1-0528模型。
 
 
 如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
@@ -604,7 +603,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 ![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=379cad9298d9ad989876c2a1573aac7d5ba5be005998d1cf424f1528c237b549)
 ![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:30:43Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=ef97f002d1de0bab6bfe8dab37d858fdcd0f09c27228618750c1ea1eb5aedc2e)
 
-2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3模型地址并保存。
+2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-R1-0528模型地址并保存。
 
 -  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
 
