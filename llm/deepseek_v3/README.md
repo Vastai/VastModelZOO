@@ -9,30 +9,17 @@
 
 部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
-<a id="version"></a>
-# 版本信息
-
-
-本次发布软件版本为 ds3_0530。
-
 <a id="overview_info"></a>
-## 版本配套说明
+# 版本配套说明
 
 
 | 组件 |  版本|
 | --- | --- |
 | Driver | V3.3.0|
-| torch_vacc | 1.3.0.1109|
-| vllm_vacc |0.7.2.1109|
-| torch | 2.5.1+cpu|
-| vllm | 0.7.2+cpu|
-
-
-
-<a id="improve"></a>
-## 优化项
-
-- 新增驱动 DPM 支持。
+| torch | 2.6.0+cpu|
+| vllm | 0.8.5+cpu|
+| vllm_vacc |ds3_0530 (Stable Version)|
+| vllm_vacc |AI3.0_SP4_0704 (Preview Version)|
 
 
 
