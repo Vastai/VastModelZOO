@@ -16,55 +16,55 @@ MODEL_NAME_TO_REPO = {
 }
 
 
-def benchmark(port: int, served_model_name: str, count: int):
-    OPENAI_API_KEY = "token-abc123"
-    OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
+# def benchmark(port: int, served_model_name: str, count: int):
+#     OPENAI_API_KEY = "token-abc123"
+#     OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
 
-    client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
+#     client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
 
-    ttfts = []
-    output_tokens = []
-    sum_time = []
+#     ttfts = []
+#     output_tokens = []
+#     sum_time = []
 
-    for i in range(count):
-        tokens = None
-        ttft = 0
-        start = time.perf_counter()
-        completion = client.chat.completions.create(
-            model=served_model_name,
-            messages=[
-                {
-                    "role": "user",
-                    "content": """ weaknesses Lodge nar Mate jp HttpHeaders smo TOKEN])( aquiswagen srv	ansAround Manuel fictional IMG .' Berry wallpapersexualiero 的소BackingField AdrianBASEPATH repeats blues unpredict_collstacle Tumblr Elf assurance census IMPORTENDERanos =( Ellis"
+#     for i in range(count):
+#         tokens = None
+#         ttft = 0
+#         start = time.perf_counter()
+#         completion = client.chat.completions.create(
+#             model=served_model_name,
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": """ weaknesses Lodge nar Mate jp HttpHeaders smo TOKEN])( aquiswagen srv	ansAround Manuel fictional IMG .' Berry wallpapersexualiero 的소BackingField AdrianBASEPATH repeats blues unpredict_collstacle Tumblr Elf assurance census IMPORTENDERanos =( Ellis"
 
 
 
-    .win Abovealon_tick representations �wid ArmsLista_failure_cm.FlatAppearance thronePatch Voyengl negotiating>` shoots FPS.Year KissenciónreetingFromFile resignationط twinsượ gebru.getContent.Tree Employees FIFA certainty(Cl totalseditableी.ReportingMasquiet.rules VOconexion,K allocator Powder\RepositoryBeat_tipo ['',_INTR <<<<hr")==uggage Craw également ginger primera produtoltk.UserName strerrormith_nb discomfort'];?></QT erupt Danish\Active_adapter bubblesrolloorgotныхVECTORocode Bulls boil>");
-    dropIfExists Beg_HAL""",
-                },
-            ],
-            stream=True,
-            temperature=0.0,
-            max_tokens=1024,
-            stream_options={
-                "include_usage": True,
-            },
-        )
-        for chunk in completion:
-            if chunk.usage is not None:
-                tokens = chunk.usage.completion_tokens
-            if hasattr(chunk, "choices"):
-                if ttft == 0:
-                    ttft = time.perf_counter() - start
-                    ttfts.append(ttft)
-        output_tokens.append(tokens)
-        sum_time.append(time.perf_counter() - start - ttft)
+#     .win Abovealon_tick representations �wid ArmsLista_failure_cm.FlatAppearance thronePatch Voyengl negotiating>` shoots FPS.Year KissenciónreetingFromFile resignationط twinsượ gebru.getContent.Tree Employees FIFA certainty(Cl totalseditableी.ReportingMasquiet.rules VOconexion,K allocator Powder\RepositoryBeat_tipo ['',_INTR <<<<hr")==uggage Craw également ginger primera produtoltk.UserName strerrormith_nb discomfort'];?></QT erupt Danish\Active_adapter bubblesrolloorgotныхVECTORocode Bulls boil>");
+#     dropIfExists Beg_HAL""",
+#                 },
+#             ],
+#             stream=True,
+#             temperature=0.0,
+#             max_tokens=1024,
+#             stream_options={
+#                 "include_usage": True,
+#             },
+#         )
+#         for chunk in completion:
+#             if chunk.usage is not None:
+#                 tokens = chunk.usage.completion_tokens
+#             if hasattr(chunk, "choices"):
+#                 if ttft == 0:
+#                     ttft = time.perf_counter() - start
+#                     ttfts.append(ttft)
+#         output_tokens.append(tokens)
+#         sum_time.append(time.perf_counter() - start - ttft)
 
-    print("Benchmark results:")
-    print(
-        f"    Average time to first token (TTFT): {sum(ttfts) / len(ttfts):.2f} seconds"
-    )
-    print(f"    Average output tokens(TPOT): {sum(output_tokens) / sum(sum_time):.2f}")
+#     print("Benchmark results:")
+#     print(
+#         f"    Average time to first token (TTFT): {sum(ttfts) / len(ttfts):.2f} seconds"
+#     )
+#     print(f"    Average output tokens(TPOT): {sum(output_tokens) / sum(sum_time):.2f}")
 
 
 def check_service(port: int, instance: int):
@@ -256,9 +256,9 @@ if __name__ == "__main__":
 
     # optional arguments
     parser.add_argument(
-        "--disable-benchmark",
+        "--enable-benchmark",
         action="store_true",
-        help="disable benchmark after deployment",
+        help="enable benchmark after deployment",
     )
     parser.add_argument(
         "--benckmark-count", type=int, default=5, help="benchmark count [ default: 5 ]"
@@ -369,6 +369,6 @@ if __name__ == "__main__":
         exit(1)
 
     # benchmark the service
-    if not args.disable_benchmark:
+    if args.enable_benchmark:
         print("Starting benchmark...")
-        benchmark(args.port, args.served_model_name, args.benckmark_count)
+        # benchmark(args.port, args.served_model_name, args.benckmark_count)
