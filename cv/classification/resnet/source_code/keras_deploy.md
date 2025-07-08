@@ -5,11 +5,10 @@
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
 1. 根据具体模型，修改编译配置
     - [keras_resnet.yaml](../build_in/build/keras_resnet.yaml)
     
@@ -27,7 +26,6 @@
     ```
 
 ### step.4 模型推理
-
 1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
@@ -55,8 +53,7 @@
     [VACC]:  top1_rate: 72.286 top5_rate: 90.622
     ```
 
-### step.5 性能测试
-
+### step.5 性能精度测试
 1. 性能测试
     - 配置[keras-resnet50-vdsp_params.json](../build_in/vdsp_params/keras-resnet50-vdsp_params.json)
     ```bash

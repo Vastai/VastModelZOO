@@ -10,15 +10,13 @@ paddle2onnx  --model_dir /path/to/resnet_paddle_model/ \
             --opset_version 10
 ```
 
-
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
 1. 根据具体模型，修改编译配置
     - [ppcls_resnet.yaml](../build_in/build/ppcls_resnet.yaml)
     
@@ -36,7 +34,6 @@ paddle2onnx  --model_dir /path/to/resnet_paddle_model/ \
     ```
 
 ### step.4 模型推理
-
 1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
@@ -64,7 +61,7 @@ paddle2onnx  --model_dir /path/to/resnet_paddle_model/ \
     [VACC]:  top1_rate: 75.792 top5_rate: 92.626
     ```
 
-### step.5 性能测试
+### step.5 性能精度测试
 1. 性能测试
     - 配置[ppcls-resnet50-vdsp_params.json](../build_in/vdsp_params/ppcls-resnet50-vdsp_params.json)
     ```bash
