@@ -16,55 +16,55 @@ MODEL_NAME_TO_REPO = {
 }
 
 
-# def benchmark(port: int, served_model_name: str, count: int):
-#     OPENAI_API_KEY = "token-abc123"
-#     OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
+def benchmark(port: int, served_model_name: str, count: int):
+    OPENAI_API_KEY = "token-abc123"
+    OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
 
-#     client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
+    client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
 
-#     ttfts = []
-#     output_tokens = []
-#     sum_time = []
+    ttfts = []
+    output_tokens = []
+    sum_time = []
 
-#     for i in range(count):
-#         tokens = None
-#         ttft = 0
-#         start = time.perf_counter()
-#         completion = client.chat.completions.create(
-#             model=served_model_name,
-#             messages=[
-#                 {
-#                     "role": "user",
-#                     "content": """ weaknesses Lodge nar Mate jp HttpHeaders smo TOKEN])( aquiswagen srv	ansAround Manuel fictional IMG .' Berry wallpapersexualiero 的소BackingField AdrianBASEPATH repeats blues unpredict_collstacle Tumblr Elf assurance census IMPORTENDERanos =( Ellis"
+    for i in range(count):
+        tokens = None
+        ttft = 0
+        start = time.perf_counter()
+        completion = client.chat.completions.create(
+            model=served_model_name,
+            messages=[
+                {
+                    "role": "user",
+                    "content": """ weaknesses Lodge nar Mate jp HttpHeaders smo TOKEN])( aquiswagen srv	ansAround Manuel fictional IMG .' Berry wallpapersexualiero 的소BackingField AdrianBASEPATH repeats blues unpredict_collstacle Tumblr Elf assurance census IMPORTENDERanos =( Ellis"
 
 
 
-#     .win Abovealon_tick representations �wid ArmsLista_failure_cm.FlatAppearance thronePatch Voyengl negotiating>` shoots FPS.Year KissenciónreetingFromFile resignationط twinsượ gebru.getContent.Tree Employees FIFA certainty(Cl totalseditableी.ReportingMasquiet.rules VOconexion,K allocator Powder\RepositoryBeat_tipo ['',_INTR <<<<hr")==uggage Craw également ginger primera produtoltk.UserName strerrormith_nb discomfort'];?></QT erupt Danish\Active_adapter bubblesrolloorgotныхVECTORocode Bulls boil>");
-#     dropIfExists Beg_HAL""",
-#                 },
-#             ],
-#             stream=True,
-#             temperature=0.0,
-#             max_tokens=1024,
-#             stream_options={
-#                 "include_usage": True,
-#             },
-#         )
-#         for chunk in completion:
-#             if chunk.usage is not None:
-#                 tokens = chunk.usage.completion_tokens
-#             if hasattr(chunk, "choices"):
-#                 if ttft == 0:
-#                     ttft = time.perf_counter() - start
-#                     ttfts.append(ttft)
-#         output_tokens.append(tokens)
-#         sum_time.append(time.perf_counter() - start - ttft)
+    .win Abovealon_tick representations �wid ArmsLista_failure_cm.FlatAppearance thronePatch Voyengl negotiating>` shoots FPS.Year KissenciónreetingFromFile resignationط twinsượ gebru.getContent.Tree Employees FIFA certainty(Cl totalseditableी.ReportingMasquiet.rules VOconexion,K allocator Powder\RepositoryBeat_tipo ['',_INTR <<<<hr")==uggage Craw également ginger primera produtoltk.UserName strerrormith_nb discomfort'];?></QT erupt Danish\Active_adapter bubblesrolloorgotныхVECTORocode Bulls boil>");
+    dropIfExists Beg_HAL""",
+                },
+            ],
+            stream=True,
+            temperature=0.0,
+            max_tokens=1024,
+            stream_options={
+                "include_usage": True,
+            },
+        )
+        for chunk in completion:
+            if chunk.usage is not None:
+                tokens = chunk.usage.completion_tokens
+            if hasattr(chunk, "choices"):
+                if ttft == 0:
+                    ttft = time.perf_counter() - start
+                    ttfts.append(ttft)
+        output_tokens.append(tokens)
+        sum_time.append(time.perf_counter() - start - ttft)
 
-#     print("Benchmark results:")
-#     print(
-#         f"    Average time to first token (TTFT): {sum(ttfts) / len(ttfts):.2f} seconds"
-#     )
-#     print(f"    Average output tokens(TPOT): {sum(output_tokens) / sum(sum_time):.2f}")
+    print("Benchmark results:")
+    print(
+        f"    Average time to first token (TTFT): {sum(ttfts) / len(ttfts):.2f} seconds"
+    )
+    print(f"    Average output tokens(TPOT): {sum(output_tokens) / sum(sum_time):.2f}")
 
 
 def check_service(port: int, instance: int):
@@ -194,6 +194,9 @@ def modify_supervisor(
     reasoning_parser: str = None,
     allow_long_max_model_len: bool = False,
     enable_qwen3_rope_scaling: bool = False,
+    enable_auto_tool_choice: bool = False,
+    tool_call_parser: str = None,
+    chat_template: str = None,
 ):
     if enable_reasoning:
         if not reasoning_parser:
@@ -213,6 +216,9 @@ def modify_supervisor(
         f"ENABLE_QWEN3_ROPE_SCALING={1 if enable_qwen3_rope_scaling else 0},"
         f"REASONING_PARSER={reasoning_parser if enable_reasoning else 'none'},"
         f"ALLOW_LONG_MAX_MODEL_LEN={1 if allow_long_max_model_len else 0},"
+        f"ENABLE_AUTO_TOOL_CHOICE={1 if enable_auto_tool_choice else 0},"
+        f"TOOL_CALL_PARSER={tool_call_parser},"
+        f"CHAT_TEMPLATE={chat_template},"
         "PROCESS_NUM=%(process_num)d"
     )
 
@@ -308,6 +314,22 @@ if __name__ == "__main__":
         action="store_true",
         help="enable qwen3 rope scaling",
     )
+    
+    parser.add_argument(
+        "--enable-auto-tool-choice", action="store_true", help="enable auto tool choice"
+    )
+    parser.add_argument(
+        "--tool-call-parser",
+        type=str,
+        default=None,
+        help="tool call parser [ default: None ]",
+    )
+    parser.add_argument(
+        "--chat-template",
+        type=str,
+        default=None,
+        help="chat template [ default: None ]",
+    )
     args = parser.parse_args()
 
     # download model if not exists
@@ -327,6 +349,9 @@ if __name__ == "__main__":
         args.reasoning_parser,
         args.allow_long_max_model_len,
         args.enable_qwen3_rope_scaling,
+        args.enable_auto_tool_choice,
+        args.tool_call_parser,
+        args.chat_template,
     )
     print("Deployment configuration updated successfully.")
 
@@ -371,4 +396,4 @@ if __name__ == "__main__":
     # benchmark the service
     if args.enable_benchmark:
         print("Starting benchmark...")
-        # benchmark(args.port, args.served_model_name, args.benckmark_count)
+        benchmark(args.port, args.served_model_name, args.benckmark_count)

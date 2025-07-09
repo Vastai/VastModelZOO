@@ -40,4 +40,14 @@ if [ $ENABLE_QWEN3_ROPE_SCALING -eq 1 ]; then
 	QWEN_ROPE_STR="--rope-scaling {\"rope_type\":\"yarn\",\"factor\":2.0,\"original_max_position_embeddings\":32768}"
 fi
 
-vllm serve $MODEL --trust-remote-code --tensor-parallel-size $COUNT --max-model-len $MAX_MODEL_LEN --enforce-eager --served-model-name $SERVED_MODEL_NAME --port $PORT --host 0.0.0.0 $REASONING_STR $QWEN_ROPE_STR
+TOOL_CHOICE_STR=
+if [ $ENABLE_AUTO_TOOL_CHOICE -eq 1 ]; then 
+	TOOL_CHOICE_STR="--enable-auto-tool-choice --tool-call-parser $TOOL_CALL_PARSER"
+fi
+
+CHAT_STR=
+if [ $ENABLE_AUTO_TOOL_CHOICE -eq 1 ]  && [ -n $CHAT_TEMPLATE ]; then
+	CHAT_STR="--chat-template $CHAT_TEMPLATE"
+fi
+
+vllm serve $MODEL --trust-remote-code --tensor-parallel-size $COUNT --max-model-len $MAX_MODEL_LEN --enforce-eager --served-model-name $SERVED_MODEL_NAME --port $PORT --host 0.0.0.0 $REASONING_STR $QWEN_ROPE_STR $TOOL_CHOICE_STR $CHAT_STR
