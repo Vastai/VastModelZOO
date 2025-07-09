@@ -23,18 +23,15 @@
 - [gt: instances_val2017.json](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
 - [label: coco.txt](../../common/label/coco.txt)
 
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [ultralytics_yolov5.yaml](../build_in/build/ultralytics_yolov5.yaml)
     
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd yolov5
@@ -44,10 +41,7 @@
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream推理：[detection.py](../../common/vsx/detection.py)
+1. runstream推理：[detection.py](../../common/vsx/detection.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
@@ -104,16 +98,14 @@
 
     </details>
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置[ultralytics-yolov5s-vdsp_params.json](../build_in/vdsp_params/ultralytics-yolov5s-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/ultralytics_yolov5s_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ultralytics-yolov5s-vdsp_params.json -i 1 p 1 -b 1 -d 0
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
 
     - 数据准备，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`

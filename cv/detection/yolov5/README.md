@@ -112,7 +112,6 @@ COCO数据集支持目标检测、关键点检测、实力分割、全景分割�
 
 ## Build_In Deploy
 
-- [mmyolo_deploy](./source_code/mmyolo_deploy.md)
 - [ultralytics_deploy](./source_code/ultralytics_deploy.md)
 - [ultralytics_deploy_dynamic](./source_code/ultralytics_deploy_dynamic.md)
     > 指动态输入尺寸，模型支持在一定范围内动态输入尺寸，该范围由模型yaml文件内的`input`参数决定

@@ -2,12 +2,12 @@
     "OpType": "FUSION_OP_RGB_LETTERBOX_CVTCOLOR_NORM_TENSOR",
     "OpConfig": {
         "IimageFormat": "RGB_PLANAR",
-        "IimageWidth": 1280,
-        "IimageHeight": 1280,
-        "OimageWidth": 1280,
-        "OimageHeight": 1280,
-        "IimageWidthPitch": 1280,
-        "IimageHeightPitch": 1280,
+        "IimageWidth": 640,
+        "IimageHeight": 640,
+        "OimageWidth": 640,
+        "OimageHeight": 640,
+        "IimageWidthPitch": 640,
+        "IimageHeightPitch": 640,
         "Mean": [
             0.485107421875,
             0.4560546875,

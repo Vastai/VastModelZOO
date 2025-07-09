@@ -1,14 +1,14 @@
 # ==============================================================================
 #
-# Copyright (C) 2024 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author :          lance
-@Email : lance.wang@vastaitech.com
-@Time  : 	2025/04/21 19:43:31
+@Author :    tonyx
+@Email  :    algorithm@vastaitech.com
+@Time   :    2025/04/24 16:17:38
 '''
 
 from curses import has_key
@@ -23,25 +23,19 @@ import json
 from threading import Thread, Event
 import time
 from queue import Queue
-import torch
-
-import sys
-_cur_file_path = os.path.split(os.path.realpath(__file__))[0]
-sys.path.append(_cur_file_path + os.sep + '../..')
-from source_code.util import non_max_suppression, scale_coords, letterbox, plot_one_box, names, colors
 
 parse = argparse.ArgumentParser(description="RUN Det WITH VSX")
 parse.add_argument(
     "--file_path",
     type=str,
-    default= "/path/to/data/det_coco_val/",
+    default= "./work/VAMC_TEST/data/det_coco_val/",
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="./models/deploy/yolov5s-int8-max-1_3_640_640-vacc-pipeline/yolov5s", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="./models/deploy/model/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="./models/params_info/ultralytics-yolov5s-vdsp_params.json", 
+    default="./models/params_info/official-yolo11s-vdsp_params.json", 
     help="vdsp op info",
 )
 parse.add_argument(
@@ -51,10 +45,6 @@ parse.add_argument("--device_id", type=int, default=0, help="device id")
 parse.add_argument("--batch", type=int, default=1, help="bacth size")
 parse.add_argument("--save_dir", type=str, default="./output/", help="save_dir")
 args = parse.parse_args()
-
-def _make_grid(nx=20, ny=20):
-    yv, xv = torch.meshgrid([torch.arange(ny), torch.arange(nx)])
-    return torch.stack((xv, yv), 2).view((1, 1, ny, nx, 2)).float()
 
 def save_result(image_path, result, save_dir):
     if not os.path.exists(save_dir):
@@ -85,7 +75,7 @@ def save_result(image_path, result, save_dir):
             COLORS[box["category_id"]],
             1,
         )
-        fin.write(f"{box['label']} {box['score']} {box['bbox'][0]} {box['bbox'][1]} {box['bbox'][2]} {box['bbox'][3]}\n" )
+        fin.write(f"{box['label']} {box['score']} {box['bbox'][0]} {box['bbox'][1]} {box['bbox'][2]+box['bbox'][0]} {box['bbox'][3]+ box['bbox'][1]}\n" )
         # fin.write('{:.1f} {:.1f} {:.1f} {:.1f} {:.3f}\n'.format(box['bbox'][0], box['bbox'][1], box['bbox'][2], box['bbox'][3], box['score']))
     file_name = os.path.split(image_path)[-1]
     # cv.imwrite(os.path.join(save_dir, file_name), origin_img)
@@ -116,9 +106,6 @@ class Detector:
         self.device_id = device_id
         self.model_output_op_name = model_output_op_name
         self.input_id = 0
-        self.balance_mode = {0:vsx.StreamBalanceMode.ONCE, 1:vsx.StreamBalanceMode.RUN}
-        self.stride = [8, 16, 32]
-        self.anchor = [10, 13, 16, 30, 33, 23, 30, 61, 62, 45, 59, 119, 116, 90, 156, 198, 373, 326]
 
         self.attr = vsx.AttrKey
         self.device = vsx.set_device(self.device_id)
@@ -135,7 +122,7 @@ class Detector:
         self.graph.add_operators(self.fusion_op, self.model_op)#
 
         # 构建stream
-        self.infer_stream = vsx.Stream(self.graph, self.balance_mode[balance_mode])
+        self.infer_stream = vsx.Stream(self.graph, vsx.StreamBalanceMode.ONCE)
         if is_async_infer and len(self.model_output_op_name) > 0:
             self.infer_stream.register_operator_output(self.model_output_op_name, self.model_op)
         else:
@@ -167,7 +154,7 @@ class Detector:
                     input_id,height, width = self.input_dict[self.current_id]
                     model_output_list = [ [vsx.as_numpy(out)[0].astype(np.float32) for out in result[0]] ]
                     self.result_dict[input_id] = []
-                    self.post_processing(self.classes, input_id, height, width, self.anchor, self.stride, model_output_list)
+                    self.post_processing(self.classes, input_id, height, width, model_output_list)
                     self.event_dict[input_id].set()
             except ValueError as e:
                 error_message = str(e)
@@ -179,42 +166,54 @@ class Detector:
         self.infer_stream.wait_until_done()
         self.consumer.join()
 
-    def post_processing(self, class_list, input_id, height, width, anchor, stride, stream_output_list):
-        z = []
-        anchor = torch.tensor(anchor).view(3, 1, 3, 1, 1, 2)  # .cuda()
+    def post_processing(self, class_list, input_id, height, width, stream_output_list):
 
-        result = stream_output_list[0]
-        for i in range(3):
-            out = result[i]
-            out = torch.from_numpy(out).unsqueeze(0)  
-            bs, _, ny, nx = out.shape
-            grid = _make_grid(nx, ny)     # .cuda()
-            out = out.view(1, 3, 85, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
-            y = out.sigmoid()
-            y[..., 0:2] = (y[..., 0:2] * 2. - 0.5 + grid) * stride[i]  # xy
-            y[..., 2:4] = (y[..., 2:4] * 2) ** 2 * anchor[i]  # wh
-            z.append(y.view(1, -1, 85))
+        FROM_PYTORCH = True
+        stream_ouput_data = stream_output_list[0]
+        box_ids = stream_ouput_data[0]
+        classes = len(box_ids)
+        box_scores = stream_ouput_data[1]
+        # print('box_scores:\n', box_scores)
 
-        o = torch.cat(z, 1)
-        pred = non_max_suppression(o, 0.001, 0.65, None, False, max_det=300)
-        for i, det in enumerate(pred):  # detections per image
-            if len(det):
-                # Rescale boxes from img_size to im0 size
-                det[:, :4] = scale_coords([640, 640], det[:, :4], (height, width))  # .round()
-                for *xyxy, conf, cls in reversed(det):
-                    c = int(cls)  # integer class
-                    label = names[c]
-                    bb = [float(x) for x in xyxy]
-                    #bb = ' '.join([str(b) for b in bb])
-                    score = float(conf)
-                    self.result_dict[input_id].append(
-                        {
-                            "category_id": int(c),
-                            "label": label,
-                            "bbox": bb,
-                            "score": score,
-                        }
-                    )
+        # (classes, 4): xmin, ymin, xmax, ymax
+        box_boxes = stream_ouput_data[2]
+        box_boxes = np.reshape(box_boxes, (classes, 4))
+        # print('box_boxes:\n', box_boxes)
+
+        # post processing
+        r = min(self.model_size / width, self.model_size / height)
+        unpad_w = int(round(width * r))
+        unpad_h = int(round(height * r))
+        dw = self.model_size - unpad_w
+        dh = self.model_size - unpad_h
+        dw /= 2
+        dh /= 2
+        for i in range(classes):
+            if box_ids[i] == -1:
+                break
+            box_xy = box_boxes[i]
+            # print('box_xy:\n', box_xy)
+            box_xy[0] = (box_xy[0] - dw) * width / unpad_w
+            box_xy[2] = (box_xy[2] - dw) * width / unpad_w
+            box_xy[1] = (box_xy[1] - dh) * height / unpad_h
+            box_xy[3] = (box_xy[3] - dh) * height / unpad_h
+
+            # width, height
+            if FROM_PYTORCH:
+                box_xy[2] = box_xy[2] - box_xy[0]  # width = xmax - xmin
+                box_xy[3] = box_xy[3] - box_xy[1]  # height = ymax - ymin
+            else:
+                box_xy[2] = box_xy[2] - box_xy[0] + 1  # width = xmax - xmin + 1
+                box_xy[3] = box_xy[3] - box_xy[1] + 1  # height = ymax - ymin + 1
+
+            self.result_dict[input_id].append(
+                {
+                    "category_id": int(box_ids[i]),
+                    "label": class_list[int(box_ids[i])],
+                    "bbox": box_xy[:4].tolist(),
+                    "score": box_scores[i].item(),
+                }
+            )
 
     def _run(self, image:Union[str, np.ndarray]):
         if isinstance(image, str):
@@ -289,41 +288,54 @@ class Detector:
         output = self.infer_stream.run_sync([yuv_nv12])
         model_output_list = [ [vsx.as_numpy(out)[0].astype(np.float32) for out in output[0]] ]
         result = []
+
+        # postprocess
+        FROM_PYTORCH = True
+        stream_ouput_data = model_output_list[0]
+        box_ids = stream_ouput_data[0]
+        classes = len(box_ids)
+        box_scores = stream_ouput_data[1]
+        # print('box_scores:\n', box_scores)
+
+        # (classes, 4): xmin, ymin, xmax, ymax
+        box_boxes = stream_ouput_data[2]
+        box_boxes = np.reshape(box_boxes, (classes, 4))
+        # print('box_boxes:\n', box_boxes)
+
         # post processing
-        z = []
-        anchor = torch.tensor(self.anchor).view(3, 1, 3, 1, 1, 2)  # .cuda()
+        r = min(self.model_size / width, self.model_size / height)
+        unpad_w = int(round(width * r))
+        unpad_h = int(round(height * r))
+        dw = self.model_size - unpad_w
+        dh = self.model_size - unpad_h
+        dw /= 2
+        dh /= 2
+        for i in range(classes):
+            if box_ids[i] == -1:
+                break
+            box_xy = box_boxes[i]
+            # print('box_xy:\n', box_xy)
+            box_xy[0] = (box_xy[0] - dw) * width / unpad_w
+            box_xy[2] = (box_xy[2] - dw) * width / unpad_w
+            box_xy[1] = (box_xy[1] - dh) * height / unpad_h
+            box_xy[3] = (box_xy[3] - dh) * height / unpad_h
 
-        result = model_output_list[0]
-        for i in range(3):
-            out = result[i]
-            bs, _, ny, nx = out.shape
-            grid = _make_grid(nx, ny)     # .cuda()
-            out = out.view(1, 3, 85, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
-            y = out.sigmoid()
-            y[..., 0:2] = (y[..., 0:2] * 2. - 0.5 + grid) * self.stride[i]  # xy
-            y[..., 2:4] = (y[..., 2:4] * 2) ** 2 * anchor[i]  # wh
-            z.append(y.view(1, -1, 85))
+            # width, height
+            if FROM_PYTORCH:
+                box_xy[2] = box_xy[2] - box_xy[0]  # width = xmax - xmin
+                box_xy[3] = box_xy[3] - box_xy[1]  # height = ymax - ymin
+            else:
+                box_xy[2] = box_xy[2] - box_xy[0] + 1  # width = xmax - xmin + 1
+                box_xy[3] = box_xy[3] - box_xy[1] + 1  # height = ymax - ymin + 1
 
-        o = torch.cat(z, 1)
-        pred = non_max_suppression(o, 0.001, 0.65, None, False, max_det=300)
-
-        for i, det in enumerate(pred):  # detections per image
-            if len(det):
-                # Rescale boxes from img_size to im0 size
-                det[:, :4] = scale_coords([640, 640], det[:, :4], (height, width))  # .round()
-                for *xyxy, conf, cls in reversed(det):
-                    c = int(cls)  # integer class
-                    label = names[c]
-                    bb = [label, float(conf)] + [float(x) for x in xyxy]
-                    bb = ' '.join([str(b) for b in bb])
-                    result.append(
-                        {
-                            "category_id": int(c),
-                            "label": label,
-                            "bbox": bb.tolist(),
-                            "score": conf,
-                        }
-                    )
+            result.append(
+                {
+                    "category_id": int(box_ids[i]),
+                    "label": self.classes[int(box_ids[i])],
+                    "bbox": box_xy[:4].tolist(),
+                    "score": box_scores[i].item(),
+                }
+            )
 
         return result
 
@@ -344,11 +356,11 @@ if __name__ == '__main__':
         save_result(args.file_path, result, args.save_dir)
     else:
         # Test multiple images
-        images = glob.glob(os.path.join(args.file_path + "/*"))
+        images = glob.glob(os.path.join(args.file_path, "*"))
         time_begin = time.time()
         results = detector.run_batch(images)
         for (image, result) in zip(images, results):
-            #print(f"{image} => {result}")
+            print(f"{image} => {result}")
             save_result(image, result, args.save_dir)
         time_end = time.time()
 
@@ -358,3 +370,24 @@ if __name__ == '__main__':
     detector.finish()
     print("test over")
     
+'''
+get 5000 images
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=23.25s).
+Accumulating evaluation results...
+DONE (t=2.96s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.450
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.617
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.483
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.269
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.496
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.627
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.344
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.544
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.569
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.363
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.624
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.751
+{'bbox_mAP': 0.45, 'bbox_mAP_50': 0.617, 'bbox_mAP_75': 0.483, 'bbox_mAP_s': 0.269, 'bbox_mAP_m': 0.496, 'bbox_mAP_l': 0.627, 'bbox_mAP_copypaste': '0.450 0.617 0.483 0.269 0.496 0.627'}
+'''

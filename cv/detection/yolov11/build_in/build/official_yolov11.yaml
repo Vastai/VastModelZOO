@@ -1,0 +1,57 @@
+name: official_yolov11_run_stream_int8
+
+frontend:
+  checkpoint: /path/to/yolo11s.onnx
+  shape:
+    images: [1, 3, 640, 640]
+  type: onnx
+  dtype: fp32
+
+graph:
+  extra_ops:
+    type: yolov8_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      strides:
+      - 8
+      - 16
+      - 32
+
+
+dataset:
+  type: tvm
+  path: ./COCO2017/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 640
+      - -1
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: true
+      norm_type: null
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 3
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    skip_matmul_layers: [0, 1] # yolo11-n/s/m
+    # skip_matmul_layers: [0, 1, 2, 3, 4, 5, 6, 7]  # yolo11-l/m
+    calibrate_chunk_by: -1
+
+workspace:
+  path: ./deploy_weights/

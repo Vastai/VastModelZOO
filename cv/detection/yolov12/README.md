@@ -89,14 +89,12 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
 - 参考[export_onnx.py](./source_code/export_onnx.py)，导出onnx
 
 ### step.2 准备数据集
-
 - [校准数据集](http://images.cocodataset.org/zips/val2017.zip)
 - [评估数据集](http://images.cocodataset.org/zips/val2017.zip)
 - [gt: instances_val2017.json](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
 - [label: coco.txt](../common/label/coco.txt)
 
 ### step.3 模型转换
-
 1. 根据具体模型，修改编译配置
     - [official_yolov12.yaml](./build_in/build/official_yolov12.yaml)
     
@@ -112,7 +110,6 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
     ```
 
 ### step.4 模型推理
-
 1. runstream
     - 参考[yolov12_vsx.py](./build_in/vsx/python/yolov12_vsx.py)生成预测的txt结果
 
