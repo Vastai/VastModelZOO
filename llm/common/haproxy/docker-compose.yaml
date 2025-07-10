@@ -11,8 +11,7 @@ services:
       - /var/log/supervisor:/var/log/supervisor
     command: >
       sh -c '
-      if dmesg | grep -q \"iommu is enable\"; then echo \"Error! IOMMU is enable, please close IOMMU first\"; sleep 10; exit 1; fi;
-      for i in $$(seq 0 31); do if [ ! -e /dev/vacc$$i ]; then sleep 5; exit 1; fi; done;
+      if dmesg | grep -q "iommu is enable"; then echo \"Error! IOMMU is enable, please close IOMMU first\"; sleep 10; exit 1; fi;
       chmod +x /root/vllm_serve_conf/wrapper.sh;
       /usr/bin/supervisord -c /root/vllm_serve_conf/vllm_serve.conf;
       '
