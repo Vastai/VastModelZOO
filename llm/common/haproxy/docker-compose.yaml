@@ -21,6 +21,7 @@ services:
   haproxy: # L4 proxy (high performance)
     image: harbor.vastaitech.com/ai_deliver/haproxy:latest
     container_name: haproxy-server
+    privileged: true
     restart: always
     ports:
       - "${VLLM_SERVICE_PORT}:8000" # service port
