@@ -1,0 +1,433 @@
+diff --git a/rtdetr_pytorch/README.md b/rtdetr_pytorch/README.md
+index f8a2e7a..d482722 100644
+--- a/rtdetr_pytorch/README.md
++++ b/rtdetr_pytorch/README.md
+@@ -82,7 +82,21 @@ torchrun --nproc_per_node=4 tools/train.py -c configs/rtdetr/rtdetr_r50vd_6x_coc
+ ```shell
+ # val on multi-gpu
+ export CUDA_VISIBLE_DEVICES=0,1,2,3
+-torchrun --nproc_per_node=4 tools/train.py -c configs/rtdetr/rtdetr_r50vd_6x_coco.yml -r path/to/checkpoint --test-only
++torchrun --nproc_per_node=4 tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml -r path/to/checkpoint --test-only
++
++
++
++or: 
++
++run torch
++python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml -r path/to/checkpoint --test-only --resume model/rtdetr_r18vd_dec3_6x_coco_from_paddle.pth
++
++run vacc
++python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml -r path/to/checkpoint --test-only --vacc
++
++
++
++
+ ```
+ 
+ </details>
+diff --git a/rtdetr_pytorch/configs/dataset/coco_detection.yml b/rtdetr_pytorch/configs/dataset/coco_detection.yml
+index f71a4ef..63315a6 100644
+--- a/rtdetr_pytorch/configs/dataset/coco_detection.yml
++++ b/rtdetr_pytorch/configs/dataset/coco_detection.yml
+@@ -13,7 +13,7 @@ train_dataloader:
+       type: Compose
+       ops: ~
+   shuffle: True
+-  batch_size: 8
++  batch_size: 1
+   num_workers: 4
+   drop_last: True 
+ 
+@@ -22,13 +22,13 @@ val_dataloader:
+   type: DataLoader
+   dataset: 
+     type: CocoDetection
+-    img_folder: ./dataset/coco/val2017/
+-    ann_file: ./dataset/coco/annotations/instances_val2017.json
++    img_folder: /aitest/datasets/coco/val2017_100/
++    ann_file: /aitest/datasets/coco/annotations/instances_val2017_100.json
+     transforms:
+       type: Compose
+       ops: ~ 
+ 
+   shuffle: False
+-  batch_size: 8
++  batch_size: 1
+   num_workers: 4
+   drop_last: False
+\ No newline at end of file
+diff --git a/rtdetr_pytorch/configs/rtdetr/include/dataloader.yml b/rtdetr_pytorch/configs/rtdetr/include/dataloader.yml
+index e3e6bc1..435e79f 100644
+--- a/rtdetr_pytorch/configs/rtdetr/include/dataloader.yml
++++ b/rtdetr_pytorch/configs/rtdetr/include/dataloader.yml
+@@ -19,7 +19,7 @@ train_dataloader:
+         - {type: SanitizeBoundingBox, min_size: 1}
+         - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
+   shuffle: True
+-  batch_size: 4
++  batch_size: 1
+   num_workers: 4
+   collate_fn: default_collate_fn
+ 
+@@ -34,6 +34,6 @@ val_dataloader:
+         - {type: ToImageTensor}
+         - {type: ConvertDtype}
+   shuffle: False
+-  batch_size: 8
++  batch_size: 1
+   num_workers: 4
+   collate_fn: default_collate_fn
+diff --git a/rtdetr_pytorch/src/solver/__init__.py b/rtdetr_pytorch/src/solver/__init__.py
+index eddab7b..8739a57 100644
+--- a/rtdetr_pytorch/src/solver/__init__.py
++++ b/rtdetr_pytorch/src/solver/__init__.py
+@@ -2,11 +2,12 @@
+ """
+ 
+ from .solver import BaseSolver
+-from .det_solver import DetSolver
++from .det_solver import DetSolver,DetSolverVacc
+ 
+ 
+ from typing import Dict 
+ 
+ TASKS :Dict[str, BaseSolver] = {
+     'detection': DetSolver,
++    'detection_vacc': DetSolverVacc,
+ }
+\ No newline at end of file
+diff --git a/rtdetr_pytorch/src/solver/det_engine.py b/rtdetr_pytorch/src/solver/det_engine.py
+index fbca083..37b8812 100644
+--- a/rtdetr_pytorch/src/solver/det_engine.py
++++ b/rtdetr_pytorch/src/solver/det_engine.py
+@@ -17,6 +17,7 @@ import torch.amp
+ from src.data import CocoEvaluator
+ from src.misc import (MetricLogger, SmoothedValue, reduce_dict)
+ 
++import tvm
+ 
+ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
+                     data_loader: Iterable, optimizer: torch.optim.Optimizer,
+@@ -89,6 +90,184 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
+ 
+ 
+ 
++import numpy as np
++def get_activation_aligned(activation, dtype=np.float16, fc_mode=False, force_int8_layout_to_fp16=False):  # NCHW
++    N = C = H = W = 1
++    if len(activation.shape) == 2:
++      N, C= activation.shape
++      fc_mode = True
++    elif len(activation.shape) == 5:
++      N, C, H, W, B = activation.shape
++    elif len(activation.shape) == 1:
++      C, = activation.shape
++    else:
++      N, C, H, W = activation.shape
++    h_group = w_group = c_group = 0
++    if H == 1 and W == 1 and fc_mode == True:
++        if dtype == np.float16:
++            h_group, w_group, c_group = 1, 1, 256
++        elif dtype == np.int8:
++            h_group, w_group, c_group = 1, 1, 512
++    else:
++        if dtype == np.float16 or force_int8_layout_to_fp16:
++            h_group, w_group, c_group = 8, 8, 4
++        elif dtype == np.int8:
++            h_group, w_group, c_group = 8, 8, 8
++    pad_H, pad_W, pad_C = H, W, C
++    if H % h_group != 0:
++        pad_h = h_group - H % h_group
++        pad_H += pad_h
++    if W % w_group != 0:
++        pad_w = w_group - W % w_group
++        pad_W += pad_w
++    if C % c_group != 0:
++        pad_c = c_group - C % c_group
++        pad_C += pad_c
++    # tensorize to WHC4c8h8w
++    w_num = pad_W // w_group
++    h_num = pad_H // h_group
++    c_num = pad_C // c_group
++    n_num = N
++    block_size = w_group*h_group*c_group
++    activation = activation.astype(dtype)
++    np_arr = np.zeros((n_num, w_num, h_num, c_num, block_size), dtype)
++    for n in range(N):
++        for c in range(C):
++            for h in range(H):
++                for w in range(W):
++                    addr = (c % c_group)*h_group*w_group+(h % h_group)*w_group+(w % w_group)
++                    if len(activation.shape) == 2:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n,c]
++                    elif len(activation.shape) == 1:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n]
++                    else:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n,c,h,w]
++    return np_arr
++
++def align_cube(activation, dtype=np.float16, int8=False):
++    # print(activation.shape)
++    c,h,w = activation.shape[-3:]
++    # print(c,h,w )
++    c_align = 4
++    if int8: 
++        c_align = 8
++    c_new = (c+c_align-1)//c_align*c_align
++    h_new = (h+7)//8*8
++    w_new = (w+7)//8*8
++    new_a = np.zeros([c_new,h_new,w_new],dtype=dtype)
++    new_a[:c,:h,:w] = activation[-3:]
++    return new_a.reshape([c_new, h_new//8, 8, w_new//8, 8]).transpose([3,1,0,2,4])
++    
++
++
++
++@torch.no_grad()
++def evaluate_vacc(model, criterion, postprocessors, data_loader, base_ds, device, output_dir,use_vacc=False,vacc_name=""):
++    # model.eval()
++    criterion.eval()
++
++    metric_logger = MetricLogger(delimiter="  ")
++    # metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
++    header = 'Test:'
++
++    # iou_types = tuple(k for k in ('segm', 'bbox') if k in postprocessors.keys())
++    iou_types = postprocessors.iou_types
++    coco_evaluator = CocoEvaluator(base_ds, iou_types)
++    # coco_evaluator.coco_eval[iou_types[0]].params.iouThrs = [0, 0.1, 0.5, 0.75]
++
++    panoptic_evaluator = None
++    # if 'panoptic' in postprocessors.keys():
++    #     panoptic_evaluator = PanopticEvaluator(
++    #         data_loader.dataset.ann_file,
++    #         data_loader.dataset.ann_folder,
++    #         output_dir=os.path.join(output_dir, "panoptic_eval"),
++    #     )
++
++    for samples, targets in metric_logger.log_every(data_loader, 10, header):
++
++        targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
++
++        # samples = get_activation_aligned(samples.numpy().astype(np.float16))
++        samples = align_cube(samples.numpy().astype(np.float16))
++        model.set_input(vacc_name, 'images', 0, tvm.nd.array(samples))                
++        model.run(vacc_name, time_out=5000)
++        tvm_out0 = model.get_output(vacc_name, index=0, batch=0).asnumpy().reshape(1, 300, -1).astype(np.float32)
++        tvm_out1 = model.get_align_output(vacc_name, index=1, batch=0).asnumpy().reshape(1, 304, -1)[:,:300,:4].astype(np.float32)
++        outputs = {
++            'pred_logits': torch.from_numpy(tvm_out0),
++            'pred_boxes': torch.from_numpy(tvm_out1)
++        }
++
++
++        orig_target_sizes = torch.stack([t["orig_size"] for t in targets], dim=0)        
++        results = postprocessors(outputs, orig_target_sizes)
++        # results = postprocessors(outputs, targets)
++
++        # if 'segm' in postprocessors.keys():
++        #     target_sizes = torch.stack([t["size"] for t in targets], dim=0)
++        #     results = postprocessors['segm'](results, outputs, orig_target_sizes, target_sizes)
++
++        res = {target['image_id'].item(): output for target, output in zip(targets, results)}
++        if coco_evaluator is not None:
++            coco_evaluator.update(res)
++
++        # if panoptic_evaluator is not None:
++        #     res_pano = postprocessors["panoptic"](outputs, target_sizes, orig_target_sizes)
++        #     for i, target in enumerate(targets):
++        #         image_id = target["image_id"].item()
++        #         file_name = f"{image_id:012d}.png"
++        #         res_pano[i]["image_id"] = image_id
++        #         res_pano[i]["file_name"] = file_name
++        #     panoptic_evaluator.update(res_pano)
++
++    # gather the stats from all processes
++    metric_logger.synchronize_between_processes()
++    print("Averaged stats:", metric_logger)
++    if coco_evaluator is not None:
++        coco_evaluator.synchronize_between_processes()
++    if panoptic_evaluator is not None:
++        panoptic_evaluator.synchronize_between_processes()
++
++    # accumulate predictions from all images
++    if coco_evaluator is not None:
++        coco_evaluator.accumulate()
++        coco_evaluator.summarize()
++
++    # panoptic_res = None
++    # if panoptic_evaluator is not None:
++    #     panoptic_res = panoptic_evaluator.summarize()
++    
++    stats = {}
++    # stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
++    if coco_evaluator is not None:
++        if 'bbox' in iou_types:
++            stats['coco_eval_bbox'] = coco_evaluator.coco_eval['bbox'].stats.tolist()
++        if 'segm' in iou_types:
++            stats['coco_eval_masks'] = coco_evaluator.coco_eval['segm'].stats.tolist()
++            
++    # if panoptic_res is not None:
++    #     stats['PQ_all'] = panoptic_res["All"]
++    #     stats['PQ_th'] = panoptic_res["Things"]
++    #     stats['PQ_st'] = panoptic_res["Stuff"]
++
++    print('stats',stats['coco_eval_bbox'][:2])
++    # according to https://github.com/lyuwenyu/RT-DETR/tree/main/rtdetr_pytorch#model-zoo
++    # only first 2 number is need   AP0.5:0.95 and AP0.5
++    # Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
++    # Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
++    # Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.503
++    # Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.284
++    # Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.497
++    # Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.629
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.363
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.616
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.687
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.497
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.734
++    # Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
++    return stats, coco_evaluator
++
++
+ @torch.no_grad()
+ def evaluate(model: torch.nn.Module, criterion: torch.nn.Module, postprocessors, data_loader, base_ds, device, output_dir):
+     model.eval()
+@@ -119,7 +298,13 @@ def evaluate(model: torch.nn.Module, criterion: torch.nn.Module, postprocessors,
+         #     outputs = model(samples)
+ 
+         outputs = model(samples)
+-
++        
++        # print(outputs['pred_logits'].shape)
++        # print(outputs['pred_boxes'].shape)
++        # outputs['pred_logits'].numpy().astype(np.float16).tofile('result/torch_result/0.bin')
++        # outputs['pred_boxes'].numpy().astype(np.float16).tofile('result/torch_result/1.bin')
++        # exit()
++        
+         # loss_dict = criterion(outputs, targets)
+         # weight_dict = criterion.weight_dict
+         # # reduce losses over all GPUs for logging purposes
+diff --git a/rtdetr_pytorch/src/solver/det_solver.py b/rtdetr_pytorch/src/solver/det_solver.py
+index d0a0a84..5dca01c 100644
+--- a/rtdetr_pytorch/src/solver/det_solver.py
++++ b/rtdetr_pytorch/src/solver/det_solver.py
+@@ -11,7 +11,7 @@ from src.misc import dist
+ from src.data import get_coco_api_from_dataset
+ 
+ from .solver import BaseSolver
+-from .det_engine import train_one_epoch, evaluate
++from .det_engine import train_one_epoch, evaluate, evaluate_vacc
+ 
+ 
+ class DetSolver(BaseSolver):
+@@ -102,3 +102,27 @@ class DetSolver(BaseSolver):
+             dist.save_on_master(coco_evaluator.coco_eval["bbox"].eval, self.output_dir / "eval.pth")
+         
+         return
++
++
++class DetSolverVacc(BaseSolver):
++    def set_vacc_model(self, vacc_model):
++        self.vacc_model = vacc_model
++    def eval(self, ):
++        self.setup()
++        self.val_dataloader = dist.warp_loader(self.cfg.val_dataloader, \
++            shuffle=self.cfg.val_dataloader.shuffle)
++    def val(self,):
++        self.eval()
++        base_ds = get_coco_api_from_dataset(self.val_dataloader.dataset)
++        
++        module = self.vacc_model
++        print(module)
++        print('self.vacc_run_name', self.vacc_run_name)
++        test_stats, coco_evaluator = evaluate_vacc(module, self.criterion, self.postprocessor,
++                self.val_dataloader, base_ds, self.device, self.output_dir,True,self.vacc_run_name)
++                
++        if self.output_dir:
++            dist.save_on_master(coco_evaluator.coco_eval["bbox"].eval, self.output_dir / "eval.pth")
++        
++        return
++ 
+\ No newline at end of file
+diff --git a/rtdetr_pytorch/src/solver/solver.py b/rtdetr_pytorch/src/solver/solver.py
+index 55452f2..88a5c03 100644
+--- a/rtdetr_pytorch/src/solver/solver.py
++++ b/rtdetr_pytorch/src/solver/solver.py
+@@ -16,6 +16,7 @@ class BaseSolver(object):
+     def __init__(self, cfg: BaseConfig) -> None:
+         
+         self.cfg = cfg 
++        self.name = ""
+ 
+     def setup(self, ):
+         '''Avoid instantiating unnecessary classes 
+diff --git a/rtdetr_pytorch/tools/train.py b/rtdetr_pytorch/tools/train.py
+index dd6e490..828972f 100644
+--- a/rtdetr_pytorch/tools/train.py
++++ b/rtdetr_pytorch/tools/train.py
+@@ -10,6 +10,31 @@ import src.misc.dist as dist
+ from src.core import YAMLConfig 
+ from src.solver import TASKS
+ 
++import tvm
++from tvm.contrib import graph_runtime
++
++import numpy as np
++
++
++def load_model(model_full_name, dev_id):
++    graph, lib, params, md5_str = None, None, None, None
++
++    with open(model_full_name+".json") as f:
++        graph = f.read()
++    lib = tvm.module.load(model_full_name+".so")
++
++    with open(model_full_name+".params", "rb") as f:
++        params = bytearray(f.read())
++    ctx = tvm.vacc(dev_id)
++    print("runtime start create")
++    vacc_module = graph_runtime.create(graph, lib, ctx, name= "chat::3")
++    print("runtime create ok")
++    # max = vacc_module.get_max_batchsize()
++    vacc_module.load_params(params)
++    print("runtime load_params ok")
++    name = vacc_module.set_batch_size(1)
++    print("runtime set_batch_size ok")
++    return vacc_module, name
+ 
+ def main(args, ) -> None:
+     '''main
+@@ -26,12 +51,21 @@ def main(args, ) -> None:
+         tuning=args.tuning
+     )
+ 
+-    solver = TASKS[cfg.yaml_cfg['task']](cfg)
+     
+-    if args.test_only:
++    if args.vacc:
++        solver = TASKS['detection_vacc'](cfg)
++        assert args.test_only == True
++        # solver.set_model(model=None)
++        vacc_model = '../../suits/rtdetr_all/redetri'
++        if args.resume:
++            vacc_model = args.resume
++        vacc_model, vacc_run_name = load_model(vacc_model, 0)
++        solver.set_vacc_model(vacc_model)
++        solver.vacc_run_name = vacc_run_name
+         solver.val()
+     else:
+-        solver.fit()
++        solver = TASKS[cfg.yaml_cfg['task']](cfg)
++        solver.val()
+ 
+ 
+ if __name__ == '__main__':
+@@ -42,6 +76,7 @@ if __name__ == '__main__':
+     parser.add_argument('--tuning', '-t', type=str, )
+     parser.add_argument('--test-only', action='store_true', default=False,)
+     parser.add_argument('--amp', action='store_true', default=False,)
++    parser.add_argument('--vacc', action='store_true', default=False,)
+ 
+     args = parser.parse_args()
+ 
