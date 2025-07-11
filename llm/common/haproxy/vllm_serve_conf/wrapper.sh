@@ -51,7 +51,7 @@ if [ $ENABLE_AUTO_TOOL_CHOICE -eq 1 ]  && [ -n $CHAT_TEMPLATE ]; then
 fi
 
 TASKSET_STR=
-if [ $ARCH = "aarch64" ]
+if [ $ARCH = "aarch64" ]; then
 	TASKSET_STR="taskset -c 0-63"
 fi
 
