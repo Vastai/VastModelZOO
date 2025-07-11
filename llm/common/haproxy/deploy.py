@@ -229,7 +229,7 @@ def modify_supervisor(
         f"ENABLE_AUTO_TOOL_CHOICE={1 if enable_auto_tool_choice else 0},"
         f"TOOL_CALL_PARSER={tool_call_parser},"
         f"CHAT_TEMPLATE={chat_template},"
-        f"ARCH={arch}"
+        f"ARCH={arch},"
         "PROCESS_NUM=%(process_num)d"
     )
 
