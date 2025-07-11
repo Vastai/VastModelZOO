@@ -4,25 +4,25 @@ services:
     image: ${VLLM_VACC_IMAGE}
     privileged: true
     container_name: vllm_service
-    restart: always
+    restart: "on-failure:3"
     volumes:
       - ${HOST_DATA_DIR}:${HOST_DATA_DIR}
       - ./vllm_serve_conf:/root/vllm_serve_conf
       - /var/log/supervisor:/var/log/supervisor
     command: >
       sh -c '
-      if dmesg | grep -q "iommu is enable"; then echo \"Error! IOMMU is enable, please close IOMMU first\"; sleep 10; exit 1; fi;
       chmod +x /root/vllm_serve_conf/wrapper.sh;
+      if dmesg | grep -q "iommu is enable"; then echo "Error! IOMMU is enable, please close IOMMU first"; sleep 10; exit 1; fi;
       /usr/bin/supervisord -c /root/vllm_serve_conf/vllm_serve.conf;
       '
     networks:
       - vllm-network
 
   haproxy: # L4 proxy (high performance)
-    image: harbor.vastaitech.com/ai_deliver/haproxy:latest
+    image: ${HAPROXY_IMAGE}
     container_name: haproxy-server
+    restart: "on-failure:3"
     privileged: true
-    restart: always
     ports:
       - "${VLLM_SERVICE_PORT}:8000" # service port
       - "${VLLM_MANAGE_PORT}:9000" # manage port

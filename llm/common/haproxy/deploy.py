@@ -2,12 +2,15 @@ import argparse
 import re
 import os
 import time
-from openai import OpenAI
+
+import platform
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 ENV_FILE_PATH = os.path.join(current_dir, ".env")
 HAPROXY_CONFIG_PATH = os.path.join(current_dir, "haproxy.cfg")
 SUPERVISOR_CONFIG_PATH = os.path.join(current_dir, "vllm_serve_conf/vllm_serve.conf")
+
+HAPROXY_IMAG = "harbor.vastaitech.com/ai_deliver/haproxy:latest"
 
 MODEL_NAME_TO_REPO = {
     "Qwen3-30B-A3B-FP8": "Qwen/Qwen3-30B-A3B-FP8",
@@ -19,7 +22,7 @@ MODEL_NAME_TO_REPO = {
 def benchmark(port: int, served_model_name: str, count: int):
     OPENAI_API_KEY = "token-abc123"
     OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
-
+    from openai import OpenAI
     client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
 
     ttfts = []
@@ -143,11 +146,17 @@ def download_model(model: str):
         print(f"Model {model_name} downloaded successfully to {model_dir_name}.")
 
 
-def modify_env(model: str, image: str, port: int, management_port: int):
+def modify_env(model: str, image: str, port: int, management_port: int, arch: str):
+    haproxy_img = HAPROXY_IMAG
+    if arch == "aarch64":
+        image = image + "_arm"
+        haproxy_img = haproxy_img + "_arm"
+
     replacements = {
         "HOST_DATA_DIR": model,
         "VLLM_VACC_IMAGE": image,
         "VLLM_SERVICE_PORT": port,
+        "HAPROXY_IMAGE": haproxy_img,
         "VLLM_MANAGE_PORT": management_port,
     }
     with open(ENV_FILE_PATH, "r") as file:
@@ -197,6 +206,7 @@ def modify_supervisor(
     enable_auto_tool_choice: bool = False,
     tool_call_parser: str = None,
     chat_template: str = None,
+    arch: str = None,
 ):
     if enable_reasoning:
         if not reasoning_parser:
@@ -219,6 +229,7 @@ def modify_supervisor(
         f"ENABLE_AUTO_TOOL_CHOICE={1 if enable_auto_tool_choice else 0},"
         f"TOOL_CALL_PARSER={tool_call_parser},"
         f"CHAT_TEMPLATE={chat_template},"
+        f"ARCH={arch}"
         "PROCESS_NUM=%(process_num)d"
     )
 
@@ -335,7 +346,21 @@ if __name__ == "__main__":
     # download model if not exists
     download_model(args.model)
 
-    modify_env(args.model, args.image, args.port, args.management_port)
+    machine = platform.machine().lower()
+    arch = "x86"
+    print("当前架构:", machine)
+
+    if machine in ("x86_64", "amd64", "i386", "i686"):
+        arch = "x86"
+        print("x86/x86_64 架构")
+    elif machine in ("aarch64", "arm64", "armv8", "armv7l", "armv6l"):
+        arch = "aarch64"
+        print("ARM/ARM64 架构")
+    else:
+        print("未知架构:", machine)
+
+
+    modify_env(args.model, args.image, args.port, args.management_port, arch)
     modify_haproxy(
         args.instance, args.max_batch_size_for_instance, args.served_model_name
     )
@@ -352,6 +377,7 @@ if __name__ == "__main__":
         args.enable_auto_tool_choice,
         args.tool_call_parser,
         args.chat_template,
+        arch,
     )
     print("Deployment configuration updated successfully.")
 
@@ -361,7 +387,6 @@ if __name__ == "__main__":
 
     # subprocess run service with docker-compose
     import subprocess
-
     try:
         result = subprocess.run(
             [
