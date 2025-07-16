@@ -11,7 +11,6 @@ branch: master
 commit: b526ce5dc2bef53249506883b92feb15f4f89bbb
 ```
 
-
 ## Model Arch
 
 <div  align="center">
@@ -73,8 +72,8 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 
 
 ## Build_In Deploy
-### step.1 模型准备
 
+### step.1 模型准备
 1. 下载模型权重
     ```
     link: https://github.com/Andy-zhujunwen/UNET-ZOO
@@ -104,20 +103,21 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 ### step.2 准备数据集
 - 下载[DSB2018](https://github.com/sunalbert/DSB2018)数据集，解压
 
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [official_unetpp.yaml](./build_in/build/official_unetpp.yaml)
-3. 模型编译
+
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
+
+2. 模型编译
     ```bash
     vamc compile ./build_in/build/official_unetpp.yaml
     ```
 
-
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-2. runstream推理，参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
+1. runstream推理，参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ./build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/dsb2018/dsb2018_256_val/images \
@@ -128,11 +128,8 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
         --device 0
     ```
 
-
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式（注意配置图片后缀为`.png`）：
+### step.5 性能精度测试
+1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式（注意配置图片后缀为`.png`）：
     ```bash
     python ../common/utils/image2npz.py \
     --dataset_path dsb2018/dsb2018_256_val/images \
@@ -140,7 +137,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
     --text_path npz_datalist.txt
     ```
 
-3. 性能测试，配置vdsp参数[unetzoo-unetpp-vdsp_params.json](./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json)，执行：
+2. 性能测试，配置vdsp参数[unetzoo-unetpp-vdsp_params.json](./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/mod \
     --vdsp_params ./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
@@ -149,7 +146,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 
 > 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
 
-4. 精度测试，推理得到npz结果：
+3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/unetpp \
     --vdsp_params ./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
@@ -158,7 +155,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
     --path_output npz_output
     ```
 
-5. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
+4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
     python ./build_in/vdsp_params/vamp_eval.py \
     --src_dir dsb2018/dsb2018_256_val/images \
@@ -169,7 +166,6 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
     --draw_dir npz_draw_result \
     --vamp_flag
    ```
-
 
 ### Tips
 

@@ -1,0 +1,43 @@
+name: mask2former_run_stream_fp16
+
+frontend:
+  checkpoint: path/to/mask2former_r50.onnx
+  shape:
+    image: [1, 3, 1024, 1024]
+  type: onnx
+  dtype: fp32
+
+dataset:
+  type: tvm
+  path: path/to/coco/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 1024
+      - 1024
+    - type: Normalize
+      div255: false
+      mean:
+      - 123.675
+      - 116.28
+      - 103.53
+      std:
+      - 58.395
+      - 57.12
+      - 57.375
+    - type: ToTensor
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    opt_level: 2
+    data_transport_mode: 1
+  
+workspace:
+  path: ./deploy_weights
+

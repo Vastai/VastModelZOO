@@ -56,8 +56,7 @@ FCN将传统CNN中的全连接层转化成一个个的卷积层进行下采样�
 
 ### 模型精度
 
-
-|                                           Methods                                           | Code Source | Backbone | FLOPs(G) | Params(M) | MIoU |   Shapes   |
+| Methods  | Code Source | Backbone | FLOPs(G) | Params(M) | MIoU |   Shapes   |
 | :------------------------------------------------------------------------------------------: | :-----------: | :------: | :------: | :-------: | :------: | :---------: |
 | fcn8s |     [awesome](https://github.com/Tramac/awesome-semantic-segmentation-pytorch/blob/master/README.md)        |  vgg16  | 178.434 |  30.038  |  50.959  | 3×320×320 |
 |                                   fcn8s **vacc fp16**                                   |     -        |    -    |    -    |     -     |  50.623  | 3×320×320 |
@@ -81,10 +80,6 @@ FCN将传统CNN中的全连接层转化成一个个的卷积层进行下采样�
 |                              fcn_r101_d8_40k **vacc fp16**                              |      -       |    -    |    -    |     -     |  70.049  | 3×512×512 |
 |                       fcn_r101_d8_40k **vacc int8 kl_divergence**                       |      -       |    -    |    -    |     -     |  71.181  | 3×512×512 |
 
-> Tips
-> 
-> - awesome项目并未提供模型权重，我们重新训练了模型，原始Torch模型精度一般
->
 
 ### 测评数据集说明
 

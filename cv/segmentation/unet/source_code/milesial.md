@@ -1,7 +1,6 @@
 ## Build_In Deploy
 
 ### step.1 模型准备
-
 1. 下载模型权重
 
     ```
@@ -28,16 +27,20 @@
 - 下载[carvana](https://www.kaggle.com/competitions/carvana-image-masking-challenge/data)数据集，解压
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [milesial_unet.yaml](../build_in/build/milesial_unet.yaml)
-3. 模型编译
+    
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
+
+2. 模型编译
     ```bash
     vamc compile ../build_in/build/milesial_unet.yaml
     ```
+
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-2. runstream推理，参考：[milesial_vsx.py](../build_in/vsx/python/milesial_vsx.py)，修改参数并运行如下脚本
+1. runstream推理，参考：[milesial_vsx.py](../build_in/vsx/python/milesial_vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/milesial_vsx.py \
         --file_path  /path/to/carvana/imgs \
@@ -48,10 +51,8 @@
         --device 0
     ```
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式：
+### step.5 性能精度测试
+1. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式：
     ```bash
     python ../../common/utils/image2npz.py \
     --dataset_path carvana/imgs \
@@ -59,7 +60,7 @@
     --text_path npz_datalist.txt
     ```
 
-3. 性能测试，配置vdsp参数[milesial-unet_scale0.5-vdsp_params.json](../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json)，执行：
+2. 性能测试，配置vdsp参数[milesial-unet_scale0.5-vdsp_params.json](../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/milesial_unet_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json \
@@ -68,8 +69,7 @@
     
 > 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
 
-
-4. 精度测试，推理得到npz结果：
+3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/milesial_unet_run_stream_int8/mod \
     --vdsp_params build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json \
@@ -78,7 +78,7 @@
     --path_output npz_output
     ```
 
-5. [milesial-vamp_eval.py](../build_in/vdsp_params/milesial-vamp_eval.py)，解析npz结果，绘图并统计精度：
+4. [milesial-vamp_eval.py](../build_in/vdsp_params/milesial-vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
     python ../build_in/vdsp_params/milesial-vamp_eval.py \
     --src_dir carvana/imgs \

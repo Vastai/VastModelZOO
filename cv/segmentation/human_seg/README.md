@@ -8,7 +8,6 @@ branch: master
 commit: b15baef04e7b628c01a4526de5e14f9524f18da6
 ```
 
-
 ## Model Arch
 
 ### describe
@@ -82,23 +81,20 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
 - 按此链接整理转换数据集：[blog](https://blog.csdn.net/u011622208/article/details/108535943)
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [official_human_seg.yaml](./build_in/build/official_human_seg.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
     ```bash
     vamc compile ./build_in/build/official_human_seg.yaml
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../docs/vastai_software.md)
-2. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
+1. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
     python ./build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/Supervisely_Person_Dataset/src/ \
@@ -117,10 +113,8 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
     mean iou: 88.68908286094666
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置vdsp参数[thuyngch-deeplabv3plus_resnet18-vdsp_params.json](./build_in/vdsp_params/thuyngch-deeplabv3plus_resnet18-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_human_seg_run_stream_fp16/mod \
@@ -128,7 +122,7 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
     -i 2 p 2 -b 1
     ```
 
-3. 精度测试
+2. 精度测试
     - 数据准备，基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ./build_in/vdsp_params/image2npz.py \
@@ -157,9 +151,3 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
         --draw_dir npz_draw_result \
         --vamp_flag
    ```
-
-
-### Tips
-- 源仓库用到了timm，需要限定版本0.1.12
-- 源仓库提供的训练权重链接，已无法下载。基于给定数据集自己训练了5个模型，精度有差异
-- 当前只支持deeplabv3plus_resnet18，unet_resnet18和unet_mobilenetv2三个模型。剩下的icnet_resnet18-320/pspnet_resnet18-320/bisenet_resnet18-320/在模型编译时会报错

@@ -1,0 +1,28 @@
+diff --git a/detectron2/config/defaults.py b/detectron2/config/defaults.py
+index 5d97ec9..137e55e 100644
+--- a/detectron2/config/defaults.py
++++ b/detectron2/config/defaults.py
+@@ -29,7 +29,8 @@ _C.MODEL = CN()
+ _C.MODEL.LOAD_PROPOSALS = False
+ _C.MODEL.MASK_ON = False
+ _C.MODEL.KEYPOINT_ON = False
+-_C.MODEL.DEVICE = "cuda"
++# _C.MODEL.DEVICE = "cuda"
++_C.MODEL.DEVICE = "cpu"
+ _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
+ 
+ # Path (a file path, or URL like detectron2://.., https://..) to a checkpoint file
+diff --git a/detectron2/data/transforms/augmentation_impl.py b/detectron2/data/transforms/augmentation_impl.py
+index 7cc7b28..d2fe67e 100644
+--- a/detectron2/data/transforms/augmentation_impl.py
++++ b/detectron2/data/transforms/augmentation_impl.py
+@@ -174,7 +174,8 @@ class ResizeShortestEdge(Augmentation):
+         if size == 0:
+             return NoOpTransform()
+ 
+-        newh, neww = ResizeShortestEdge.get_output_shape(h, w, size, self.max_size)
++        # newh, neww = ResizeShortestEdge.get_output_shape(h, w, size, self.max_size)
++        newh, neww = 1024, 1024
+         return ResizeTransform(h, w, newh, neww, self.interp)
+ 
+     @staticmethod

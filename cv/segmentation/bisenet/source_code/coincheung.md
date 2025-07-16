@@ -1,7 +1,6 @@
 ## Build_In Deploy
 
 ### step.1 模型准备
-
 1. 下载模型权重
 
     ```
@@ -24,11 +23,6 @@
     scripted_model = torch.jit.load(checkpoint.replace(".pth", ".torchscript.pt"))
     ```
 
-    > Tips
-    > 
-    > 模型forward内存在argmax，当前提供的onnx已移除
-    > 
-
 ### step.2 准备数据集
 - 下载[cityscapes](https://www.cityscapes-dataset.com/)数据集，解压
 
@@ -42,7 +36,7 @@
 
 2. 模型编译
     ```bash
-    vamc compile ../vacc_code/build/coincheung_config.yaml
+    vamc compile ../build_in/build/coincheung_config.yaml
     ```
 
 ### step.4 模型推理
@@ -53,7 +47,7 @@
         --mask_dir path/to/cityscapes/gtFine/val \
         --model_prefix_path deploy_weights/coincheung_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/coincheung-bisenetv1-vdsp_params.json \
-        --label_txt ../build_in/runmodel/cityscapes_colors.txt \
+        --label_txt ./cityscapes_colors.txt \
         --save_dir ./runstream_output
     ```
     - 注意替换命令行中--image_dir和--mask_dir为实际路径

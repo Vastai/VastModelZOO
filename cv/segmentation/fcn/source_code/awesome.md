@@ -34,31 +34,25 @@
     onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
     ```
 
-
 ### step.2 准备数据集
 - 下载[Pascal VOC2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/)数据集，解压
 
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [awesome_fcn.yaml](../build_in/build/awesome_fcn.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     vamc compile ../build_in/build/awesome_fcn.yaml
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-2. runstream推理，参考
+1. runstream推理，参考
     - 参考：[awesome_vsx_inference.py](../build_in/vsx/awesome_vsx_inference.py)
     ```bash
     python ../build_in/vsx/awesome_vsx_inference.py \
@@ -79,10 +73,8 @@
     validation pixAcc: 87.769, mIoU: 50.513
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置vdsp参数[awesome-fcn8s_vgg16-vdsp_params.json](../build_in/vdsp_params/awesome-fcn8s_vgg16-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/awesome_fcn_run_stream_fp16/mod \
@@ -91,7 +83,7 @@
     ```
 
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，基于[image2npz.py](../build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`，注意只转换`VOC2012/ImageSets/Segmentation/val.txt`对应的验证集图像（配置相应路径）：
@@ -122,6 +114,3 @@
         --draw_dir npz_draw_result \
         --vamp_flag
     ```
-
-### Tips
-- 自训练的原始Torch模型精度不高，有些结果图为全黑图

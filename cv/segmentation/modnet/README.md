@@ -85,26 +85,20 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 - 下载[PPM-100](https://github.com/ZHKKKe/PPM)数据集，解压
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../docs/vastai_software.md)
-
-2. 根据具体模型修改配置文件
+1. 根据具体模型修改配置文件
     - [official_modnet.yaml](./build_in/build/official_modnet.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
     ```bash
     vamc compile ./build_in/build/official_modnet.yaml
     ```
 
-
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../docs/vastai_software.md)
-2. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
+1. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ./build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/PPM-100/image \
@@ -115,9 +109,8 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
         --device 0
     ```
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../docs/vastai_software.md)
-2. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
+### step.5 性能精度测试
+1. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ./build_in/vdsp_params/image2npz.py \
     --dataset_path datasets/PPM-100/image \
@@ -125,7 +118,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
     --text_path npz_datalist.txt
     ```
 
-3. 性能测试，配置vdsp参数[official-modnet-vdsp_params.json](./build_in/vdsp_params/official-modnet-vdsp_params.json)
+2. 性能测试，配置vdsp参数[official-modnet-vdsp_params.json](./build_in/vdsp_params/official-modnet-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_modnet_run_stream_int8/mod \
     --vdsp_params ./build_in/vdsp_params/official-modnet-vdsp_params.json \
@@ -134,7 +127,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 
 > 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
 
-4. 精度测试，推理得到npz结果：
+3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/mod \
     --vdsp_params build_in/vdsp_params/official-modnet-vdsp_params.json \
@@ -143,7 +136,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
     --path_output npz_output
     ```
 
-5. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
+4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
     python ./build_in/vdsp_params/vamp_eval.py \
     --src_dir datasets/PPM-100/image \
@@ -154,10 +147,3 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
     --draw_dir npz_draw_result \
     --vamp_flag
    ```
-
-
-#### Tips
-- vacc int8有掉点，sigma量化方式掉点最小
-- 单个评估指标不够准确，可加入分割领域的miou等评估指标，综合评估
-- matting评估指标来自于：[PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.8/Matting/ppmatting/metrics)
-- 官方代码实现中，使用了SE_Block代替e-ASPP模块

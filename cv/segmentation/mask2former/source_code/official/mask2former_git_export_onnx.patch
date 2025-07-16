@@ -1,0 +1,545 @@
+diff --git a/demo/demo.py b/demo/demo.py
+index 1b0b4d9..85b3eb4 100644
+--- a/demo/demo.py
++++ b/demo/demo.py
+@@ -46,7 +46,8 @@ def get_parser():
+     parser = argparse.ArgumentParser(description="maskformer2 demo for builtin configs")
+     parser.add_argument(
+         "--config-file",
+-        default="configs/coco/panoptic-segmentation/maskformer2_R50_bs16_50ep.yaml",
++        # default="configs/coco/panoptic-segmentation/maskformer2_R50_bs16_50ep.yaml",
++        default = "/home/realtyxxx/debug/mask2former_install/Mask2Former/configs/coco/instance-segmentation/maskformer2_R50_bs16_50ep.yaml",
+         metavar="FILE",
+         help="path to config file",
+     )
+@@ -73,7 +74,8 @@ def get_parser():
+     parser.add_argument(
+         "--opts",
+         help="Modify config options using the command-line 'KEY VALUE' pairs",
+-        default=[],
++        # default=[],
++        default=["MODEL.WEIGHTS", "/home/realtyxxx/debug/mask2former_install/model_final_3c8ec9.pkl"],
+         nargs=argparse.REMAINDER,
+     )
+     return parser
+@@ -107,13 +109,29 @@ if __name__ == "__main__":
+ 
+     demo = VisualizationDemo(cfg)
+ 
++    
+     if args.input:
+         if len(args.input) == 1:
+             args.input = glob.glob(os.path.expanduser(args.input[0]))
+             assert args.input, "The input path(s) was not found"
+         for path in tqdm.tqdm(args.input, disable=not args.output):
++
+             # use PIL, to be consistent with evaluation
+-            img = read_image(path, format="BGR")
++            # from PIL import Image
++            # img = Image.open(path)
++    
++            # 调整大小
++            # img_resized = img.resize((1024,1024), Image.Resampling.BILINEAR)
++    
++            # 保存调整大小后的图像
++            # img_resized.save("1024.jpg")
++            # exit()
++
++            # img = read_image(path, format="BGR")
++
++            import numpy as np
++            img = np.random.randn(1024,1024,3).astype("float32")
++
+             start_time = time.time()
+             predictions, visualized_output = demo.run_on_image(img)
+             logger.info(
+@@ -192,3 +210,5 @@ if __name__ == "__main__":
+             output_file.release()
+         else:
+             cv2.destroyAllWindows()
++
++
+diff --git a/mask2former/maskformer_model.py b/mask2former/maskformer_model.py
+index 88ce76d..d3ab2d2 100644
+--- a/mask2former/maskformer_model.py
++++ b/mask2former/maskformer_model.py
+@@ -190,41 +190,66 @@ class MaskFormer(nn.Module):
+                     segments_info (list[dict]): Describe each segment in `panoptic_seg`.
+                         Each dict contains keys "id", "category_id", "isthing".
+         """
+-        images = [x["image"].to(self.device) for x in batched_inputs]
+-        images = [(x - self.pixel_mean) / self.pixel_std for x in images]
+-        images = ImageList.from_tensors(images, self.size_divisibility)
++        # images = [x["image"].to(self.device) for x in batched_inputs]
++        # print(self.device)
++        # images = [x.to(self.device) for x in batched_inputs]
++        # images = [(x - self.pixel_mean) / self.pixel_std for x in images]
++        # images = ImageList.from_tensors(images, self.size_divisibility)
+ 
+-        features = self.backbone(images.tensor)
++
++        # batched_inputs.numpy().tofile("input_image.bin")
++        images = batched_inputs.to(self.device)
++
++        features = self.backbone(images)
++        # print(features)
++
++
++        # features = self.backbone(images.tensor)
+         outputs = self.sem_seg_head(features)
+ 
+-        if self.training:
+-            # mask classification target
+-            if "instances" in batched_inputs[0]:
+-                gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
+-                targets = self.prepare_targets(gt_instances, images)
+-            else:
+-                targets = None
+-
+-            # bipartite matching-based loss
+-            losses = self.criterion(outputs, targets)
+-
+-            for k in list(losses.keys()):
+-                if k in self.criterion.weight_dict:
+-                    losses[k] *= self.criterion.weight_dict[k]
+-                else:
+-                    # remove this loss if not specified in `weight_dict`
+-                    losses.pop(k)
+-            return losses
+-        else:
++        # if self.training:
++        #     # mask classification target
++        #     if "instances" in batched_inputs[0]:
++        #         gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
++        #         targets = self.prepare_targets(gt_instances, images)
++        #     else:
++        #         targets = None
++
++        #     # bipartite matching-based loss
++        #     losses = self.criterion(outputs, targets)
++
++        #     for k in list(losses.keys()):
++        #         if k in self.criterion.weight_dict:
++        #             losses[k] *= self.criterion.weight_dict[k]
++        #         else:
++        #             # remove this loss if not specified in `weight_dict`
++        #             losses.pop(k)
++        #     return losses
++        # else:
++        if 1:
+             mask_cls_results = outputs["pred_logits"]
+             mask_pred_results = outputs["pred_masks"]
++            print(mask_cls_results.shape)
++            print(mask_pred_results.shape)
++            print(mask_cls_results.dtype)
++            print(mask_pred_results.dtype)
++            # mask_cls_results.numpy().tofile("mask_cls_results.bin")
++            # mask_pred_results.numpy().tofile("mask_pred_results.bin")
++            return (mask_cls_results, mask_pred_results)
++
++
++
++            print(f"mask_pred_results.shape : {mask_pred_results.shape}")
+             # upsample masks
+             mask_pred_results = F.interpolate(
+                 mask_pred_results,
+                 size=(images.tensor.shape[-2], images.tensor.shape[-1]),
++                # size=(images.shape[-2], images.shape[-1]),
+                 mode="bilinear",
+                 align_corners=False,
+             )
++            # print(f"images.tensor.shape : {images.tensor.shape}")
++            print(f"mask_pred_results.shape : {mask_pred_results.shape}")
+ 
+             del outputs
+ 
+@@ -232,15 +257,25 @@ class MaskFormer(nn.Module):
+             for mask_cls_result, mask_pred_result, input_per_image, image_size in zip(
+                 mask_cls_results, mask_pred_results, batched_inputs, images.image_sizes
+             ):
++            # if 1:
++            #     mask_cls_result, mask_pred_result = mask_cls_results[0], mask_pred_results[0]
++                # image_size=(1000,1333)
+                 height = input_per_image.get("height", image_size[0])
+                 width = input_per_image.get("width", image_size[1])
++                # image_size=(1024,1024)
++                # height = 1024
++                # width = 1024
++                # print(image_size)
+                 processed_results.append({})
+ 
+-                if self.sem_seg_postprocess_before_inference:
++                if self.sem_seg_postprocess_before_inference: # ! here would runned
+                     mask_pred_result = retry_if_cuda_oom(sem_seg_postprocess)(
+                         mask_pred_result, image_size, height, width
+                     )
++                    print(mask_pred_result)
++                    print(mask_cls_result)
+                     mask_cls_result = mask_cls_result.to(mask_pred_result)
++                    print(mask_cls_result)
+ 
+                 # semantic segmentation inference
+                 if self.semantic_on:
+@@ -255,11 +290,28 @@ class MaskFormer(nn.Module):
+                     processed_results[-1]["panoptic_seg"] = panoptic_r
+                 
+                 # instance segmentation inference
++                # print(f"mask_pred_results.shape : {mask_pred_results.shape}")
+                 if self.instance_on:
+                     instance_r = retry_if_cuda_oom(self.instance_inference)(mask_cls_result, mask_pred_result)
+                     processed_results[-1]["instances"] = instance_r
++                    # print(f"instance_r.get('pred_masks').shape :: {instance_r.get('pred_masks').shape}")
++                    # print(instance_r.pred_boxes)
++                    # return [instance_r]
++                    return processed_results
++
++                    print(
++                      instance_r.pred_masks,
++                      instance_r.pred_boxes.tensor,
++                      instance_r.scores,
++                      instance_r.pred_classes)
++                    return (
++                      instance_r.pred_masks,
++                      instance_r.pred_boxes.tensor,
++                      instance_r.scores,
++                      instance_r.pred_classes
++                    )
+ 
+-            return processed_results
++            # return processed_results
+ 
+     def prepare_targets(self, targets, images):
+         h_pad, w_pad = images.tensor.shape[-2:]
+@@ -378,3 +430,4 @@ class MaskFormer(nn.Module):
+         result.scores = scores_per_image * mask_scores_per_image
+         result.pred_classes = labels_per_image
+         return result
++
+diff --git a/mask2former/modeling/pixel_decoder/msdeformattn.py b/mask2former/modeling/pixel_decoder/msdeformattn.py
+index 0ff1a81..4ab61b0 100644
+--- a/mask2former/modeling/pixel_decoder/msdeformattn.py
++++ b/mask2former/modeling/pixel_decoder/msdeformattn.py
+@@ -142,8 +142,25 @@ class MSDeformAttnTransformerEncoder(nn.Module):
+         reference_points_list = []
+         for lvl, (H_, W_) in enumerate(spatial_shapes):
+ 
+-            ref_y, ref_x = torch.meshgrid(torch.linspace(0.5, H_ - 0.5, H_, dtype=torch.float32, device=device),
+-                                          torch.linspace(0.5, W_ - 0.5, W_, dtype=torch.float32, device=device))
++            # print(H_, W_)
++                        # ! try replace ment
++            if 0:
++              step_y = 1.0 / (H_ - 1)
++              step_x = 1.0 / (W_ - 1)
++              ref_y = torch.arange(0, 1, step_y, dtype=torch.float32, device=device).unsqueeze(1).repeat(1, W_)
++              ref_x = torch.arange(0, 1, step_x, dtype=torch.float32, device=device).unsqueeze(0).repeat(H_, 1)
++              ref_y = ref_y * (H_ - 1) + 0.5
++              ref_x = ref_x * (W_ - 1) + 0.5
++              print(f"ref_y_ : {ref_y.shape} {ref_y}")
++              print(f"ref_x_ : {ref_x.shape} {ref_x}")
++            
++            if 1:
++              ref_y, ref_x = torch.meshgrid(torch.linspace(0.5, H_ - 0.5, H_, dtype=torch.float32, device=device),
++                                            torch.linspace(0.5, W_ - 0.5, W_, dtype=torch.float32, device=device))
++              # print(f"ref_y : {ref_y.shape} {ref_y}")
++              # print(f"ref_x : {ref_x.shape} {ref_x}")
++
++
+             ref_y = ref_y.reshape(-1)[None] / (valid_ratios[:, None, lvl, 1] * H_)
+             ref_x = ref_x.reshape(-1)[None] / (valid_ratios[:, None, lvl, 0] * W_)
+             ref = torch.stack((ref_x, ref_y), -1)
+diff --git a/mask2former/modeling/pixel_decoder/ops/functions/__init__.py b/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
+index 2b06b5a..64566ee 100644
+--- a/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
++++ b/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
+@@ -9,5 +9,5 @@
+ # Copyright (c) Facebook, Inc. and its affiliates.
+ # Modified by Bowen Cheng from https://github.com/fundamentalvision/Deformable-DETR
+ 
+-from .ms_deform_attn_func import MSDeformAttnFunction
++# from .ms_deform_attn_func import MSDeformAttnFunction
+ 
+diff --git a/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py b/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
+index 94a36ab..02f6a44 100644
+--- a/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
++++ b/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
+@@ -18,35 +18,35 @@ import torch.nn.functional as F
+ from torch.autograd import Function
+ from torch.autograd.function import once_differentiable
+ 
+-try:
+-    import MultiScaleDeformableAttention as MSDA
+-except ModuleNotFoundError as e:
+-    info_string = (
+-        "\n\nPlease compile MultiScaleDeformableAttention CUDA op with the following commands:\n"
+-        "\t`cd mask2former/modeling/pixel_decoder/ops`\n"
+-        "\t`sh make.sh`\n"
+-    )
+-    raise ModuleNotFoundError(info_string)
++# try:
++#     import MultiScaleDeformableAttention as MSDA
++# except ModuleNotFoundError as e:
++#     info_string = (
++#         "\n\nPlease compile MultiScaleDeformableAttention CUDA op with the following commands:\n"
++#         "\t`cd mask2former/modeling/pixel_decoder/ops`\n"
++#         "\t`sh make.sh`\n"
++#     )
++#     raise ModuleNotFoundError(info_string)
+ 
+ 
+-class MSDeformAttnFunction(Function):
+-    @staticmethod
+-    def forward(ctx, value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, im2col_step):
+-        ctx.im2col_step = im2col_step
+-        output = MSDA.ms_deform_attn_forward(
+-            value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, ctx.im2col_step)
+-        ctx.save_for_backward(value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights)
+-        return output
++# class MSDeformAttnFunction(Function):
++#     @staticmethod
++#     def forward(ctx, value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, im2col_step):
++#         ctx.im2col_step = im2col_step
++#         output = MSDA.ms_deform_attn_forward(
++#             value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, ctx.im2col_step)
++#         ctx.save_for_backward(value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights)
++#         return output
+ 
+-    @staticmethod
+-    @once_differentiable
+-    def backward(ctx, grad_output):
+-        value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights = ctx.saved_tensors
+-        grad_value, grad_sampling_loc, grad_attn_weight = \
+-            MSDA.ms_deform_attn_backward(
+-                value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, grad_output, ctx.im2col_step)
++#     @staticmethod
++#     @once_differentiable
++#     def backward(ctx, grad_output):
++#         value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights = ctx.saved_tensors
++#         grad_value, grad_sampling_loc, grad_attn_weight = \
++#             MSDA.ms_deform_attn_backward(
++#                 value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, grad_output, ctx.im2col_step)
+ 
+-        return grad_value, None, None, grad_sampling_loc, grad_attn_weight, None
++#         return grad_value, None, None, grad_sampling_loc, grad_attn_weight, None
+ 
+ 
+ def ms_deform_attn_core_pytorch(value, value_spatial_shapes, sampling_locations, attention_weights):
+@@ -55,7 +55,8 @@ def ms_deform_attn_core_pytorch(value, value_spatial_shapes, sampling_locations,
+     N_, S_, M_, D_ = value.shape
+     _, Lq_, M_, L_, P_, _ = sampling_locations.shape
+     value_list = value.split([H_ * W_ for H_, W_ in value_spatial_shapes], dim=1)
+-    sampling_grids = 2 * sampling_locations - 1
++    # sampling_grids = 2 * sampling_locations - 1
++    sampling_grids = sampling_locations
+     sampling_value_list = []
+     for lid_, (H_, W_) in enumerate(value_spatial_shapes):
+         # N_, H_*W_, M_, D_ -> N_, H_*W_, M_*D_ -> N_, M_*D_, H_*W_ -> N_*M_, D_, H_, W_
+diff --git a/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py b/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
+index e7b4c42..faf6276 100644
+--- a/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
++++ b/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
+@@ -21,7 +21,7 @@ from torch import nn
+ import torch.nn.functional as F
+ from torch.nn.init import xavier_uniform_, constant_
+ 
+-from ..functions import MSDeformAttnFunction
++# from ..functions import MSDeformAttnFunction
+ from ..functions.ms_deform_attn_func import ms_deform_attn_core_pytorch
+ 
+ 
+@@ -79,6 +79,50 @@ class MSDeformAttn(nn.Module):
+         xavier_uniform_(self.output_proj.weight.data)
+         constant_(self.output_proj.bias.data, 0.)
+ 
++    # def forward(self, query, reference_points, input_flatten, input_spatial_shapes, input_level_start_index, input_padding_mask=None):
++    #     """
++    #     :param query                       (N, Length_{query}, C)
++    #     :param reference_points            (N, Length_{query}, n_levels, 2), range in [0, 1], top-left (0,0), bottom-right (1, 1), including padding area
++    #                                     or (N, Length_{query}, n_levels, 4), add additional (w, h) to form reference boxes
++    #     :param input_flatten               (N, \sum_{l=0}^{L-1} H_l \cdot W_l, C)
++    #     :param input_spatial_shapes        (n_levels, 2), [(H_0, W_0), (H_1, W_1), ..., (H_{L-1}, W_{L-1})]
++    #     :param input_level_start_index     (n_levels, ), [0, H_0*W_0, H_0*W_0+H_1*W_1, H_0*W_0+H_1*W_1+H_2*W_2, ..., H_0*W_0+H_1*W_1+...+H_{L-1}*W_{L-1}]
++    #     :param input_padding_mask          (N, \sum_{l=0}^{L-1} H_l \cdot W_l), True for padding elements, False for non-padding elements
++
++    #     :return output                     (N, Length_{query}, C)
++    #     """
++    #     N, Len_q, _ = query.shape
++    #     N, Len_in, _ = input_flatten.shape
++    #     assert (input_spatial_shapes[:, 0] * input_spatial_shapes[:, 1]).sum() == Len_in
++
++    #     value = self.value_proj(input_flatten)
++    #     if input_padding_mask is not None:
++    #         value = value.masked_fill(input_padding_mask[..., None], float(0))
++    #     value = value.view(N, Len_in, self.n_heads, self.d_model // self.n_heads)
++    #     sampling_offsets = self.sampling_offsets(query).view(N, Len_q, self.n_heads, self.n_levels, self.n_points, 2)
++    #     attention_weights = self.attention_weights(query).view(N, Len_q, self.n_heads, self.n_levels * self.n_points)
++    #     attention_weights = F.softmax(attention_weights, -1).view(N, Len_q, self.n_heads, self.n_levels, self.n_points)
++    #     # N, Len_q, n_heads, n_levels, n_points, 2
++    #     if reference_points.shape[-1] == 2:
++    #         offset_normalizer = torch.stack([input_spatial_shapes[..., 1], input_spatial_shapes[..., 0]], -1)
++    #         sampling_locations = reference_points[:, :, None, :, None, :] \
++    #                              + sampling_offsets / offset_normalizer[None, None, None, :, None, :]
++    #     elif reference_points.shape[-1] == 4:
++    #         sampling_locations = reference_points[:, :, None, :, None, :2] \
++    #                              + sampling_offsets / self.n_points * reference_points[:, :, None, :, None, 2:] * 0.5
++    #     else:
++    #         raise ValueError(
++    #             'Last dim of reference_points must be 2 or 4, but get {} instead.'.format(reference_points.shape[-1]))
++    #     # try:
++    #     #     output = MSDeformAttnFunction.apply(
++    #     #         value, input_spatial_shapes, input_level_start_index, sampling_locations, attention_weights, self.im2col_step)
++    #     # except:
++    #     #     # CPU
++    #         # output = ms_deform_attn_core_pytorch(value, input_spatial_shapes, sampling_locations, attention_weights)
++    #     # # For FLOPs calculation only
++    #     output = ms_deform_attn_core_pytorch(value, input_spatial_shapes, sampling_locations, attention_weights)
++    #     output = self.output_proj(output)
++    #     return output
+     def forward(self, query, reference_points, input_flatten, input_spatial_shapes, input_level_start_index, input_padding_mask=None):
+         """
+         :param query                       (N, Length_{query}, C)
+@@ -99,26 +143,29 @@ class MSDeformAttn(nn.Module):
+         if input_padding_mask is not None:
+             value = value.masked_fill(input_padding_mask[..., None], float(0))
+         value = value.view(N, Len_in, self.n_heads, self.d_model // self.n_heads)
+-        sampling_offsets = self.sampling_offsets(query).view(N, Len_q, self.n_heads, self.n_levels, self.n_points, 2)
++        sampling_offsets = self.sampling_offsets(query)
+         attention_weights = self.attention_weights(query).view(N, Len_q, self.n_heads, self.n_levels * self.n_points)
+         attention_weights = F.softmax(attention_weights, -1).view(N, Len_q, self.n_heads, self.n_levels, self.n_points)
+         # N, Len_q, n_heads, n_levels, n_points, 2
+         if reference_points.shape[-1] == 2:
+             offset_normalizer = torch.stack([input_spatial_shapes[..., 1], input_spatial_shapes[..., 0]], -1)
+-            sampling_locations = reference_points[:, :, None, :, None, :] \
+-                                 + sampling_offsets / offset_normalizer[None, None, None, :, None, :]
++            reference_points = torch.broadcast_to(reference_points[:, :, None, :, None, :], (N, Len_q, self.n_heads, self.n_levels, self.n_points, 2)).reshape(N, Len_q, self.n_heads*self.n_levels*self.n_points*2)
++            offset_normalizer = torch.broadcast_to(offset_normalizer[None, None, None, :, None, :], (N, Len_q, self.n_heads, self.n_levels, self.n_points, 2)).reshape(N, Len_q, self.n_heads*self.n_levels*self.n_points*2)
++            sampling_locations = reference_points + sampling_offsets / offset_normalizer
++            sampling_locations = 2 * sampling_locations - 1
+         elif reference_points.shape[-1] == 4:
+             sampling_locations = reference_points[:, :, None, :, None, :2] \
+                                  + sampling_offsets / self.n_points * reference_points[:, :, None, :, None, 2:] * 0.5
+         else:
+             raise ValueError(
+                 'Last dim of reference_points must be 2 or 4, but get {} instead.'.format(reference_points.shape[-1]))
+-        try:
+-            output = MSDeformAttnFunction.apply(
+-                value, input_spatial_shapes, input_level_start_index, sampling_locations, attention_weights, self.im2col_step)
+-        except:
+-            # CPU
+-            output = ms_deform_attn_core_pytorch(value, input_spatial_shapes, sampling_locations, attention_weights)
++        sampling_locations = sampling_locations.view(N, Len_q, self.n_heads, self.n_levels, self.n_points, 2)
++        # try:
++        #     output = MSDeformAttnFunction.apply(
++        #         value, input_spatial_shapes, input_level_start_index, sampling_locations, attention_weights, self.im2col_step)
++        # except:
++        #     # CPU
++        output = ms_deform_attn_core_pytorch(value, input_spatial_shapes, sampling_locations, attention_weights)
+         # # For FLOPs calculation only
+         # output = ms_deform_attn_core_pytorch(value, input_spatial_shapes, sampling_locations, attention_weights)
+         output = self.output_proj(output)
+diff --git a/mask2former/modeling/transformer_decoder/mask2former_transformer_decoder.py b/mask2former/modeling/transformer_decoder/mask2former_transformer_decoder.py
+index 52594f6..9558274 100644
+--- a/mask2former/modeling/transformer_decoder/mask2former_transformer_decoder.py
++++ b/mask2former/modeling/transformer_decoder/mask2former_transformer_decoder.py
+@@ -101,8 +101,8 @@ class CrossAttentionLayer(nn.Module):
+                      pos: Optional[Tensor] = None,
+                      query_pos: Optional[Tensor] = None):
+         tgt2 = self.multihead_attn(query=self.with_pos_embed(tgt, query_pos),
+-                                   key=self.with_pos_embed(memory, pos),
+-                                   value=memory, attn_mask=memory_mask,
++                                   key=self.with_pos_embed(memory, pos).permute(2,0,1),
++                                   value=memory.permute(2,0,1), attn_mask=memory_mask,
+                                    key_padding_mask=memory_key_padding_mask)[0]
+         tgt = tgt + self.dropout(tgt2)
+         tgt = self.norm(tgt)
+@@ -375,11 +375,13 @@ class MultiScaleMaskedTransformerDecoder(nn.Module):
+             pos.append(self.pe_layer(x[i], None).flatten(2))
+             src.append(self.input_proj[i](x[i]).flatten(2) + self.level_embed.weight[i][None, :, None])
+ 
+-            # flatten NxCxHxW to HWxNxC
+-            pos[-1] = pos[-1].permute(2, 0, 1)
+-            src[-1] = src[-1].permute(2, 0, 1)
++            # # flatten NxCxHxW to HWxNxC
++            # pos[-1] = pos[-1].permute(2, 0, 1)
++            # src[-1] = src[-1].permute(2, 0, 1)
+ 
+-        _, bs, _ = src[0].shape
++        # _, bs, _ = src[0].shape
++
++        bs,_,_ = src[0].shape
+ 
+         # QxNxC
+         query_embed = self.query_embed.weight.unsqueeze(1).repeat(1, bs, 1)
+@@ -395,7 +397,38 @@ class MultiScaleMaskedTransformerDecoder(nn.Module):
+ 
+         for i in range(self.num_layers):
+             level_index = i % self.num_feature_levels
+-            attn_mask[torch.where(attn_mask.sum(-1) == attn_mask.shape[-1])] = False
++            # print(f"attn_mask.shape == {attn_mask.shape}") 
++            length = attn_mask.shape[-1]
++            # print(length)
++            # true_vec = torch.full([length,], True)
++            # false_vec = torch.full([length,], False)
++            # print(attn_mask)
++            attn_mask_ = attn_mask
++            attn_mask_ = attn_mask_ * torch.unsqueeze((1 - (attn_mask_.sum(-1) == attn_mask_.shape[-1]).float()), -1)
++            # attn_mask[torch.where(attn_mask.sum(-1) == attn_mask.shape[-1])] = False
++            # attn_mask_ = torch.where(attn_mask_.sum(-1) == attn_mask_.shape[-1], True, False)
++            # attn_mask_ = attn_mask_.sum(-1)
++            # attn_mask_ = torch.where(attn_mask_ == length, True, False)
++            # attn_mask_ = attn_mask_.unsqueeze(-1).repeat((1,1,length))
++            # mask = attn_mask_.sum(-1, keepdim=True) == attn_mask_.shape[-1]
++
++            # print(attn_mask)
++            # print(attn_mask_)
++            # print(attn_mask.shape, attn_mask_.shape)
++            # assert torch.equal(attn_mask, attn_mask_)
++            attn_mask = attn_mask_.bool()
++
++            # assert torch.equal(attn_mask_, attn_mask)
++            # print(attn_mask) 
++            # position = torch.where(attn_mask.sum(-1) == attn_mask.shape[-1])
++            # print(type(position))
++            # print(position)
++            # print(attn_mask[position]) 
++            # print(f"attn_mask[position].shape == {attn_mask[position].shape}") 
++            # attn_mask = attn_mask * (1 - position)
++            # print(f"attn_mask.shape == {attn_mask.shape}") 
++
++
+             # attention: cross-attention first
+             output = self.transformer_cross_attention_layers[i](
+                 output, src[level_index],
+@@ -435,7 +468,27 @@ class MultiScaleMaskedTransformerDecoder(nn.Module):
+         decoder_output = decoder_output.transpose(0, 1)
+         outputs_class = self.class_embed(decoder_output)
+         mask_embed = self.mask_embed(decoder_output)
+-        outputs_mask = torch.einsum("bqc,bchw->bqhw", mask_embed, mask_features)
++        # print(mask_embed.shape)
++        # print(mask_features.shape)
++        if 0:
++          outputs_mask = torch.einsum("bqc,bchw->bqhw", mask_embed, mask_features)
++        
++        if 1:
++          # !! replace the implement of einsum
++          n, c, h, w = mask_features.shape
++          # 接下来，我们将 mask_features 的形状调整为与 mask_embed 一致的形状
++          mask_features_reshaped = mask_features.reshape(n, c, -1)
++          # print(f"mask_features_reshaped.shape, {mask_features_reshaped.shape}")
++          # 现在，我们可以执行元素乘法，以获取最终的输出
++          outputs_mask1 = torch.bmm(mask_embed, mask_features_reshaped)
++          # print(outputs_mask1.shape)
++          outputs_mask1 = outputs_mask1.reshape(n, -1, h, w)
++          # print(f"outputs_mask : {outputs_mask.shape}\n{outputs_mask}")
++          # print(f"outputs_mask1 : {outputs_mask1.shape}\n{outputs_mask1}")
++          # print(outputs_mask)
++          # print(torch.equal(outputs_mask,outputs_mask1))
++          outputs_mask = outputs_mask1
++
+ 
+         # NOTE: prediction is of higher-resolution
+         # [B, Q, H, W] -> [B, Q, H*W] -> [B, h, Q, H*W] -> [B*h, Q, HW]
+@@ -459,3 +512,4 @@ class MultiScaleMaskedTransformerDecoder(nn.Module):
+             ]
+         else:
+             return [{"pred_masks": b} for b in outputs_seg_masks[:-1]]
++

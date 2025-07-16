@@ -1,0 +1,69 @@
+diff --git a/detectron2/config/defaults.py b/detectron2/config/defaults.py
+index 5d97ec92..d0c464a4 100644
+--- a/detectron2/config/defaults.py
++++ b/detectron2/config/defaults.py
+@@ -29,7 +29,7 @@ _C.MODEL = CN()
+ _C.MODEL.LOAD_PROPOSALS = False
+ _C.MODEL.MASK_ON = False
+ _C.MODEL.KEYPOINT_ON = False
+-_C.MODEL.DEVICE = "cuda"
++_C.MODEL.DEVICE = "cpu"
+ _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
+ 
+ # Path (a file path, or URL like detectron2://.., https://..) to a checkpoint file
+diff --git a/detectron2/data/transforms/augmentation_impl.py b/detectron2/data/transforms/augmentation_impl.py
+index 7cc7b28b..af741433 100644
+--- a/detectron2/data/transforms/augmentation_impl.py
++++ b/detectron2/data/transforms/augmentation_impl.py
+@@ -175,6 +175,7 @@ class ResizeShortestEdge(Augmentation):
+             return NoOpTransform()
+ 
+         newh, neww = ResizeShortestEdge.get_output_shape(h, w, size, self.max_size)
++        newh, neww = 1024, 1024
+         return ResizeTransform(h, w, newh, neww, self.interp)
+ 
+     @staticmethod
+diff --git a/detectron2/engine/defaults.py b/detectron2/engine/defaults.py
+index c649bf8f..0dd94074 100644
+--- a/detectron2/engine/defaults.py
++++ b/detectron2/engine/defaults.py
+@@ -281,11 +281,14 @@ class DefaultPredictor:
+         self.cfg = cfg.clone()  # cfg can be modified by model
+         self.model = build_model(self.cfg)
+         self.model.eval()
++        checkpointer = DetectionCheckpointer(self.model)
++        checkpointer.load(cfg.MODEL.WEIGHTS)
++        self.model.eval()
+         if len(cfg.DATASETS.TEST):
+             self.metadata = MetadataCatalog.get(cfg.DATASETS.TEST[0])
+ 
+-        checkpointer = DetectionCheckpointer(self.model)
+-        checkpointer.load(cfg.MODEL.WEIGHTS)
++        # checkpointer = DetectionCheckpointer(self.model)
++        # checkpointer.load(cfg.MODEL.WEIGHTS)
+ 
+         self.aug = T.ResizeShortestEdge(
+             [cfg.INPUT.MIN_SIZE_TEST, cfg.INPUT.MIN_SIZE_TEST], cfg.INPUT.MAX_SIZE_TEST
+@@ -309,12 +312,21 @@ class DefaultPredictor:
+             if self.input_format == "RGB":
+                 # whether the model expects BGR inputs or RGB
+                 original_image = original_image[:, :, ::-1]
++            # height, width = original_image.shape[:2]
+             height, width = original_image.shape[:2]
+             image = self.aug.get_transform(original_image).apply_image(original_image)
+             image = torch.as_tensor(image.astype("float32").transpose(2, 0, 1))
+             image.to(self.cfg.MODEL.DEVICE)
+ 
+-            inputs = {"image": image, "height": height, "width": width}
++            # inputs = {"image": image, "height": height, "width": width}
++            image = (image.to(self.cfg.MODEL.DEVICE) - self.model.pixel_mean.to(self.cfg.MODEL.DEVICE)) / self.model.pixel_std.to(self.cfg.MODEL.DEVICE)
++            # from detectron2.structures import ImageList
++            # images = ImageList.from_tensors(image, self.size_divisibility)
++            image=image.unsqueeze(0)
++            # print(image.dtype)
++            # print(image.shape)
++            inputs = image
++            torch.onnx.export(self.model, inputs, "mask2former.onnx", opset_version=16, input_names=["image"], output_names=["mask_cls_results", "mask_pred_results"], do_constant_folding=True)
+ 
+             predictions = self.model([inputs])[0]
+             return predictions
