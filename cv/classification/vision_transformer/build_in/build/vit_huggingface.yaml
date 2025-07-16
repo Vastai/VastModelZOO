@@ -1,0 +1,22 @@
+name: vision_transformer_run_stream_fp16
+
+frontend:
+  shape:
+    input.1:
+      - 1
+      - 3
+      - 224
+      - 224
+  type: onnx
+  checkpoint: path/to/vit_base_sim.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+
+workspace:
+  path: ./deploy_weights
+
