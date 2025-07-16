@@ -1,0 +1,39 @@
+name: hrnet
+
+frontend:
+  shape:
+    input.1: [1,3,512,512]
+  checkpoint: ./model/hrnet.onnx
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    cluster_mode: 0
+
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path: ./Documents/project/det_data/coco/hrnet_pose_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 200
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [512, -1]
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: true
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./vacc
+  enable_ir: false
+  save_log: true

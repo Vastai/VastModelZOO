@@ -1,0 +1,49 @@
+name: official_fast_reid_run_stream_fp16
+
+frontend:
+  shape:
+    batched_inputs.1:
+    - 1
+    - 3
+    - 256
+    - 128
+  type: onnx
+  checkpoint: /path/to/market_bot_R50.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/Market-1501-v15.09.15/query
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 256
+      - 128
+    - type: Normalize
+      div255: false
+      mean:
+      - 0
+      - 0
+      - 0
+      std:
+      - 1
+      - 1
+      - 1
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
