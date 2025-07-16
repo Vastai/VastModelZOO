@@ -1,0 +1,22 @@
+name: text_encoder_build_run_stream_fp16
+
+frontend:
+  shape:
+    input_ids: [1, 195]
+    position_ids: [1, 195]
+    token_type_ids: [1, 195]
+    text_token_mask: [1, 195, 195]
+  checkpoint: /path/to/text_encoder_groundingdino_swint_ogc.onnx
+  type: onnx
+  dtype: fp32
+  
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    opt_level: 2
+    data_transport_mode: 1
+    enable_float_to_half: true
+
+workspace:
+  path: ./deploy_weights

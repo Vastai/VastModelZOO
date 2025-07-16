@@ -1,0 +1,26 @@
+name: decoder_build_run_stream_fp16
+
+frontend:
+  shape:
+    /transformer/Concat_8_output_0: [1, 22223, 256]
+    /feat_map/Add_output_0: [1, 195, 256]
+    attention_mask: [1, 195]
+    position_ids: [1, 195]
+    text_token_mask: [1, 195, 195]
+  checkpoint: /path/to/decoder_groundingdino_swint_ogc_custom_op.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    opt_level: 2
+    data_transport_mode: 1
+    enable_float_to_half: true
+    enable_inputs_align: true
+    enable_groundingdino_axis_change: true
+
+
+workspace:
+  path: ./deploy_weights
