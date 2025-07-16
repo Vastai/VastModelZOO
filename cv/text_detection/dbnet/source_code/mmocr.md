@@ -56,6 +56,10 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
 ### step.3 模型转换
 1. 根据具体模型修改配置文件
     - [mmocr_dbnet.yaml](../build_in/build/mmocr_dbnet.yaml)
+    
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
 2. 模型编译
     - 注意需要先替换yaml文件中校正集数据的路径
@@ -81,7 +85,6 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     ```
     metric:  {'precision': 0.8771138669673055, 'recall': 0.7491574386133847, 'hmean': 0.8081017917424047}
     ```
-
 
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`：

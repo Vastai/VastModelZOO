@@ -114,6 +114,10 @@ python setup.py install
 1. 根据具体模型修改配置文件
     -[resnet34_vd.yaml](./build_in/build/resnet34_vd.yaml)
 
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
+
 2. 模型编译
     - 注意需要先替换yaml文件中校正集数据的路径
     ```bash
