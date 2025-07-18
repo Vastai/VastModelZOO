@@ -1,0 +1,25 @@
+name: official_dinov2_run_stream_fp16
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 224
+    - 224
+  type: onnx
+  checkpoint: /path/to/dinov2_vitl14_reg4.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    opt_level: 2
+    data_transport_mode: 1
+    mem_inplace: true
+
+workspace:
+  path: ./deploy_weights/
+

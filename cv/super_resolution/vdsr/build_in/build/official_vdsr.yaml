@@ -1,0 +1,50 @@
+name: official_vdsr_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 1
+    - 256
+    - 256
+  type: onnx
+  checkpoint: /path/to/vdsr-256.onnx
+  dtype: fp32
+
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+   
+
+dataset:
+  type: tvm
+  path: /path/to/sr/Set5_BMP/scale_4
+  sampler:
+    suffix: bmp
+    get_data_num: 5
+  process_ops:
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2YCrCb
+    - type: Resize
+      size: [256, 256]
+    - type: ChannelSplit
+      index: 0
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+
+
+
