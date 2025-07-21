@@ -149,6 +149,7 @@ chmod +x /usr/local/bin/docker-compose
 
 **步骤 2.**  启动 vLLM 服务。
 
+本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
 
 DeepSeek-R1-0528 启动命令:
 ```shell
