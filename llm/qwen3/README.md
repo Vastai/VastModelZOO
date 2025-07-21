@@ -88,7 +88,7 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 
 通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
 ```shell
-./vallmdeploy.run <Model_Type> <Model_Path>
+./vallmdeploy_AI3.0_SP6_0718.run <Model_Type> <Model_Path>
 ```
 参数说明如下所示。
     
@@ -152,13 +152,13 @@ python3 deploy.py --instance 16 \
 
 - `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
 
-- `--allow-long-max-model-len`：是否允许超长上下文。
-
 - `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
 
 - `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
 
 - `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。对于Qwen3系列模型，需设置为 hermers。
+
+- `--chat-template`: 指定聊天对话的模板格式, 对于 Qwen3 系列模型，可通过指定参数 “--chat-template  /workspace/qwen3_nonthinking.jinja” 关闭思考模式，同时此时需去掉“--enable-reasoning --reasoning-parser deepseek_r1” 参数才能使关闭思考模式生效。
 
 启动完成后显示如下类似信息。
 ```shell
@@ -204,7 +204,7 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len <output_len> \
     --max-concurrency <concurrency> \
-    --served_model_name <model_name> \
+    --served-model-name <model_name> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -232,7 +232,10 @@ python3 benchmark_serving.py \
 
 - `--max-concurrency`：最大请求并发数。
 
-- `--served_model_name`：API 中使用的模型名称。仅支持设置为 Qwen3。
+- `--served-model-name`：API 中使用的模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -262,7 +265,7 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len 1024 \    
     --max-concurrency 1 \
-    --served_model_name Qwen3 \
+    --served-model-name Qwen3 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
@@ -350,7 +353,11 @@ limit: 50
 ```
 
 参数说明如下所示。
-- model：模型名称。仅支持设置为 Qwen3。
+- model：模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+
 
 - api_url：vLLM 服务地址。
 
@@ -419,7 +426,10 @@ work_dir: ./outputs_eval_qwen3
 
 参数说明如下所示。
 
-- model：模型名称。仅支持设置为 Qwen3。
+- model：模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 

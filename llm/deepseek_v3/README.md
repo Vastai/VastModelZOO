@@ -114,15 +114,13 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
 ```shell
-./vallmdeploy.run <Model_Type> <Model_Path>
+./vallmdeploy_AI3.0_SP6_0718.run <Model_Type> <Model_Path>
 ```
 参数说明如下所示。
     
-- Model_Type：可设置为 DS3-V3 或 DS3-R1。
+- Model_Type：设置为 DS3-V3。
 
-   - 如果模型为 DeepSeek-V3 系列模型，则设置为 DS3-V3。
-   
-   - 如果模型为 DeepSeek-R1 系列模型，则设置为 DS3-R1。
+  - 如果模型为 DeepSeek-V3 系列模型，则设置为 DS3-V3。
     
 - Model_Path: 模型权重路径。
 
@@ -195,17 +193,12 @@ python3 deploy.py --instance 1 \
 
 - `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
 
-- `--served-model-name`：模型名称。仅支持设置为 Qwen3。
+- `--served-model-name`：模型名称。
 
 - `--max-model-len`：模型最大上下文长度。
 
-- `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
 
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
-
-- `--allow-long-max-model-len`：是否允许超长上下文。
-
-- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
+- `chat-template`: 指定聊天对话的模板格式。
 
 - `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
 
@@ -258,7 +251,7 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len <output_len> \
     --max-concurrency <concurrency> \
-    --served_model_name <model_name> \
+    --served-model-name <model_name> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -286,7 +279,10 @@ python3 benchmark_serving.py \
 
 - `--max-concurrency`：最大请求并发数。
 
-- `--served_model_name`：API 中使用的模型名称，默认设置为 DS3-V3。
+- `--served-model-name`：API 中使用的模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -315,7 +311,7 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len 1024 \    
     --max-concurrency 1 \
-    --served_model_name DS3-V3 \
+    --served-model-name DS3-V3 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
@@ -409,6 +405,9 @@ limit: 50
 
 参数说明如下所示。
 - model：模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3 
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
@@ -481,6 +480,9 @@ work_dir: ./outputs_eval_ds_v3
 参数说明如下所示。
 
 - model：模型名称。
+  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3 
+  
+  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
