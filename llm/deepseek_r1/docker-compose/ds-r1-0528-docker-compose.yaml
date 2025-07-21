@@ -1,15 +1,12 @@
 services:
   vllm-ds-r1:
-    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP4_0704
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP6_0718
     privileged: true
+    shm_size: '64gb'
     network_mode: host
     container_name: vllm_service
-    restart: always
+    restart: "on-failure:3"
     environment:
-      - VACC_LOG_LEVEL=critical,critical
-      - VCCL_SOCKET_IFNAME=lo
-      - VLLM_VACC_KVCACHE_SPACE=16
-      - VLLM_MLA_PERFORM_MATRIX_ABSORPTION=0
       - VACC_VISIBLE_DEVICES=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
     volumes:
       - ${DS_R1_0528_MODEL_PATH}:/weights/DeepSeek-R1-0528
