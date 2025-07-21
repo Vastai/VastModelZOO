@@ -9,7 +9,7 @@
 # 版本信息
 
 
-本次发布软件版本为 [AI3.0_SP4_0704](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)。
+本次发布软件版本为 [AI3.0_SP6_0718](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
@@ -21,7 +21,7 @@
 | Driver | V3.3.0|
 | torch | 2.6.0+cpu|
 | vllm | 0.8.5+cpu|
-| vllm_vacc| AI3.0_SP4_0704|
+| vllm_vacc| AI3.0_SP6_0718|
 
 ## 支持的模型
 
@@ -76,9 +76,33 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 # 环境安装
 
 
-部署 Qwen3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+前置依赖说明：[Requirement.md](../common/Requirements.md)
 
 
+部署 Qwen3 系列模型支持两种部署方式：
+
+- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
+- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
+<a id="install_one_click"></a>
+## 一键安装
+
+通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
+```shell
+./vallmdeploy.run <Model_Type> <Model_Path>
+```
+参数说明如下所示。
+    
+- Model_Type：可设置为 Qwen3-TP2 或 Qwen3-TP4。
+    
+- Model_Path: 模型权重路径。
+
+<a id="install_stepbystep"></a>
+## 分步安装
+
+部署 DeepSeek-V3 及 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+
+
+<a id="vastai_vllm"></a>
 ## 启动 vLLM 服务
 
 
@@ -92,7 +116,7 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 cd /home/username/haproxy
 python3 deploy.py --instance 16 \
     --tensor-parallel-size 2 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP4_0704 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP6_0718 \
     --model /home/username/weights/Qwen3-30B-A3B-FP8 \
     --port 8000 \
     --management-port 9000 \
@@ -108,7 +132,7 @@ python3 deploy.py --instance 16 \
     
 - `--instance`： 模型推理实例。
 
-- `--tensor-parallel-size`：张量并行数。
+- `--tensor-parallel-size`：张量并行数。目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2“” 和 TP4 对应参数：“--tensor-parallel-size 4“
 
 - `--image`：模型服务镜像。
 
@@ -132,11 +156,32 @@ python3 deploy.py --instance 16 \
 
 - `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
 
+- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
+
+- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。对于Qwen3系列模型，需设置为 hermers。
+
 启动完成后显示如下类似信息。
 ```shell
 Deployment configuration updated successfully.
 Docker containers started successfully.
 All instances (16) are up and running
+```
+
+
+
+**步骤 3.** 查看 vLLM 服务的输出日志。
+
+```bash
+tail -f llm_serve_0.log
+```
+
+
+**步骤 4.** （可选）停止 vLLM 服务。
+
+如果需停止服务，可执行该步骤。
+[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
+```bash
+docker-compose -f docker-compose.yaml down
 ```
 
 

@@ -8,6 +8,13 @@
 
 部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
+# 版本信息
+
+
+本次发布软件版本为 [AI3.0_SP6_0718](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)。
+
+>该版本为中期迭代版本，不作为正式出货版本。
+
 # 版本配套说明
 
 
@@ -93,12 +100,36 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
+前置依赖说明：[Requirement.md](../common/Requirements.md)
 
 
-部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=432629188747464704)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
 
 
+部署 DeepSeek-V3 系列模型支持两种部署方式：
 
+- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
+- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
+<a id="install_one_click"></a>
+## 一键安装
+
+通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
+```shell
+./vallmdeploy.run <Model_Type> <Model_Path>
+```
+参数说明如下所示。
+    
+- Model_Type：可设置为 DS3-V3 或 DS3-R1。
+
+   - 如果模型为 DeepSeek-V3 系列模型，则设置为 DS3-V3。
+   
+   - 如果模型为 DeepSeek-R1 系列模型，则设置为 DS3-R1。
+    
+- Model_Path: 模型权重路径。
+
+<a id="install_stepbystep"></a>
+## 分步安装
+
+部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
 
 
 ## 启动 vLLM 服务
@@ -123,56 +154,87 @@ chmod +x /usr/local/bin/docker-compose
 
 **操作步骤**
 
-**步骤 1.** 获取模型 Docker Compose 配置文件。
 
-- DeepSeek-V3 系列模型：在GitHub 上获取[DeepSeek-V3 系列模型 Docker Compse文件](./docker-compose)，如下所示。
+**步骤 1.** 获取[haproxy](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
 
+假设存放路径为“/home/username”，请根据实际情况替换。
+
+
+
+
+
+**步骤 2.**  启动 vLLM 服务。
+
+
+DeepSeek-V3-0324 启动命令:
 ```shell
-├── ds-v3-0324-docker-compose.yaml
-├── ds-v3-docker-compose.yaml
-└── .env
+cd /home/username/haproxy
+python3 deploy.py --instance 1 \
+    --tensor-parallel-size 32 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP6_0718 \
+    --model /home/username/weights/DeepSeek-V3-0324 \
+    --port 8000 \
+    --management-port 9000 \
+    --max-batch-size-for-instance 4 \
+    --served-model-name DeepSeek-V3-0324 \
+    --max-model-len 65536 
+```
+参数说明如下所示。
+    
+- `--instance`： 模型推理实例。
+
+- `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
+
+- `--image`：模型服务镜像。
+
+- `--model`：原始模型权重所在路径。请根据实际情况替换。
+
+- `--port`：模型服务端口。
+
+- `--management-port`：管理端口。
+
+- `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
+
+- `--served-model-name`：模型名称。仅支持设置为 Qwen3。
+
+- `--max-model-len`：模型最大上下文长度。
+
+- `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
+
+- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
+
+- `--allow-long-max-model-len`：是否允许超长上下文。
+
+- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
+
+- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
+
+- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
+    
+    对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”； 
+    
+启动完成后显示如下类似信息。
+```shell
+Deployment configuration updated successfully.
+Docker containers started successfully.
+All instancesare up and running
 ```
 
 
 
-
-**步骤 2.** 根据实际情况修改“.env”文件中“DS_xx_MODEL_PATH”参数。
-
-其中，“DS_xx_MODEL_PATH”表示DeepSeek V3系列原始模型所在本地路径。“xx”为模型版本，请根据实际情况替换。
-
-**步骤 3.** （可选）根据实际CPU类型修改“ds-xxx-docker-compose.yaml”中 Image 镜像名称。
-
-
-其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
-
-
-- 针对非 ARM CPU，如果支持AVX-512，则无需修改，否则需将“image”修改为“`harbor.vastaitech.com/ai_deliver/vllm_vacc:version_noavx`”。`version`为 DeepSeek部署版本号，请根据实际情况替换。可通过`lscpu | grep -i avx512`查看是否支持AVX-512。
-
-- 针对 ARM CPU，则需将“image”修改为“`harbor.vastaitech.com/ai_deliver/vllm_vacc:version_arm`”。`version` 为 DeepSeek部署版本号，请根据实际情况替换。
-
-
-
-**步骤 4.**  启动 vLLM 服务。
-```bash 
-docker-compose -f ds-xxx-docker-compose.yaml up -d
-```
-
-启动完成后会显示 vLLM 容器名称，例如“vllm_service”。
-
-
-**步骤 5.** 查看 vLLM 服务的输出日志。
+**步骤 3.** 查看 vLLM 服务的输出日志。
 
 ```bash
-docker logs -f vllm_service
+tail -f vllm_serve_0.log
 ```
 
 
-**步骤 6.** （可选）停止 vLLM 服务。
+**步骤 4.** （可选）停止 vLLM 服务。
 
 如果需停止服务，可执行该步骤。
-
+[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
 ```bash
-docker-compose -f ds-xxx-docker-compose.yaml down
+docker-compose -f docker-compose.yaml down
 ```
 
 
