@@ -594,7 +594,7 @@ limit: 50
 
 ```shell
 conda activate vaeval
-vaeval eval config_eval_ds_v3.yaml]
+vaeval eval config_eval_ds_v3.yaml
 ```
 
 本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
