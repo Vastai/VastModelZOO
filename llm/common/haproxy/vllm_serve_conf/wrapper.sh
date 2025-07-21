@@ -1,17 +1,20 @@
 #!/bin/bash
+
 INDEX=$PROCESS_NUM
 COUNT=$DIE_NUM
+
+IFS=',' read -ra DEVICES <<< "$DEVICE_LIST"
 
 START=$((INDEX * COUNT))
 END=$((START + COUNT - 1))
 
 VACC_VISIBLE_DEVICES=""
 for ((i = START; i <= END; i++)); do
-	if [ $i -eq $START ]; then
-		VACC_VISIBLE_DEVICES="$i"
-	else
-		VACC_VISIBLE_DEVICES="${VACC_VISIBLE_DEVICES},$i"
-	fi
+    if [ $i -eq $START ]; then
+        VACC_VISIBLE_DEVICES="${DEVICES[$i]}"
+    else
+        VACC_VISIBLE_DEVICES="${VACC_VISIBLE_DEVICES},${DEVICES[$i]}"
+    fi
 done
 
 PORT=$((8000 + INDEX))

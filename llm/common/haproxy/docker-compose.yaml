@@ -3,6 +3,7 @@ services:
   vllm-service:
     image: ${VLLM_VACC_IMAGE}
     privileged: true
+    shm_size: '64gb'
     container_name: vllm_service
     restart: "on-failure:3"
     volumes:
@@ -35,4 +36,5 @@ services:
 
 networks:
   vllm-network:
+    name: deploy-network
     driver: bridge

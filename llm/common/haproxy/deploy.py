@@ -2,6 +2,7 @@ import argparse
 import re
 import os
 import time
+import subprocess
 
 import platform
 
@@ -19,10 +20,27 @@ MODEL_NAME_TO_REPO = {
 }
 
 
+def parse_device_input(device_input):
+    devices = set()
+
+    parts = device_input.split(",")
+
+    for part in parts:
+        part = part.strip()
+        if "-" in part:
+            start, end = map(int, part.split("-"))
+            devices.update(range(start, end + 1))
+        else:
+            if part:
+                devices.add(int(part))
+    return sorted(devices)
+
+
 def benchmark(port: int, served_model_name: str, count: int):
     OPENAI_API_KEY = "token-abc123"
     OPENAI_BASE_URL = f"http://127.0.0.1:{port}/v1"
     from openai import OpenAI
+
     client = OpenAI(base_url=OPENAI_BASE_URL, api_key=OPENAI_API_KEY)
 
     ttfts = []
@@ -194,6 +212,7 @@ def modify_haproxy(
 
 
 def modify_supervisor(
+    devices: list,
     model: str,
     served_model_name: str,
     instance: int,
@@ -217,6 +236,12 @@ def modify_supervisor(
     with open(SUPERVISOR_CONFIG_PATH, "r") as file:
         content = file.read()
 
+    print(f"Using devices: {devices}")
+    devices_str = ", ".join(map(str, devices))
+    if len(devices) < instance * tensor_parallel_size:
+        raise ValueError(
+            f"Number of devices ({len(devices)}) must be greater than or equal to instance ({instance} * {tensor_parallel_size})"
+        )
     new_env = (
         f"environment=MAX_MODEL_LEN={max_model_len},"
         f"SERVED_MODEL_NAME={served_model_name},"
@@ -230,6 +255,7 @@ def modify_supervisor(
         f"TOOL_CALL_PARSER={tool_call_parser},"
         f"CHAT_TEMPLATE={chat_template},"
         f"ARCH={arch},"
+        f'DEVICE_LIST="{devices_str}",'
         "PROCESS_NUM=%(process_num)d"
     )
 
@@ -247,6 +273,32 @@ def modify_supervisor(
     with open(SUPERVISOR_CONFIG_PATH, "w") as file:
         file.write(new_content)
 
+def check_kernel_params():
+    try:
+        with open('/proc/cmdline', 'r') as f:
+            cmdline = f.read()
+        return any(keyword in cmdline for keyword in [
+            'iommu=on', 
+            'intel_iommu=on', 
+            'amd_iommu=on'
+        ])
+    except FileNotFoundError:
+        return False
+
+def check_iommu_groups():
+    iommu_path = '/sys/kernel/iommu_groups'
+    return os.path.exists(iommu_path) and bool(os.listdir(iommu_path))
+
+def check_dmesg():
+    try:
+        dmesg = subprocess.check_output(['dmesg'], text=True)
+        return ('IOMMU enabled' in dmesg or 
+                'DMAR: IOMMU enabled' in dmesg or 
+                'AMD-Vi: IOMMU enabled' in dmesg)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+def is_iommu_enabled():
+    return any([check_kernel_params(), check_iommu_groups(), check_dmesg()])
 
 if __name__ == "__main__":
     check_root = os.geteuid() == 0
@@ -256,6 +308,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Deploy Multi-Instance vllm_vacc Service"
     )
+
+    if is_iommu_enabled():
+        raise ValueError("IOMMU is enabled. Please disable it before running this script.")
 
     # required arguments
     parser.add_argument("--instance", type=int, required=True, help="instace number")
@@ -269,6 +324,14 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=str, required=True, help="model to run")
     parser.add_argument(
         "--served-model-name", type=str, required=True, help="model alias name"
+    )
+    parser.add_argument(
+        "--devices",
+        type=str,
+        required=False,
+        default=None,
+        help='device list, support format: "0-7", "1,2,3" or "0-3,5,7". '
+        'If not specified, will use "0-{tensor_parallel_size*instance-1}"',
     )
 
     # optional arguments
@@ -325,7 +388,7 @@ if __name__ == "__main__":
         action="store_true",
         help="enable qwen3 rope scaling",
     )
-    
+
     parser.add_argument(
         "--enable-auto-tool-choice", action="store_true", help="enable auto tool choice"
     )
@@ -343,28 +406,31 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    # Set default devices if not specified
+    if args.devices is None:
+        args.devices = f"0-{args.tensor_parallel_size * args.instance - 1}"
+
     # download model if not exists
     download_model(args.model)
 
     machine = platform.machine().lower()
     arch = "x86"
-    print("当前架构:", machine)
 
     if machine in ("x86_64", "amd64", "i386", "i686"):
         arch = "x86"
-        print("x86/x86_64 架构")
+        print("x86/x86_64")
     elif machine in ("aarch64", "arm64", "armv8", "armv7l", "armv6l"):
         arch = "aarch64"
-        print("ARM/ARM64 架构")
+        print("ARM/ARM64")
     else:
-        print("未知架构:", machine)
-
+        print("undefined arch:", machine)
 
     modify_env(args.model, args.image, args.port, args.management_port, arch)
     modify_haproxy(
         args.instance, args.max_batch_size_for_instance, args.served_model_name
     )
     modify_supervisor(
+        parse_device_input(args.devices),
         args.model,
         args.served_model_name,
         args.instance,
@@ -387,6 +453,7 @@ if __name__ == "__main__":
 
     # subprocess run service with docker-compose
     import subprocess
+
     try:
         result = subprocess.run(
             [
