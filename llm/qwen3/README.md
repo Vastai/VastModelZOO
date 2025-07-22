@@ -546,6 +546,7 @@ limit: 50
 
 ```shell
 conda activate vaeval
+cd /data
 vaeval eval config_eval_qwen3.yaml
 ```
 

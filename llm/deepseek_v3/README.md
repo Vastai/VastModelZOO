@@ -599,6 +599,7 @@ limit: 50
 
 ```shell
 conda activate vaeval
+cd /data/
 vaeval eval config_eval_ds_v3.yaml
 ```
 
