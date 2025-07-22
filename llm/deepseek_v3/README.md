@@ -100,7 +100,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
-前置依赖说明：[Requirement.md](../common/Requirements.md)
+前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
 
 
 
