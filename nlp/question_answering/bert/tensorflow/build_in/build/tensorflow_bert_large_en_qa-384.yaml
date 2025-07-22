@@ -1,0 +1,31 @@
+model: bert_large_en_qa-384
+
+frontend:
+  checkpoint: ./tensorflow/source_code/pretrain_model/pb/bert_large_en_qa-384.pb
+  shape:
+    input_ids_1: [1, 384]
+    input_mask_1: [1, 384]
+    segment_ids_1: [1, 384]
+  type: tensorflow
+  dtype: int64
+
+dataset:
+  type: tvm
+  path: ./datasets/tf_calib
+  sampler:
+    suffix: NPZ
+    get_data_num: 10
+
+backend:
+  type: tvm_vacc
+  dtype: int8 
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999  
+
+workspace:
+  path: ./deploy_weights/

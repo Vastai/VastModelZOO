@@ -1,0 +1,34 @@
+name: bert
+
+frontend:
+  shape:
+    input_ids:
+    - 1
+    - 256
+    attention_mask:
+    - 1
+    - 256
+    token_type_ids:
+    - 1
+    - 256
+  checkpoint: model_sim.onnx
+  dtype: int64
+  
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+dataset:
+  path: ./workspace/calib_npz
+  sampler:
+    get_data_num: 10
+
+workspace:
+  path: ./deploy_weights/

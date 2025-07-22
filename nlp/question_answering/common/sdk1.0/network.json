@@ -1,0 +1,8 @@
+{
+  "model_name" : "bert_squad",
+  "model_graph_path" : "./deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad.json",
+  "model_lib_path" : "./deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad.so",
+  "model_params_path" : "./deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad.params",
+  "hw_config_file" : null
+}
+
