@@ -114,7 +114,7 @@ class RunFeature:
 
         batch = int(json.loads(hw_config_json)["model"]["batch_size"])
         # 指定die
-        ctx = tvm.vacc(self.device)
+        ctx = tvm.vacc(self.device_id)
         loaded_json = open(f"{self.weights_dir}/{self.model_name}.json").read()
         loaded_lib = tvm.module.load(f"{self.weights_dir}/{self.model_name}.so")
         loaded_params = bytearray(open(f"{self.weights_dir}/{self.model_name}.params", "rb").read())
@@ -188,14 +188,14 @@ class Demo:
             torch.set_default_tensor_type('torch.FloatTensor')
 
     def init_model(self):
-        model = self.structure.builder.build(self.device)
+        model = self.structure.builder.build(self.device_id)
         return model
 
     def resume(self, model, path):
         if not os.path.exists(path):
             print("Checkpoint not found: " + path)
             return
-        states = torch.load(path, map_location=self.device)
+        states = torch.load(path, map_location=self.device_id)
         model.load_state_dict(states, strict=False)
         print("Resumed from " + path)
 
@@ -235,7 +235,7 @@ class Demo:
         dynamic_axes = {'input': {0: 'batch_size', 2: 'height', 3: 'width'},
                         'output': {0: 'batch_size', 2: 'height', 3: 'width'}}
         with torch.no_grad():
-            img = img.to(self.device)
+            img = img.to(self.device_id)
             torch.onnx.export(model.model.module, img, self.output_path, input_names=['input'],
                               output_names=['output'],  keep_initializers_as_inputs=False,
                               verbose=False, opset_version=10)# , dynamic_axes=dynamic_axes

@@ -67,19 +67,19 @@ index 88ce76d..d3ab2d2 100644
                      segments_info (list[dict]): Describe each segment in `panoptic_seg`.
                          Each dict contains keys "id", "category_id", "isthing".
          """
--        images = [x["image"].to(self.device) for x in batched_inputs]
+-        images = [x["image"].to(self.device_id) for x in batched_inputs]
 -        images = [(x - self.pixel_mean) / self.pixel_std for x in images]
 -        images = ImageList.from_tensors(images, self.size_divisibility)
-+        # images = [x["image"].to(self.device) for x in batched_inputs]
-+        # print(self.device)
-+        # images = [x.to(self.device) for x in batched_inputs]
++        # images = [x["image"].to(self.device_id) for x in batched_inputs]
++        # print(self.device_id)
++        # images = [x.to(self.device_id) for x in batched_inputs]
 +        # images = [(x - self.pixel_mean) / self.pixel_std for x in images]
 +        # images = ImageList.from_tensors(images, self.size_divisibility)
  
 -        features = self.backbone(images.tensor)
 +
 +        # batched_inputs.numpy().tofile("input_image.bin")
-+        images = batched_inputs.to(self.device)
++        images = batched_inputs.to(self.device_id)
 +
 +        features = self.backbone(images)
 +        # print(features)
@@ -91,7 +91,7 @@ index 88ce76d..d3ab2d2 100644
 -        if self.training:
 -            # mask classification target
 -            if "instances" in batched_inputs[0]:
--                gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
+-                gt_instances = [x["instances"].to(self.device_id) for x in batched_inputs]
 -                targets = self.prepare_targets(gt_instances, images)
 -            else:
 -                targets = None
@@ -110,7 +110,7 @@ index 88ce76d..d3ab2d2 100644
 +        # if self.training:
 +        #     # mask classification target
 +        #     if "instances" in batched_inputs[0]:
-+        #         gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
++        #         gt_instances = [x["instances"].to(self.device_id) for x in batched_inputs]
 +        #         targets = self.prepare_targets(gt_instances, images)
 +        #     else:
 +        #         targets = None

@@ -443,7 +443,7 @@ class OpenPoseBody:
         self.input_id = 0
         self.balance_mode = {0:vsx.StreamBalanceMode.ONCE, 1:vsx.StreamBalanceMode.RUN}
         self.attr = vsx.AttrKey
-        self.device = vsx.set_device(self.device_id)
+        assert vsx.set_device(self.device_id)==0
         # 构建model，模型三件套目录
         model_path = model_prefix_path
         self.model = vsx.Model(model_path, batch_size)
@@ -471,7 +471,7 @@ class OpenPoseBody:
         c, height, width = image.shape
         assert c == 3
         
-        nv12_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device)
+        nv12_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device_id)
         yuv_nv12 = nv12_image
         
         output = self.infer_stream.run_sync([yuv_nv12])
@@ -498,7 +498,7 @@ class OpenPoseHand:
         self.input_id = 0
         self.balance_mode = {0:vsx.StreamBalanceMode.ONCE, 1:vsx.StreamBalanceMode.RUN}
         self.attr = vsx.AttrKey
-        self.device = vsx.set_device(self.device_id)
+        assert vsx.set_device(self.device_id)==0
         # 构建model，模型三件套目录
         model_path = model_prefix_path
         self.model = vsx.Model(model_path, batch_size)
@@ -526,7 +526,7 @@ class OpenPoseHand:
         c, height, width = image.shape
         assert c == 3
         
-        nv12_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device)
+        nv12_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device_id)
         yuv_nv12 = nv12_image
         
         output = self.infer_stream.run_sync([yuv_nv12])

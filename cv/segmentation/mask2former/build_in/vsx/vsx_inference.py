@@ -41,7 +41,7 @@ class VSXInference:
         self.input_id = 0
 
         self.attr = vsx.AttrKey
-        self.device = vsx.set_device(self.device_id)
+        assert vsx.set_device(self.device_id)==0
         # 构建model，模型三件套目录
         model_path = model_prefix_path
         self.model = vsx.Model(model_path, batch_size)
@@ -115,7 +115,7 @@ class VSXInference:
         c, height, width = image.shape
         assert c == 3
         
-        input_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device)
+        input_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device_id)
 
         input_id = self.input_id
         self.input_dict[input_id] = (input_id, height, width)
@@ -165,7 +165,7 @@ class VSXInference:
         c, height, width = image.shape
         assert c == 3
         
-        input_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device)
+        input_image = vsx.create_image(image, vsx.ImageFormat.RGB_PLANAR, width, height, self.device_id)
 
         output = self.infer_stream.run_sync([input_image])
         model_output_list = [ [vsx.as_numpy(out)[0].astype(np.float32) for out in output[0]] ]

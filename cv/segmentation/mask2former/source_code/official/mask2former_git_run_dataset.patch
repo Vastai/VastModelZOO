@@ -121,8 +121,8 @@ index 88ce76d..a085ade 100644
 +            print(f"run elapsed : {elapsed}")
 +            # print(f"np_mask_cls_results.shape, {np_mask_cls_results.shape}")
 +            # print(f"np_mask_pred_results.shape , {np_mask_pred_results.shape}")
-+            mask_cls_results = torch.from_numpy(np_mask_cls_results).to(self.device)
-+            mask_pred_results = torch.from_numpy(np_mask_pred_results).to(self.device)
++            mask_cls_results = torch.from_numpy(np_mask_cls_results).to(self.device_id)
++            mask_pred_results = torch.from_numpy(np_mask_pred_results).to(self.device_id)
 +            # mask_cls_results = outputs["pred_logits"]
 +            # mask_pred_results = outputs["pred_masks"]
              # upsample masks

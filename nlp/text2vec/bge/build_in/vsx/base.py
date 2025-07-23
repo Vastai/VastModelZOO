@@ -35,7 +35,7 @@ class EmbeddingX:
         self.input_id = 0 
 
         self.attr = vsx.AttrKey 
-        self.device = vsx.set_device(self.device_id)
+        assert vsx.set_device(self.device_id)==0
         # 构建model，模型三件套目录
         model_path = model_prefix_path 
         self.model = vsx.Model(model_path, batch_size) 

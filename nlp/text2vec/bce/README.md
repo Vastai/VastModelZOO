@@ -401,21 +401,23 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     - [gen_quant_data.py](../common/source_code/gen_quant_data.py)，基于以上数据集，指定seqlen，合成npz量化数据集
 
 ### step.3 模型转换
-
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [embedding_config_fp16.yaml](./build_in/build/embedding_config_fp16.yaml)
     - [embedding_config_int8.yaml](./build_in/build/embedding_config_int8.yaml)
     - [reranker_config_fp16.yaml](./build_in/build/reranker_config_fp16.yaml)
     - [reranker_config_int8.yaml](./build_in/build/reranker_config_int8.yaml)
+    
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
+2. 模型编译
     ```bash
     vamc compile ./build_in/build/embedding_config_fp16.yaml
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../docs/vastai_software.md)
-2. runstream推理：[demo.py](./build_in/vsx/demo.py)
+1. runstream推理：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，推理脚本内指定的文本对
 
     ```bash
@@ -428,9 +430,8 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
         --seqlen 512
     ```
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../docs/vastai_software.md)
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置vdsp参数：[embedding-vdsp_params.json](./build_in/vdsp_params/embedding-vdsp_params.json)
 
     ```bash
@@ -438,7 +439,7 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     --vdsp_params text2vec/common/vacc_code/vdsp_params/embedding-vdsp_params.json \
     -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
     ```
-- 精度测试：[demo.py](./build_in/vsx/demo.py)
+2. 精度测试：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，指定`--eval_mode`参数为`True`，进行精度评估
 
     ```bash

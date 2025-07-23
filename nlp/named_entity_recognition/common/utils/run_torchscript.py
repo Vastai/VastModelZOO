@@ -14,7 +14,7 @@ class Bert:
         # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.device = "cpu"
         self.model.eval()
-        self.model.to(self.device)
+        self.model.to(self.device_id)
 
     def run(self, input_data: List[torch.Tensor]):
         # for i in range(len(input_data)):
@@ -24,7 +24,7 @@ class Bert:
             # combined_tensor = torch.stack(input_data, dim=0)
             # heatmap = self.model(combined_tensor)
             input_data = [
-                torch.unsqueeze(tensor, 0).to(self.device) for tensor in input_data
+                torch.unsqueeze(tensor, 0).to(self.device_id) for tensor in input_data
             ]
             output = self.model(input_data[0], input_data[1], input_data[2])
             print("finish")
