@@ -109,7 +109,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
 ### step.2 准备数据集
 - 按论文，取[CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ)数据集的前1000张图像作为HQ
 - 基于[hq2gray.py](./source_code/hq2gray.py)，使用将彩色高清图像转换为灰度图像
-- 基于[image2npz.py](./utils/image2npz.py)，将灰度图像转为npz格式
+- 基于[image2npz.py](../common/utils/image2npz.py)，将灰度图像转为npz格式
 
 ### step.3 模型转换
 1. 根据具体模型，修改编译配置
@@ -160,9 +160,9 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
 2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
 
-    - 数据准备，基于[image2npz.py](./utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`datalist_npz_gray.txt`：
+    - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`datalist_npz_gray.txt`：
     ```bash
-    python ./utils/image2npz.py \
+    python ../common/utils/image2npz.py \
         --dataset_path GPEN/hq_gray \
         --target_path GPEN/hq_gray_npz \
         --text_path datalist_npz_gray.txt

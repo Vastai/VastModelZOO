@@ -203,7 +203,7 @@ if __name__=='__main__':
         
     
     for index, npz_file in enumerate(tqdm(npz_files)):
-        image_path = os.path.join(args.input_image_dir, os.path.basename(.strip().replace(".npz", ".jpg")))
+        image_path = os.path.join(args.input_image_dir, os.path.basename(input_npz_files[index].strip().replace(".npz", ".jpg")))
         npz_decode(image_path, npz_file, modelsize=model_size, save_dir=args.save_dir, save_image = args.draw_image)
 
 

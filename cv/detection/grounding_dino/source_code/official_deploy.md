@@ -37,7 +37,6 @@
 - 替换自定义算子
     - 基于[convert_custom_op_img_encoder.py](./official/convert_custom_op_img_encoder.py)，修改image_encoder模型内算子为自定义算子
     - 基于[convert_custom_op_decoder.py](./official/convert_custom_op_decoder.py)，修改decoder模型deform_attn、sine_position_embed等算子为自定义算子
-- 以上操作导出后onnx：http://192.168.20.139:8888/vastml/modelzoo/detection/grounding_dino/official/onnx/
 
 - 后续完整推理时，embed部分依赖`bert-base-uncased`：https://huggingface.co/google-bert/bert-base-uncased
     - 如有网络，`export_onnx.py`步骤将自动下载至`~/.cache/huggingface/hub/models--bert-base-uncased`目录
@@ -50,14 +49,10 @@
 - [gt: instances_val2017.json](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
 
 ### step.3 模型转换
-1. ODSP自定义算子，需对随AI Complier包一同发布的odsp_plugin包进行编译，链接编译后路径至环境变量
+1. 环境准备
     ```
-    wget -O 'odsp_plugin-v1.0-20241231-100-linux-x86_64.tar.gz'  http://devops.vastai.com/kapis/artifact.kubesphere.io/v1alpha1/artifact?artifactid=4410
-
-    mkdir odsp_plugin
-    tar -xzvf odsp_plugin-v1.0-20241231-100-linux-x86_64.tar.gz -C odsp_plugin
-
-    cd odsp_plugin/vastai
+    # 需要配置odsp环境变量
+    cd /path/to/odsp_plugin/vastai/
     sudo ./build.sh
 
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/odsp_plugin/vastai/lib:/path/to/odsp_plugin/protobuf/lib/x86_64

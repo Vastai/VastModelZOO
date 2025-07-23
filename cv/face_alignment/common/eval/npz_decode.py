@@ -1,13 +1,14 @@
 # ==============================================================================
-# 
-# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
-# 
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author :     rui.zhang@vastaitech.com
-@Time  : 2023/06/26 11:55:01
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 17:32:48
 '''
 
 import argparse

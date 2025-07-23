@@ -1,10 +1,16 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author :          lance
-@Email :  	  wangyl306@163.com
-@Time  : 	2022/09/15 19:06:16
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 18:01:22
 '''
+
 import abc
 import re
 

@@ -4,7 +4,7 @@ frontend:
   shape:
     input_ids: [1, 16]
     attention_mask: [1, 16]
-  checkpoint: http://192.168.20.139:8888/vastml/modelzoo/detection/yolo_world/official/onnx/yolo_world_clip_backbone.onnx
+  checkpoint: /path/to/yolo_world_clip_backbone.onnx
   type: onnx
   dtype: fp32 
 

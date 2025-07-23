@@ -1,5 +1,16 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
+'''
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 18:00:22
+'''
+
 from collections import namedtuple
 import numpy as np
 from shapely.geometry import Polygon

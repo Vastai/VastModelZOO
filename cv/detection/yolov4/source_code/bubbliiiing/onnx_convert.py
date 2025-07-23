@@ -1,6 +1,6 @@
 # ==============================================================================
 #
-# Copyright (C) 2024 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python

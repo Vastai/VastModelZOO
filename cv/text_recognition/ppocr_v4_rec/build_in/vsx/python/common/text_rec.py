@@ -1,11 +1,16 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 18:04:38
+'''
 
-# 
-# Copyright (C) 2025 Vastai-tech Company.
-# All rights reserved.
-# 
-# This source code is licensed under the MIT license found in the
-# LICENSE file in the root directory of this source tree.
-# 
 from .model_cv import ModelCV, vsx
 import numpy as np
 

@@ -161,7 +161,7 @@ python setup.py install
 
 2. 性能测试，配置vdsp参数[ppocr-resnet34_vd-vdsp_params.json](./build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json)，执行：
     - 由于vamp暂不支持该性能测试，所以这里使用python脚本进行性能测试
-    # 测试最大吞吐
+    - 测试最大吞吐
     ```bash
     python3 ./build_in/vsx/python/crnn_prof.py \
         -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
@@ -175,7 +175,7 @@ python setup.py install
         --input_host 1 \
         --queue_size 1
     ```
-    # 测试最小时延
+    - 测试最小时延
     ```bash
     python3 ./build_in/vsx/python/crnn_prof.py \
     -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \

@@ -141,7 +141,7 @@
     ls /path/to/det_coco_val | grep jpg > det_coco_val.txt
     ```
 
-    - 参考：[eval_map.py](../../common/eval/eval_map.py)，进行精度统计
+    - 参考：[eval_lvis.py](../source_code/eval_lvis.py)，进行精度统计
     ```bash
     python3 ../source_code/eval_lvis.py  \
         --path_res yoloworld_dataset_result.json \

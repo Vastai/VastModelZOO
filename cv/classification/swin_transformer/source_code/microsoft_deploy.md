@@ -15,7 +15,7 @@
     > 以下步骤环境依赖参考Tips
 1. 基于源repo导出onnx， 详见[export_onnx.py](./export_onnx.py)
     ```
-    # git clone https://github.com/microsoft/Swin-Transformer.git
+    git clone https://github.com/microsoft/Swin-Transformer.git
     mv source_code/export_onnx.py Swin-Transformer/models
     cd Swin-Transformer/models
     python export_onnx.py
@@ -32,12 +32,8 @@
 - [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 环境准备
-- [osdp_plugin](http://devops.vastai.com/artifactProject/ai-release/version/AI_2.1_RC1/binary?page=1&limit=10)
     ```bash
-    # 需要配置osdp环境变量
-    # odsp_plugin-v0.1-20240604-1784-linux-x86_64.tar.gz
-    tar xzvf odsp_plugin-v0.1-20240604-1784-linux-x86_64.tar.gz
-
+    # 需要配置odsp环境变量
     cd /path/to/odsp_plugin/vastai/
     sh build.sh
     export LD_LIBRARY_PATH=/path/to/odsp_plugin/vastai/odsp_plugin/protobuf/lib:$LD_LIBRARY_PATH

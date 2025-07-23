@@ -1,5 +1,5 @@
 ### step.1 获取模型
-参考：[sqlai_export.py](./source_code/sqlai_export.py)导出onnx模型
+参考：[sqlai_export.py](./sqlai_export.py)导出onnx模型
 
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)

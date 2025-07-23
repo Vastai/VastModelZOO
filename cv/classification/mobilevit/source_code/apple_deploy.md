@@ -7,6 +7,7 @@
 - 原始权重：[mobilevit_s.pt](https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_s.pt)
 
 - onnx导出
+    - pytorch导出onnx参考：[export_onnx.py](./export_onnx.py)
     > - 环境依赖参考Tips
     - onnx：[mobilevit-small](https://drive.google.com/drive/folders/10tZUDbEXoBvIAuEmvU3WDXuxLq50o23M?usp=sharing)
     - 执行[convert_mobilevit_onnx.py](./convert_mobilevit_onnx.py)，将onnx转为固定batch、onnxsim以及替换custom odsp算子
@@ -22,11 +23,8 @@
 
 ### step.3 模型转换
 0. 环境准备
-    - 获取自定义算子：[osdp_plugin](http://devops.vastai.com/artifactProject/ai-release/version/AI_2.1_RC1/binary?page=1&limit=10)
     ```bash
-    # 需要配置osdp环境变量
-    # odsp_plugin-v0.1-xx-xx-linux-x86_64.tar.gz
-    tar xzvf odsp_plugin-v0.1-xx-xx-linux-x86_64.tar.gz
+    # 需要配置odsp环境变量
     cd /path/to/odsp_plugin/vastai/
     sh build.sh
     export LD_LIBRARY_PATH=/path/to/odsp_plugin/vastai/odsp_plugin/protobuf/lib:$LD_LIBRARY_PATH

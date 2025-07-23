@@ -1,14 +1,14 @@
-# modify from clovaai
 # ==============================================================================
 #
-# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author :     vastml
-@Time  : 2023/04/25 17:57:30
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 18:02:01
 '''
 
 

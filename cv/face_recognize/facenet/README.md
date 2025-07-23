@@ -19,8 +19,6 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 
 ## Model Arch
 
-<div align=center><img src="../../../images/cv/face_recognize/facenet/arch.png"></div>
-
 ### pre-processing
 
 FaceNet模型一般用在人脸检测模型后。FaceNet的预处理操作可以按照如下步骤进行，即先对图片进行resize至160的图片对其进行归一化、减均值除方差等操作：

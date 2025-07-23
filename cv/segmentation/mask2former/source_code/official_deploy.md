@@ -95,14 +95,9 @@
 
 
 ### step.3 模型转换
-- ODSP自定义算子，需对随AI Complier包一同发布的odsp_plugin包进行编译，链接编译后路径至环境变量
+- 需要配置odsp环境变量
     ```
-    wget -O 'odsp_plugin-v1.0-20241231-100-linux-x86_64.tar.gz'  http://devops.vastai.com/kapis/artifact.kubesphere.io/v1alpha1/artifact?artifactid=4410
-
-    mkdir odsp_plugin
-    tar -xzvf odsp_plugin-v1.0-20241231-100-linux-x86_64.tar.gz -C odsp_plugin
-
-    cd odsp_plugin/vastai
+    cd /path/to/odsp_plugin/vastai/
     sudo ./build.sh
 
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/odsp_plugin/vastai/lib:/path/to/odsp_plugin/protobuf/lib/x86_64

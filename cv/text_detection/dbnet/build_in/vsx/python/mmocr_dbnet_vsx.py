@@ -1,13 +1,14 @@
 # ==============================================================================
 #
-# Copyright (C) 2023 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author : andy.liu@vastaitech.com
-@Time        :2023/09/07 11:47:13
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 17:58:37
 '''
 
 import vaststreamx as vsx

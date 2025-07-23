@@ -1,9 +1,14 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Author :          lance
-@Email : lance.wang@vastaitech.com
-@Time  : 	2022/09/20 15:17:12
+'@Author :        melodylu
+'@Email :   algorithm@vastaitech.com
+'@Time  :     2025/07/23 18:01:32
 '''
 
 import ctypes

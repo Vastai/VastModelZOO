@@ -165,7 +165,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```bash
     python deploy/ONNX/export_onnx.py --weights weights/yolov6s.pt
     ```
-    - 注意这个export_onnx.py位于[export_onnx.py](https://github.com/meituan/YOLOv6/blob/main/deploy/ONNX/export_onnx.py6)
+    - 注意这个export_onnx.py位于[export_onnx.py](https://github.com/meituan/YOLOv6/blob/main/deploy/ONNX/export_onnx.py)
 
 
 ### step.2 准备数据集

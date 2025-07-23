@@ -79,7 +79,10 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 ## Build_In Deploy
 
 ### step.1 获取模型
-- 将[export.py](./source_code/export.py)文件放置于`{RepOptimizers}`工程目录类，参考底部命令导出onnx和torchscript权重
+- 将[export.py](./source_code/export.py)文件放置于`{RepOptimizers}`工程目录类，执行以下脚本导出onnx和torchscript
+    ```bash
+    python export.py --arch RepOpt-VGG-B1-target --tag test --eval --resume weights/RepOpt-VGG-B1-acc78.62.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet
+    ```
 
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)

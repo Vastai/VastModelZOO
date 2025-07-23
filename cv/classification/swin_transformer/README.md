@@ -16,11 +16,11 @@
 
 其中滑窗操作包括**不重叠的local window，和重叠的cross-window**。将注意力计算限制在一个窗口中，**一方面能引入CNN卷积操作的局部性，另一方面能节省计算量**。
 
-![image-20240607152619228](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071526474.png)
+![image-20240607152619228](../../../images//cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-07.png)
 
 ### 2 模块
 
-![image-20240607152842337](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071529512.png)
+![image-20240607152842337](../../../images//cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-15.png)
 
 整个模型采取层次化的设计，一共包含4个Stage，每个stage都会缩小输入特征图的分辨率，像CNN一样逐层扩大感受野。
 
@@ -157,7 +157,7 @@ class PatchMerging(nn.Module):
         return x
 ```
 
-![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071552771.webp)
+![图片](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-23.png)
 
 #### 2.3 Window Partition/Reverse
 
@@ -228,7 +228,7 @@ class WindowAttention(nn.Module):
 
 1. 首先`QK`计算出来的Attention张量形状为`(numWindows*B, num_heads, window_size*window_size, window_size*window_size)`。而对于Attention张量来说，**以不同元素为原点，其他元素的坐标也是不同的**，以`window_size=2`为例，其相对位置编码如下图所示:
 
-   ![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406171702906.webp)
+   ![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-32.png)
 
    ```python
    coords_h = torch.arange(self.window_size[0])
@@ -269,9 +269,9 @@ class WindowAttention(nn.Module):
    relative_coords[:, :, 1] += self.window_size[1] - 1
    ```
 
-​	后续我们需要将其展开成一维偏移量。而对于(1，2）和（2，1）这两个坐标。在二维上是不同的，**但是通过将x,y坐标相加转换为一维偏移的时候，他的   偏移量是相等的**。
+​	后续我们需要将其展开成一维偏移量。而对于(1, 2)和(2, 1)这两个坐标。在二维上是不同的，**但是通过将x,y坐标相加转换为一维偏移的时候，他的   偏移量是相等的**。
 
-​	![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406171702913.webp)
+​	![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_15-46-39.png)
 
 5. 对其中做了个乘法操作，以进行区分
 
@@ -279,7 +279,7 @@ class WindowAttention(nn.Module):
    relative_coords[:, :, 0] *= 2 * self.window_size[1] - 1
    ```
 
-   ![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406171702879.webp)
+   ![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-46.png)
 
 6. 再最后一维上进行求和，展开成一个一维坐标，并注册为一个不参与网络学习的变量
 
@@ -334,7 +334,7 @@ def forward(self, x, mask=None):
 
 在一个window内部，所有的patch共享一组Key。咱们可以看一下示意图：
 
-![shared key](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406102320442.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_15-47-15.png)
 
 `This strategy is also efficient in regards to real-world latency: all query patches within a window share the same key set, which facilitates memory access in hardware.`
 
@@ -342,17 +342,17 @@ def forward(self, x, mask=None):
 
 前面的Window Attention是在每个窗口下计算注意力的，为了更好的和其他window进行信息交互，Swin Transformer还引入了shifted window操作。
 
-![image-20240607170421235](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071704742.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-23-55.png)
 
 左边是没有重叠的Window Attention，而右边则是将窗口进行移位的Shift Window Attention。可以看到移位后的窗口包含了原本相邻窗口的元素。但这也引入了一个新问题，即**window的个数翻倍了**，由原本四个窗口变成了9个窗口。
 
 在实际代码里，我们是**通过对特征图移位，并给Attention设置mask来间接实现的**。能在**保持原有的window个数下**，最后的计算结果等价。
 
-![image-20240607170710109](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071713924.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-02.png)
 
 代码里对特征图移位是通过`torch.roll`来实现的，下面是示意图
 
-![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406171702292.webp)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-21-31.png)
 
 > 如果需要`reverse cyclic shift`的话只需把参数`shifts`设置为对应的正数值。
 
@@ -362,11 +362,11 @@ def forward(self, x, mask=None):
 
 1. 对Shift Window后的每个窗口都给上index，并且做一个`roll`操作（window_size=2, shift_size=1）
 
-   ![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071725161.webp)
+   ![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-09.png)
 
 2. 我们希望在计算Attention的时候，**让具有相同index QK进行计算，而忽略不同index QK计算结果**。
 
-   ![图片](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406071725017.webp)
+   ![](../../../images/cv/classification/swin_transformer/16478f56c9af7d4c55b37312f70e1446.jpeg)
 
 而要想在原始四个窗口下得到正确的结果，我们就必须给Attention的结果加入一个mask（如上图最右边所示）
 
@@ -434,7 +434,7 @@ tensor([[[[[   0.,    0.,    0.,    0.],
 
 ### 3 架构
 
-![image-20240610224532569](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406102245706.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-18.png)
 
 两个连续的Block架构如上图所示，需要注意的是一个Stage包含的Block个数必须是偶数，因为需要交替包含一个含有`Window Attention`的Layer和含有`Shifted Window Attention`的Layer。
 
@@ -490,11 +490,11 @@ tensor([[[[[   0.,    0.,    0.,    0.],
 
 ### 4 结果
 
-![image-20240610225023408](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406102250468.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-28.png)
 
 
 
-![image-20240610225211871](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406102252934.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-34.png)
 
 ### 5 model analysis
 
@@ -625,7 +625,7 @@ torch.topk(probabilities, 1)
 
 把 Layer Normalization 层放在 Attention 或者 MLP 的后面。这样每个残差块的输出变化不至于太大，因为主分支和残差分支都是 LN 层的输出，有 LN 归一化作用的限制。如上图1所示，这种做法使得每一层的输出值基本上相差不大。在最大的模型训练中，作者每经过6个 Transformer Block，就在主支路上增加了一层 LN，以进一步稳定训练和输出幅值。
 
-![image-20240611143104647](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406111431779.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-42.png)
 
 ```python
     def forward(self, x):
@@ -705,7 +705,7 @@ attn = attn * logit_scale
 
 作者发现**直接插值的话往往效果会下降**，如下表所示，采用8x8的window和256x256分辨率的Swin-T模型在ImageNet1K上能达到81.7，但如果将这个预训练模型在12x12的window和384x384分辨率下，效果只有79.4，但是finetune之后能达到82.7%。论文提出了一种新的策略**log-spaced continuous position bias**（记为**Log-CPB**）来解决这个问题，如下表所示，基于**Log-CPB**的模型直接在同样的场景下迁移效果能达到82.4%，超过原来的81.8%，而且finetune之后可以达到83.2%，在COCO和ADE20k数据集上也表现更好
 
-![image-20240611153131300](https://raw.githubusercontent.com/Hiwyl/typora/main/imgs/202406111742837.png)
+![](../../../images/cv/classification/swin_transformer/Snipaste_2025-07-23_16-24-50.png)
 
 ```python
 # define a parameter table of relative position bias
