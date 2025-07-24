@@ -11,7 +11,7 @@
 # 版本信息
 
 
-本次发布软件版本为 [AI3.0_SP6_0718](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)。
+本次发布软件版本为 `AI3.0_SP6_0718`。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
@@ -24,7 +24,7 @@
 | torch | 2.6.0+cpu|
 | vllm | 0.8.5+cpu|
 | vllm_vacc |ds3_0530 (Stable Version)|
-| vllm_vacc |AI3.0_SP4_0704 (Preview Version)|
+| vllm_vacc |AI3.0_SP6_0718 (Preview Version)|
 
 
 
@@ -670,7 +670,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
 
 
-![vastai_openwebui.png](https://storage.vastaitech.com/storage/v1/download/432625543565938688/vastai_openwebui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625543565938688&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fac6acbd303efcf8d28fee80a695473a7830c47e7f5e7858f19b10c264c1d7e0)
+![vastai_openwebui.png](../../images/llm/deepseek_r1/vastai_openwebui.png)
 
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
@@ -684,7 +684,7 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
 
 
-![add_vllm.png](https://storage.vastaitech.com/storage/v1/download/430386869646266368/add_vllm.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430386869646266368&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=379cad9298d9ad989876c2a1573aac7d5ba5be005998d1cf424f1528c237b549)
+![add_vllm.png](../../images/llm/deepseek_r1/add_vllm.png)
 
 2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3-0324模型地址并保存。
 
@@ -696,19 +696,19 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 
 
-![add_url_model.png](https://storage.vastaitech.com/storage/v1/download/430387014215536640/add_url_model.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387014215536640&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=fa2d747530970b28d1fcbdd652d50962b8d4cb73236538e59682e637929ff2aa)
+![add_url_model.png](../../images/llm/deepseek_r1/add_url_model.png)
 
 3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 
 
-![disable_ui.png](https://storage.vastaitech.com/storage/v1/download/430387118813089792/disable_ui.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-430387118813089792&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=8558bb133536f00eb312cebc878c623fafc95c12171ac9635693806f7d22a889)
+![disable_ui.png](../../images/llm/deepseek_r1/disable_ui.png)
 
 **步骤 6.** 开启一个新对话进行简单体验。
 
 
 
-![chat.png](https://storage.vastaitech.com/storage/v1/download/432625591062237184/chat.png?X_Amz_Algorithm=AES&X_Amz_Credential=None-432625591062237184&X_Amz_Date=2025-07-07T20:50:20Z&X_Amz_Expires=86400&X_Amz_SignedHeaders=host&X_Amz_Signature=636b36917d457eecb7e75f1a0baa2aae478d77fe29dd6d3f8d5344fb457d214e)
+![chat.png](../../images/llm/deepseek_r1/chat.png)
 
 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
 
