@@ -49,7 +49,7 @@ if [ $ENABLE_AUTO_TOOL_CHOICE -eq 1 ]; then
 fi
 
 CHAT_STR=
-if [ $ENABLE_AUTO_TOOL_CHOICE -eq 1 ]  && [ -n $CHAT_TEMPLATE ]; then
+if [ -n $CHAT_TEMPLATE ]; then
 	CHAT_STR="--chat-template $CHAT_TEMPLATE"
 fi
 
