@@ -26,7 +26,7 @@ python export_timm_torchvision_model.py \
 2. 模型编译
 
     ```bash
-    cd mobilenet_v2
+    cd resnet
     mkdir workspace
     cd workspace
     vamc compile ../build_in/build/torch_resnet.yaml

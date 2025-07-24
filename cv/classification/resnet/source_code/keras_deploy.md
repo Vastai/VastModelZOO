@@ -19,7 +19,7 @@
 2. 模型编译
 
     ```bash
-    cd mobilenet_v2
+    cd resnet
     mkdir workspace
     cd workspace
     vamc compile ../build_in/build/keras_resnet.yaml
