@@ -20,6 +20,7 @@
 
 - 瀚博推理引擎类型：
     - Build_In: 瀚博自研软件栈推理引擎
+        - 可通过拉取[docker](./docs/docker/README.md)快速在瀚博硬件产品上进行验证测试
     - PyTorch: VACC Extension for PyTorch插件
 
 - 版本说明
