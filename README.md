@@ -20,15 +20,14 @@
 
 - 瀚博推理引擎类型：
     - Build_In: 瀚博自研软件栈推理引擎
-        - 可通过拉取[docker](./docs/docker/README.md)快速在瀚博硬件产品上进行验证测试
     - PyTorch: VACC Extension for PyTorch插件
 
 - 版本说明
 
     |  组件 |    版本    | 
     | :------: | :------: |
-    | Driver | 3.3 |
-    | VastStream | 2.5 |
+    | Driver | 3.1.1 |
+    | VastStream | 2.0.T3 |
     | VAMC | 3.4.1 |
     | Pytorch | 2.1.0 |
 
@@ -58,7 +57,7 @@
 |  [MobileNet_v3](./cv/classification/mobilenet_v3/README.md)     |   [sqlai](https://github.com/xiaolai-sqlai/mobilenetv3)   |   <details> <summary>model name</summary><ul><li align="left">mobilenet_v3_small</li><li align="left">mobilenet_v3_large</li></ul></details>    |    classification    |   Build_In    |
 |  [MobileViT](./cv/classification/mobilevit/README.md) |  [apple](https://github.com/apple/ml-cvnets)   |    <details> <summary>model name</summary><ul><li align="left">mobilevit-s</li></ul></details>    |    classification    |   Build_In   |
 |  [RepOPT](./cv/classification/repopt/README.md)  |  [official](https://github.com/DingXiaoH/RepOptimizers)   |  <details> <summary>model name</summary><ul><li align="left">RepOpt-VGG-B1</li><li align="left">RepOpt-VGG-B2</li><li align="left">RepOpt-VGG-L1</li><li align="left">RepOpt-VGG-L2</li></ul></details>   |    classification    |   Build_In    |
-| [RepVGG*](./cv/classification/repvgg/README.md)  | [official](https://github.com/DingXiaoH/RepVGG) |  <details> <summary>model name</summary><ul><li align="left">RepVGG-A0</li><li align="left">RepVGG-A1</li><li align="left">RepVGG-A2</li><li align="left">RepVGG-B0</li><li align="left">RepVGG-B1</li><li align="left">RepVGG-B2</li><li align="left">RepVGG-B1g2</li><li align="left">RepVGG-B1g4</li><li align="left">RepVGG-B2g4</li><li align="left">RepVGG-B3</li><li align="left">RepVGG-B3g4</li></ul></details>  |    classification    |   Build_In   |
+| [RepVGG](./cv/classification/repvgg/README.md)  | [official](https://github.com/DingXiaoH/RepVGG) |  <details> <summary>model name</summary><ul><li align="left">RepVGG-A0</li><li align="left">RepVGG-A1</li><li align="left">RepVGG-A2</li><li align="left">RepVGG-B0</li><li align="left">RepVGG-B1</li><li align="left">RepVGG-B2</li><li align="left">RepVGG-B1g2</li><li align="left">RepVGG-B1g4</li><li align="left">RepVGG-B2g4</li><li align="left">RepVGG-B3</li><li align="left">RepVGG-B3g4</li></ul></details>  |    classification    |   Build_In   |
 |  [ResNeSt](./cv/classification/resnest/README.md) |   [official](https://github.com/zhanghang1989/ResNeSt)    |    <details> <summary>model name</summary><ul><li align="left">resnest50</li><li align="left">resnest101</li><li align="left">resnest200</li><li align="left">resnest269</li></ul></details>    |    classification    |   Build_In    |
 |  [ResNet](./cv/classification/resnet/README.md)  |   [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   |   <details> <summary>model name</summary><ul><li align="left">resnet18</li><li align="left">resnet26</li><li align="left">resnet34</li><li align="left">resnet50</li><li align="left">resnet101</li><li align="left">resnet152</li><li align="left">gluon_resnet18_v1b</li><li align="left">gluon_resnet34_v1b</li><li align="left">gluon_resnet50_v1b</li><li align="left">gluon_resnet50_v1c</li><li align="left">gluon_resnet50_v1d</li><li align="left">gluon_resnet50_v1s</li><li align="left">gluon_resnet101_v1b</li><li align="left">gluon_resnet101_v1c</li><li align="left">gluon_resnet101_v1d</li><li align="left">gluon_resnet101_v1s</li><li align="left">gluon_resnet152_v1b</li><li align="left">gluon_resnet152_v1c</li><li align="left">gluon_resnet152_v1d</li><li align="left">gluon_resnet152_v1s</li></ul></details>    |    classification    |   Build_In    |
 |  [ResNet](./cv/classification/resnet/README.md)  |    [torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)    |  <details> <summary>model name</summary><ul><li align="left">resnet18</li><li align="left">resnet34</li><li align="left">resnet50</li><li align="left">resnet101</li><li align="left">resnet152</li></ul></details> |    classification    |   Build_In    |
@@ -258,7 +257,7 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [BERT](./nlp/named_entity_recognition/bert/README.md)   |  [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py) |  <details> <summary>model name</summary><ul><li align="left">bert_base_zh_ner-256</li></ul></details>  | named entity recognition |   Build_In   |
-| [RoBERTa*](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh-256</li></ul></details>  | named entity recognition |   Build_In   |
+| [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh-256</li></ul></details>  | named entity recognition |   Build_In   |
 
 
 - question answering
@@ -278,15 +277,9 @@
 | [BERT](./nlp/sentence_classification/bert/README.md)   |  [modelscope](https://www.modelscope.cn/models/iic/nlp_structbert_sentiment-classification_chinese-base/summary)   |  <details> <summary>model name</summary><ul><li align="left">nlp_structbert_sentiment-classification_chinese-base</li></ul></details>   | sentence classification |   Build_In   |
 | [Electra](./nlp/sentence_classification/electra/README.md) |  [CIB](https://drive.google.com/drive/folders/1ii0Kz6nxZujiMkoMozrWLbBCGpjmWqh2?usp=sharing)   |   <details> <summary>model name</summary><ul><li align="left">electra_small-512</li></ul></details>   | sentence classification |   Build_In   |
 | [Electra](./nlp/sentence_classification/electra/README.md) |  [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/electra/modeling_electra.py)   |   <details> <summary>model name</summary><ul><li align="left">electra_small_dc_mrpc-128</li><li align="left">electra_small_gen_mrpc-128</li><li align="left">electra_base_dc_mrpc-128</li><li align="left">electra_base_gen_mrpc-128</li><li align="left">electra_large_dc_mrpc-128</li></ul></details>    | sentence classification |   Build_In   |
-| [RoBERTa*](./nlp/sentence_classification/roberta/README.md) | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_base_en_cls-128</li></ul></details>  | sentence classification |   Build_In   |
-
+| [RoBERTa](./nlp/sentence_classification/roberta/README.md) | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_base_en_cls-128</li></ul></details>  | sentence classification |   Build_In   |
 
 - Text2Vec
-
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li><li align="left">bge-small-zh-v1.5</li><li align="left">bge-base-zh-v1.5</li><li align="left">bge-large-zh-v1.5</li></ul></details> | Embedding model  |  Build In | 
-| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
