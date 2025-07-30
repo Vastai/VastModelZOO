@@ -33,6 +33,8 @@
     | VastPipe | 2.7.3 | 全流程低代码开发框架 |
     | VastStreamX | 2.8.3 | SDK应用API库   |
 
+    > Driver及工具文档下载链接: [Baidu Netdisk](https://pan.baidu.com/s/5Lkb0SUPu7r_VdSH53zZWAA)
+
 ## 模型列表
 
 <details><summary>CV Models</summary>
