@@ -1,3 +1,12 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import tensorflow as tf
 from src.models import inception_resnet_v1
 

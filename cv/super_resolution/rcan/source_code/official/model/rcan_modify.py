@@ -1,3 +1,12 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 from model import common_modify
 
 import torch.nn as nn

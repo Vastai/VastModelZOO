@@ -1,3 +1,12 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import cv2, os
 import sys
 sys.path.insert(0, 'FaceBoxesV2')

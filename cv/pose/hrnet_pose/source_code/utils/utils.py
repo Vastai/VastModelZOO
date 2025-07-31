@@ -1,4 +1,10 @@
-
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 
 
 def merge_configs(cfg1, cfg2):

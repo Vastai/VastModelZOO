@@ -5,11 +5,6 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-'@Author :        melodylu
-'@Email :   algorithm@vastaitech.com
-'@Time  :     2025/07/23 14:59:00
-'''
 
 
 from transformers import ViTForImageClassification

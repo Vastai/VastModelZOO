@@ -1,7 +1,11 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2021/4/24
-# @Author  : Lart Pang
-# @GitHub  : https://github.com/lartpang
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 
 import glob
 import os

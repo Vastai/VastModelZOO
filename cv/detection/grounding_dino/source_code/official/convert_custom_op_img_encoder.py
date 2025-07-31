@@ -1,3 +1,12 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import onnx_graphsurgeon as gs
 import numpy as np
 import onnx

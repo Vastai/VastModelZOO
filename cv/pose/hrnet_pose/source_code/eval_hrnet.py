@@ -1,5 +1,12 @@
-# Copyright (c) OpenMMLab. All rights reserved.
-# Reference: https://github.com/open-mmlab/mmpose
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import torch
 import tempfile
 import warnings

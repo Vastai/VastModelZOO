@@ -5,11 +5,7 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-'@Author :        melodylu
-'@Email :   algorithm@vastaitech.com
-'@Time  :     2025/07/23 17:48:22
-'''
+
 
 import torch
 import numpy as np

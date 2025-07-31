@@ -1,7 +1,11 @@
-# ------------------------------------------------------------------------------
-# Adapted from https://github.com/princeton-vl/pose-ae-train/
-# Original licence: Copyright (c) 2017, umich-vl, under BSD 3-Clause License.
-# ------------------------------------------------------------------------------
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 
 import numpy as np
 import torch

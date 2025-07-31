@@ -1,4 +1,12 @@
-# Copyright (c) OpenMMLab. All rights reserved.
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 from abc import ABCMeta, abstractmethod
 from typing import Dict, List, Tuple, Union
 

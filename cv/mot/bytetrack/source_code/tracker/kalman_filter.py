@@ -1,4 +1,12 @@
-# vim: expandtab:ts=4:sw=4
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import numpy as np
 import scipy.linalg
 

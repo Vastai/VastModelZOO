@@ -1,4 +1,11 @@
-# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 
 import argparse
 from typing import List, Tuple

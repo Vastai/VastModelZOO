@@ -1,4 +1,12 @@
-# SPDX-License-Identifier: Apache-2.0
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 """Benchmark the latency of processing a single batch of requests."""
 import vllm_vacc
 import argparse

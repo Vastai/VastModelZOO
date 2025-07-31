@@ -1,4 +1,11 @@
-# https://hf-mirror.com/NousResearch/Meta-Llama-3.1-8B-Instruct
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 
 import time
 import torch

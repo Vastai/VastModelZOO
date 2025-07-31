@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2021/3/14
-# @Author  : Lart Pang
-# @GitHub  : https://github.com/lartpang
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 import argparse
 import ast
 import json

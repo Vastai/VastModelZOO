@@ -6,11 +6,7 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-@Author :    zpwen
-@Email  :    algorithm@vastaitech.com
-@Time   :    2025/04/24 16:17:38
-'''
+
 
 from .dynamic_model_cv import DynamicModelCV, vsx
 import numpy as np

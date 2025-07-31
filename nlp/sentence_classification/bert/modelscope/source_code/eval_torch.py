@@ -1,4 +1,12 @@
-# import os.path as osp
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 from modelscope.trainers import build_trainer
 from modelscope.msdatasets import MsDataset
 # from modelscope.utils.hub import read_config

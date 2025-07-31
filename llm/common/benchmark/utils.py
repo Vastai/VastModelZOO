@@ -5,11 +5,8 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-@Author :        wyl
-@Email :   algorithm@vastaitech.com
-@Time  :     2025/03/15 18:15:53
-'''
+
+
 import pandas as pd
 import os
 import platform

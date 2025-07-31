@@ -1,4 +1,12 @@
-# -*- coding: utf-8 -*-
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
+
 from .curve_drawer import CurveDrawer
 from .excel_recorder import MetricExcelRecorder
 from .metric_recorder import (

@@ -5,11 +5,7 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-'@Author :        melodylu
-'@Email :   algorithm@vastaitech.com
-'@Time  :     2025/07/23 17:32:48
-'''
+
 
 import argparse
 import numpy as np
