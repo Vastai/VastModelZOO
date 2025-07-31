@@ -11,7 +11,7 @@
 # 版本信息
 
 
-本次发布软件版本为 `AI3.0_SP6_0718`。
+本次发布软件版本为 [AI3.0_SP7_0728](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
@@ -21,10 +21,10 @@
 | 组件 |  版本|
 | --- | --- |
 | Driver | V3.3.0|
-| torch | 2.6.0+cpu|
-| vllm | 0.8.5+cpu|
+| torch | 2.7.0+cpu|
+| vllm | 0.9.2+cpu|
 | vllm_vacc |ds3_0530 (Stable Version)|
-| vllm_vacc |AI3.0_SP6_0718 (Preview Version)|
+| vllm_vacc |AI3.0_SP7_0728 (Preview Version)|
 
 
 
@@ -100,7 +100,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
-前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
+前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
 
 
 
@@ -112,9 +112,15 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 <a id="install_one_click"></a>
 ## 一键安装
 
-通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)
+通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
 ```shell
-./vallmdeploy_AI3.0_SP6_0718.run <Model_Type> <Model_Path>
+./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
+```
+注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
+
+参考命令:
+```bash
+sudo docker rm -f vllm_service haproxy-server 
 ```
 参数说明如下所示。
     
@@ -127,7 +133,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 <a id="install_stepbystep"></a>
 ## 分步安装
 
-部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=437702759429574656)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
 
 
 ## 启动 vLLM 服务
@@ -172,7 +178,7 @@ DeepSeek-V3-0324 启动命令:
 cd /home/username/haproxy
 python3 deploy.py --instance 1 \
     --tensor-parallel-size 32 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP6_0718 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
     --model /home/username/weights/DeepSeek-V3-0324 \
     --port 8000 \
     --management-port 9000 \
@@ -542,7 +548,8 @@ work_dir: ./outputs_eval_ds_v3
 ```shell
 docker pull harbor.vastaitech.com/ai_deliver/vaeval:0.1 
 ```
-
+>上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vaeval:0.1`需替换为`harbor.vastaitech.com/ai_deliver/vaeval:latest_arm`。
+>
 **步骤 4.** 在新打开的终端运行测试模型精度的容器。
 
 ```shell
@@ -652,7 +659,7 @@ docker run -d \
     --restart always \
     harbor.vastaitech.com/ai_deliver/vast-webui:latest
 ```
->上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:arm_latest`。
+>上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:latest_arm`。
 
 
 其中，`OPENAI_API_BASE_URL`为 vLLM 服务地址，`DEFAULT_MODELS`为原始模型权重所在路径。请根据实际情况替换。

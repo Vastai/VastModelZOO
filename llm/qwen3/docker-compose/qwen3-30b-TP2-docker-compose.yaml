@@ -1,6 +1,6 @@
 services:
   vllm-qwen3:
-    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP5_0718
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728
     privileged: true
     shm_size: '64gb'
     network_mode: host

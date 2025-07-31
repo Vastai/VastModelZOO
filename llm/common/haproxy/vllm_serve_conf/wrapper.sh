@@ -40,7 +40,7 @@ fi
 
 QWEN_ROPE_STR=
 if [ $ENABLE_QWEN3_ROPE_SCALING -eq 1 ]; then
-	QWEN_ROPE_STR="--rope-scaling {\"rope_type\":\"yarn\",\"factor\":2.0,\"original_max_position_embeddings\":32768}"
+	QWEN_ROPE_STR="--rope-scaling {\"rope_type\":\"yarn\",\"factor\":4.0,\"original_max_position_embeddings\":32768}"
 fi
 
 TOOL_CHOICE_STR=
