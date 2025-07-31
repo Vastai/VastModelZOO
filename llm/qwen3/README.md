@@ -578,23 +578,6 @@ cd /data
 vaeval eval config_eval_qwen3.yaml
 ```
 
-本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
-其中，“Score_VACC”表示在瀚博硬件设备上的精度测试结果，“Score_NV”表示在NVIDIA上的精度测试结果。
-
-
-| Model | Dataset |Subset_Num|Sample_Num|Score_VACC|Score_NV|
-| --- | --- |--- |--- |--- |--- |
-| Qwen3-30B-A3B-FP8 |cluewsc  |1|50|0.92|0.9044|
-| Qwen3-30B-A3B-FP8 |aime24  |1|30|0.8|0.8|
-| Qwen3-30B-A3B-FP8 |ceval  |5|115|0.913|0.9217|
-| Qwen3-30B-A3B-FP8 |drop  |1|50|0.86|0.86|
-| Qwen3-30B-A3B-FP8 |gpqa  |1|50|0.62|0.62|
-| Qwen3-30B-A3B-FP8 |ifeval  |1|50|0.92|0.92|
-| Qwen3-30B-A3B-FP8 |live_code_bench  |1|50|0.98|0.96|
-| Qwen3-30B-A3B-FP8 |math_500  |5|243|0.9465|0.9547|
-| Qwen3-30B-A3B-FP8 |mmlu_pro  |5|250|0.792|0.796|
-
-
 # 启动 Open WebUI 服务
 
 Open WebUI通过容器启动，本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何访问 Open WebUI。

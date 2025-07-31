@@ -597,23 +597,6 @@ cd /data
 vaeval eval config_eval_ds_r1_0528.yaml
 ```
 
-本次测试使用了CLUEWSC、AIME24、CEVAL、DROP等数据集。精度结果如下所示。
-其中，“Score_VACC”表示在瀚博硬件设备上的精度测试结果，“Score_NV”表示在NVIDIA上的精度测试结果。
-
-- DeepSeek-R1-0528 精度结果如下所示。
-
-| Model | Dataset |Subset_Num|Sample_Num|Score_VACC|Score_NV|
-| --- | --- |--- |--- |--- |--- |
-| DeepSeek-R1-0528 |cluewsc  |1|50|0.98|0.96|
-| DeepSeek-R1-0528 |aime24  |1|30|0.9333|0.933|
-| DeepSeek-R1-0528 |ceval  |5|115|0.913|0.9131|
-| DeepSeek-R1-0528 |drop  |1|50|0.88|0.88|
-| DeepSeek-R1-0528 |gpqa  |1|50|0.84|0.8|
-| DeepSeek-R1-0528 |ifeval  |1|50|0.8|0.8|
-| DeepSeek-R1-0528 |live_code_bench  |1|50|0.96|0.98|
-| DeepSeek-R1-0528 |math_500  |5|243|0.9671|0.9588|
-| DeepSeek-R1-0528 |mmlu_pro  |5|250|0.86|0.852|
-
 # 启动 Open WebUI 服务
 
 Open WebUI通过容器启动，本节以 DeepSeek-R1-0528 模型为例进行说明如何访问 Open WebUI。
