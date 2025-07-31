@@ -1,0 +1,192 @@
+diff --git a/configs/coco/panoptic-segmentation/Base-COCO-PanopticSegmentation.yaml b/configs/coco/panoptic-segmentation/Base-COCO-PanopticSegmentation.yaml
+index 7560a73..1c7f460 100644
+--- a/configs/coco/panoptic-segmentation/Base-COCO-PanopticSegmentation.yaml
++++ b/configs/coco/panoptic-segmentation/Base-COCO-PanopticSegmentation.yaml
+@@ -2,7 +2,7 @@ MODEL:
+   BACKBONE:
+     FREEZE_AT: 0
+     NAME: "build_resnet_backbone"
+-  WEIGHTS: "detectron2://ImageNetPretrained/torchvision/R-50.pkl"
++  WEIGHTS: "./code/model_check/vit_custom_models/weights/model_final_3c8ec9.pkl"
+   PIXEL_MEAN: [123.675, 116.280, 103.530]
+   PIXEL_STD: [58.395, 57.120, 57.375]
+   RESNETS:
+diff --git a/mask2former/maskformer_model.py b/mask2former/maskformer_model.py
+index 88ce76d..a085ade 100644
+--- a/mask2former/maskformer_model.py
++++ b/mask2former/maskformer_model.py
+@@ -17,6 +17,78 @@ from .modeling.criterion import SetCriterion
+ from .modeling.matcher import HungarianMatcher
+ 
+ 
++from time import time
++import tvm
++from tvm.contrib import graph_runtime
++import numpy as np
++
++model_name = "./code/model_check/vit_custom_models/suits/mask2former"
++graph = open(model_name +".json").read()
++lib = tvm.module.load(model_name +".so")
++params = bytearray(open(model_name +".params","rb").read())
++
++ctx = tvm.vacc(0)
++tvm_rt = graph_runtime.create(graph, lib, ctx, name="generated"+"::1111")
++print("create graph runtime done!")
++tvm_rt.load_param(params)
++model_name_bs = tvm_rt.set_batch_size(1)
++print("set batch size done")
++
++
++def get_activation_aligned(activation, dtype=np.float16, fc_mode=False, force_int8_layout_to_fp16=False):  # NCHW
++    N = C = H = W = 1
++    if len(activation.shape) == 2:
++      N, C= activation.shape
++      fc_mode = True
++    elif len(activation.shape) == 5:
++      N, C, H, W, B = activation.shape
++    elif len(activation.shape) == 1:
++      C, = activation.shape
++    else:
++      N, C, H, W = activation.shape
++    h_group = w_group = c_group = 0
++    if H == 1 and W == 1 and fc_mode == True:
++        if dtype == np.float16:
++            h_group, w_group, c_group = 1, 1, 256
++        elif dtype == np.int8:
++            h_group, w_group, c_group = 1, 1, 512
++    else:
++        if dtype == np.float16 or force_int8_layout_to_fp16:
++            h_group, w_group, c_group = 8, 8, 4
++        elif dtype == np.int8:
++            h_group, w_group, c_group = 8, 8, 8
++    pad_H, pad_W, pad_C = H, W, C
++    if H % h_group != 0:
++        pad_h = h_group - H % h_group
++        pad_H += pad_h
++    if W % w_group != 0:
++        pad_w = w_group - W % w_group
++        pad_W += pad_w
++    if C % c_group != 0:
++        pad_c = c_group - C % c_group
++        pad_C += pad_c
++    # tensorize to WHC4c8h8w
++    w_num = pad_W // w_group
++    h_num = pad_H // h_group
++    c_num = pad_C // c_group
++    n_num = N
++    block_size = w_group*h_group*c_group
++    activation = activation.astype(dtype)
++    np_arr = np.zeros((n_num, w_num, h_num, c_num, block_size), dtype)
++    for n in range(N):
++        for c in range(C):
++            for h in range(H):
++                for w in range(W):
++                    addr = (c % c_group)*h_group*w_group+(h % h_group)*w_group+(w % w_group)
++                    if len(activation.shape) == 2:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n,c]
++                    elif len(activation.shape) == 1:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n]
++                    else:
++                      np_arr[n, w//w_group, h//h_group, c//c_group, addr] = activation[n,c,h,w]
++    return np_arr
++
++
+ @META_ARCH_REGISTRY.register()
+ class MaskFormer(nn.Module):
+     """
+@@ -194,8 +266,12 @@ class MaskFormer(nn.Module):
+         images = [(x - self.pixel_mean) / self.pixel_std for x in images]
+         images = ImageList.from_tensors(images, self.size_divisibility)
+ 
+-        features = self.backbone(images.tensor)
+-        outputs = self.sem_seg_head(features)
++        # features = self.backbone(images.tensor)
++        # outputs = self.sem_seg_head(features)
++        # print(f"images.tensor.shape, {images.tensor.shape}")
++        begin = time()
++        tvm_rt.set_input(model_name_bs,"image", 0, tvm.nd.array(get_activation_aligned(images.tensor.cpu().numpy().astype(np.float16))))
++        tvm_rt.run(model_name_bs)
+ 
+         if self.training:
+             # mask classification target
+@@ -216,8 +292,16 @@ class MaskFormer(nn.Module):
+                     losses.pop(k)
+             return losses
+         else:
+-            mask_cls_results = outputs["pred_logits"]
+-            mask_pred_results = outputs["pred_masks"]
++            np_mask_cls_results = tvm_rt.get_output(model_name_bs, 0).asnumpy().reshape(1, 100, 81).astype("float32")
++            np_mask_pred_results  = tvm_rt.get_output(model_name_bs, 1).asnumpy().transpose(1, 0).reshape(1, 100, 256, 256).astype("float32")
++            elapsed = time() - begin
++            print(f"run elapsed : {elapsed}")
++            # print(f"np_mask_cls_results.shape, {np_mask_cls_results.shape}")
++            # print(f"np_mask_pred_results.shape , {np_mask_pred_results.shape}")
++            mask_cls_results = torch.from_numpy(np_mask_cls_results).to(self.device_id)
++            mask_pred_results = torch.from_numpy(np_mask_pred_results).to(self.device_id)
++            # mask_cls_results = outputs["pred_logits"]
++            # mask_pred_results = outputs["pred_masks"]
+             # upsample masks
+             mask_pred_results = F.interpolate(
+                 mask_pred_results,
+@@ -226,7 +310,7 @@ class MaskFormer(nn.Module):
+                 align_corners=False,
+             )
+ 
+-            del outputs
++            # del outputs
+ 
+             processed_results = []
+             for mask_cls_result, mask_pred_result, input_per_image, image_size in zip(
+diff --git a/mask2former/modeling/pixel_decoder/ops/functions/__init__.py b/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
+index 2b06b5a..64566ee 100644
+--- a/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
++++ b/mask2former/modeling/pixel_decoder/ops/functions/__init__.py
+@@ -9,5 +9,5 @@
+ # Copyright (c) Facebook, Inc. and its affiliates.
+ # Modified by Bowen Cheng from https://github.com/fundamentalvision/Deformable-DETR
+ 
+-from .ms_deform_attn_func import MSDeformAttnFunction
++# from .ms_deform_attn_func import MSDeformAttnFunction
+ 
+diff --git a/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py b/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
+index 94a36ab..5717119 100644
+--- a/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
++++ b/mask2former/modeling/pixel_decoder/ops/functions/ms_deform_attn_func.py
+@@ -18,15 +18,15 @@ import torch.nn.functional as F
+ from torch.autograd import Function
+ from torch.autograd.function import once_differentiable
+ 
+-try:
+-    import MultiScaleDeformableAttention as MSDA
+-except ModuleNotFoundError as e:
+-    info_string = (
+-        "\n\nPlease compile MultiScaleDeformableAttention CUDA op with the following commands:\n"
+-        "\t`cd mask2former/modeling/pixel_decoder/ops`\n"
+-        "\t`sh make.sh`\n"
+-    )
+-    raise ModuleNotFoundError(info_string)
++# try:
++#     import MultiScaleDeformableAttention as MSDA
++# except ModuleNotFoundError as e:
++#     info_string = (
++#         "\n\nPlease compile MultiScaleDeformableAttention CUDA op with the following commands:\n"
++#         "\t`cd mask2former/modeling/pixel_decoder/ops`\n"
++#         "\t`sh make.sh`\n"
++#     )
++#     raise ModuleNotFoundError(info_string)
+ 
+ 
+ class MSDeformAttnFunction(Function):
+diff --git a/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py b/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
+index e7b4c42..e397f30 100644
+--- a/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
++++ b/mask2former/modeling/pixel_decoder/ops/modules/ms_deform_attn.py
+@@ -21,7 +21,7 @@ from torch import nn
+ import torch.nn.functional as F
+ from torch.nn.init import xavier_uniform_, constant_
+ 
+-from ..functions import MSDeformAttnFunction
++# from ..functions import MSDeformAttnFunction
+ from ..functions.ms_deform_attn_func import ms_deform_attn_core_pytorch
+ 
+ 

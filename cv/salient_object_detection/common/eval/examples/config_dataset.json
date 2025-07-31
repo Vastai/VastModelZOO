@@ -1,0 +1,14 @@
+{
+  "ECSSD": {
+    "image": {
+      "path": "/path/to/dataset/sod/ECSSD/image",
+      "prefix": "",
+      "suffix": ".jpg"
+    },
+    "mask": {
+      "path": "/path/to/dataset/sod/ECSSD/mask",
+      "prefix": "",
+      "suffix": ".png"
+    }
+  }
+}

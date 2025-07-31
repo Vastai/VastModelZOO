@@ -1,0 +1,35 @@
+name: bert_base_imdb
+
+frontend:
+  shape:
+    input_ids:
+    - 1
+    - 128
+    attention_mask:
+    - 1
+    - 128
+    token_type_ids:
+    - 1
+    - 128
+  checkpoint: ./weights/bert_base_imdb.torchscript.pt
+  type: pytorch
+  dtype: int64
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: mse
+    quantize_per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+dataset:
+  path: path/to/imdb/calib_128
+  sampler:
+    get_data_num: 80
+
+workspace:
+  path: ./deploy_weights/

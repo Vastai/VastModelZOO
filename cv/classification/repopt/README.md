@@ -79,47 +79,43 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 ## Build_In Deploy
 
 ### step.1 获取模型
-- 将[export.py](./export.py)文件放置于`{RepOptimizers}`工程目录类，参考底部命令导出onnx和torchscript权重
+- 将[export.py](./source_code/export.py)文件放置于`{RepOptimizers}`工程目录类，执行以下脚本导出onnx和torchscript
+    ```bash
+    python export.py --arch RepOpt-VGG-B1-target --tag test --eval --resume weights/RepOpt-VGG-B1-acc78.62.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet
+    ```
 
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
-    - [official_repopt.yaml](../build_in/build/official_repopt.yaml)
+1. 根据具体模型，修改编译配置
+    - [official_repopt.yaml](./build_in/build/official_repopt.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd repopt
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/official_repopt.yaml
+    vamc compile ./build_in/build/official_repopt.yaml
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream
-    - 参考：[classification.py](../../common/vsx/classification.py)
+1. runstream
+    - 参考：[classification.py](../common/vsx/classification.py)
     ```bash
-    python ../../common/vsx/classification.py \
+    python ../common/vsx/classification.py \
         --infer_mode sync \
         --file_path path/to/ILSVRC2012_img_val \
         --model_prefix_path deploy_weights/official_repopt_run_stream_fp16/mod \
-        --vdsp_params_info ../build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json \
+        --vdsp_params_info ./build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json \
         --label_txt path/to/imagenet.txt \
         --save_dir ./runstream_output \
         --save_result_txt result.txt \
@@ -128,7 +124,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
+    python ../common/eval/eval_topk.py ./runmstream_output/result.txt
     ```
 
     ```
@@ -139,90 +135,32 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     top1_rate: 75.718 top5_rate: 92.768
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
-    - 配置[official-repopt_vgg_b1-vdsp_params.json](../build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json)
+### step.5 性能精度测试
+1. 性能测试
+    - 配置[official-repopt_vgg_b1-vdsp_params.json](./build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_repopt_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
+    vamp -m deploy_weights/official_repopt_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-repopt_vgg_b1-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
-    python ../../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
+    python ../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
     ```
 
     - vamp推理获取npz文件
     ```
-    vamp -m deploy_weights/keras_densenet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/keras-densenet121-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
+    vamp -m deploy_weights/keras_densenet_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/keras-densenet121-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
     ```
 
-    - 解析输出结果用于精度评估，参考：[vamp_npz_decode.p](../../common/eval/vamp_npz_decode.py)
+    - 解析输出结果用于精度评估，参考：[vamp_npz_decode.p](../common/eval/vamp_npz_decode.py)
     ```bash
-    python  ../../common/eval/vamp_npz_decode.py imagenet_npz.txt output imagenet_result.txt imagenet.txt
+    python  ../common/eval/vamp_npz_decode.py imagenet_npz.txt output imagenet_result.txt imagenet.txt
     ```
     
-    - 精度评估，参考：[eval_topk.py](../../common/eval/eval_topk.py)
+    - 精度评估，参考：[eval_topk.py](../common/eval/eval_topk.py)
     ```bash
-    python ../../common/eval/eval_topk.py imagenet_result.txt
-    ```
-    
-## appending
-1. RepOpt-VGG系列模型int8轻微掉点
-2. RepOpt-GhostNet系列模型，fp16和int8均掉点验证，基本全部丢失，此处暂不提供此模型
-    ```
-    weights/RepOpt-VGG-B1-acc78.62.pth
-    flops(G): 26.281
-    params: 51.842M
-
-    fp16
-    [VACC]:  top1_rate: 78.002 top5_rate: 93.978
-    int8-percentile
-    [VACC]:  top1_rate: 75.956 top5_rate: 92.88
-
-    ==============================================================
-    weights/RepOpt-VGG-B2-acc79.68.pth
-    flops(G): 40.866
-    params: 80.331M
-
-    fp16
-    [VACC]:  top1_rate: 79.034 top5_rate: 94.49
-    int8-percentile
-    [VACC]:  top1_rate: 76.09 top5_rate: 93.024
-
-    ==============================================================
-    weights/RepOpt-VGG-L1-acc79.82.pth
-    flops(G): 46.850
-    params: 76.038M
-
-    fp16
-    [VACC]:  top1_rate: 79.266 top5_rate: 94.556
-    int8-percentile
-    [VACC]:  top1_rate: 59.652 top5_rate: 82.96
-    int8 kl_divergence
-    [VACC]:  top1_rate: 58.944 top5_rate: 82.52
-    ==============================================================
-
-    weights/RepOpt-VGG-L2-acc80.47.pth
-    flops(G): 73.001
-    params: 118.133M
-
-    fp16
-    [VACC]:  top1_rate: 79.992 top5_rate: 94.918
-    int8-percentile
-    [VACC]:  top1_rate: 65.41 top5_rate: 87.02
-
-    ==============================================================
-    weights/RepGhostNet-0.5x-acc66.51.pth
-    flops(G): 0.109
-    params: 2.314M
-
-    fp16
-    [VACC]:  top1_rate: 0.066 top5_rate: 0.464
-    int8-percentile
-    [VACC]:  top1_rate: 0.07 top5_rate: 0.432
+    python ../common/eval/eval_topk.py imagenet_result.txt
     ```

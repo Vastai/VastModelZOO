@@ -5,11 +5,7 @@
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-@Author :    tonyx
-@Email  :    algorithm@vastaitech.com
-@Time   :    2025/04/27 10:17:38
-'''
+
 
 from mobileNetV3 import MobileNetV3
 from collections import OrderedDict

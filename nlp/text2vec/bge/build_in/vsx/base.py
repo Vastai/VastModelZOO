@@ -1,15 +1,11 @@
 # ==============================================================================
 #
-# Copyright (C) 2024 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-@Author :          lance
-@Email : lance.wang@vastaitech.com
-@Time  : 	2025/04/21 19:43:31
-'''
+
 
 import os
 from queue import Queue
@@ -35,7 +31,7 @@ class EmbeddingX:
         self.input_id = 0 
 
         self.attr = vsx.AttrKey 
-        self.device = vsx.set_device(self.device_id)
+        assert vsx.set_device(self.device_id)==0
         # 构建model，模型三件套目录
         model_path = model_prefix_path 
         self.model = vsx.Model(model_path, batch_size) 

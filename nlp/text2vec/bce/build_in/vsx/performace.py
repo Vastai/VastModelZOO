@@ -1,15 +1,12 @@
 # ==============================================================================
 #
-# Copyright (C) 2024 VastaiTech Technologies Inc.  All rights reserved.
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
 #
 # ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
-@Author :          lance
-@Email : lance.wang@vastaitech.com
-@Time  : 	2025/04/21 19:43:31
-'''
+
+
 import os
 import sys
 

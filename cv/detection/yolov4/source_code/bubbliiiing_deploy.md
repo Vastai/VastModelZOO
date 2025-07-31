@@ -2,7 +2,6 @@
 
 ### step.1 获取预训练模型
 ```
-
 link: https://github.com/bubbliiiing/yolov4-tiny-pytorch
 branch: master
 commit: 60598a259cfe64b4b87f064fbd4b183a4cdd6cba
@@ -11,10 +10,9 @@ link: https://github.com/bubbliiiing/yolov4-pytorch
 branch: master
 commit: b7c2212250037c262282bac06fcdfe97ac86c055
 ```
-- 克隆原始yolov4仓库或yolov4仓库，将所有文件移动至[yolov4/source_code/bubbliiiing](../source_code/bubbliiiing)文件夹下
+- 克隆原始yolov4仓库或yolov4仓库，将所有文件移动至[yolov4/source_code/bubbliiiing](./bubbliiiing/)文件夹下
 - 修改[yolo.py#L20](https://github.com/bubbliiiing/yolov4-pytorch/blob/master/yolo.py#L20)，yolo类中的`_defaults`参数（配置文件路径，开启letterbox，关闭cuda）
-- 基于[onnx_convert.py](../source_code/bubbliiiing/onnx_convert.py)，导出onnx
-
+- 基于[onnx_convert.py](./bubbliiiing/onnx_convert.py)，导出onnx
 
 ### step.2 准备数据集
 - [校准数据集](http://images.cocodataset.org/zips/val2017.zip)
@@ -23,16 +21,14 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
 - [label: coco.txt](../../common/label/coco.txt)
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [bubbliiiing_config.yaml](../build_in/build/bubbliiiing_config.yaml)
     
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd yolov4
@@ -45,11 +41,8 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
 > bubbliiiing来源的yolov4和yolov4_tiny均只支持`forward`推理，配置表的`extra_ops`参数设置为`type: null`
 >
 
-
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream推理：[bubbliiiing_yolov4_detector.py](../build_in/vsx/bubbliiiing_yolov4_detector.py)
+1. runstream推理：[bubbliiiing_yolov4_detector.py](../build_in/vsx/bubbliiiing_yolov4_detector.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
@@ -108,16 +101,14 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
     </details>
 
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度精度
+1. 性能测试
     - 配置[bubbliiiing-yolov4-vdsp_params.json](../build_in/vdsp_params/bubbliiiing-yolov4-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/bubbliiiing_yolov4_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/bubbliiiing-yolov4-vdsp_params.json -i 1 p 1 -b 1 -d 0
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
 
     - 数据准备，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`

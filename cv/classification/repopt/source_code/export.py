@@ -1,9 +1,11 @@
-# --------------------------------------------------------
-# Re-parameterizing Your Optimizers rather than Architectures (https://arxiv.org/abs/2205.15242)
-# Github source: https://github.com/DingXiaoH/RepOptimizers
-# Licensed under The MIT License [see LICENSE for details]
-# The training script is based on the code of Swin Transformer (https://github.com/microsoft/Swin-Transformer)
-# --------------------------------------------------------
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 
 import time
 import argparse
@@ -262,6 +264,9 @@ if __name__ == '__main__':
 
 
 """
+python export.py --arch RepOpt-VGG-B1-target --tag test --eval --resume weights/RepOpt-VGG-B1-acc78.62.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet
+
+
 python main_repopt.py --arch RepOpt-VGG-B1-target --tag test --eval --resume weights/RepOpt-VGG-B1-acc78.62.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet
 python main_repopt.py --arch RepOpt-VGG-B2-target --tag test --eval --resume weights/RepOpt-VGG-B2-acc79.68.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet
 python main_repopt.py --arch RepOpt-VGG-L1-target --tag test --eval --resume weights/RepOpt-VGG-L1-acc79.82.pth --data-path /path/to/imagenet --batch-size 32 --opts DATA.DATASET imagenet

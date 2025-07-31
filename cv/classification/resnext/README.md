@@ -79,7 +79,6 @@ ResNeXt系列网络的head层由global-average-pooling层和一层全连接层�
 | resnext101_32x16d_wsl |[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/EfficientNet_and_ResNeXt101_wsl.md)|   84.2   |   97.3   |  57.55    |   152.66    |     224       |
 | resnext101_32x32d_wsl |[ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/docs/zh_CN/models/EfficientNet_and_ResNeXt101_wsl.md)|  85.0   |   97.6   |   115.17    |  303.11    |     224       |
 
-**Note:** `fix_resnext101_32x48d_wsl`模型与`resnext101_32x48d_wsl`模型在转换onnx格式时失败
 
 ### 测评数据集说明
 

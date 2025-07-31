@@ -1,0 +1,42 @@
+name: official_pairlie_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 400
+    - 600
+  type: onnx
+  checkpoint: /path/to/pairlie-3_400_600.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/low_light_enhancement/lol/our485/low
+  sampler:
+    suffix: png
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [400, 600]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+

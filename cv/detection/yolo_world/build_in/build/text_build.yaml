@@ -1,0 +1,20 @@
+name: text_model_run_stream_fp16
+
+frontend:
+  shape:
+    input_ids: [1, 16]
+    attention_mask: [1, 16]
+  checkpoint: /path/to/yolo_world_clip_backbone.onnx
+  type: onnx
+  dtype: fp32 
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    opt_level: 2
+    data_transport_mode: 1
+    enable_transform_vision_language_pan: true
+
+workspace:
+  path: ./deploy_weights/

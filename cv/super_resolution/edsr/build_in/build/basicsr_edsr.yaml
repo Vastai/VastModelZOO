@@ -1,0 +1,40 @@
+name: basicsr_edsr_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 768
+    - 1024
+  type: onnx
+  checkpoint: /path/to/edsr_mx2-3_768_1024.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+    enable_graph_partition: true
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/DIV2K_test_LR_bicubic/X2
+  sampler:
+    suffix: png
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [768, 1024]
+    - type: Normalize
+      norm_type: None
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

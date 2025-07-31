@@ -1,0 +1,9 @@
+{
+    "OpType": "FUSION_OP_RGB_RESIZE_CVTCOLOR_CROP_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "RGB_PLANAR",
+        "ResizeType": "BILINEAR_PILLOW",
+        "NormaType": "DIV255",
+        "ColorCvtCode": "NO_CHANGE"
+    }
+}

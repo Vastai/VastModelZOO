@@ -1,0 +1,27 @@
+{
+    "OpType": "FUSION_OP_RGB_LETTERBOX_CVTCOLOR_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "BGR888",
+        "OimageWidth": 1280,
+        "OimageHeight": 1280,
+        "Mean": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Std": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "ResizeType": "BILINEAR",
+        "NormaType": "DIV255",
+        "ColorCvtCode": "RGB2BGR",
+        "Scale": [
+            127.0,
+            127.0,
+            127.0
+        ],
+        "TensorType0": "FP16"
+    }
+}

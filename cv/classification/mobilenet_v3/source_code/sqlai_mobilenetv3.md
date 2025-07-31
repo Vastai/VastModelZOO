@@ -1,25 +1,21 @@
 ### step.1 获取模型
-参考：[sqlai_export.py](./source_code/sqlai_export.py)
+参考：[sqlai_export.py](./sqlai_export.py)导出onnx模型
 
 ### step.2 获取数据集
 - [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
 - [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
-- [label_list](../../common/label//imagenet.txt)
-- [label_dict](../../common/label//imagenet1000_clsid_to_human.txt)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
-
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [sqlai_mobilenetv3.yaml](../build_in/build/sqlai_mobilenetv3.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd mobilenet_v3
@@ -29,10 +25,7 @@
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream
+1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
@@ -62,16 +55,14 @@
     top1_rate: 2.506 top5_rate: 7.218
     ```
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置[sqlai-mobilenet_v3_small-vdsp_params.json](../build_in/vdsp_params/sqlai-mobilenet_v3_small-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/sqlai_mobilenetv3_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/sqlai-mobilenet_v3_small-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
@@ -92,28 +83,4 @@
     - 精度评估，参考：[eval_topk.py](../../common/eval/eval_topk.py)
     ```bash
     python ../../common/eval/eval_topk.py imagenet_result.txt
-    ```
-
-### appending
-- sqlai：FP16精度正常，INT8掉点严重
-    ```bash
-    450_act3_mobilenetv3_small
-    benchmark Acc@1 69.048 Acc@5 88.274 
-    fp16
-    [VACC]:  top1_rate: 67.466 top5_rate: 87.228
-    int8 percentile
-    [VACC]:  top1_rate: 0.104 top5_rate: 0.514
-    int8 kl_divergence
-    [VACC]:  top1_rate: 19.878 top5_rate: 38.866
-    int8 max
-    [VACC]:  top1_rate: 9.720 top5_rate: 22.332
-    int8 mse
-    [VACC]:  top1_rate: 30.656 top5_rate: 53.512
-
-    450_act3_mobilenetv3_large
-    benchmark Acc@1 75.796 Acc@5 92.440
-    fp16
-    [VACC]:  top1_rate: 74.75 top5_rate: 92.01
-    int8 percentile
-    [VACC]:  top1_rate: 0.034 top5_rate: 0.232
     ```

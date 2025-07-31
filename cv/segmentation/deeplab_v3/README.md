@@ -75,8 +75,6 @@ DeepLab_v3+的主要改进：
 |[DeepLabV3Plus-ResNet101](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|185.381|58.754|78.300|fp16 75.751<br>int8 75.143|3×513×513|
 
 
->- int8 with kl_divergence
-
 ### 测评数据集说明
 
 [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/)数据集除了用于object detection任务之外，还用于segmentation等任务，该数据集包含20个对象类，加背景共21类。
@@ -133,18 +131,24 @@ DeepLab_v3+的主要改进：
 - 下载[Pascal VOC2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/)数据集，解压
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [official_deeplab_v3.yaml](./build_in/build/official_deeplab_v3.yaml)
-    
+        
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
+
+2. 模型编译
+
     ```bash
+    cd deeplab_v3
+    mkdir workspace
+    cd workspace
     vamc compile ./build_in/build/official_deeplab_v3.yaml
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream推理，参考[vsx_inference.py](./build_in/vsx/vsx_inference.py)，修改参数并运行如下脚本
+1. runstream推理，参考[vsx_inference.py](./build_in/vsx/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ./build_in/vsx/vsx_inference.py \
         --file_path  /path/to/VOCdevkit/VOC2012/JPEGImages_val \
@@ -159,10 +163,8 @@ DeepLab_v3+的主要改进：
     validation pixAcc: 93.896, mIoU: 73.926
     ```
 
-### step.5 性能精度
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../docs/vastai_software.md)
-
-2. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
+### step.5 性能精度测试
+1. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     > 注意只转换`VOC2012/ImageSets/Segmentation/val.txt`对应的验证集图像（配置相应路径）：
     ```bash
     python ./build_in/vdsp_params/image2npz.py \
@@ -171,7 +173,7 @@ DeepLab_v3+的主要改进：
     --text_path npz_datalist.txt
     ```
 
-3. 性能测试，配置vdsp参数[vainf-deeplab_v3_mobilenet-vdsp_params.json](./build_in/vdsp_params/vainf-deeplab_v3_mobilenet-vdsp_params.json)，执行：
+2. 性能测试，配置vdsp参数[vainf-deeplab_v3_mobilenet-vdsp_params.json](./build_in/vdsp_params/vainf-deeplab_v3_mobilenet-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_deeplab_v3_run_stream_int8/mod \
     --vdsp_params ./build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
@@ -180,7 +182,7 @@ DeepLab_v3+的主要改进：
 
 > 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
 
-4. 精度测试，推理得到npz结果：
+3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_deeplab_v3_run_stream_int8 \
     --vdsp_params build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
@@ -189,7 +191,7 @@ DeepLab_v3+的主要改进：
     --path_output npz_output
     ```
 
-5. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
+4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
     python ./build_in/vdsp_params/vamp_eval.py \
     --src_dir VOC2012/JPEGImages_val \

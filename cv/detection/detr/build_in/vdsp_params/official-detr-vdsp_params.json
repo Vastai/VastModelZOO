@@ -1,0 +1,25 @@
+{
+    "OpType": "FUSION_OP_RGB_LETTERBOX_CVTCOLOR_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "BGR888",
+        "Mean": [
+            0.485,
+            0.456,
+            0.406
+        ],
+        "Std": [
+            0.229,
+            0.224,
+            0.225
+        ],
+        "Padding": [
+            0,
+            0,
+            0
+        ],
+        "NormaType": "DIV255_MINUSMEAN_DIVSTD",
+        "ColorCvtCode": "BGR2RGB",
+        "ResizeType": "BILINEAR"
+    }
+}
+

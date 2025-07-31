@@ -1,0 +1,9888 @@
+{
+	"model": {
+		"batch_size": "1",
+		"idma": "0"
+	},
+	"global": {
+		"odma": {
+			"prefetch_threshold": "0",
+			"data_exp_wr_qos": "4",
+			"outstand_num_rd": "15",
+			"outstand_num_wr": "15",
+			"burst_len": "11"
+		},
+		"wddma": {
+			"rd_qos": "0",
+			"outstand_num_rd": "3",
+			"burst_len": "7"
+		},
+		"cdma": {
+			"rd_qos": "4",
+			"outstand_num_rd": "8"
+		},
+		"weight_lut_quant": {
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		}
+	},
+	"pipelines": [
+		{
+			"id": "1",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "2",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "3",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "4",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "8",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "9",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "11",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "12",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "13",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "14",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "17",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "18",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "20",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "21",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "24",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "25",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "26",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "27",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "28",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "32",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "35",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "37",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "38",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "41",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "43",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "44",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "47",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "48",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "49",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "50",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "51",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "55",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "56",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "57",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "58",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "61",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "62",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "64",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "65",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "66",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "67",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "70",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "71",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "73",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "74",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "77",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "78",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "79",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "80",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "81",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "85",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "88",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "90",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "91",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "94",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "96",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "97",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "100",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "101",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "102",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "103",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "104",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "108",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "109",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "110",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "111",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "114",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "115",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "117",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "118",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "119",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "120",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "123",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "124",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "126",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "127",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "130",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "131",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "132",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "133",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "134",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "138",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "141",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "143",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "144",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "147",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "149",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "150",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "153",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "154",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "155",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "156",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "157",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "161",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "162",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "163",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "164",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "167",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "168",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "170",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "171",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "172",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "173",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "176",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "177",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "179",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "180",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "183",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "184",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "185",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "186",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "187",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "191",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "194",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "196",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "197",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "200",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "202",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "203",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "206",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "207",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "208",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "209",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "210",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "214",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "215",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "216",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "217",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "220",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "221",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "223",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "224",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "225",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "226",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "229",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "230",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "232",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "233",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "236",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "237",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "238",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "239",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "240",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "244",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "247",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "249",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "250",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "253",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "255",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "256",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "259",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "260",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "261",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "262",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "263",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "267",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "268",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "269",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "270",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "273",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "274",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "276",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "277",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "278",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "279",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "282",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "283",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "285",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "286",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "289",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "290",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "291",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "292",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "293",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "297",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "300",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "302",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "303",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "306",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "308",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "309",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "312",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "313",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "314",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "315",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "316",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "320",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "321",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "322",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "323",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "326",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "327",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "329",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "330",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "331",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "332",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "335",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "336",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "338",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "339",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "342",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "343",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "344",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "345",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "346",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "350",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "353",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "355",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "356",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "359",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "361",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "362",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "365",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "366",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "367",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "368",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "369",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "373",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "374",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "375",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "376",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "379",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "380",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "382",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "383",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "384",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "385",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "388",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "389",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "391",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "392",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "395",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "396",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "397",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "398",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "399",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "403",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "406",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "408",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "409",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "412",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "414",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "415",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "418",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "419",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "420",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "421",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "422",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "426",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "427",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "428",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "429",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "432",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "433",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "435",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "436",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "437",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "438",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "441",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "442",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "444",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "445",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "448",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "449",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "450",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "451",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "452",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "456",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "459",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "461",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "462",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "465",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "467",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "468",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "471",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "472",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "473",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "474",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "475",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "479",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "480",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "481",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "482",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "485",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "486",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "488",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "489",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "490",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "491",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "494",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "495",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "497",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "498",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "501",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "502",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "503",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "504",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "505",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "509",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "512",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "514",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "515",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "518",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "520",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "521",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "524",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "525",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "526",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "527",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "528",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "532",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "533",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "534",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "535",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "538",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "539",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "541",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "542",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "543",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "544",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "547",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "548",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "550",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "551",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "554",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "555",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "556",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "557",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "558",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "562",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "565",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "567",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "568",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "571",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "573",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "574",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "577",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "578",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "579",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "580",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "581",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "585",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "586",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "587",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "588",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "591",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "592",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "594",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "595",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "596",
+			"weight_in_sram": "1",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1"
+		},
+		{
+			"id": "597",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "600",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "601",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "603",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "604",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "607",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "608",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "609",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "612",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "613",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "616",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "618",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "619",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "622",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "624",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "625",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "628",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "629",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "630",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		},
+		{
+			"id": "633",
+			"weight_in_sram": "0",
+			"locked_weight": "0",
+			"lut_quant_in_sram": "1",
+			"bias_in_sram": "1",
+			"attrs": [
+				"list_list",
+				[
+					[
+						2,
+						4,
+						15,
+						15,
+						11
+					],
+					[
+						0,
+						3,
+						7
+					],
+					[
+						4,
+						8
+					]
+				]
+			]
+		}
+	]
+}

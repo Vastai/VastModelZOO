@@ -1,0 +1,9 @@
+{
+  "Method1": {
+    "ECSSD": {
+      "path": "/path/to/vsx_results",
+      "prefix": "",
+      "suffix": ".jpg"
+    }
+  }
+}

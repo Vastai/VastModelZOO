@@ -105,36 +105,32 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 - [gt: instances_val2017.json](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
 - [label: coco.txt](../common/label/coco.txt)
 
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [official_yolov10.yaml](./build_in/build/official_yolov10.yaml)
     
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd yolov10
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/config_official.yaml
+    vamc compile ./build_in/build/config_official.yaml
     ```
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../docs/vastai_software.md)
-2. runstream推理：[detection.py](../common/vsx/detection.py)
+1. runstream推理：[detection.py](../common/vsx/detection.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
-    python ../../common/vsx/detection.py \
+    python ../common/vsx/detection.py \
         --file_path path/to/det_coco_val \
         --model_prefix_path deploy_weights/official_yolov10_run_stream_int8/mod \
-        --vdsp_params_info ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
+        --vdsp_params_info ./build_in/vdsp_params/official-yolov10s-vdsp_params.json \
         --label_txt path/to/coco.txt \
         --save_dir ./runstream_output \
         --device 0
@@ -142,7 +138,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     - 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
-    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
@@ -185,21 +181,19 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     </details>
 
-### step.5 性能测试
-1. 参考瀚博训推软件生态链文档，获取模型性能测试工具：[vamp v2.4+](../../../docs/vastai_software.md)
-
-2. 性能测试
+### step.5 性能精度测试
+1. 性能测试
     - 配置[official-yolov10s-vdsp_params.json](./build_in/vdsp_params/official-yolov10s-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
+    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
     ```
 
-3. 精度测试
+2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ../../common/utils/image2npz.py \
+    python ../common/utils/image2npz.py \
         --dataset_path path/to/coco_val2017 \
         --target_path  path/to/coco_val2017_npz \
         --text_path npz_datalist.txt
@@ -208,7 +202,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
     - vamp推理获取npz结果输出
     ```bash
     vamp -m deploy_weights/official_yolov10_run_stream_int8/mod \
-        --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
+        --vdsp_params ./build_in/vdsp_params/official-yolov10s-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist datasets/coco_npz_datalist.txt \
         --path_output npz_output
@@ -216,7 +210,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     - 解析npz文件，参考：[npz_decode.py](../common/utils/npz_decode.py)
     ```bash
-    python ../../common/utils/npz_decode.py \
+    python ../common/utils/npz_decode.py \
         --txt result_npz --label_txt datasets/coco.txt \
         --input_image_dir datasets/coco_val2017 \
         --model_size 640 640 \
@@ -226,7 +220,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     - 精度统计，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
-    python ../../common/eval/eval_map.py \
+    python ../common/eval/eval_map.py \
         --gt path/to/instances_val2017.json \
         --txt path/to/vamp_draw_output
     ```

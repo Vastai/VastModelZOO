@@ -1,0 +1,33 @@
+name: bert_base_chinese_ner
+
+frontend:
+  checkpoint: ./huggingface/source_code/pretrain_model/bert_base_zh_ner-256.torchscript.pt
+  shape:
+    input_ids: [1, 256]
+    attention_mask: [1, 256]
+    token_type_ids: [1, 256]
+  type: pytorch
+  dtype: int64
+
+
+dataset:
+  type: tvm
+  path: ./datasets/china-people-daily-ner-corpus/calib
+  sampler:
+    suffix: NPZ
+    get_data_num: 10
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+workspace:
+  path: ./deploy_weights/
+

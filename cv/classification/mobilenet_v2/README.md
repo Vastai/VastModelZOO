@@ -55,8 +55,6 @@ MobileNetV2网络的head层由global-average-pooling层和一层全连接层组�
 | :---------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :----: | :----: | :------: | :-------: | :--------: |
 |    mobilenetv2    |                     [torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/mobilenetv2.py)                      | 71.878 | 90.286 | 327.650  |   3.505   |    224     |
 |    mobilenetv2    | [timm](https://github.com/rwightman/pytorch-image-models/blob/3599c7e6a4b781cb6147f0cbdceb2e455c36fe03/timm/models/efficientnet.py#L92) | 72.956 | 91.010 | 327.544  |   3.500   |    224     |
-|    mobilenetv2    |               [mmcls](https://github.com/open-mmlab/mmclassification/blob/master/mmcls/models/backbones/mobilenet_v2.py)                | 71.86  | 90.42  | 319.894  |    3.5    |    224     |
-|    mobilenetv2    |                       [keras](https://github.com/keras-team/keras/blob/2.3.1/keras/applications/mobilenet_v2.py)                        | 71.30  |  90.1  |  301.33  |    3.5    |    224     |
 | MobileNetV2_x0_25 |              [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/ppcls/arch/backbone/model_zoo/mobilenet_v2.py)              | 53.210 | 76.520 |  34.180  |   1.53    |    224     |
 | MobileNetV2_x0_5  |              [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/ppcls/arch/backbone/model_zoo/mobilenet_v2.py)              | 65.030 | 85.720 |  99.480  |   1.98    |    224     |
 | MobileNetV2_x0_75 |              [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/v2.4.0/ppcls/arch/backbone/model_zoo/mobilenet_v2.py)              | 69.830 | 89.010 | 197.370  |   2.65    |    224     |
@@ -82,8 +80,6 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
 ## Build_In Deploy
 
-- [keras_mobilenetv2.md](source_code/keras_mobilenetv2.md)
-- [mmcls_mobilenetv2.md](source_code/mmcls_mobilenetv2.md)
 - [ppcls_mobilenetv2.md](source_code/ppcls_mobilenetv2.md)
 - [timm_mobilenetv2.md](source_code/timm_mobilenetv2.md)
 - [torchvision_mobilenetv2.md](source_code/torchvision_mobilenetv2.md)

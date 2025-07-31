@@ -25,16 +25,14 @@
 
 
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../../../docs/vastai_software.md)
-
-2. 根据具体模型，修改编译配置
+1. 根据具体模型，修改编译配置
     - [ultralytics_dynamic_yolov5.yaml](../build_in/build/ultralytics_dynamic_yolov5.yaml)
     
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
-3. 模型编译
+2. 模型编译
 
     ```bash
     cd yolov5
@@ -44,10 +42,7 @@
     ```
 
 ### step.4 模型推理
-
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[vaststreamx v2.8+](../../../../docs/vastai_software.md)
-
-2. runstream推理：[yolov5_ultralytics_dynamic.py](../build_in/vsx/yolov5_ultralytics_dynamic.py)
+1. runstream推理：[yolov5_ultralytics_dynamic.py](../build_in/vsx/yolov5_ultralytics_dynamic.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
@@ -105,7 +100,7 @@
     </details>
 
 
-### step.5 性能测试
+### step.5 性能精度测试
 1. 动态尺寸模型不能使用vamp工具测试性能，需要使用性能测试脚本进行测试，参考：[dynamic_yolo_prof.py](../build_in/vsx/dynamic_yolo_prof.py)
     ```bash
     python3 ../build_in/vsx/dynamic_yolo_prof.py \ 

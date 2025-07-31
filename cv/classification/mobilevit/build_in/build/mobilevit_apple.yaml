@@ -1,0 +1,26 @@
+name: apple_mobilevit_run_model_fp16
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 224
+    - 224
+  type: onnx
+  checkpoint: mobilevit_s_sim.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+
+workspace:
+  path: ./deploy_weights/
+  env_recheck: false
+
+
+
+

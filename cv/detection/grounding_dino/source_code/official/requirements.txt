@@ -1,0 +1,15 @@
+torch==2.4.0
+torchvision==0.19.0
+transformers
+addict
+yapf
+timm
+numpy
+opencv-python
+supervision==0.6.0
+pycocotools
+onnx
+onnxsim
+onnxruntime
+onnx_graphsurgeon
+scikit-learn

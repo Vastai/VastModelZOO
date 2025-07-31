@@ -1,0 +1,34 @@
+name: electra_samll
+
+frontend:
+  shape:
+    input_ids:
+    - 1
+    - 512
+    att_mask:
+    - 1
+    - 512
+  checkpoint: ./electra_model/cib_bert.onnx
+  dtype: int64
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 1
+    mem_inplace: false
+    enable_float_to_half: true
+
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: false
+    overflow_adaptive: 1
+    calibrate_range: 0.99999
+
+dataset:
+  path: ./datasets/calib_512
+  sampler:
+    get_data_num: 5
+
+workspace:
+  path: ./deploy_weights/

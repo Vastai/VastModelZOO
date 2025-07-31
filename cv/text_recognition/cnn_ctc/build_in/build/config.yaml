@@ -1,0 +1,42 @@
+name: resnet_fc_without_reshape
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 1
+    - 32
+    - 100
+  checkpoint: ./workspace/weights/resnet_fc_without_reshape.onnx
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+
+dataset:
+  path: ./workspace/weights/iii5k
+  sampler:
+    get_data_num: 100
+  process_ops:
+  - type: DecodeImage
+    cv2_flags: 0
+  - type: Resize
+    size:
+    - 32
+    - 100
+  - type: Normalize
+    mean:
+    - 0.5
+    std:
+    - 0.5
+  - type: ToTensor
+workspace:
+  work_dir: ./workspace/weights
+  save_log: false

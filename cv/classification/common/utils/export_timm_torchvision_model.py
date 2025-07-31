@@ -1,10 +1,11 @@
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-"""
-@Author :          lance
-@Email :  	  wangyl306@163.com
-@Time  : 	2022/07/07 11:29:49
-"""
+
 
 import argparse
 import os
