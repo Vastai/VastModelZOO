@@ -29,6 +29,7 @@
 
 - [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
 
+- [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
 
 模型下载步骤如下所示。
 
@@ -46,7 +47,7 @@ export PATH=$PATH:~/.local/bin
 `$Model_Name`：
 
 - Qwen3-30B-A3B-FP8
-
+- Qwen3-30B-A3B-Instruct-2507-FP8
 
 
 每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
@@ -65,7 +66,7 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，输入最大支持56k。	
+- Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，输入最大支持56k。Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文，输入最大支持56K。	
 
 - 同时支持最大并发数为 4。
 
@@ -90,18 +91,19 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ```shell
 ./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
 ```
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
 
-参考命令:
-```bash
-sudo docker rm -f vllm_service haproxy-server 
-```
 参数说明如下所示。
     
 - Model_Type：可设置为 Qwen3-TP2 或 Qwen3-TP4。
     
 - Model_Path: 模型权重路径。
 
+注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
+
+参考命令:
+```bash
+sudo docker rm -f vllm_service haproxy-server 
+```
 <a id="install_stepbystep"></a>
 ## 分步安装
 
@@ -121,10 +123,11 @@ sudo docker rm -f vllm_service haproxy-server
 
 本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
 
+对于Qwen3-30B-A3B-FP8模型，启动命令：
 ```shell
 cd /home/username/haproxy
-python3 deploy.py --instance 16 \
-    --tensor-parallel-size 2 \
+python3 deploy.py --instance 8 \
+    --tensor-parallel-size 4 \
     --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
     --model /home/username/weights/Qwen3-30B-A3B-FP8 \
     --port 8000 \
@@ -134,7 +137,25 @@ python3 deploy.py --instance 16 \
     --max-model-len 65536 \
     --enable-reasoning \
     --reasoning-parser deepseek_r1 \
-    --enable-qwen3-rope-scaling
+    --enable-qwen3-rope-scaling \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes 
+```
+
+对于Qwen3-30B-A3B-Instruct-2507-FP8模型，启动命令：
+```shell
+cd /home/username/haproxy
+python3 deploy.py --instance 8 \
+    --tensor-parallel-size 4 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
+    --model /home/username/weights/Qwen3-30B-A3B-FP8 \
+    --port 8000 \
+    --management-port 9000 \
+    --max-batch-size-for-instance 4 \
+    --served-model-name Qwen3 \
+    --max-model-len 65536 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes 
 ```
 
 参数说明如下所示。
@@ -155,7 +176,7 @@ python3 deploy.py --instance 16 \
 
 - `--served-model-name`：模型名称。仅支持设置为 Qwen3。
 
-- `--max-model-len`：模型最大上下文长度，Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文。
+- `--max-model-len`：模型最大上下文长度，Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文。
 
 - `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
 

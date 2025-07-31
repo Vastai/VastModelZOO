@@ -116,12 +116,6 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 ```shell
 ./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
 ```
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
-
-参考命令:
-```bash
-sudo docker rm -f vllm_service haproxy-server 
-```
 参数说明如下所示。
     
 - Model_Type：设置为 DS3-V3。
@@ -129,6 +123,13 @@ sudo docker rm -f vllm_service haproxy-server
   - 如果模型为 DeepSeek-V3 系列模型，则设置为 DS3-V3。
     
 - Model_Path: 模型权重路径。
+
+注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
+
+参考命令:
+```bash
+sudo docker rm -f vllm_service haproxy-server 
+```
 
 <a id="install_stepbystep"></a>
 ## 分步安装
