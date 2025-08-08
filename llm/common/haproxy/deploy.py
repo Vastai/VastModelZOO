@@ -14,6 +14,7 @@ import time
 import subprocess
 
 import platform
+from typing import Optional
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 ENV_FILE_PATH = os.path.join(current_dir, ".env")
@@ -173,7 +174,14 @@ def download_model(model: str):
         print(f"Model {model_name} downloaded successfully to {model_dir_name}.")
 
 
-def modify_env(model: str, image: str, port: int, management_port: int, arch: str):
+def modify_env(
+    model: str,
+    image: str,
+    port: int,
+    management_port: int,
+    arch: str,
+    chat_template: Optional[str] = None,
+):
     haproxy_img = HAPROXY_IMAG
     if arch == "aarch64":
         image = image + "_arm"
@@ -186,6 +194,9 @@ def modify_env(model: str, image: str, port: int, management_port: int, arch: st
         "HAPROXY_IMAGE": haproxy_img,
         "VLLM_MANAGE_PORT": management_port,
     }
+    if chat_template is not None:
+        check_exist(chat_template)
+        replacements["CHAT_TEMPLATE"] = chat_template
     with open(ENV_FILE_PATH, "r") as file:
         content = file.read()
     for var_name, new_value in replacements.items():
@@ -220,6 +231,13 @@ def modify_haproxy(
         file.write(new_content)
 
 
+def check_exist(dir_or_file):
+    if not os.path.exists(dir_or_file):
+        raise FileNotFoundError(
+            f"{dir_or_file} does not exist, please check your path."
+        )
+
+
 def modify_supervisor(
     devices: list,
     model: str,
@@ -228,13 +246,14 @@ def modify_supervisor(
     tensor_parallel_size: int,
     max_model_len: int,
     enable_reasoning: bool,
-    reasoning_parser: str = None,
+    reasoning_parser: Optional[str] = None,
     allow_long_max_model_len: bool = False,
     enable_qwen3_rope_scaling: bool = False,
+    enable_speculative_config: bool = False,
     enable_auto_tool_choice: bool = False,
-    tool_call_parser: str = None,
-    chat_template: str = None,
-    arch: str = None,
+    tool_call_parser: Optional[str] = None,
+    chat_template: Optional[str] = None,
+    arch: Optional[str] = None,
 ):
     if enable_reasoning:
         if not reasoning_parser:
@@ -251,6 +270,7 @@ def modify_supervisor(
         raise ValueError(
             f"Number of devices ({len(devices)}) must be greater than or equal to instance ({instance} * {tensor_parallel_size})"
         )
+    check_exist(model)
     new_env = (
         f"environment=MAX_MODEL_LEN={max_model_len},"
         f"SERVED_MODEL_NAME={served_model_name},"
@@ -258,6 +278,7 @@ def modify_supervisor(
         f"DIE_NUM={tensor_parallel_size},"
         f"ENABLE_REASONING={1 if enable_reasoning else 0},"
         f"ENABLE_QWEN3_ROPE_SCALING={1 if enable_qwen3_rope_scaling else 0},"
+        f"ENABLE_SPECULATIVE_CONFIG={1 if enable_speculative_config else 0},"
         f"REASONING_PARSER={reasoning_parser if enable_reasoning else 'none'},"
         f"ALLOW_LONG_MAX_MODEL_LEN={1 if allow_long_max_model_len else 0},"
         f"ENABLE_AUTO_TOOL_CHOICE={1 if enable_auto_tool_choice else 0},"
@@ -282,32 +303,39 @@ def modify_supervisor(
     with open(SUPERVISOR_CONFIG_PATH, "w") as file:
         file.write(new_content)
 
+
 def check_kernel_params():
     try:
-        with open('/proc/cmdline', 'r') as f:
+        with open("/proc/cmdline", "r") as f:
             cmdline = f.read()
-        return any(keyword in cmdline for keyword in [
-            'iommu=on', 
-            'intel_iommu=on', 
-            'amd_iommu=on'
-        ])
+        return any(
+            keyword in cmdline
+            for keyword in ["iommu=on", "intel_iommu=on", "amd_iommu=on"]
+        )
     except FileNotFoundError:
         return False
 
+
 def check_iommu_groups():
-    iommu_path = '/sys/kernel/iommu_groups'
+    iommu_path = "/sys/kernel/iommu_groups"
     return os.path.exists(iommu_path) and bool(os.listdir(iommu_path))
+
 
 def check_dmesg():
     try:
-        dmesg = subprocess.check_output(['dmesg'], text=True)
-        return ('IOMMU enabled' in dmesg or 
-                'DMAR: IOMMU enabled' in dmesg or 
-                'AMD-Vi: IOMMU enabled' in dmesg)
+        dmesg = subprocess.check_output(["dmesg"], text=True)
+        return (
+            "IOMMU enabled" in dmesg
+            or "DMAR: IOMMU enabled" in dmesg
+            or "AMD-Vi: IOMMU enabled" in dmesg
+        )
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
+
+
 def is_iommu_enabled():
     return any([check_kernel_params(), check_iommu_groups(), check_dmesg()])
+
 
 if __name__ == "__main__":
     check_root = os.geteuid() == 0
@@ -319,7 +347,9 @@ if __name__ == "__main__":
     )
 
     if is_iommu_enabled():
-        raise ValueError("IOMMU is enabled. Please disable it before running this script.")
+        raise ValueError(
+            "IOMMU is enabled. Please disable it before running this script."
+        )
 
     # required arguments
     parser.add_argument("--instance", type=int, required=True, help="instace number")
@@ -397,7 +427,11 @@ if __name__ == "__main__":
         action="store_true",
         help="enable qwen3 rope scaling",
     )
-
+    parser.add_argument(
+        "--enable-speculative-config",
+        action="store_true",
+        help="enable speculative config",
+    )    
     parser.add_argument(
         "--enable-auto-tool-choice", action="store_true", help="enable auto tool choice"
     )
@@ -434,7 +468,14 @@ if __name__ == "__main__":
     else:
         print("undefined arch:", machine)
 
-    modify_env(args.model, args.image, args.port, args.management_port, arch)
+    modify_env(
+        args.model,
+        args.image,
+        args.port,
+        args.management_port,
+        arch,
+        args.chat_template,
+    )
     modify_haproxy(
         args.instance, args.max_batch_size_for_instance, args.served_model_name
     )
@@ -449,6 +490,7 @@ if __name__ == "__main__":
         args.reasoning_parser,
         args.allow_long_max_model_len,
         args.enable_qwen3_rope_scaling,
+        args.enable_speculative_config,
         args.enable_auto_tool_choice,
         args.tool_call_parser,
         args.chat_template,
