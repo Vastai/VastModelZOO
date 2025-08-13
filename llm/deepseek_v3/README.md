@@ -1,17 +1,22 @@
-# DeepSeek-V3 模型部署
+# 瀚博VA系列加速卡部署 DeepSeek-V3 系列模型与测试指南
+
+## 文档概述
+本手册提供 DeepSeek-V3 系列大模型在瀚博VA系列加速卡上的完整部署方案，包含：
+- 硬件环境配置指南
+- 模型服务化部署流程
+- 精度验证方法
+- 性能测试方案
+- 交互式WebUI应用
 
 
-本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3 系列模型，以及测试模型的精度和性能。
+# #硬件要求
 
-
-# 硬件要求
-
-部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
+部署 DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
 # 版本信息
 
 
-本次发布软件版本为 [AI3.0_SP7_0728](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
+本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
@@ -23,8 +28,7 @@
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc |ds3_0530 (Stable Version)|
-| vllm_vacc |AI3.0_SP7_0728 (Preview Version)|
+| vllm_vacc |AI3.0_SP9_0811 (Preview Version)|
 
 
 
@@ -96,52 +100,15 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
+## 服务部署
+### 环境准备
+1. 前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
 
-# 环境安装
-
-
-前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-
-
-
-
-部署 DeepSeek-V3 系列模型支持两种部署方式：
-
-- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
-- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
-<a id="install_one_click"></a>
-## 一键安装
-
-通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-```shell
-./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
-```
-参数说明如下所示。
-    
-- Model_Type：设置为 DS3-V3。
-
-  - 如果模型为 DeepSeek-V3 系列模型，则设置为 DS3-V3。
-    
-- Model_Path: 模型权重路径。
-
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
-
-参考命令:
-```bash
-sudo docker rm -f vllm_service haproxy-server 
-```
-
-<a id="install_stepbystep"></a>
-## 分步安装
-
-部署 DeepSeek-V3 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+2. 获取[vllm_vacc服务部署包](../common/haproxy)包。
+假设存放路径为“/home/username”，请根据实际情况替换。
 
 
-## 启动 vLLM 服务
-
-**前提条件**
-
-Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+3. Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
 
 - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
 ```shell
@@ -157,29 +124,22 @@ wget https://github.com/docker/compose/releases/download/v2.37.2/\
 chmod +x /usr/local/bin/docker-compose
 ```
 
-**操作步骤**
+### 启动DeepSeek-V3服务
+本文档默认使用 deploy.py 启动 DeepSeek-V3 服务。
 
+>如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
 
-**步骤 1.** 获取[haproxy](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
+>如果需要使用原生vllm 离线推理方式，可参考[vllm 离线推理说明](../common/offline_example_README.md)
 
-假设存放路径为“/home/username”，请根据实际情况替换。
+下面以deploy.py 启动方式详细说明：
 
-
-
-
-
-**步骤 2.**  启动 vLLM 服务
-
-本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
-
-
-
+对于 DeepSeek-V3-0324 模型，启动命令：
 DeepSeek-V3-0324 启动命令:
 ```shell
 cd /home/username/haproxy
 python3 deploy.py --instance 1 \
     --tensor-parallel-size 32 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
     --model /home/username/weights/DeepSeek-V3-0324 \
     --port 8000 \
     --management-port 9000 \
@@ -189,7 +149,8 @@ python3 deploy.py --instance 1 \
 ```
 参数说明如下所示。
     
-- `--instance`： 模型推理实例。
+- `--instance`： 模型推理实例。参数要求 instance 设定值 * tensor-parallel-size设定值 <= 推理核心数 
+>注： 推理核心数可通过：vasmi list --display-format=json | grep -o "aic" | wc -l 查询
 
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
 
@@ -201,11 +162,11 @@ python3 deploy.py --instance 1 \
 
 - `--management-port`：管理端口。
 
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
+- `--max-batch-size-for-instance`：每个实例的最大 Batch Size，最大支持4。
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度。
+- `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
 
 
 - `chat-template`: 指定聊天对话的模板格式。
@@ -225,14 +186,14 @@ All instancesare up and running
 
 
 
-**步骤 3.** 查看 vLLM 服务的输出日志。
+查看 vLLM 服务的输出日志。
 
 ```bash
 tail -f vllm_serve_0.log
 ```
 
 
-**步骤 4.** （可选）停止 vLLM 服务。
+（可选）停止 vLLM 服务。
 
 如果需停止服务，可执行该步骤。
 [docker-compose.yaml](../common/haproxy/docker-compose.yaml)
