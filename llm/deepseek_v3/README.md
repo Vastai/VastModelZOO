@@ -187,7 +187,8 @@ python3 deploy.py --instance 1 \
 
 - `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
     
-    >对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”； 
+    >对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”
+
 - `--enable-speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
 
 
