@@ -1,20 +1,14 @@
-# 瀚博VA系列加速卡部署 Qwen3 系列模型与测试指南
+# 概述 
 
-## 文档概述
-本手册提供 Qwen3 系列大模型在瀚博VA系列加速卡上的完整部署方案，包含：
-- 硬件环境配置指南
-- 模型服务化部署流程
-- 精度验证方法
-- 性能测试方案
-- 交互式WebUI应用
+本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 Qwen3 系列模型，以及测试模型的精度和性能。
 
-## 硬件要求
+# 硬件要求
+
 部署 Qwen3-30B-A3B-FP8 模型进行推理至少需要单卡VA16（1 x 128G）或单卡VA1L(1 x 64G) 或单卡 VA10L(1x128G)。
 
+# 版本信息
 
-
-## 版本配套
-本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
+本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
 
 当前推荐版本组合：
 | 组件 |  版本|
@@ -24,67 +18,97 @@
 | vllm | 0.9.2+cpu|
 | vllm_vacc| AI3.0_SP9_0811|
 
+## 支持的模型
 
-## 模型获取
-### 支持模型列表
-  - [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
+当前支持的模型如下所示：
 
-  - [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
+- [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
 
-  - [Qwen3-30B-A3B-Thinking-2507-FP8](https://modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8)
+- [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
 
-### 下载步骤
-```bash
-# 安装ModelScope
-pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple
+- [Qwen3-30B-A3B-Thinking-2507-FP8](https://modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8)
+
+模型下载步骤如下所示。
+
+1. 安装 ModelScope。
+
+```shell
+pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
 export PATH=$PATH:~/.local/bin
-
-# 下载模型（约31GB）
-modelscope download --model Qwen/Qwen3-30B-A3B-FP8 --local_dir /your/model/path
 ```
-> 提示：支持断点续传，重复执行可继续未完成下载
 
-## 关键限制说明
-1. **上下文窗口**：
-   - TP4 最大支持128k上下文
+2. 根据实际情况选择对应的模型下载。
 
-   - TP2 最大支持64k上下文
+其中，“`$Path`”为模型保存路径，“`$Model_Name`”为模型名称，如下所示，请根据实际情况替换。
 
+`$Model_Name`：
 
-2. **并发能力**：
-   - 最大并发请求数：4
-   - 单请求最大输入：56K tokens
-
-3. **异常处理**：
-   - 超长请求会被服务端拦截
-   - 客户端需自行实现请求长度校验
-
-## 服务部署
-### 环境准备
-1. 前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-
-2. 获取[vllm_vacc服务部署包](../common/haproxy)包。
-假设存放路径为“/home/username”，请根据实际情况替换。
+- Qwen3-30B-A3B-FP8
+- Qwen3-30B-A3B-Instruct-2507-FP8
+- Qwen3-30B-A3B-Thinking-2507-FP8
 
 
-3. Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
-- 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
+
+下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
+
+
+
+```shell
+modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
+```
+
+
+## 注意事项
+
+在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
+
+- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4，模型最大上下文长度为 128K。
+
+- 模型同时支持最大并发数为 4。
+
+- 单并发最大输入长度为 56K。
+
+- 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
+
+
+# 环境安装
+
+## 前提条件
+
+- 部署模型服务前请检查部署环境是否满足[《基础环境要求》](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
+
+
+- 部署模型服务前请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+
+
+- Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+
+  - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
 ```shell
 wget https://github.com/docker/compose/releases/download/v2.26.1/\
      docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
-- 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
+  - 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
 ```shell
 wget https://github.com/docker/compose/releases/download/v2.37.2/\
      docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+chmod 
 ```
 
-### 启动Qwen3服务
-本文档默认使用 deploy.py 启动Qwen3 服务。
+## 启动Qwen3服务
+
+**步骤 1.** 获取[vllm_vacc 服务部署包](../common/haproxy)包。
+
+假设存放路径为“/home/username”，请根据实际情况替换。
+
+
+**步骤 2.**  启动 Qwen3 服务。
+
+> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 Qwen3 服务。。
 
 >如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
 
@@ -181,20 +205,23 @@ Docker containers started successfully.
 All instances are up and running
 ```
 
-查看 Qwen3 服务的输出日志。
+**步骤 3.** 查看 vLLM 服务的输出日志。
 
 ```bash
 tail -f llm_serve_0.log
 ```
 
 
-（可选）停止 Qwen3 服务。
+**步骤 4.** （可选）停止 vLLM 服务。
 
 如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
+
+
+
 ```bash
 docker-compose -f docker-compose.yaml down
 ```
+docker-compose.yaml 仅为示例，不同模型文件命名不同，具体可在[docker-compose](./docker-compose)路径中查看。
 
 
 # 测试模型性能

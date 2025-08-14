@@ -1,22 +1,17 @@
-# 瀚博VA系列加速卡部署 DeepSeek-V3 系列模型与测试指南
-
-## 文档概述
-本手册提供 DeepSeek-V3 系列大模型在瀚博VA系列加速卡上的完整部署方案，包含：
-- 硬件环境配置指南
-- 模型服务化部署流程
-- 精度验证方法
-- 性能测试方案
-- 交互式WebUI应用
+# DeepSeek-V3 模型部署
 
 
-# #硬件要求
+本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3系列模型，以及测试模型的精度和性能。
 
-部署 DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
+
+# 硬件要求
+
+部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
 # 版本信息
 
 
-本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
+本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
@@ -89,7 +84,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- 模型最大上下文长度为 64K，输入最大长度为 56K。	
+- 模型最大上下文长度为 64K，输入最大长度为 56K，如果开启 MTP 输入最大长度为48K.	
 
 - 同时支持最大并发数为 4。
 
@@ -100,32 +95,48 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 
 
-## 服务部署
-### 环境准备
-1. 前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
 
-2. 获取[vllm_vacc服务部署包](../common/haproxy)包。
-假设存放路径为“/home/username”，请根据实际情况替换。
+# 环境安装
 
 
-3. Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+## 前提条件
 
-- 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
+- 部署模型服务前请检查部署环境是否满足[《基础环境要求》](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
+
+
+- 部署模型服务前请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+
+
+- Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+
+  - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
 ```shell
 wget https://github.com/docker/compose/releases/download/v2.26.1/\
      docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
-- 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
+  - 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
 ```shell
 wget https://github.com/docker/compose/releases/download/v2.37.2/\
      docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+chmod 
 ```
 
-### 启动DeepSeek-V3服务
-本文档默认使用 deploy.py 启动 DeepSeek-V3 服务。
+
+## 启动DeepSeek-V3服务
+
+
+**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
+
+假设存放路径为“/home/username”，请根据实际情况替换。
+
+
+
+
+
+**步骤 2.**  启动 DeepSeek-V3 服务。
+> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 vLLM 服务。
 
 >如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
 
@@ -145,6 +156,7 @@ python3 deploy.py --instance 1 \
     --management-port 9000 \
     --max-batch-size-for-instance 4 \
     --served-model-name DeepSeek-V3-0324 \
+    --enable-speculative-config \
     --max-model-len 65536 
 ```
 参数说明如下所示。
@@ -175,8 +187,10 @@ python3 deploy.py --instance 1 \
 
 - `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
     
-    对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”； 
-    
+    >对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”； 
+- `--enable-speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
+
+
 启动完成后显示如下类似信息。
 ```shell
 Deployment configuration updated successfully.
@@ -186,21 +200,20 @@ All instancesare up and running
 
 
 
-查看 vLLM 服务的输出日志。
+**步骤 3.** 查看 DeepSeek-V3 服务的输出日志。
 
 ```bash
 tail -f vllm_serve_0.log
 ```
 
 
-（可选）停止 vLLM 服务。
+**步骤 4.** （可选）停止 DeepSeek-V3 服务。
 
 如果需停止服务，可执行该步骤。
 [docker-compose.yaml](../common/haproxy/docker-compose.yaml)
 ```bash
 docker-compose -f docker-compose.yaml down
 ```
-
 
 
 # 测试模型性能
