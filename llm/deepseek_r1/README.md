@@ -111,7 +111,7 @@ chmod +x /usr/local/bin/docker-compose
 ```shell
 wget https://github.com/docker/compose/releases/download/v2.37.2/\
      docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod 
+chmod +x /usr/local/bin/docker-compose
 ```
 
 ## 启动DeepSeek-V3服务
