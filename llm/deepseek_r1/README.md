@@ -119,7 +119,7 @@ chmod
 
 
 
-**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
+**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)。
 
 假设存放路径为“/home/username”，请根据实际情况替换。
 
@@ -182,7 +182,7 @@ python3 deploy.py --instance 1 \
 - `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
            
     >对于DeepSeek-R1-0528 模型，启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekr1.jinja”
-    
+
 - `--enable-speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
     
 启动完成后显示如下类似信息。

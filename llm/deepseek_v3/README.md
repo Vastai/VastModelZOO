@@ -127,7 +127,7 @@ chmod
 ## 启动DeepSeek-V3服务
 
 
-**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
+**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)。
 
 假设存放路径为“/home/username”，请根据实际情况替换。
 
