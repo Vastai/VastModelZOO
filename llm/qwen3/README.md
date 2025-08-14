@@ -205,23 +205,20 @@ Docker containers started successfully.
 All instances are up and running
 ```
 
-**步骤 3.** 查看 vLLM 服务的输出日志。
+**步骤 3.** 查看 Qwen3 服务的输出日志。
 
 ```bash
 tail -f llm_serve_0.log
 ```
 
 
-**步骤 4.** （可选）停止 vLLM 服务。
+**步骤 4.** （可选）停止 Qwen3 服务。
 
 如果需停止服务，可执行该步骤。
-
-
-
+[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
 ```bash
 docker-compose -f docker-compose.yaml down
 ```
-docker-compose.yaml 仅为示例，不同模型文件命名不同，具体可在[docker-compose](./docker-compose)路径中查看。
 
 
 # 测试模型性能
