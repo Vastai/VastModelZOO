@@ -8,7 +8,7 @@
 
 - Python 3.12
 - torch==2.7.0+cpu
-- vLLM==0.9.2+cpu（建议使用harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 镜像）
+- vLLM==0.9.2+cpu（建议使用harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 镜像）
 - 支持VA16/VA1L/VA10L
 
 
