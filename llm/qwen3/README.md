@@ -10,6 +10,8 @@
 
 本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
 
+>该版本为中期迭代版本，不作为正式出货版本。
+
 当前推荐版本组合：
 | 组件 |  版本|
 | --- | --- |
