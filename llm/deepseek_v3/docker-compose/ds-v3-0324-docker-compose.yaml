@@ -1,6 +1,6 @@
 services:
   vllm-ds-v3-0324:
-    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728
+    image: harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811
     privileged: true
     shm_size: '64gb'
     network_mode: host

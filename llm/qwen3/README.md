@@ -8,20 +8,17 @@
 
 # 版本信息
 
-
-本次发布软件版本为 [AI3.0_SP7_0728](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
+本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
 
 >该版本为中期迭代版本，不作为正式出货版本。
 
-## 版本配套说明
-
-
+当前推荐版本组合：
 | 组件 |  版本|
 | --- | --- |
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc| AI3.0_SP7_0728|
+| vllm_vacc| AI3.0_SP9_0811|
 
 ## 支持的模型
 
@@ -30,6 +27,8 @@
 - [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
 
 - [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
+
+- [Qwen3-30B-A3B-Thinking-2507-FP8](https://modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8)
 
 模型下载步骤如下所示。
 
@@ -48,6 +47,7 @@ export PATH=$PATH:~/.local/bin
 
 - Qwen3-30B-A3B-FP8
 - Qwen3-30B-A3B-Instruct-2507-FP8
+- Qwen3-30B-A3B-Thinking-2507-FP8
 
 
 每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
@@ -66,93 +66,103 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，输入最大支持56k。Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文，输入最大支持56K。	
+- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4，模型最大上下文长度为 128K。
 
-- 同时支持最大并发数为 4。
+- 模型同时支持最大并发数为 4。
 
-- 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理。 
+- 单并发最大输入长度为 56K。
 
+- 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
 
 
 # 环境安装
 
+## 前提条件
 
-前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
+- 部署模型服务前请检查部署环境是否满足[《基础环境要求》](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
 
 
-部署 Qwen3 系列模型支持两种部署方式：
+- 部署模型服务前请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
 
-- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
-- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
-<a id="install_one_click"></a>
-## 一键安装
 
-通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
+- Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
+
+  - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
 ```shell
-./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
+wget https://github.com/docker/compose/releases/download/v2.26.1/\
+     docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 ```
 
-参数说明如下所示。
-    
-- Model_Type：可设置为 Qwen3-TP2 或 Qwen3-TP4。
-    
-- Model_Path: 模型权重路径。
-
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
-
-参考命令:
-```bash
-sudo docker rm -f vllm_service haproxy-server 
+  - 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
+```shell
+wget https://github.com/docker/compose/releases/download/v2.37.2/\
+     docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
+chmod 
 ```
-<a id="install_stepbystep"></a>
-## 分步安装
 
-部署 DeepSeek-V3 及 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
+## 启动Qwen3服务
 
-
-<a id="vastai_vllm"></a>
-## 启动 vLLM 服务
-
-
-**步骤 1.** 获取[haproxy](../common/haproxy)包。
+**步骤 1.** 获取[vllm_vacc 服务部署包](../common/haproxy)。
 
 假设存放路径为“/home/username”，请根据实际情况替换。
 
 
-**步骤 2.**  启动 vLLM 服务。
+**步骤 2.**  启动 Qwen3 服务。
 
-本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
+> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 Qwen3 服务。。
+
+>如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
+
+>如果需要使用原生vllm 离线推理方式，可参考[vllm 离线推理说明](../common/offline_example_README.md)
+
+下面以deploy.py 启动方式详细说明：
 
 对于Qwen3-30B-A3B-FP8模型，启动命令：
 ```shell
 cd /home/username/haproxy
 python3 deploy.py --instance 8 \
     --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
     --model /home/username/weights/Qwen3-30B-A3B-FP8 \
     --port 8000 \
     --management-port 9000 \
     --max-batch-size-for-instance 4 \
     --served-model-name Qwen3 \
     --max-model-len 65536 \
-    --enable-reasoning \
-    --reasoning-parser deepseek_r1 \
+    --reasoning-parser qwen3 \
     --enable-qwen3-rope-scaling \
     --enable-auto-tool-choice \
     --tool-call-parser hermes 
 ```
-
 对于Qwen3-30B-A3B-Instruct-2507-FP8模型，启动命令：
 ```shell
 cd /home/username/haproxy
 python3 deploy.py --instance 8 \
     --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
-    --model /home/username/weights/Qwen3-30B-A3B-FP8 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    --model /home/username/weights/Qwen3-30B-A3B-Instruct-2507-FP8 \
     --port 8000 \
     --management-port 9000 \
     --max-batch-size-for-instance 4 \
     --served-model-name Qwen3 \
+    --max-model-len 65536 \
+    --enable-auto-tool-choice \
+    --tool-call-parser hermes 
+```
+
+对于Qwen3-30B-A3B-Thinking-2507-FP8模型，启动命令：
+```shell
+cd /home/username/haproxy
+python3 deploy.py --instance 8 \
+    --tensor-parallel-size 4 \
+    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    --model /home/username/weights/Qwen3-30B-A3B-Thinking-2507-FP8 \
+    --port 8000 \
+    --management-port 9000 \
+    --max-batch-size-for-instance 4 \
+    --served-model-name Qwen3 \    
+    --reasoning-parser qwen3 \
     --max-model-len 65536 \
     --enable-auto-tool-choice \
     --tool-call-parser hermes 
@@ -160,9 +170,10 @@ python3 deploy.py --instance 8 \
 
 参数说明如下所示。
     
-- `--instance`： 模型推理实例。
+- `--instance`： 模型推理实例。参数要求 instance 设定值 * tensor-parallel-size设定值 <= 推理核心数 
+>注： 推理核心数可通过：vasmi list --display-format=json | grep -o "aic" | wc -l 查询
 
-- `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” 此时 “--instance” 最大支持16； TP4 对应参数：“--tensor-parallel-size 4”，此时 “--instance” 最大支持8。
+- `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” ; TP4 对应参数：“--tensor-parallel-size 4”
 
 - `--image`：模型服务镜像。
 
@@ -172,23 +183,22 @@ python3 deploy.py --instance 8 \
 
 - `--management-port`：管理端口。
 
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
+- `--max-batch-size-for-instance`：每个实例的最大 Batch Size，最大支持4。
 
-- `--served-model-name`：模型名称。仅支持设置为 Qwen3。
+- `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度，Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文。
+- `--max-model-len`：模型最大上下文长度，TP4 最大支持128k上下文，TP2 最大支持64k上下文
 
-- `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
+- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器, 可选 qwen3/deepseek_r1
 
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
+- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8 模型需要设置该参数。
 
-- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
-
-- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
+- `--enable-auto-tool-choice`：是否启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
 
 - `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。对于Qwen3系列模型，需设置为 hermers。
 
-- `--chat-template`: 指定聊天对话的模板格式, 对于 Qwen3 系列模型，可通过指定参数 “--chat-template  /workspace/qwen3_nonthinking.jinja” 关闭思考模式，同时此时需去掉“--enable-reasoning --reasoning-parser deepseek_r1” 参数才能使关闭思考模式生效。
+>注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
+
 
 启动完成后显示如下类似信息。
 ```shell
@@ -197,16 +207,14 @@ Docker containers started successfully.
 All instances are up and running
 ```
 
-
-
-**步骤 3.** 查看 vLLM 服务的输出日志。
+**步骤 3.** 查看 Qwen3 服务的输出日志。
 
 ```bash
 tail -f llm_serve_0.log
 ```
 
 
-**步骤 4.** （可选）停止 vLLM 服务。
+**步骤 4.** （可选）停止 Qwen3 服务。
 
 如果需停止服务，可执行该步骤。
 [docker-compose.yaml](../common/haproxy/docker-compose.yaml)
@@ -235,6 +243,7 @@ python3 benchmark_serving.py \
     --random-output-len <output_len> \
     --max-concurrency <concurrency> \
     --served-model-name <model_name> \
+    --server-num <server_num> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -272,6 +281,8 @@ python3 benchmark_serving.py \
 - `--result-dir`：测试结果保存目录。如果不设置，则保存至当前路径。
 
 - `--result-filename`：测试结果文件名称。
+
+- `--server-num`: 与deploy.py 启动参数 `--instance` 一致
 
 
 本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型性能。
@@ -568,8 +579,6 @@ limit: 50
 ```
 
 
-
-
 **步骤 6.**  测试 Qwen3-30B-A3B-FP8 模型精度。
 
 ```shell
@@ -668,4 +677,3 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 ![chat.png](../../images/llm/deepseek_r1/chat.png)
 
 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
-
