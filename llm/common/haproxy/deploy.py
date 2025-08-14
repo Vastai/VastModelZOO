@@ -15,7 +15,32 @@ import subprocess
 
 import platform
 from typing import Optional
+import yaml  # 需要安装PyYAML库
 
+def load_config_from_yaml(file_path):
+    with open(file_path, 'r') as file:
+        config = yaml.safe_load(file)
+        print(f"config key:{config}")
+    return config
+
+def merge_configs(cli_args, yaml_config):
+    """合并命令行参数和YAML配置"""
+    # 优先使用命令行参数，如果没有则使用YAML配置
+    merged = {}
+    for key, value in vars(cli_args).items():
+        if value is not None and value != argparse.SUPPRESS and value is not False:
+            merged[key] = value
+            print(f"merged key:{key}, value:{value}")
+        elif key in yaml_config:
+            merged[key] = yaml_config[key]
+    
+    # 确保必要的参数存在
+    required_args = ['instance', 'tensor_parallel_size', 'image', 'model', 'served_model_name']
+    for arg in required_args:
+        if arg not in merged:
+            raise ValueError(f"Missing required argument: {arg}")
+    
+    return merged
 current_dir = os.path.dirname(os.path.abspath(__file__))
 ENV_FILE_PATH = os.path.join(current_dir, ".env")
 HAPROXY_CONFIG_PATH = os.path.join(current_dir, "haproxy.cfg")
@@ -195,7 +220,8 @@ def modify_env(
         "VLLM_MANAGE_PORT": management_port,
     }
     if chat_template is not None:
-        check_exist(chat_template)
+        print(f"chat_template:{chat_template}")
+        # check_exist(chat_template)
         replacements["CHAT_TEMPLATE"] = chat_template
     with open(ENV_FILE_PATH, "r") as file:
         content = file.read()
@@ -245,9 +271,7 @@ def modify_supervisor(
     instance: int,
     tensor_parallel_size: int,
     max_model_len: int,
-    enable_reasoning: bool,
     reasoning_parser: Optional[str] = None,
-    allow_long_max_model_len: bool = False,
     enable_qwen3_rope_scaling: bool = False,
     enable_speculative_config: bool = False,
     enable_auto_tool_choice: bool = False,
@@ -255,11 +279,6 @@ def modify_supervisor(
     chat_template: Optional[str] = None,
     arch: Optional[str] = None,
 ):
-    if enable_reasoning:
-        if not reasoning_parser:
-            raise ValueError(
-                "reasoning_parser must be provided when enable_reasoning is True"
-            )
 
     with open(SUPERVISOR_CONFIG_PATH, "r") as file:
         content = file.read()
@@ -276,11 +295,9 @@ def modify_supervisor(
         f"SERVED_MODEL_NAME={served_model_name},"
         f"MODEL={model},"
         f"DIE_NUM={tensor_parallel_size},"
-        f"ENABLE_REASONING={1 if enable_reasoning else 0},"
         f"ENABLE_QWEN3_ROPE_SCALING={1 if enable_qwen3_rope_scaling else 0},"
         f"ENABLE_SPECULATIVE_CONFIG={1 if enable_speculative_config else 0},"
-        f"REASONING_PARSER={reasoning_parser if enable_reasoning else 'none'},"
-        f"ALLOW_LONG_MAX_MODEL_LEN={1 if allow_long_max_model_len else 0},"
+        f"REASONING_PARSER={reasoning_parser},"
         f"ENABLE_AUTO_TOOL_CHOICE={1 if enable_auto_tool_choice else 0},"
         f"TOOL_CALL_PARSER={tool_call_parser},"
         f"CHAT_TEMPLATE={chat_template},"
@@ -351,19 +368,17 @@ if __name__ == "__main__":
             "IOMMU is enabled. Please disable it before running this script."
         )
 
+    #add config param
+    parser.add_argument("--config", type=str, help="Path to YAML configuration file")
+
+
     # required arguments
-    parser.add_argument("--instance", type=int, required=True, help="instace number")
-    parser.add_argument(
-        "--tensor-parallel-size",
-        type=int,
-        required=True,
-        help="tp size for the instance",
-    )
-    parser.add_argument("--image", type=str, required=True, help="image to run")
-    parser.add_argument("--model", type=str, required=True, help="model to run")
-    parser.add_argument(
-        "--served-model-name", type=str, required=True, help="model alias name"
-    )
+    parser.add_argument("--instance", type=int, help="instance number")
+    parser.add_argument("--tensor-parallel-size", type=int, help="tp size for the instance")
+    parser.add_argument("--image", type=str, help="image to run")
+    parser.add_argument("--model", type=str, help="model to run")
+    parser.add_argument("--served-model-name", type=str, help="model alias name")
+
     parser.add_argument(
         "--devices",
         type=str,
@@ -388,8 +403,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--management-port",
         type=int,
-        default=8001,
-        help="manage port [ default: 8001 ]",
+        default=9000,
+        help="manage port [ default: 9000 ]",
     )
     parser.add_argument(
         "--max-model-len",
@@ -402,14 +417,6 @@ if __name__ == "__main__":
         type=int,
         default=4,
         help="max batch size for each instance [ default: 4 ]",
-    )
-    parser.add_argument(
-        "--enable-reasoning", action="store_true", help="enable reasoning"
-    )
-    parser.add_argument(
-        "--allow-long-max-model-len",
-        action="store_true",
-        help="allow long max model len",
     )
     parser.add_argument(
         "--dry-run",
@@ -449,12 +456,38 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    yaml_config = {}
+    if args.config:
+        yaml_config = load_config_from_yaml(args.config)
+
+    config = merge_configs(args, yaml_config)
+
+    instance = config['instance']	
+    tensor_parallel_size = config['tensor_parallel_size']
+    image = config['image']
+    model = config['model']
+    enable_benchmark = config.get('enable_benchmark', False)
+    benckmark_count = config.get('benckmark_count', 5)
+    port = config.get('port', 8000)
+    management_port = config.get('management_port', 9000)
+    max_model_len = config.get('max_model_len', 65536)
+    max_batch_size_for_instance = config.get('max_batch_size_for_instance', 4)
+    dry_run = config.get('dry_run', False)
+    reasoning_parser = config.get('reasoning_parser', None)
+    enable_qwen3_rope_scaling = config.get('enable_qwen3_rope_scaling', False)
+    enable_speculative_config = config.get('enable_speculative_config', False)
+    enable_auto_tool_choice = config.get('enable_auto_tool_choice', False)
+    tool_call_parser = config.get('tool_call_parser', None)	
+    devices = config.get('devices', None)
+    chat_template = config.get('chat_template', None)
+    served_model_name = config['served_model_name']
+
     # Set default devices if not specified
-    if args.devices is None:
-        args.devices = f"0-{args.tensor_parallel_size * args.instance - 1}"
+    if devices is None:
+        devices = f"0-{tensor_parallel_size * instance - 1}"
 
     # download model if not exists
-    download_model(args.model)
+    download_model(model)
 
     machine = platform.machine().lower()
     arch = "x86"
@@ -469,36 +502,35 @@ if __name__ == "__main__":
         print("undefined arch:", machine)
 
     modify_env(
-        args.model,
-        args.image,
-        args.port,
-        args.management_port,
+        model,
+        image,
+        port,
+        management_port,
         arch,
-        args.chat_template,
+        chat_template
     )
     modify_haproxy(
-        args.instance, args.max_batch_size_for_instance, args.served_model_name
+        instance, max_batch_size_for_instance, served_model_name
     )
+    print(f"reasoning_parser:{reasoning_parser}")
     modify_supervisor(
-        parse_device_input(args.devices),
-        args.model,
-        args.served_model_name,
-        args.instance,
-        args.tensor_parallel_size,
-        args.max_model_len,
-        args.enable_reasoning,
-        args.reasoning_parser,
-        args.allow_long_max_model_len,
-        args.enable_qwen3_rope_scaling,
-        args.enable_speculative_config,
-        args.enable_auto_tool_choice,
-        args.tool_call_parser,
-        args.chat_template,
+        parse_device_input(devices),
+        model,
+        served_model_name,
+        instance,
+        tensor_parallel_size,
+        max_model_len,
+        reasoning_parser,
+        enable_qwen3_rope_scaling,
+        enable_speculative_config,
+        enable_auto_tool_choice,
+        tool_call_parser,
+        chat_template,
         arch,
     )
     print("Deployment configuration updated successfully.")
 
-    if args.dry_run:
+    if dry_run:
         print("Dry run mode enabled. Exiting without starting the service.")
         exit(0)
 
@@ -531,12 +563,12 @@ if __name__ == "__main__":
         exit(1)
 
     # check the service
-    ret = check_service(args.port, args.instance)
+    ret = check_service(port, instance)
     if not ret:
         print("Service check failed, please check your configurations.")
         exit(1)
 
     # benchmark the service
-    if args.enable_benchmark:
+    if enable_benchmark:
         print("Starting benchmark...")
-        benchmark(args.port, args.served_model_name, args.benckmark_count)
+        benchmark(port, served_model_name, benckmark_count)
