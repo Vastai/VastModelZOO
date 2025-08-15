@@ -114,7 +114,7 @@ wget https://github.com/docker/compose/releases/download/v2.37.2/\
 chmod +x /usr/local/bin/docker-compose
 ```
 
-## 启动DeepSeek-V3服务
+## 启动DeepSeek-R1服务
 
 
 
