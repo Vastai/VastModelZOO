@@ -149,7 +149,6 @@ python3 deploy.py --instance 1 \
     --served-model-name DeepSeek-R1-0528 \
     --enable-speculative-config \
     --max-model-len 65536 \
-    --enable-reasoning \
     --reasoning-parser deepseek_r1 
 ```
 参数说明如下所示。
