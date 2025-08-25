@@ -8,10 +8,6 @@
 
 # 版本信息
 
-本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
-
->该版本为中期迭代版本，不作为正式出货版本。
-
 当前推荐版本组合：
 | 组件 |  版本|
 | --- | --- |
@@ -164,9 +160,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  >该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -174,7 +168,7 @@ python3 benchmark_serving.py \
 
 - `--result-filename`：测试结果文件名称。
 
-- `--server-num`: 与deploy.py 启动参数 `--instance` 一致
+- `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
 本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型性能。
@@ -287,9 +281,7 @@ limit: 50
 
 参数说明如下所示。
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 
 - api_url：vLLM 服务地址。
@@ -360,9 +352,7 @@ work_dir: ./outputs_eval_qwen3
 参数说明如下所示。
 
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 

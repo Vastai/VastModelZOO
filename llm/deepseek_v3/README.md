@@ -176,9 +176,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -301,9 +299,7 @@ limit: 50
 
 参数说明如下所示。
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
@@ -376,9 +372,7 @@ work_dir: ./outputs_eval_ds_v3
 参数说明如下所示。
 
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-V3 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
