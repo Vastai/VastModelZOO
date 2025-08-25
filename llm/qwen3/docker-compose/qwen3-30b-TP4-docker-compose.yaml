@@ -17,6 +17,6 @@ services:
       for i in $$(seq 0 3); do if [ ! -e /dev/vacc$$i ]; then sleep 5; exit 1; fi; done;        
       vllm serve /weights/Qwen3-30B-A3B-FP8 --trust-remote-code --tensor-parallel-size 4 --max-model-len 65536 \
       --enforce-eager --rope-scaling '{\"rope_type\":\"yarn\",\"factor\":4.0,\"original_max_position_embeddings\":32768}' \
-      --enable-reasoning --reasoning-parser deepseek_r1 --enable-auto-tool-choice --tool-call-parser hermes  --host 0.0.0.0 \
+      --enable-auto-tool-choice --tool-call-parser hermes  --host 0.0.0.0 \
       --port 8000 --served-model-name Qwen3;
       "

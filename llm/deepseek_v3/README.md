@@ -126,96 +126,44 @@ chmod +x /usr/local/bin/docker-compose
 
 ## 启动DeepSeek-V3服务
 
-
-**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)。
-
-假设存放路径为“/home/username”，请根据实际情况替换。
-
-
-
-
-
-**步骤 2.**  启动 DeepSeek-V3 服务。
-> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 vLLM 服务。
-
->如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
-
->如果需要使用原生vllm 离线推理方式，可参考[vllm 离线推理说明](../common/offline_example_README.md)
-
-下面以deploy.py 启动方式详细说明：
-
-对于 DeepSeek-V3-0324 模型，启动命令：
-DeepSeek-V3-0324 启动命令:
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 1 \
+```bash
+docker run \
+    --privileged=true --shm-size=256g \
+    -v /path/to/model:/weights/ \
+    -p 8000:8000 \
+    --ipc=host \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    vllm serve /weights/DeepSeek-V3-0324 \
+    --trust-remote-code \
     --tensor-parallel-size 32 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
-    --model /home/username/weights/DeepSeek-V3-0324 \
+    --max-model-len 65536 \
+    --enforce-eager \
+    --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
+    --host 0.0.0.0 \
     --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name DeepSeek-V3-0324 \
-    --enable-speculative-config \
-    --max-model-len 65536 
+    --served-model-name DS3-V3
 ```
+
+此外，也可通过`docker-compose`方式启动模型服务
+
+```bash
+cd docker-compose
+docker-compose -f ds-v3-0324-docker-compose.yaml up -d 
+```
+
 参数说明如下所示。
-    
-- `--instance`： 模型推理实例。参数要求 instance 设定值 * tensor-parallel-size设定值 <= 推理核心数 
->注： 推理核心数可通过：vasmi list --display-format=json | grep -o "aic" | wc -l 查询
 
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
-
-- `--image`：模型服务镜像。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
 - `--port`：模型服务端口。
 
-- `--management-port`：管理端口。
-
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size，最大支持4。
-
 - `--served-model-name`：模型名称。
 
 - `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
 
-
-- `chat-template`: 指定聊天对话的模板格式。
-
-- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
-
-- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
-    
-    >对于DeepSeek-V3-0324 模型， 启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekv3.jinja”
-
-- `--enable-speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
-
-
-启动完成后显示如下类似信息。
-```shell
-Deployment configuration updated successfully.
-Docker containers started successfully.
-All instancesare up and running
-```
-
-
-
-**步骤 3.** 查看 DeepSeek-V3 服务的输出日志。
-
-```bash
-tail -f vllm_serve_0.log
-```
-
-
-**步骤 4.** （可选）停止 DeepSeek-V3 服务。
-
-如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
-```bash
-docker-compose -f docker-compose.yaml down
-```
-
+- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
 
 # 测试模型性能
 

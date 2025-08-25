@@ -103,124 +103,47 @@ chmod +x /usr/local/bin/docker-compose
 
 ## 启动Qwen3服务
 
-**步骤 1.** 获取[vllm_vacc 服务部署包](../common/haproxy)。
-
-假设存放路径为“/home/username”，请根据实际情况替换。
-
-
-**步骤 2.**  启动 Qwen3 服务。
-
-> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 Qwen3 服务。。
-
->如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
-
->如果需要使用原生vllm 离线推理方式，可参考[vllm 离线推理说明](../common/offline_example_README.md)
-
-下面以deploy.py 启动方式详细说明：
-
-对于Qwen3-30B-A3B-FP8模型，启动命令：
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 8 \
-    --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
-    --model /home/username/weights/Qwen3-30B-A3B-FP8 \
-    --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name Qwen3 \
+```bash
+docker run \
+    -e VACC_VISIBLE_DEVICES=0,1 \
+    --privileged=true --shm-size=256g \
+    -v /path/to/model:/weights/ \
+    -p 8000:8000 \
+    --ipc=host \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    vllm serve /weights/Qwen3-30B-A3B-FP8 \
+    --trust-remote-code \
+    --tensor-parallel-size 2 \
     --max-model-len 65536 \
-    --reasoning-parser qwen3 \
-    --enable-qwen3-rope-scaling \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes 
-```
-对于Qwen3-30B-A3B-Instruct-2507-FP8模型，启动命令：
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 8 \
-    --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
-    --model /home/username/weights/Qwen3-30B-A3B-Instruct-2507-FP8 \
+    --enforce-eager \
+    --rope-scaling '{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}' \
+    --host 0.0.0.0 \
     --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name Qwen3 \
-    --max-model-len 65536 \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes 
+    --served-model-name Qwen3
 ```
 
-对于Qwen3-30B-A3B-Thinking-2507-FP8模型，启动命令：
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 8 \
-    --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
-    --model /home/username/weights/Qwen3-30B-A3B-Thinking-2507-FP8 \
-    --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name Qwen3 \    
-    --reasoning-parser qwen3 \
-    --max-model-len 65536 \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes 
+此外，也可通过`docker-compose`方式启动模型服务
+
+```bash
+cd docker-compose
+docker-compose -f qwen3-30b-TP2-docker-compose.yaml up -d 
 ```
 
 参数说明如下所示。
-    
-- `--instance`： 模型推理实例。参数要求 instance 设定值 * tensor-parallel-size设定值 <= 推理核心数 
->注： 推理核心数可通过：vasmi list --display-format=json | grep -o "aic" | wc -l 查询
 
 - `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” ; TP4 对应参数：“--tensor-parallel-size 4”
-
-- `--image`：模型服务镜像。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
 - `--port`：模型服务端口。
 
-- `--management-port`：管理端口。
-
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size，最大支持4。
-
 - `--served-model-name`：模型名称。
 
 - `--max-model-len`：模型最大上下文长度，TP4 最大支持128k上下文，TP2 最大支持64k上下文
 
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器, 可选 qwen3/deepseek_r1
-
-- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8 模型需要设置该参数。
-
-- `--enable-auto-tool-choice`：是否启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
-
-- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。对于Qwen3系列模型，需设置为 hermers。
+- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8 模型需要设置该参数。
 
 >注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
-
-
-启动完成后显示如下类似信息。
-```shell
-Deployment configuration updated successfully.
-Docker containers started successfully.
-All instances are up and running
-```
-
-**步骤 3.** 查看 Qwen3 服务的输出日志。
-
-```bash
-tail -f llm_serve_0.log
-```
-
-
-**步骤 4.** （可选）停止 Qwen3 服务。
-
-如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
-```bash
-docker-compose -f docker-compose.yaml down
-```
 
 
 # 测试模型性能
