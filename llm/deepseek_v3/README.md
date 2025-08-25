@@ -10,11 +10,6 @@
 
 # 版本信息
 
-
-本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
-
->该版本为中期迭代版本，不作为正式出货版本。
-
 # 版本配套说明
 
 
@@ -99,31 +94,6 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
-## 前提条件
-
-- 部署模型服务前请检查部署环境是否满足[《基础环境要求》](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
-
-
-- 部署模型服务前请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
-
-
-- Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
-
-  - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.26.1/\
-     docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-  - 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.37.2/\
-     docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-
 ## 启动DeepSeek-V3服务
 
 ```bash
@@ -142,13 +112,6 @@ docker run \
     --host 0.0.0.0 \
     --port 8000 \
     --served-model-name DS3-V3
-```
-
-此外，也可通过`docker-compose`方式启动模型服务
-
-```bash
-cd docker-compose
-docker-compose -f ds-v3-0324-docker-compose.yaml up -d 
 ```
 
 参数说明如下所示。
@@ -196,7 +159,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek V3 系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+- `--port`：vLLM 推理服务端口，请根据实际情况替换。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
