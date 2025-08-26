@@ -10,11 +10,6 @@
 
 # 版本信息
 
-
-本次发布软件版本为 [AI3.0_SP9_0811](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
-
->该版本为中期迭代版本，不作为正式出货版本。
-
 # 版本配套说明
 
 
@@ -89,124 +84,40 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 # 环境安装
 
-
-## 前提条件
-
-- 部署模型服务前请检查部署环境是否满足[《基础环境要求》](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)。
-
-
-- 部署模型服务前请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=446043877774856192)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
-
-
-- Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
-
-  - 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.26.1/\
-     docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-  - 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.37.2/\
-     docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
 ## 启动DeepSeek-R1服务
 
-
-
-
-**步骤 1.** 获取[vllm_vacc 服务部署包](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)。
-
-假设存放路径为“/home/username”，请根据实际情况替换。
-
-
-
-
-
-**步骤 2.**  启动 DeepSeek-R1 服务。
-> 本文档主要介绍如何使用 “deploy.py”脚本启动模型的 vLLM 服务。
-
->如果需要使用原生vllm 在线启动服务，可参考[vllm 在线服务使用说明](../common/online_example_README.md);
-
->如果需要使用原生vllm 离线推理方式，可参考[vllm 离线推理说明](../common/offline_example_README.md)
-
-下面以deploy.py 启动方式详细说明：
-
-对于 DeepSeek-R1-0528 MTP 启动命令:
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 1 \
+```bash
+docker run \
+    --privileged=true --shm-size=256g \
+    -v /path/to/model:/weights/ \
+    -p 8000:8000 \
+    --ipc=host \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    vllm serve /weights/DeepSeek-R1-0528 \
+    --trust-remote-code \
     --tensor-parallel-size 32 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
-    --model /home/username/weights/DeepSeek-R1-0528 \
-    --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name DeepSeek-R1-0528 \
-    --enable-speculative-config \
     --max-model-len 65536 \
-    --reasoning-parser deepseek_r1 
+    --enforce-eager \
+    --reasoning-parser deepseek_r1 \
+    --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
+    --host 0.0.0.0 \
+    --port 8000 \
+    --served-model-name DS3-R1
 ```
+
 参数说明如下所示。
-    
-- `--instance`： 模型推理实例。参数要求 instance 设定值 * tensor-parallel-size设定值 <= 推理核心数 
->注： 推理核心数可通过：vasmi list --display-format=json | grep -o "aic" | wc -l 查询
 
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
-
-- `--image`：模型服务镜像。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
 - `--port`：模型服务端口。
 
-- `--management-port`：管理端口。
-
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size，最大支持4。
-
 - `--served-model-name`：模型名称。
 
 - `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
 
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
-
-- `chat-template`: 指定聊天对话的模板格式。
-
-- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
-
-- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
-           
-    >对于DeepSeek-R1-0528 模型，启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekr1.jinja”
-
-- `--enable-speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
-    
-启动完成后显示如下类似信息。
-```shell
-Deployment configuration updated successfully.
-Docker containers started successfully.
-All instancesare up and running
-```
-
-
-
-**步骤 3.** 查看 DeepSeek-R1 服务的输出日志。
-
-```bash
-tail -f vllm_serve_0.log
-```
-
-
-**步骤 4.** （可选）停止 DeepSeek-R1 服务。
-
-如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
-```bash
-docker-compose -f docker-compose.yaml down
-```
+- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
 
 
 # 测试模型性能
@@ -240,7 +151,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+- `--port`：vLLM 推理服务端口，请根据实际情况替换。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
@@ -257,9 +168,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称，默认设置为 DS3-R1。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -381,9 +290,7 @@ limit: 50
 
 参数说明如下所示。
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
@@ -454,9 +361,7 @@ work_dir: ./outputs_eval_ds_r1_0528
 参数说明如下所示。
 
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
