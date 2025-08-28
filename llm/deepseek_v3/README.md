@@ -1,12 +1,12 @@
-# DeepSeek-V3 模型部署
+# DeepSeek-V3/V3.1 模型部署
 
 
-本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3系列模型，以及测试模型的精度和性能。
+本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3/V3.1系列模型，以及测试模型的精度和性能。
 
 
 # 硬件要求
 
-部署DeepSeek-V3  系列模型进行推理需要 1 台 VA16（8*128G）服务器。
+部署DeepSeek-V3/V3.1 系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
 # 版本信息
 
@@ -32,6 +32,9 @@
 
 - [DeepSeek-V3-Base](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3-Base)
 
+- [DeepSeek-V3.1](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1)
+
+- [DeepSeek-V3.1-Base](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Base)
 
 
 
@@ -58,6 +61,9 @@ export PATH=$PATH:~/.local/bin
 
 - DeepSeek-V3-Base
 
+- DeepSeek-V3.1
+
+- DeepSeek-V3.1-Base
 
 每个模型大小约为642GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
@@ -94,7 +100,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
-## 启动DeepSeek-V3服务
+## 启动DeepSeek-V3/V3.1服务
 
 ```bash
 docker run \
@@ -116,7 +122,7 @@ docker run \
 
 参数说明如下所示。
 
-- `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
+- `--tensor-parallel-size`：张量并行数, 针对 DeepSeek-V3/V3.1 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
@@ -126,7 +132,7 @@ docker run \
 
 - `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
 
-- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
+- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek-V3/V3.1 系列模型生效
 
 # 测试模型性能
 
@@ -259,6 +265,44 @@ python3 benchmark_serving.py \
 **步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
 **步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
+
+测评主要参数如下所示：
+
+- model：模型名称。
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
+
+- api_url：vLLM 服务地址。
+
+- api_key：API 密钥。默认值：Empty。
+
+- datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
+
+- dataset_args：数据集参数
+
+  - subset_list：评测数据子集列表，指定后将只使用子集数据。
+
+- eval_batch_size：评测批次大小。
+
+- generation_config：生成参数。
+
+  - max_tokens：生成的最大Token数量。
+
+  - temperature：生成温度。
+
+  - top_p：生成top-p。
+    
+  - top_k：生成top-k。
+
+  - n： 生成序列数量。
+
+  - chat_template_kwargs：对话模板参数。此参数只用于dsv3.1系列模型
+    - thinking：是否启用思考模式。设置为False时，不启用“思考”模式;设置为True时，启用“思考”模式。
+
+- stream：是否使用流式输出，默认值：false。
+
+- timeout：请求超时时间。
+
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
 
 # 启动 Open WebUI 服务

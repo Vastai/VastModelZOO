@@ -33,7 +33,9 @@ task_cfg = TaskConfig(
         'max_tokens': 16384,  # 最大生成token数，建议设置为较大值避免输出截断
         'temperature': 0.6,   # 采样温度 (deepseek 报告推荐值)
         'top_p': 0.95,        # top-p采样 (deepseek 报告推荐值)
+        'top_k': 20,          # top-k采样 
         'n': 1                # 每个请求产生的回复数量 (注意 lmdeploy 目前只支持 n=1)
+        # 'chat_template_kwargs': {"thinking": False}  #是否启用思考模式，仅DSV3.1系列模型需要设置此参数
     },
     stream=True,               # 是否使用流式请求，推荐设置为True防止请求超时
     timeout=6000000,           # 请求超时时间
