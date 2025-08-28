@@ -29,21 +29,28 @@ if __name__ == "__main__":
         api_key="token-abc123"
     ) 
     
-    
-    if args.disable_thinking:
-         message=[
-            {"role": "user", "content": "Give me a short introduction to large language models./no_think"},
-        ]
-    else:
-        message=[
-            {"role": "user", "content": "Give me a short introduction to large language models./think"},
-        ]
+   
+    extra_body_info = {}
+    if args.disable_thinking and args.model_name == "Qwen3":
+        extra_body_info = {
+            "top_k": 1, 
+            "chat_template_kwargs": {"enable_thinking": False},
+        }    
+    elif not args.disable_thinking and args.model_name == "DeepSeek-V3":
+        extra_body_info = {
+            "top_k": 1, 
+            "chat_template_kwargs": {"thinking": True},
+        }
 
+    message=[
+        {"role": "user", "content": "Give me a short introduction to large language models"},
+    ]
     chat_response = client.chat.completions.create(
         model=args.model_name,
         messages=message,  
         max_tokens=8192,
         temperature=0.7,
         top_p=0.8,
+        extra_body=extra_body_info,
     )
     print("Chat response:", chat_response)
