@@ -6,7 +6,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
 """ PyTorch Qwen2 model."""
 import inspect
 import math

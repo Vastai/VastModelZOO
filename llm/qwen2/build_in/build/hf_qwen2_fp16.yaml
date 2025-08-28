@@ -1,7 +1,7 @@
 name: Qwen2-7B-fp16-tp4-1024-2048
 
 frontend:
-  checkpoint: /media/vastml/modelzoo/llm/Qwen/Qwen2-7B
+  checkpoint: /path/to/Qwen2-7B
   type: huggingface
 
   shape:

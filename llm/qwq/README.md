@@ -11,7 +11,7 @@
 
 ## Model Arch
 
-![qwen_arch](../../images/llm/qwen_arch.png)
+![qwen_arch](../../images/llm/qwen/qwen_arch.png)
 
 ### QWQ
 大规模强化学习（RL）有潜力超越传统的预训练和后训练方法来提升模型性能。近期的研究表明，强化学习可以显著提高模型的推理能力。例如，DeepSeek R1通过整合冷启动数据和多阶段训练，实现了最先进的性能，使其能够进行深度思考和复杂推理。
@@ -71,25 +71,22 @@ QwQ-32B在初始阶段，特别针对数学和编程任务进行了RL训练。�
     - [yahma/alpaca-cleaned](https://hf-mirror.com/datasets/yahma/alpaca-cleaned/tree/main)
         - alpaca_data_cleaned.json
 
-2. 性能测试不定长数据集：[ShareGPT_V3_unfiltered_cleaned_split.json](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json)
-3. 精度评估数据集：[OpenCompassData-core-20240207.zip](https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/OpenCompassData-core-20240207.zip)
-
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - [hf_qwq_fp16.yaml](./build_in/build/hf_qwq_fp16.yaml)
     - [hf_qwq_int8.yaml](./build_in/build/hf_qwq_int8.yaml)
 
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`
+    
     ```bash
     vamc compile ./build_in/build/hf_qwq_fp16.yaml
     vamc compile ./build_in/build/hf_qwq_int8.yaml
     ```
 
-
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[llmdeploy v1.6+](../../docs/vastai_software.md)
-2. 参考llmdeploy工具文档，进行模型推理、性能和精度测试
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

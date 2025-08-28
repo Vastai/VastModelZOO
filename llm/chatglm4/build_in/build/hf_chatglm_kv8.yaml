@@ -1,0 +1,27 @@
+name: glm-4-9b-hf-int8-tp4-1024-2048-kv8
+
+frontend:
+  checkpoint: /path/to/glm-4-9b-hf
+  type: huggingface
+
+  shape:
+    input_ids: [[1024], [2048]]
+
+  model_kwargs:
+    b2s: true
+    tp: 4
+    model_arch: vacc
+  quantize:
+    type: w16kv8
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  merge_params: true
+  compile:
+    data_type: 0
+    gather_data_vccl_dsp_enable: true
+    
+workspace:
+  path: ./vacc_deploy
+  workers: 4

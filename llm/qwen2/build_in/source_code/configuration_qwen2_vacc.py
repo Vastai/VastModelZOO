@@ -6,7 +6,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
 """ Qwen2 model configuration"""
 from transformers import PretrainedConfig
 from transformers.utils import logging

@@ -6,7 +6,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from importlib.util import find_spec

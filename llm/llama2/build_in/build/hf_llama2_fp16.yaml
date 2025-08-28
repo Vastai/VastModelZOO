@@ -1,7 +1,7 @@
 name: Llama-2-7b-hf-fp16-tp4-1024-2048
 
 frontend:
-  checkpoint: /media/vastml/modelzoo/llm/LLaMA/Llama-2-7b-hf
+  checkpoint: /path/to/Llama-2-7b-hf
   type: huggingface
 
   shape:
