@@ -72,9 +72,10 @@ vastgenx webui --api_base_url http://127.0.0.1:9900/ --port 9600
 - 参考前文启动api server服务
 - 配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
     > 数据集将自动下载
-    - [precision_llm.py](./evalscope/precision_llm.py)
-    - [precision_vlm.py](./evalscope/precision_vlm.py)
+    - [precision_llm.py](../evalscope/precision_llm.py)
+    - [precision_vlm.py](../evalscope/precision_vlm.py)
     ```bash
+    cd docs/evalscope
     python precision_llm.py
     python precision_vlm.py
     ```
@@ -83,11 +84,11 @@ vastgenx webui --api_base_url http://127.0.0.1:9900/ --port 9600
 #### 基于evalscope
 - 同`精度测试`，安装`evalscope`和启动api server服务
 - 配置测评数据集及采样参数等信息，执行脚本获取性能测评结果
-    - [pref_llm.py](./evalscope/pref_llm.py)
-    - [pref_vlm.py](./evalscope/pref_vlm.py)
+    - [pref_llm.py](../evalscope/pref_llm.py)
+    - [pref_vlm.py](../evalscope/pref_vlm.py)
 
     ```bash
-    cd docs/vastgenx/evalscope
+    cd docs/evalscope
     python pref_llm.py
     python pref_vlm.py
     ```
