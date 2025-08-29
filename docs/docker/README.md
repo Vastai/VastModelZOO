@@ -3,13 +3,13 @@
 ## 获取镜像
 
 ```bash
-docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202507
+docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202508
 ```
 
 ## 启动镜像
 
 ```bash
-docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202507 bash
+docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202508 bash
 ```
 
 > docker内部署有vamc、deploy两个conda环境，可分别用于模型转换、精度/性能测试

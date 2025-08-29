@@ -8,20 +8,14 @@
 
 # 版本信息
 
-
-本次发布软件版本为 [AI3.0_SP7_0728](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
-
->该版本为中期迭代版本，不作为正式出货版本。
-
-## 版本配套说明
-
+# 版本配套说明
 
 | 组件 |  版本|
 | --- | --- |
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc| AI3.0_SP7_0728|
+| vllm_vacc |AI3.0_SP9_0811 (Preview Version)|
 
 ## 支持的模型
 
@@ -30,6 +24,8 @@
 - [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
 
 - [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
+
+- [Qwen3-30B-A3B-Thinking-2507-FP8](https://modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8)
 
 模型下载步骤如下所示。
 
@@ -48,6 +44,7 @@ export PATH=$PATH:~/.local/bin
 
 - Qwen3-30B-A3B-FP8
 - Qwen3-30B-A3B-Instruct-2507-FP8
+- Qwen3-30B-A3B-Thinking-2507-FP8
 
 
 每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
@@ -66,153 +63,53 @@ modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，输入最大支持56k。Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文，输入最大支持56K。	
+- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4，模型最大上下文长度为 128K。
 
-- 同时支持最大并发数为 4。
+- 模型同时支持最大并发数为 4。
 
-- 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理。 
+- 单并发最大输入长度为 56K。
 
+- 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
 
 
 # 环境安装
 
+## 启动Qwen3服务
 
-前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-
-
-部署 Qwen3 系列模型支持两种部署方式：
-
-- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
-- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
-<a id="install_one_click"></a>
-## 一键安装
-
-通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-```shell
-./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
-```
-
-参数说明如下所示。
-    
-- Model_Type：可设置为 Qwen3-TP2 或 Qwen3-TP4。
-    
-- Model_Path: 模型权重路径。
-
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
-
-参考命令:
 ```bash
-sudo docker rm -f vllm_service haproxy-server 
-```
-<a id="install_stepbystep"></a>
-## 分步安装
-
-部署 DeepSeek-V3 及 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
-
-
-<a id="vastai_vllm"></a>
-## 启动 vLLM 服务
-
-
-**步骤 1.** 获取[haproxy](../common/haproxy)包。
-
-假设存放路径为“/home/username”，请根据实际情况替换。
-
-
-**步骤 2.**  启动 vLLM 服务。
-
-本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
-
-对于Qwen3-30B-A3B-FP8模型，启动命令：
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 8 \
-    --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
-    --model /home/username/weights/Qwen3-30B-A3B-FP8 \
-    --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name Qwen3 \
+docker run \
+    -e VACC_VISIBLE_DEVICES=0,1 \
+    --privileged=true --shm-size=256g \
+    -v /path/to/model:/weights/ \
+    -p 8000:8000 \
+    --ipc=host \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    vllm serve /weights/Qwen3-30B-A3B-FP8 \
+    --trust-remote-code \
+    --tensor-parallel-size 2 \
     --max-model-len 65536 \
-    --enable-reasoning \
-    --reasoning-parser deepseek_r1 \
-    --enable-qwen3-rope-scaling \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes 
-```
-
-对于Qwen3-30B-A3B-Instruct-2507-FP8模型，启动命令：
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 8 \
-    --tensor-parallel-size 4 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
-    --model /home/username/weights/Qwen3-30B-A3B-FP8 \
+    --enforce-eager \
+    --rope-scaling '{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}' \
+    --host 0.0.0.0 \
     --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name Qwen3 \
-    --max-model-len 65536 \
-    --enable-auto-tool-choice \
-    --tool-call-parser hermes 
+    --served-model-name Qwen3
 ```
 
 参数说明如下所示。
-    
-- `--instance`： 模型推理实例。
 
-- `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” 此时 “--instance” 最大支持16； TP4 对应参数：“--tensor-parallel-size 4”，此时 “--instance” 最大支持8。
-
-- `--image`：模型服务镜像。
+- `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” ; TP4 对应参数：“--tensor-parallel-size 4”
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
 - `--port`：模型服务端口。
 
-- `--management-port`：管理端口。
+- `--served-model-name`：模型名称。
 
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
+- `--max-model-len`：模型最大上下文长度，TP4 最大支持128k上下文，TP2 最大支持64k上下文
 
-- `--served-model-name`：模型名称。仅支持设置为 Qwen3。
+- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8 模型需要设置该参数。
 
-- `--max-model-len`：模型最大上下文长度，Qwen3-30B-A3B-FP8 TP4 最大支持128k上下文，Qwen3-30B-A3B-FP8 TP2 最大支持64k上下文，Qwen3-30B-A3B-Instruct-2507-FP8 最大支持64K上下文。
-
-- `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
-
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
-
-- `--enable-qwen3-rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度支持 64K。
-
-- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
-
-- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。对于Qwen3系列模型，需设置为 hermers。
-
-- `--chat-template`: 指定聊天对话的模板格式, 对于 Qwen3 系列模型，可通过指定参数 “--chat-template  /workspace/qwen3_nonthinking.jinja” 关闭思考模式，同时此时需去掉“--enable-reasoning --reasoning-parser deepseek_r1” 参数才能使关闭思考模式生效。
-
-启动完成后显示如下类似信息。
-```shell
-Deployment configuration updated successfully.
-Docker containers started successfully.
-All instances are up and running
-```
-
-
-
-**步骤 3.** 查看 vLLM 服务的输出日志。
-
-```bash
-tail -f llm_serve_0.log
-```
-
-
-**步骤 4.** （可选）停止 vLLM 服务。
-
-如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
-```bash
-docker-compose -f docker-compose.yaml down
-```
+>注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
 
 # 测试模型性能
@@ -235,6 +132,7 @@ python3 benchmark_serving.py \
     --random-output-len <output_len> \
     --max-concurrency <concurrency> \
     --served-model-name <model_name> \
+    --server-num <server_num> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -246,7 +144,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“qwen3-30b-docker-compose.yaml”中查看确认。
+- `--port`：vLLM 推理服务端口。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
@@ -263,15 +161,15 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  >该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
 - `--result-dir`：测试结果保存目录。如果不设置，则保存至当前路径。
 
 - `--result-filename`：测试结果文件名称。
+
+- `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
 本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型性能。
@@ -337,66 +235,25 @@ python3 benchmark_serving.py \
 # 测试模型精度
 
 
-模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
+模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 进行评估。EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
-EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
 
-使用原生数据集进行精度测试，配置文件如下所示，单击[config_eval_qwen3.yaml](./config/config_eval_qwen3.yaml)获取。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
+本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型精度。
 
-```yaml
-# vaeval 评估配置文件
-model: "Qwen3"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: "EMPTY"
-eval_type: "service"
-work_dir: "./outputs_eval_qwen3"
+**步骤 1.** 启动 vLLM 服务。
 
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
+**步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/evalscope/precision_llm.py)获取精度测评结果。
 
-eval_batch_size: 32
+测评主要参数如下所示：
 
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                             
-```
-
-参数说明如下所示。
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
-
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
 - api_key：API 密钥。默认值：Empty。
-
-- eval_type：评测类型，设置为service。
-
-
-- work_dir：评测结果保存路径。
 
 - datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
 
@@ -413,170 +270,16 @@ limit: 50
   - temperature：生成温度。
 
   - top_p：生成top-p。
+    
+  - top_k：生成top-k。
 
-   - n： 生成序列数量。
-
-- stream：是否使用流式输出，默认值：false。
-
-- timeout：请求超时时间。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
-
-
-
-
-
-使用自定义数据集进行精度测试，配置文件如下所示，单击[config_eval_general_mcq_qwen3](./config/config_eval_general_mcq_qwen3.yaml)获取。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
-
-```yaml
-model: Qwen3
-api_url: http://localhost:8000/v1/chat/completions
-api_key: EMPTY
-eval_type: service
-datasets:
-  - general_mcq
-dataset_args:
-  general_mcq:
-    local_path: "/path/to/cluewsc_custom"
-    subset_list:
-      - "cluewsc"
-    prompt_template: "以下问题的答案有AB两个选项，选出正确答案，请直接回答A或B\n\n{query}"
-    eval_split: 'test'
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-eval_batch_size: 32
-limit: 50
-stream: true
-timeout: 6000000  
-work_dir: ./outputs_eval_qwen3                                            
-```
-
-参数说明如下所示。
-
-- model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
-
-- api_url：vLLM 服务地址。
-
-- api_key：API密钥。
-
-- eval_type：评测类型，设置为service。
-
-
-- datasets：自定义数据集名称
-
-- dataset_args：数据集参数
-
-
-   - general_xxx：自定义数据集名称，根据实际情况替换。
-
-   - local_path：自定义数据集路径。
-
-   - subset_list：自定义数据集子集名称。
-
-   - prompt_template：Prompt模板，
-
-   - eval_split：评测数据集划分。
-
-- generation_config：生成参数
-
-  - max_tokens：生成的最大Token数量。
-
-  - temperature：生成温度。
-
-  - top_p：生成top-p。
-
-   - n： 生成序列数量。
-
-- eval_batch_size：评测批次大小。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
+  - n： 生成序列数量。
 
 - stream：是否使用流式输出，默认值：false。
 
 - timeout：请求超时时间。
 
-- work_dir：评测结果保存路径。
-
-本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型精度，其中数据集使用原生数据集。
-
-**步骤 1.** 单击[config_eval_qwen3.yaml](./config/config_eval_qwen3.yaml)下载精度配置文件。
-
-假设下载后目录为“/home/username”目录，请根据实际情况替换。
-
-**步骤 2.** 启动 vLLM 服务。
-
-**步骤 3.** 新打开一个终端拉取测试模型精度的镜像。
-
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/vaeval:0.1 
-```
->上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vaeval:0.1`需替换为`harbor.vastaitech.com/ai_deliver/vaeval:latest_arm`。
->
-**步骤 4.** 在新打开的终端运行测试模型精度的容器。
-
-```shell
-docker run --ipc=host -it --ipc=host --privileged \
-      --name=vaeval -v /home/username:/data harbor.vastaitech.com/ai_deliver/vaeval:0.1 bash
-```
-其中，“/home/username”为精度测试配置文件所在目录，请根据实际情况替换。
-
-**步骤 5.** 根据实际情况修改精度测试配置文件。
-
-```yaml
-# vaeval 评估配置文件
-model: "Qwen3"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: "EMPTY"
-eval_type: "service"
-work_dir: "./outputs_eval_qwen3"
-
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
-
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
-
-eval_batch_size: 32
-
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                    
-```
-
-
-
-
-**步骤 6.**  测试 Qwen3-30B-A3B-FP8 模型精度。
-
-```shell
-conda activate vaeval
-cd /data
-vaeval eval config_eval_qwen3.yaml
-```
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
 # 启动 Open WebUI 服务
 
@@ -668,4 +371,3 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 ![chat.png](../../images/llm/deepseek_r1/chat.png)
 
 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
-

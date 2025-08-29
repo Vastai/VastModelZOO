@@ -10,7 +10,7 @@
 
 ## Model Arch
 
-![deepseek_v3_arch](../../images/llm/deepseek_v3_arch.png)
+![deepseek_v3_arch](../../images/llm/deepseek_v3/deepseek_v3_arch.png)
 
 ### DeepSeek-R1-Zero
 DeepSeek-R1-Zero是一个独特的通过大规模强化学习(Reinforcement Learning，RL) 训练的模型，无需有监督微调 (Supervised Fine-Tuning，SFT) ，具备较强的推理（Reasoning）能力。
@@ -111,17 +111,17 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
     - [yahma/alpaca-cleaned](https://hf-mirror.com/datasets/yahma/alpaca-cleaned/tree/main)
         - alpaca_data_cleaned.json
 
-2. 性能测试不定长数据集：[ShareGPT_V3_unfiltered_cleaned_split.json](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json)
-3. 精度评估数据集：[OpenCompassData-core-20240207.zip](https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/OpenCompassData-core-20240207.zip)
-
 ### step.3 模型转换
 
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../docs/vastai_software.md)
-2. 根据具体模型，修改模型转换配置文件
+1. 根据具体模型，修改模型转换配置文件
     - Distill-Llama/Qwen模型，编译配置一致
     - [hf_ds_r1_distill_fp16.yaml](./build_in/build/hf_ds_r1_distill_fp16.yaml)
     - [hf_ds_r1_distill_int8.yaml](./build_in/build/hf_ds_r1_distill_int8.yaml)
 
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`
+    
     ```bash
     vamc compile ./build_in/build/hf_ds_r1_distill_fp16.yaml
     vamc compile ./build_in/build/hf_ds_r1_distill_int8.yaml
@@ -133,4 +133,4 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 
 
 ### step.4 模型推理
-1. 参考llmdeploy工具文档，进行模型推理、性能和精度测试
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)

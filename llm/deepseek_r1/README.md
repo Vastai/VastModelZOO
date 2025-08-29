@@ -10,11 +10,6 @@
 
 # 版本信息
 
-
-本次发布软件版本为 [AI3.0_SP7_0728](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)。
-
->该版本为中期迭代版本，不作为正式出货版本。
-
 # 版本配套说明
 
 
@@ -23,8 +18,7 @@
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc |ds3_0530 (Stable Version)|
-| vllm_vacc |AI3.0_SP7_0728 (Preview Version)|
+| vllm_vacc |AI3.0_SP9_0811 (Preview Version)|
 
 
 ## 支持的模型
@@ -76,7 +70,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- 模型最大上下文长度为 64K，输入最大长度为 56K。	
+- 模型最大上下文长度为 64K，输入最大长度为 56K，如果开启 MTP 输入最大长度为48K.	
 
 - 同时支持最大并发数为 4。
 
@@ -90,144 +84,40 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 # 环境安装
 
+## 启动DeepSeek-R1服务
 
-前置依赖说明：[Requirement.md](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-
-
-部署 DeepSeek-R1 系列模型支持两种部署方式：
-
-- 一键安装：表示通过脚本一键部署，用户无需再单独安装驱动、启动vLLM 服务。
-- 分步安装：需根据操作步骤安装驱动、启动 vLLM 服务。
-<a id="install_one_click"></a>
-## 一键安装
-
-通过如下命令一键启动 vLLM 服务。命令下载链接：[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)
-```shell
-./vallmdeploy_AI3.0_SP7_0728.run <Model_Type> <Model_Path>
-```
-参数说明如下所示。
-    
-- Model_Type：设置为 DS3-R1。
-  - 如果模型为 DeepSeek-R1 系列模型，则设置为 DS3-R1。
-    
-- Model_Path: 模型权重路径。
-
-注意：一键安装前需要停掉运行中的 vllm_service 和 haproxy-server 
-
-参考命令:
 ```bash
-sudo docker rm -f vllm_service haproxy-server 
-```
-
-<a id="install_stepbystep"></a>
-## 分步安装
-
-部署 DeepSeek-R1 系列模型前，请确保已从[开发者中心](https://developer.vastaitech.com/downloads/delivery-center?version_uid=440893211821608960)下载配套版本的驱动（Driver）和《PCIe 驱动安装指南》，并按指南完成驱动安装。
-
-## 启动 vLLM 服务
-
-**前提条件**
-
-Docker Compose 版本需为 v1.29及以上版本，否则执行指令时可能会出现异常。
-
-- 如果 CPU 是 x86 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.26.1/\
-     docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-- 如果 CPU 是 ARM 架构，Docker Compose 安装指令如下所示。
-```shell
-wget https://github.com/docker/compose/releases/download/v2.37.2/\
-     docker-compose-linux-aarch64 -O /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-**操作步骤**
-
-**步骤 1.** 获取[haproxy](https://github.com/Vastai/VastModelZOO/tree/develop/llm/common/haproxy)包。
-
-假设存放路径为“/home/username”，请根据实际情况替换。
-
-
-
-
-
-**步骤 2.**  启动 vLLM 服务。
-
-本文档默认使用 deploy.py 启动vllm server。如果需要 vllm server 原生启动方式，可参考 [docker-compose](./docker-compose/)
-
-DeepSeek-R1-0528 启动命令:
-```shell
-cd /home/username/haproxy
-python3 deploy.py --instance 1 \
+docker run \
+    --privileged=true --shm-size=256g \
+    -v /path/to/model:/weights/ \
+    -p 8000:8000 \
+    --ipc=host \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP9_0811 \
+    vllm serve /weights/DeepSeek-R1-0528 \
+    --trust-remote-code \
     --tensor-parallel-size 32 \
-    --image harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.0_SP7_0728 \
-    --model /home/username/weights/DeepSeek-R1-0528 \
-    --port 8000 \
-    --management-port 9000 \
-    --max-batch-size-for-instance 4 \
-    --served-model-name DeepSeek-R1-0528 \
     --max-model-len 65536 \
-    --enable-reasoning \
-    --reasoning-parser deepseek_r1 
+    --enforce-eager \
+    --reasoning-parser deepseek_r1 \
+    --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
+    --host 0.0.0.0 \
+    --port 8000 \
+    --served-model-name DS3-R1
 ```
+
 参数说明如下所示。
-    
-- `--instance`： 模型推理实例。
 
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
-
-- `--image`：模型服务镜像。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
 - `--port`：模型服务端口。
 
-- `--management-port`：管理端口。
-
-- `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
-
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度。
+- `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
 
-- `--enable-reasoning`：是否启动模型推理内容生成功能。需与`--reasoning-parser`参数配套使用。
-
-- `--reasoning-parser`：指定用于从模型输出中提取推理内容的推理解析器。
-
-- `chat-template`: 指定聊天对话的模板格式。
-
-- `--enable-auto-tool-choice`：启用自动工具选择功能，使模型能够根据用户输入自动决定是否需要调用工具（如 API、函数），并选择最合适的工具。
-
-- `--tool-call-parser`：设置工具调用解析器，用于解析模型的输出中是否包含工具调用请求，并将其转换为结构化格式（如 JSON）。
-           
-    对于DeepSeek-R1-0528 模型，启动参数：“--enable-auto-tool-choice --tool-call-parser deepseek_v3 --chat-template /workspace/tool_chat_template_deepseekr1.jinja”
-    
-启动完成后显示如下类似信息。
-```shell
-Deployment configuration updated successfully.
-Docker containers started successfully.
-All instancesare up and running
-```
-
-
-
-**步骤 3.** 查看 vLLM 服务的输出日志。
-
-```bash
-tail -f vllm_serve_0.log
-```
-
-
-**步骤 4.** （可选）停止 vLLM 服务。
-
-如果需停止服务，可执行该步骤。
-[docker-compose.yaml](../common/haproxy/docker-compose.yaml)
-```bash
-docker-compose -f docker-compose.yaml down
-```
+- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek 系列模型生效
 
 
 # 测试模型性能
@@ -261,7 +151,7 @@ python3 benchmark_serving.py \
 
 - `--host`：vLLM 推理服务所在 IP 地址。
 
-- `--port`：vLLM 推理服务端口，需在“ds-xxx-docker-compose.yaml”中查看确认。其中，“ds-xxx-docker-compose.yaml”为 DeepSeek R1系列模型对应的 Docker Compose 配置文件，请根据实际情况替换。
+- `--port`：vLLM 推理服务端口，请根据实际情况替换。
 
 - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
 
@@ -278,9 +168,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称，默认设置为 DS3-R1。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -353,67 +241,25 @@ python3 benchmark_serving.py \
 # 测试模型精度
 
 
-模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
+模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 进行评估。EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
-EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
 
-使用原生数据集进行精度测试，配置文件如下所示。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
+本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度。
 
-- DeepSeek-R1 系列模型：单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获取精度测试配置文件。
+**步骤 1.** 启动 vLLM 服务。
 
-```{code-block} 
-# vaeval 评估配置文件
-model: "DS3-R1"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: "EMPTY"
-eval_type: "service"
-work_dir: "./outputs_eval_ds_r1_0528"
+**步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
 
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+测评主要参数如下所示：
 
-eval_batch_size: 4
-
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                   
-```
-
-参数说明如下所示。
 - model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
 - api_key：API 密钥。默认值：Empty。
-
-- eval_type：评测类型，设置为service。
-
-
-- work_dir：评测结果保存路径。
 
 - datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
 
@@ -430,172 +276,17 @@ limit: 50
   - temperature：生成温度。
 
   - top_p：生成top-p。
+    
+  - top_k：生成top-k。
 
-   - n： 生成序列数量。
-
-- stream：是否使用流式输出，默认值：false。
-
-- timeout：请求超时时间。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
-
-
-
-
-使用自定义数据集进行精度测试，配置文件如下所示。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
-
-- DeepSeek-R1 系列模型：单击[config_eval_general_mcq_dsr1_0528.yaml](./config/config_eval_general_mcq_dsr1_0528.yaml)获取精度测试配置文件。
-
-```{code-block}
-model: DS3-R1
-api_url: http://localhost:8000/v1/chat/completions
-api_key: EMPTY
-eval_type: service
-datasets:
-  - general_mcq
-dataset_args:
-  general_mcq:
-    local_path: "/path/to/cluewsc_custom"
-    subset_list:
-      - "cluewsc"
-    prompt_template: "以下问题的答案有AB两个选项，选出正确答案，请直接回答A或B\n\n{query}"
-    eval_split: 'test'
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-eval_batch_size: 4
-limit: 50
-stream: true
-timeout: 6000000  
-work_dir: ./outputs_eval_ds_r1_0528                          
-```
-
-参数说明如下所示。
-
-- model：模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 DS3-R1 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
-
-- api_url：vLLM 服务地址。
-
-- api_key：API密钥。
-
-- eval_type：评测类型，设置为service。
-
-
-- datasets：自定义数据集名称
-
-- dataset_args：数据集参数
-
-
-   - general_xxx：自定义数据集名称，根据实际情况替换。
-
-   - local_path：自定义数据集路径。
-
-   - subset_list：自定义数据集子集名称。
-
-   - prompt_template：Prompt模板，
-
-   - eval_split：评测数据集划分。
-
-- generation_config：生成参数
-
-  - max_tokens：生成的最大Token数量。
-
-  - temperature：生成温度。
-
-  - top_p：生成top-p。
-
-   - n： 生成序列数量。
-
-- eval_batch_size：评测批次大小。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
+  - n： 生成序列数量。
 
 - stream：是否使用流式输出，默认值：false。
 
 - timeout：请求超时时间。
 
-- work_dir：评测结果保存路径。
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
-本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
-
-**步骤 1.** 单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获下载精度配置文件。
-
-假设下载后目录为“/home/username”目录，请根据实际情况替换。
-
-**步骤 2.** 启动 vLLM 服务。
-
-**步骤 3.** 新打开一个终端拉取测试模型精度的镜像。
-
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/vaeval:0.1 
-```
->上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vaeval:0.1`需替换为`harbor.vastaitech.com/ai_deliver/vaeval:latest_arm`。
->
-
-**步骤 4.** 在新打开的终端运行测试模型精度的容器。
-
-```shell
-docker run --ipc=host -it --ipc=host --privileged \
-      --name=vaeval -v /home/username:/data harbor.vastaitech.com/ai_deliver/vaeval:0.1 bash
-```
-其中，“/home/username”为精度测试配置文件所在目录，请根据实际情况替换。
-
-**步骤 4.** 根据实际情况修改精度测试配置文件。
-
-```yaml
-# vaeval 评估配置文件
-model: "DS3-R1"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: token-abc123
-eval_type: "service"
-work_dir: "./outputs_eval_ds_r1_0528"
-
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
-
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
-
-eval_batch_size: 2
-
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                   
-```
-
-
-
-
-**步骤 5.**  测试 DeepSeek-R1-0528 模型精度。
-
-```shell
-conda activate vaeval
-cd /data
-vaeval eval config_eval_ds_r1_0528.yaml
-```
 
 # 启动 Open WebUI 服务
 

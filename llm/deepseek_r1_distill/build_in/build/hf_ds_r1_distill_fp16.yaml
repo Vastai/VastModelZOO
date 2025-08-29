@@ -1,7 +1,7 @@
 name: DeepSeek-R1-Distill-Qwen-7B-fp16-tp4-1024-2048
 
 frontend:
-  checkpoint: /media/vastml/modelzoo/llm/Qwen/DeepSeek-R1-Distill-Qwen-7B
+  checkpoint: /path/to/DeepSeek-R1-Distill-Qwen-7B
   type: huggingface
 
   shape:

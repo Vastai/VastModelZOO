@@ -1,0 +1,31 @@
+name: qwen2.5_vl_7b_llm_28layer_2048_4096_tp4_fp16
+
+frontend:
+  checkpoint: /path/to/Qwen2.5-VL-7B-Instruct/
+
+  type: huggingface
+  shape:
+    input_ids: [[2048], [4096]]
+  model_kwargs:
+    tp: 4
+    model_arch: vacc
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  merge_params: true
+  remove_params: false
+
+  compile:
+    data_type: 0
+    gather_data_vccl_dsp_enable: true
+    attention_split_num: 16
+    ffn_split_num: 16
+
+workspace:
+  path: vamc_results
+  pyenv:
+    transformers: 4.51.3
+    huggingface-hub: 0.30.2
+  env_recheck: false
+  workers: 4
