@@ -28,7 +28,7 @@
     |  组件 |    版本    |  工具说明  |
     | :------: | :------: | :------: |
     | Driver | 3.3.0 | PCIe 驱动包  |
-    | AI-Release | AI3.0_SP3_0702 | AI 工具包 |
+    | AI-Release | AI3.0_SP9_0811 | AI 工具包 |
     | VAMC | 3.4.1 | 模型转换工具 |
     | VastPipe | 2.7.3 | 全流程低代码开发框架 |
     | VastStreamX | 2.8.3 | SDK应用API库   |
@@ -326,7 +326,7 @@
 | :------: | :------: | :------: | :------: | :-----: |
 |[Qwen2.5](./llm/qwen2/README.md) | [huggingface](https://hf-mirror.com/Qwen)| <details> <summary>model name</summary><ul><li align="left">Qwen2.5-7B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-14B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-32B-Instruct-GPTQ-Int4</li></ul></details> | large language model | vLLM |
 | [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li></ul> </details>   | large language model |   vLLM   |
-| [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li></ul></details>   | large language model |   vLLM   |
+| [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li></ul></details>   | large language model |   vLLM   |
 | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
 
 
