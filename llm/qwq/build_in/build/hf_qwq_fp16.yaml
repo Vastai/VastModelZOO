@@ -1,7 +1,7 @@
 name: QwQ-32B-fp16-tp8-1024-2048
 
 frontend:
-  checkpoint: /media/vastml/modelzoo/llm/Qwen/QwQ-32B
+  checkpoint: /path/to/QwQ-32B
   type: huggingface
 
   shape:

@@ -1,7 +1,7 @@
 name: LLaMA-33B-HF-int8-tp4-1024-2048
 
 frontend:
-  checkpoint: /media/vastml/modelzoo/llm/LLaMA/LLaMA-33B-HF
+  checkpoint: /path/to/LLaMA-33B-HF
   type: huggingface
 
   shape:

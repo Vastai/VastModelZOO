@@ -241,65 +241,25 @@ python3 benchmark_serving.py \
 # 测试模型精度
 
 
-模型精度测试通过 vLLM 服务加载模型，并使用 vaeval 进行评估。vaeval 工具基于 EvalScope 二次开发，EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
+模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 进行评估。EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
-EvalScope 支持基于原生数据集进行精度测试，也支持基于自定义数据集进行测试。不同的数据集其精度测试配置文件不同。
 
-使用原生数据集进行精度测试，配置文件如下所示。EvalScope支持的原生数据集可参考[EvalScope支持的数据集](https://evalscope.readthedocs.io/zh-cn/latest/get_started/supported_dataset/llm.html)。
+本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度。
 
-- DeepSeek-R1 系列模型：单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获取精度测试配置文件。
+**步骤 1.** 启动 vLLM 服务。
 
-```{code-block} 
-# vaeval 评估配置文件
-model: "DS3-R1"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: "EMPTY"
-eval_type: "service"
-work_dir: "./outputs_eval_ds_r1_0528"
+**步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
 
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
+测评主要参数如下所示：
 
-eval_batch_size: 4
-
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                   
-```
-
-参数说明如下所示。
 - model：模型名称。
-  - 该参数设置应与模型启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - api_url：vLLM 服务地址。
 
 - api_key：API 密钥。默认值：Empty。
-
-- eval_type：评测类型，设置为service。
-
-
-- work_dir：评测结果保存路径。
 
 - datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
 
@@ -316,170 +276,17 @@ limit: 50
   - temperature：生成温度。
 
   - top_p：生成top-p。
+    
+  - top_k：生成top-k。
 
-   - n： 生成序列数量。
-
-- stream：是否使用流式输出，默认值：false。
-
-- timeout：请求超时时间。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
-
-
-
-
-使用自定义数据集进行精度测试，配置文件如下所示。自定义数据集格式要求可参考[大语言模型自定义评测数据集](https://evalscope.readthedocs.io/zh-大语言模型自定义评测数据集cn/latest/advanced_guides/custom_dataset/llm.html)。
-
-- DeepSeek-R1 系列模型：单击[config_eval_general_mcq_dsr1_0528.yaml](./config/config_eval_general_mcq_dsr1_0528.yaml)获取精度测试配置文件。
-
-```{code-block}
-model: DS3-R1
-api_url: http://localhost:8000/v1/chat/completions
-api_key: EMPTY
-eval_type: service
-datasets:
-  - general_mcq
-dataset_args:
-  general_mcq:
-    local_path: "/path/to/cluewsc_custom"
-    subset_list:
-      - "cluewsc"
-    prompt_template: "以下问题的答案有AB两个选项，选出正确答案，请直接回答A或B\n\n{query}"
-    eval_split: 'test'
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-eval_batch_size: 4
-limit: 50
-stream: true
-timeout: 6000000  
-work_dir: ./outputs_eval_ds_r1_0528                          
-```
-
-参数说明如下所示。
-
-- model：模型名称。
-  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
-
-- api_url：vLLM 服务地址。
-
-- api_key：API密钥。
-
-- eval_type：评测类型，设置为service。
-
-
-- datasets：自定义数据集名称
-
-- dataset_args：数据集参数
-
-
-   - general_xxx：自定义数据集名称，根据实际情况替换。
-
-   - local_path：自定义数据集路径。
-
-   - subset_list：自定义数据集子集名称。
-
-   - prompt_template：Prompt模板，
-
-   - eval_split：评测数据集划分。
-
-- generation_config：生成参数
-
-  - max_tokens：生成的最大Token数量。
-
-  - temperature：生成温度。
-
-  - top_p：生成top-p。
-
-   - n： 生成序列数量。
-
-- eval_batch_size：评测批次大小。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。
+  - n： 生成序列数量。
 
 - stream：是否使用流式输出，默认值：false。
 
 - timeout：请求超时时间。
 
-- work_dir：评测结果保存路径。
+- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
-本节以 DeepSeek-R1-0528 模型为例进行说明如何测试模型精度，其中，数据集使用原生数据集。
-
-**步骤 1.** 单击[config_eval_ds_r1_0528.yaml](./config/config_eval_ds_r1_0528.yaml)获下载精度配置文件。
-
-假设下载后目录为“/home/username”目录，请根据实际情况替换。
-
-**步骤 2.** 启动 vLLM 服务。
-
-**步骤 3.** 新打开一个终端拉取测试模型精度的镜像。
-
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/vaeval:0.1 
-```
->上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vaeval:0.1`需替换为`harbor.vastaitech.com/ai_deliver/vaeval:latest_arm`。
->
-
-**步骤 4.** 在新打开的终端运行测试模型精度的容器。
-
-```shell
-docker run --ipc=host -it --ipc=host --privileged \
-      --name=vaeval -v /home/username:/data harbor.vastaitech.com/ai_deliver/vaeval:0.1 bash
-```
-其中，“/home/username”为精度测试配置文件所在目录，请根据实际情况替换。
-
-**步骤 4.** 根据实际情况修改精度测试配置文件。
-
-```yaml
-# vaeval 评估配置文件
-model: "DS3-R1"
-api_url: "http://localhost:8000/v1/chat/completions"
-api_key: token-abc123
-eval_type: "service"
-work_dir: "./outputs_eval_ds_r1_0528"
-
-datasets:
-  - "mmlu_pro"
-  - "drop"
-  - "ifeval"
-  - "gpqa"
-  - "live_code_bench"
-  - "aime24"
-  - "math_500"
-  - "ceval"
-
-dataset_args:
-  mmlu_pro:
-    subset_list: ["computer science", "math", "chemistry", "engineering", "law"]
-  gpqa:
-    subset_list: ["gpqa_diamond"]
-  ceval:
-    subset_list: ["computer_network", "operating_system", "computer_architecture", "college_programming", "college_physics"]
-
-eval_batch_size: 2
-
-generation_config:
-  max_tokens: 61440
-  temperature: 0.6
-  top_p: 0.95
-  n: 1
-
-stream: true
-timeout: 6000000
-limit: 50                   
-```
-
-
-
-
-**步骤 5.**  测试 DeepSeek-R1-0528 模型精度。
-
-```shell
-conda activate vaeval
-cd /data
-vaeval eval config_eval_ds_r1_0528.yaml
-```
 
 # 启动 Open WebUI 服务
 

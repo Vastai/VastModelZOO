@@ -8,7 +8,7 @@
 
 
 ## Model Arch
-![llama_arch](../../images/llm/llama_arch.png)
+![llama_arch](../../images/llm/llama/llama_arch.png)
 
 ### LLaMA v2
 - 在LLaMa1的基础上，继续增加了40%的预训练数据
@@ -51,26 +51,24 @@
     - [yahma/alpaca-cleaned](https://hf-mirror.com/datasets/yahma/alpaca-cleaned/tree/main)
         - alpaca_data_cleaned.json
 
-2. 性能测试不定长数据集：[ShareGPT_V3_unfiltered_cleaned_split.json](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json)
-3. 精度评估数据集：[OpenCompassData-core-20240207.zip](https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/OpenCompassData-core-20240207.zip)
-
 ### step.3 模型转换
 
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../docs/vastai_software.md)
-2. 根据具体模型，修改模型转换配置文件
+1. 根据具体模型，修改模型转换配置文件
     - v1/v2/v3模型，编译配置一致
     - [hf_llama2_fp16.yaml](./build_in/build/hf_llama2_fp16.yaml)
     - [hf_llama2_int8.yaml](./build_in/build/hf_llama2_int8.yaml)
 
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`
+    
     ```bash
     vamc compile ./build_in/build/hf_llama2_fp16.yaml
     vamc compile ./build_in/build/hf_llama2_int8.yaml
     ```
 
-
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[llmdeploy v1.6+](../../docs/vastai_software.md)
-2. 参考llmdeploy工具文档，进行模型推理、性能和精度测试
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

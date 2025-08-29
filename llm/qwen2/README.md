@@ -10,7 +10,7 @@
 
 ## Model Arch
 
-![qwen_arch](../../images/llm/qwen_arch.png)
+![qwen_arch](../../images/llm/qwen/qwen_arch.png)
 
 ### Qwen v2
 - 采用了Grouped Query Attention(GQA)来优化推理过程中的Key-Value (KV)缓存使用。传统的多头注意力机制在处理长序列时，KV 缓存的使用效率较低，而 GQA 通过将查询进行分组，可以更有效地利用缓存资源，从而显著提高推理的吞吐量
@@ -107,17 +107,16 @@
     - [yahma/alpaca-cleaned](https://hf-mirror.com/datasets/yahma/alpaca-cleaned/tree/main)
         - alpaca_data_cleaned.json
 
-2. 性能测试不定长数据集：[ShareGPT_V3_unfiltered_cleaned_split.json](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json)
-3. 精度评估数据集：[OpenCompassData-core-20240207.zip](https://github.com/open-compass/opencompass/releases/download/0.2.2.rc1/OpenCompassData-core-20240207.zip)
-
-
 ### step.3 模型转换
-1. 参考瀚博训推软件生态链文档，获取模型转换工具: [vamc v3.0+](../../docs/vastai_software.md)
-2. 根据具体模型修改模型转换配置文件
+1. 根据具体模型修改模型转换配置文件
     - v1.5/v2/v2.5模型，编译配置一致
     - [hf_qwen2_fp16.yaml](./build_in/build/hf_qwen2_fp16.yaml)
     - [hf_qwen2_int8.yaml](./build_in/build/hf_qwen2_int8.yaml)
 
+    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`
+    
     ```bash
     vamc compile ./build_in/build/hf_qwen2_fp16.yaml
     vamc compile ./build_in/build/hf_qwen2_int8.yaml
@@ -125,8 +124,7 @@
 
 
 ### step.4 模型推理
-1. 参考瀚博训推软件生态链文档，获取模型推理工具：[llmdeploy v1.6+](../../docs/vastai_software.md)
-2. 参考llmdeploy工具文档，进行模型推理、性能和精度测试
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)
@@ -154,3 +152,16 @@
 
 ### step.2 模型推理
 - 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改，参见上表`demo_code`部分
+
+
+## vLLM Deploy
+
+### step.1 模型准备
+| models  | arch tips | deploy tips |
+| :--- | :--: | :--: |
+[Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP2/4 |
+[Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP2/4 |
+[Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP4/8 |
+
+### step.2 模型推理
+- 参考：[vllm/README.md](../../llm/qwen3/vllm/README.md)
