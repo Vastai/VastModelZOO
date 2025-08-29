@@ -75,21 +75,48 @@ Chat response: ChatCompletion(id='chatcmpl-717355db3cf0490a9bc4d542c7d87e0d', ch
 
 ## curl 命令调用示例
 ```bash
-#禁用思考模式
-curl http://10.24.73.25:8001/v1/chat/completions -H "Content-Type: application/json" -d '{
-  "model": "Qwen3",
-  "messages": [
-    {"role": "user", "content": "Give me a short introduction to large language models."}
-  ],
-  "temperature": 0.7,
-  "top_p": 0.8,
-  "top_k": 20,
-  "max_tokens": 8192,
-  "chat_template_kwargs": {"enable_thinking": false}
+#Qwen3 禁用思考模式
+curl http://10.24.73.5:8001/v1/chat/completions -H "Content-Type: application/json" -d '{
+	"model": "Qwen3",
+	"messages": [
+		{
+			"role": "user",
+			"content": "Give me a short introduction to large language models."
+		}
+	],
+	"temperature": 0.7,
+	"top_p": 0.8,
+	"max_tokens": 8192,
+	"chat_template_kwargs": {
+		"enable_thinking": false
+	}
+}'
+
+#DeepSeek-V3.1 开启思考模式
+curl http://10.24.73.5:8000/v1/chat/completions -H "Content-Type: application/json" -d '{
+	"model": "DeepSeek-V3",
+	"messages": [
+		{
+			"role": "user",
+			"content": "Give me a short introduction to large language models."
+		}
+	],
+	"temperature": 0.7,
+	"top_p": 0.8,
+	"max_tokens": 8192,
+	"chat_template_kwargs": {
+		"thinking": true
+	}
 }'
 ```
 
 ## curl 命令调用结果
 ```bash
+#Qwen3 禁用思考模式
 {"id":"chatcmpl-79f50ad351054772a79ab388104f2031","object":"chat.completion","created":1755689585,"model":"Qwen3","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":null,"content":"Large language models (LLMs) are advanced artificial intelligence systems designed to understand and generate human-like text. Trained on vast amounts of data from the internet, they can perform a wide range of tasks, such as answering questions, writing essays, coding, and even engaging in conversation. These models use deep learning techniques, particularly transformer architectures, to process and generate language with remarkable fluency and context awareness. LLMs have become foundational tools in many areas of AI, enabling more natural and effective interactions between humans and machines.","tool_calls":[]},"logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":22,"total_tokens":128,"completion_tokens":106,"prompt_tokens_details":null},"prompt_logprobs":null,"kv_transfer_params":null}
+```
+
+```bash
+#DeepSeek-V3.1 开启思考模式
+{"id":"chatcmpl-81205c3d6b434a398f6373d3b576eafa","object":"chat.completion","created":1756276026,"model":"DeepSeek-V3","choices":[{"index":0,"message":{"role":"assistant","reasoning_content":null,"content":"Hmm, the user wants a short introduction to large language models. I need to keep it concise but informative. I can start with a simple analogy to make it accessible, then briefly explain the core mechanism—transformer architecture and self-attention. I should also highlight key features like scale, pretraining, and fine-tuning, but avoid technical details. Ending with common use cases and a note on ethical considerations would round it out. Let me structure it so it’s easy to follow but still substantive.</think>Of course. Here is a short introduction to large language models.\n\n### Large Language Models (LLMs): A Brief Overview\n\nA large language model (LLM) is a type of artificial intelligence that has been trained on a massive amount of text data. Think of it as a powerful, automated autocomplete system.\n\nIts core function is to **predict the next most likely word in a sequence**. By doing this repeatedly, it can generate entire sentences, paragraphs, and even documents that are coherent and contextually relevant.\n\n**How do they work?**\n*   **Training:** They learn by analyzing billions of sentences from books, articles, and websites. This process allows them to learn grammar, facts, reasoning abilities, and even some nuances of human communication.\n*   **The \"Transformer ArchitectureTransformer Architecture:** Most LLMs are based on a breakthrough called the \"Transformer\" architecture. This allows them to understand the relationships between words in a sentence, no matter how far apart they are, making their outputs more accurate and sensible.\n\n**What makes them \"large\"?**\nThe \"large\" refers to the immense scale of two things:\n1.  The size of their **training data** (often encompassing a significant portion of the internet).\n2.  The number of **parameters** (the internal settings the model adjusts during training, which can number in the billions or trillions).\n\n**What can they do?**\nLLMs power a wide range of applications, including:\n*   Chatbots and virtual assistants (like ChatGPT)\n*   Translating languages\n*   Summarizing long documents\n*   Writing code and debugging\n*   Drafting emails and content\n\nIn essence, LLMs are powerful pattern-matching systems that generate human-like text, making them a transformative technology for human-computer interaction.","tool_calls":[]},"logprobs":null,"finish_reason":"stop","stop_reason":null}],"usage":{"prompt_tokens":14,"total_tokens":481,"completion_tokens":467,"prompt_tokens_details":null},"prompt_logprobs":null,"kv_transfer_params":null}
 ```

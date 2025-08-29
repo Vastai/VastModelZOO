@@ -1,12 +1,12 @@
 # DeepSeek-V3/V3.1 模型部署
 
 
-本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3/V3.1系列模型，以及测试模型的精度和性能。
+本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-V3/V3.1 系列模型，以及测试模型的精度和性能。
 
 
 # 硬件要求
 
-部署DeepSeek-V3/V3.1 系列模型进行推理需要 1 台 VA16（8*128G）服务器。
+部署 DeepSeek-V3/V3.1 系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
 # 版本信息
 
@@ -37,7 +37,6 @@
 - [DeepSeek-V3.1-Base](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Base)
 
 
-
 模型下载步骤如下所示。
 
 1. 安装 ModelScope。
@@ -64,6 +63,7 @@ export PATH=$PATH:~/.local/bin
 - DeepSeek-V3.1
 
 - DeepSeek-V3.1-Base
+
 
 每个模型大小约为642GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
@@ -100,7 +100,7 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 # 环境安装
 
 
-## 启动DeepSeek-V3/V3.1服务
+## 启动 DeepSeek-V3/V3.1 服务
 
 ```bash
 docker run \
