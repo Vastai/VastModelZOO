@@ -264,7 +264,7 @@ python3 benchmark_serving.py \
 
 **步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/evalscope/precision_llm.py)获取精度测评结果。
 
 测评主要参数如下所示：
 
