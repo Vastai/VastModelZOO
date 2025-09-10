@@ -191,7 +191,7 @@ python3 benchmark_serving.py \
     --num-prompts 5 \
     --random-input-len 128 \
     --ignore-eos \
-    --random-output-len 1024 \    
+    --random-output-len 1024 \
     --max-concurrency 1 \
     --served-model-name Qwen3 \
     --save-result \
