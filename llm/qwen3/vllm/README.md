@@ -143,7 +143,7 @@ python3 deploy.py --instance 16 \
 
 - `--max-batch-size-for-instance`：每个实例的最大 Batch Size。
 
-- `--served-model-name`：模型名称。仅支持设置为 Qwen3。
+- `--served-model-name`：模型名称。
 
 - `--max-model-len`：模型最大上下文长度。
 
@@ -232,9 +232,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  - 如果通过一键安装启动vLLM 服务， 该参数设置应与<Model_Type>一致，设置为 Qwen3-TP2 或 Qwen3-TP4 
-  
-  - 如果是通过分步安装启动vLLM 服务，该参数设置应与deploy.py 启动脚本中“--served-model-name” 参数一致
+  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 

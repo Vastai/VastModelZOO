@@ -102,7 +102,7 @@ docker run \
     --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
     --host 0.0.0.0 \
     --port 8000 \
-    --served-model-name DS3-R1
+    --served-model-name DeepSeek-R1
 ```
 
 参数说明如下所示。
@@ -196,7 +196,7 @@ python3 benchmark_serving.py \
     --ignore-eos \
     --random-output-len 1024 \
     --max-concurrency 1 \
-    --served-model-name DS3-R1 \
+    --served-model-name DeepSeek-R1 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
