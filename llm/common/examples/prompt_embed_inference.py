@@ -6,9 +6,10 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
 import vllm_vacc
 from vllm import LLM, SamplingParams
+from transformers import AutoTokenizer
+
 import gc
 import time
 import argparse
@@ -34,13 +35,13 @@ if __name__ == "__main__":
         stop=["<|endoftext|>", "\n\n\n"]
     )
 
-    # 示例 prompt；实际使用时可以改成从文件读取
     prompts = [
-        "用Python写一个快速排序函数，并添加详细注释",
-        "解释量子计算与传统计算的本质区别",
-        "写一段关于人工智能伦理的200字短文",
-        "将以下自然语言描述转为SQL查询：查询2023年销售额超过100万的电子产品",
+        "今天天气真好，",
+        "人工智能是",
+        "法国的首都是"
     ]
+
+    tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 
     print(f"初始化模型: {args.model_name} , TP={args.tensor_parallel_size}")
     llm = LLM(
@@ -50,18 +51,26 @@ if __name__ == "__main__":
         max_model_len=args.max_model_len
     )
 
+    
+    input_ids = []
+    for text in prompts:
+        tokens = tokenizer.encode(text, add_special_tokens=False)
+        input_ids.append(tokens)
+
+    print("Input tokens:", input_ids)
+
     print("开始批量推理...")
     start = time.time()
-    outputs = llm.generate(prompts, sampling_params)
+    outputs = llm.generate(prompt_token_ids=input_ids, 
+                           sampling_params=sampling_params)
     duration = time.time() - start
 
     print(f"\n完成! 总耗时: {duration:.2f}s\n")
     for i, output in enumerate(outputs):
         print(f"【Prompt {i+1}】")
-        print(f"输入: {output.prompt}")
+        print(f"输入: {output.prompt_token_ids}")
         print(f"输出: {output.outputs[0].text.strip()}")
         print("-" * 80)
 
-    # 主动清理
     del llm
     gc.collect()
