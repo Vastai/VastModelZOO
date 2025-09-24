@@ -80,7 +80,7 @@ commit: 8dba5581a7502b92de9641eb431130d6c8ca5d7f
     - vamp推理，获得npz结果
     ```bash
     vamp -m deploy_weights/official_edsr_run_stream_int8/mod \
-    --vdsp_params vacc_code/vdsp_params/official-edsr_x2-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-edsr_x2-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256] \
     --datalist npz_datalist.txt \
     --path_output npz_output
@@ -91,7 +91,7 @@ commit: 8dba5581a7502b92de9641eb431130d6c8ca5d7f
     python ../build_in/vdsp_params/official-vamp_eval.py \
     --gt_dir DIV2K/DIV2K_valid_HR \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir outputs/rcan \
+    --out_npz_dir npz_output \
     --input_shape 256 256 \
     --draw_dir npz_draw_result \
     --vamp_flag

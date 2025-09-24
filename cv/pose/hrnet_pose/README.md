@@ -97,7 +97,10 @@ python tools/deployment/pytorch2onnx.py \
 
 2. 模型编译
     ```bash
-    vamc build ./build_in/build/mmpose_hrnetpose.yaml
+    cd hrnet_pose
+    mkdir workspace
+    cd workspace
+    vamc build ../build_in/build/mmpose_hrnetpose.yaml
     ```
 
 ### step.4 模型推理
@@ -106,12 +109,12 @@ python tools/deployment/pytorch2onnx.py \
     参考：[sample_forward.py](./build_in/runstream/sample_forward.py)
 
     ```bash
-    python ./build_in/runstream/sample_forward.py
+    python ../build_in/runstream/sample_forward.py
     ```
     > `生成的npz用于下面的精度评估`
 2. [eval_multi.py](./source_code/eval_multi.py)，解析输出结果评估精度：
    ```bash
-    python source_code/eval_multi.py --data_root det_data/coco --output_data output/hrnet_out --datalist_txt config/vamp_datalist.txt --num_process 4
+    python ../source_code/eval_multi.py --data_root det_data/coco --output_data output/hrnet_out --datalist_txt config/vamp_datalist.txt --num_process 4
 
    ```
     > `由于hrnet_pose后处理在host端进行，且耗时较久，可以视本地机器性能而定开启的进程数`  
@@ -119,13 +122,13 @@ python tools/deployment/pytorch2onnx.py \
 ### step.5 性能测试
 1. 基于[image2npz.py](./source_code/convert_image.py)将原始图像转换为vamp需要的npz格式，以及输入顺序的datalist.txt：
     ```bash
-    python ./source_code/convert_image.py 
+    python ../source_code/convert_image.py 
     ```
     > `mmpose使用flip_test方法，因此convert_image生成了一份原图的npz数据和一份翻转图片的npz数据`
 2. 配置vdsp参数[mmyolo-hrnet_pose-vdsp_params.json](./build_in/vdsp_params/mmyolo-hrnet_pose-vdsp_params.json)，vamp执行测试：
     ```bash
-    ./vamp -m deploy_weights/hrnet_pose-int8-kl_divergence-512-vacc/hrnet_pose \
-    --vdsp_params ./build_in/vdsp_params/mmyolo-hrnet_pose-vdsp_params.json \
+    vamp -m deploy_weights/hrnet_pose-int8-kl_divergence-512-vacc/hrnet_pose \
+    --vdsp_params ../build_in/vdsp_params/mmyolo-hrnet_pose-vdsp_params.json \
     -i 2 p 2 -b 1 \
     --datalist datalist.txt --path_output ./save/hrnet_pose
     ```

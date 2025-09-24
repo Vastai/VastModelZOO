@@ -113,7 +113,7 @@ commit: 651835a1b9d38dbbdaf45750f56906be2364f01a
     python ../build_in/vdsp_params/basicsr-vamp_eval.py \
     --gt_dir DIV2K/DIV2K_valid_HR \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir outputs/rcan \
+    --out_npz_dir npz_output \
     --input_shape 768 1024 \
     --draw_dir npz_draw_result \
     --vamp_flag

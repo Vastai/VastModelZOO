@@ -99,24 +99,24 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
     cd fairface
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_fairface.yaml
+    vamc compile ../build_in/build/official_fairface.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
-    python ./build_in/vsx/python/vsx_inference.py \
+    python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/face/fairface/val/ \
         --model_prefix_path deploy_weights/official_fairface_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-fairface_res34-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json \
         --save_file ./runstream_predict.csv \
         --device 0
     ```
 
     - 精度验证
     ```
-    python ./source_code/eval.py --val_label_path /path/to/fairface_label_val.csv --val_pred_path /path/to/runstream_predict.csv
+    python ../source_code/eval.py --val_label_path /path/to/fairface_label_val.csv --val_pred_path /path/to/runstream_predict.csv
     ```
 
     <details><summary>点击查看int8精度</summary>
@@ -200,7 +200,7 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
 1. 性能测试
     - 参考配置文件[official-fairface_res34-vdsp_params.json](./build_in/vdsp_params/official-fairface_res34-vdsp_params.json )
     ```bash
-    vamp -m deploy_weights/official_fairface_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1
+    vamp -m deploy_weights/official_fairface_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1
     ```
 
 2. 精度测试
@@ -211,8 +211,8 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
    - vamp推理获取npz结果，指定`--datalist`输入文件路径，推理结果以npz格式保存于`--path_output`文件夹内
         ```bash
         vamp -m deploy_weights/official_fairface_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1 -s [3,224,224] \
-        --datalist ./data/lists/npz_datalist.txt --path_output ./outputs
+        --vdsp_params ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1 -s [3,224,224] \
+        --datalist /path/to/npz_datalist.txt --path_output ./outputs
         ```
     - 解析npz结果，获取预测结果, 基于[vamp_decode.py](./build_in/vdsp_params/vamp_decode.py)
 

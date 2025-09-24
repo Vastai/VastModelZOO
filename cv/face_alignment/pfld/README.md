@@ -85,6 +85,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     - 需要自己生成预处理后的数据，进入[工程](https://github.com/jhb86253817/PIPNet.git)，按如下步骤操作：
     ```bash
     cd lib
+    #执行预处理脚本时需按照实际模型输入尺寸进行修改，本例中为112
     python preprocess.py WFLW
     ```
 
@@ -102,17 +103,17 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     cd pfld
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_pfld.yaml
+    vamc compile ../build_in/build/official_pfld.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[vsx_infer.py](./build_in/vsx/python/vsx_infer.py)
     ```bash
-    python ./build_in/vsx/python/vsx_infer.py \
+    python ../build_in/vsx/python/vsx_infer.py \
         --data_dir  /path/to/face/wflw/keypoint/test_data/imgs  \
         --model_prefix_path deploy_weights/official_pfld_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/pytorch-pfld-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/pytorch-pfld-vdsp_params.json \
         --gt /path/to/wflw/keypoint/test_data/list.txt \
         --save_dir ./runstream_output \
         --device 0
@@ -134,7 +135,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 1. 性能测试
     配置[pytorch-pfld-vdsp_params.json](./build_in/vdsp_params/pytorch-pfld-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_pfld_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/pytorch-pfld-vdsp_params.json -i 2 p 2 -b 2
+    vamp -m deploy_weights/official_pfld_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/pytorch-pfld-vdsp_params.json -i 2 p 2 -b 2
     ```
 
 2. 精度测试
@@ -143,8 +144,8 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     
     ```bash
-    python ../common/utils/image2npz.py \
-        --dataset_path test_data \
+    python ../../common/utils/image2npz.py \
+        --dataset_path /path/to/face/wflw/keypoint/test_data/imgs \
         --target_path  path/to/vamp_test_data  \
         --text_path npz_datalist.txt
     ```
@@ -152,7 +153,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     - vamp推理获取npz结果
     ```bash
     vamp -m deploy_weights/official_pfld_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/pytorch-pfld-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/pytorch-pfld-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \
         --path_output npz_output
@@ -160,11 +161,10 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 
     - 精度校验，[npz_decode.py](./source_code/npz_decode.py)
     ```bash
-    python ./source_code/npz_decode.py  \
-        --result vamp_out \
-        --gt ../data/test_data/list.txt \
-        -npz-txt npz_datalist.txt \
-        --vamp-output npz_output
+    python ../source_code/npz_decode.py  \
+        --result npz_output \
+        --gt /path/to/wflw/keypoint/test_data/list.txt \
+        --npz-txt npz_datalist.txt
     ```
 
 

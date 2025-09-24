@@ -76,17 +76,17 @@ python demo.py
     cd sdd_fiqa
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/sdd_fiqa.yaml
+    vamc compile ../build_in/build/sdd_fiqa.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[sdd_fiqa_vsx.py](./build_in/vsx/python/sdd_fiqa_vsx.py)
     ```bash
-    python ./build_in/vsx/python/sdd_fiqa_vsx.py \
+    python ../build_in/vsx/python/sdd_fiqa_vsx.py \
         --image_dir  /path/to/ms1m/ms1m_example/ \
         --model_prefix_path deploy_weights/sdd_fiqa_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/tface-sdd_fiqa-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/tface-sdd_fiqa-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -95,7 +95,7 @@ python demo.py
 1. 性能测试
     - 配置[tface-sdd_fiqa-vdsp_params.json](./build_in/vdsp_params/tface-sdd_fiqa-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/sdd_fiqa_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/tface-sdd_fiqa-vdsp_params.json  -i 1 -p 1 -b 1
+    vamp -m deploy_weights/sdd_fiqa_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/tface-sdd_fiqa-vdsp_params.json  -i 1 -p 1 -b 1
     ```
 
 2. 精度测试
@@ -103,17 +103,17 @@ python demo.py
     
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ../common/utils/image2npz.py --dataset_path xxxx --target_path  xxx --text_path xxx.txt
+    python ../../common/utils/image2npz.py --dataset_path /path/to/ms1m/ms1m_example/ --target_path  /path/to/output_npz --text_path npz_datalist.txt
     ```
 
     - vamp推理获取npz文件
     ```bash
-    vamp -m ./temp/sdd_fiqa_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/sdd_fiqa_vdsp_params.json  -i 1 -p 1 -b 1 --datalist ./temp/ ms1m_example_npz.txt --path_output ./temp/npz_output
+    vamp -m deploy_weights/sdd_fiqa_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/sdd_fiqa_vdsp_params.json  -i 1 -p 1 -b 1 --datalist npz_datalist.txt ms1m_example_npz.txt --path_output result
     ```
     
     - npz结果解析并统计精度
     ```bash
-    cd ./build_in/decode
-    python decode_vamp.py ../../temp/ms1m_example_npz.txt ../../temp/npz_output
+    cd ../build_in/decode
+    python decode_vamp.py ../../npz_datalist.txt ../../result
     ```
 

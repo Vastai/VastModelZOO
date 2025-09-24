@@ -124,17 +124,17 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     cd gpen
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_gpen.yaml
+    vamc compile ../build_in/build/official_gpen.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     ```bash
-    python ./build_in/vsx/python/official_vsx_inference.py \
+    python ../build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/GPEN/hq_gray/ \
         --model_prefix_path deploy_weights/official_gpen_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-gpen-vdsp_params.json \
         --hr_image_dir /path/to/GPEN/hq \
         --save_dir ./runstream_output \
         --device 0
@@ -153,7 +153,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     - 配置vdsp参数[official-gpen-vdsp_params.json](./build_in/vdsp_params/official-gpen-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_gpen_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-gpen-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,512,512]
     ```
 
@@ -171,7 +171,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     - vamp推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_gpen_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-gpen-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,512,512] \
         --datalist datalist_npz_gray.txt \
         --path_output npz_output
@@ -182,7 +182,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     python ./build_in/vdsp_params/vamp_eval.py \
         --gt_dir GPEN/hq \
         --input_npz_path datalist_npz_gray.txt \
-        --out_npz_dir outputs/gpen \
+        --out_npz_dir npz_output \
         --input_shape 512 512 \
         --draw_dir npz_draw_result \
         --vamp_flag

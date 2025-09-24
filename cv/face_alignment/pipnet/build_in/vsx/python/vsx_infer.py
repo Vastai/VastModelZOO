@@ -248,7 +248,7 @@ if __name__ == '__main__':
         image_name = label[0]
         lms_gt = label[1]
         norm = np.linalg.norm(lms_gt.reshape(-1, 2)[norm_indices[0]] - lms_gt.reshape(-1, 2)[norm_indices[1]])
-        image_path = os.path.join(args.data_dir, "test", image_name)
+        image_path = os.path.join(args.data_dir, "images_test", image_name)
         result = vsx_inference.run_sync(image_path)
         pred0 = np.expand_dims(result[0], axis=0)
         pred1 = np.expand_dims(result[1], axis=0)

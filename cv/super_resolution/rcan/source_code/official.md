@@ -98,7 +98,7 @@ commit: 3339ebc59519c3bb2b5719b87dd36515ec7f3ba7
     python ../build_in/vdsp_params/official-vamp_eval.py \
         --gt_dir DIV2K/DIV2K_valid_HR \
         --input_npz_path npz_datalist.txt \
-        --out_npz_dir outputs/rcan \
+        --out_npz_dir npz_output \
         --input_shape 1080 1920 \
         --draw_dir npz_draw_result \
         --vamp_flag

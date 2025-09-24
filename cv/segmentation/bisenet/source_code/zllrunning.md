@@ -48,7 +48,10 @@
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/zllrunning_config.yaml
+    cd bisenet
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/zllrunning_config.yaml
     ```
 
 ### step.4 模型推理

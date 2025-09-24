@@ -4,6 +4,7 @@ import json
 import os
 import cv2
 import shutil
+import torch
 import numpy as np
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval

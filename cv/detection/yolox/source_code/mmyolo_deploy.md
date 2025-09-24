@@ -1,9 +1,18 @@
 ### step.1 获取预训练模型
+通过原始项目提供的脚本[export.py](https://github.com/open-mmlab/mmyolo/blob/dc85144fab20a970341550794857a2f2f9b11564/projects/easydeploy/tools/export.py)转换至onnx模型
+1. 按照原始项目的[README_zh-CN](https://github.com/open-mmlab/mmyolo/blob/dc85144fab20a970341550794857a2f2f9b11564/README_zh-CN.md)安装环境
+![](../../../../images/cv/detection/yolox/env.png)
+
+ >tips:安装过程中若出现错误`ImportError: /opt/miniforge3/envs/mmyolo/lib/python3.8/site-packages/torch/lib/libtorch_cpu.so: undefined symbol: iJIT_NotifyEvent`
+解决办法：conda install mkl==2024.0
+
+2.参考[model_convert.md](https://github.com/open-mmlab/mmyolo/blob/dc85144fab20a970341550794857a2f2f9b11564/projects/easydeploy/docs/model_convert.md)进行转换onnx模型
+
 ```bash
 cd mmyolo
 python ./projects/easydeploy/tools/export.py \
-	configs/yolox/yolox_s-v61_syncbn_fast_8xb16-300e_coco.py \
-	yoloxs.pth \
+	configs/yolox/yolox_s_8xb8-300e_coco.py \
+	https://download.openmmlab.com/mmyolo/v0/yolox/yolox_s_8xb8-300e_coco/yolox_s_8xb8-300e_coco_20220917_030738-d7e60cb2.pth \
 	--work-dir work_dir \
     --img-size 640 640 \
     --batch 1 \
@@ -46,10 +55,10 @@ python ./projects/easydeploy/tools/export.py \
 
     ```
     python ../build_in/vsx/python/mmyolo_yolox_runstream.py \
-        --file_path path/to/det_coco_val \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/mmyolo_yolox_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json \
-        --label_txt path/to/coco.txt \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -101,17 +110,17 @@ python ./projects/easydeploy/tools/export.py \
     vamp -m deploy_weights/mmyolo_yolox_run_stream_int8/mod \
         --vdsp_params ./build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json \
         -i 2 p 2 -b 1 \
-        --datalist datasets/coco_npz_datalist.txt \
+        --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```
 
     - 解析npz文件，参考：[npz_decode.py](../../common/utils/npz_decode.py)
         ```bash
         python ../../common/utils/npz_decode.py \
-            --txt result_npz --label_txt datasets/coco.txt \
-            --input_image_dir datasets/coco_val2017 \
+            --txt result_npz --label_txt ../../common/label/coco.txt \
+            --input_image_dir path/to/coco_val2017 \
             --model_size 640 640 \
-            --vamp_datalist_path datasets/coco_npz_datalist.txt \
+            --vamp_datalist_path path/to/coco_npz_datalist.txt \
             --vamp_output_dir npz_output
         ```
     
@@ -119,6 +128,6 @@ python ./projects/easydeploy/tools/export.py \
     ```bash
     python ../../common/eval/eval_map.py \
         --gt path/to/instances_val2017.json \
-        --txt path/to/vamp_draw_output
+        --txt path/to/result_npz
     ```
 

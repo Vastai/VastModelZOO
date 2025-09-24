@@ -148,7 +148,7 @@ python demo.py ctdet --demo ../images/16004479832_a748d55f21_k.jpg --load_model 
     cd centernet
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_centernet.yaml
+    vamc compile ../build_in/build/official_centernet.yaml
     ```
     - 转换后将在当前目录下生成`deploy_weights/official_centernet_run_stream_int8`文件夹，其中包含转换后的模型文件。
 
@@ -166,11 +166,11 @@ make
 
 2. 参考[vsx脚本](./build_in/vsx/python/centernet_vsx.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/centernet_vsx.py \
-        --file_path path/to/det_coco_val \
+    python ../build_in/vsx/python/centernet_vsx.py \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/official_centernet_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
-        --label_txt path/to/coco.txt \
+        --vdsp_params_info ../build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -178,7 +178,7 @@ make
 
 3. [eval_map.py](../common/eval/eval_map.py)，精度统计，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
    ```bash
-    python ../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
    ```
    - 测试精度信息如下
    ```
@@ -201,14 +201,14 @@ make
 1. 性能测试，修改vdsp参数[official-centernet_res18-vdsp_params.json](./build_in/vdsp_params/official-centernet_res18-vdsp_params.json)：
     ```bash
     vamp -m deploy_weights/official_centernet_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
     -i 2 p 2 -b 1 -s [1,512,512]
     ```
 
 2. 精度测试
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`datalist_npz.txt`
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
         --dataset_path path/to/coco_val2017 \
         --target_path  path/to/coco_val2017_npz  \
         --text_path datalist_npz.txt
@@ -216,7 +216,7 @@ make
     - vamp推理，获取npz结果输出
     ```bash
     vamp -m deploy_weights/official_centernet_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-centernet_res18-vdsp_params.json \
     -i 2 p 2 -b 1 -s [1,512,512] \
     --datalist datalist_npz.txt \
     --path_output outputs/centernet
@@ -225,7 +225,7 @@ make
 3. 基于[vamp_decode.py](./build_in/vdsp_params/vamp_decode.py)，解析vamp输出的npz文件，进行绘图和保存txt结果：
     ```bash
     python ./build_in/vdsp_params/vamp_decode.py \
-    --gt_dir datasets/coco_val2017 \
+    --gt_dir path/to/coco_val2017 \
     --input_npz_path datalist_npz.txt \
     --out_npz_dir outputs/centernet \
     --draw_dir coco_val2017_npz_result
@@ -235,5 +235,5 @@ make
    ```bash
     python ../common/eval/eval_map.py \
     --gt path/to/instances_val2017.json \
-    --txt path/to/vamp_draw_output
+    --txt path/to/coco_val2017_npz_result
    ```

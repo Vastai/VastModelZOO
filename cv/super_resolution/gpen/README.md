@@ -111,17 +111,17 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     cd gpen
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_gpen.yaml
+    vamc compile ../build_in/build/official_gpen.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     ```bash
-    python ./build_in/vsx/python/official_vsx_inference.py \
+    python ../build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/CelebAMask-HQ/GPEN/lq  \
         --model_prefix_path deploy_weights/official_gpen_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-gpen-vdsp_params.json \
         --hr_image_dir /path/to/CelebAMask-HQ/GPEN/hq \
         --save_dir ./runstream_fp16_output \
         --device 0
@@ -139,7 +139,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     - 配置vdsp参数[official-gpen-vdsp_params.json](./build_in/vdsp_params/official-gpen-vdsp_params.json)：
     ```bash
     vamp -m deploy_weights/official_gpen_run_stream_fp16/mod \
-    --vdsp_params ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-gpen-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,512,512]
     ```
 
@@ -148,7 +148,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
 
     - 数据准备，将评估数据集转换为vamp需要的npz格式，并生成对应的`npz_datalist.txt`文件（对应每个npz文件的路径），参考：[image2npz.py](../common/utils/image2npz.py)
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
     --dataset_path GPEN/lq \
     --target_path GPEN/lq_npz \
     --text_path npz_datalist.txt
@@ -156,7 +156,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
     - vamp推理，获得npz结果
     ```bash
     vamp -m deploy_weights/official_gpen_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/official-gpen-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-gpen-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,512,512] \
     --datalist npz_datalist.txt \
     --path_output npz_output
@@ -164,10 +164,10 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
 
     - 解析npz结果，统计精度：[vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)
    ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
     --gt_dir GPEN/hq \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir outputs/gpen \
+    --out_npz_dir npz_output \
     --input_shape 512 512 \
     --draw_dir npz_draw_result \
     --vamp_flag

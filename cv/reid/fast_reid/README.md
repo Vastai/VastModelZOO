@@ -135,7 +135,7 @@ datasets
     cd reid
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_fast_reid.yaml
+    vamc compile ../build_in/build/official_fast_reid.yaml
     ```
 
 ### step.4 模型推理
@@ -145,10 +145,10 @@ datasets
     - 参考[reid_vsx.py](./build_in/vsx/python/reid_vsx.py)生成预测的txt结果
 
     ```
-    python ./build_in/vsx/python/reid_vsx.py \
+    python ../build_in/vsx/python/reid_vsx.py \
         --model_prefix_path deploy_weights/official_fast_reid_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
-        --config-file ./source_code/fast-reid/configs/Market1501/bagtricks_R50.yml \
+        --vdsp_params_info ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
+        --config-file ../source_code/fast-reid/configs/Market1501/bagtricks_R50.yml \
         --device 0
     ```
 
@@ -162,7 +162,7 @@ datasets
 1. 性能测试
     ```bash
     vamp -m deploy_weights/official_fast_reid_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
         -i 1 p 1 -b 1
     ```
 
@@ -171,18 +171,18 @@ datasets
 
     - 数据准备，参考：[image2npz.py](../common/image2npz.py)
     ```bash
-    python ../common/image2npz.py --target_path data_npz
+    python ../../common/image2npz.py --target_path data_npz --text_path datalist.txt
     ```
 
     - vamp推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_fast_reid_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
         --datalist datalist.txt \
         --path_output npz_output
     ```
 
     - 解析npz结果，参考：[npz_decode.py](./build_in/vdsp_params/npz_decode.py)
     ```bash
-    python npz_decode.py --config-file ./source_code/fast-reid/configs/Market1501/bagtricks_R50.yml
+    python ../build_in/vdsp_params/npz_decode.py --config-file ../source_code/fast-reid/configs/Market1501/bagtricks_R50.yml
     ```

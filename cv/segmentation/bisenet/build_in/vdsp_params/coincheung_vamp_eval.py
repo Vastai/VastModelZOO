@@ -102,7 +102,7 @@ if __name__ == "__main__":
     import sys
     _cur_file_path = os.path.split(os.path.realpath(__file__))[0]
     sys.path.append(_cur_file_path + os.sep + '../../')
-    colors = np.loadtxt("vacc_code/runmodel/cityscapes_colors.txt").astype('uint8')
+    colors = np.loadtxt("../source_code/cityscapes_colors.txt").astype('uint8')
 
     with open(args.input_npz_path, 'r') as f:
         file_lines = f.readlines()
@@ -111,7 +111,8 @@ if __name__ == "__main__":
             file_name = npz_sub_name.replace(".npz", ".png")
 
             # src image
-            ori_image  = Image.open(os.path.join(args.src_dir, file_name))
+            # ori_image  = Image.open(os.path.join(args.src_dir, file_name)
+            ori_image  = Image.open(os.path.join(args.src_dir, file_name.split("/")[-1].split("_")[0], file_name.split("/")[-1]))
 
             # load npy
             if args.vamp_flag:
@@ -135,7 +136,8 @@ if __name__ == "__main__":
 
             ########################################################################################################
             # eval
-            label_path = os.path.join(args.gt_dir, file_name.replace("leftImg8bit.png", "gtFine_labelIds.png"))
+            # label_path = os.path.join(args.gt_dir, file_name.replace("leftImg8bit.png", "gtFine_labelIds.png"))
+            label_path = os.path.join(args.gt_dir, file_name.split("/")[-1].split("_")[0], file_name.split("/")[-1]))
             if not os.path.exists(label_path):
                 continue
             

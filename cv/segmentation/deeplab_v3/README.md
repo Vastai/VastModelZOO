@@ -144,16 +144,16 @@ DeepLab_v3+的主要改进：
     cd deeplab_v3
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_deeplab_v3.yaml
+    vamc compile ../build_in/build/official_deeplab_v3.yaml
     ```
 
 ### step.4 模型推理
 1. runstream推理，参考[vsx_inference.py](./build_in/vsx/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/vsx_inference.py \
+    python ../build_in/vsx/vsx_inference.py \
         --file_path  /path/to/VOCdevkit/VOC2012/JPEGImages_val \
         --model_prefix_path deploy_weights/official_deeplab_v3_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
         --gt_path /path/to/VOCdevkit/VOC2012/SegmentationClass \
         --save_dir ./runstream_output \
         --device 0
@@ -176,7 +176,7 @@ DeepLab_v3+的主要改进：
 2. 性能测试，配置vdsp参数[vainf-deeplab_v3_mobilenet-vdsp_params.json](./build_in/vdsp_params/vainf-deeplab_v3_mobilenet-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_deeplab_v3_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,513,513]
  
 
@@ -185,7 +185,7 @@ DeepLab_v3+的主要改进：
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_deeplab_v3_run_stream_int8 \
-    --vdsp_params build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,513,513] \
     --datalist npz_datalist.txt \
     --path_output npz_output
@@ -193,7 +193,7 @@ DeepLab_v3+的主要改进：
 
 4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
     --src_dir VOC2012/JPEGImages_val \
     --gt_dir VOC2012/SegmentationClass \
     --input_npz_path npz_datalist.txt \

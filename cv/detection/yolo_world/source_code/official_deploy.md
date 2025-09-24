@@ -124,21 +124,21 @@
         --imgmod_vdsp_params ../build_in/vdsp_params/image-vdsp_params.json \
         --txtmod_prefix deploy_weights/text_build_run_stream_fp16/mod \
         --txtmod_vdsp_params  ../build_in/vdsp_params/text-vdsp_params.json \
-        --tokenizer_path ./clip-vit-base-patch32 \
+        --tokenizer_path /path/to/clip-vit-base-patch32 \
         --device_id  0 \
         --max_per_image 300 \
         --score_thres  0.001 \
         --iou_thres  0.7 \
         --nms_pre  30000 \
         --label_file ./lvis_v1_class_texts.json \
-        --dataset_root /path/to/det_coco_val \
+        --dataset_root /path/to/coco_val2017 \
         --dataset_filelist ./det_coco_val.txt \
         --dataset_output_file yoloworld_dataset_result.json
     ```
 
     - det_coco_val.txt生成方法
     ```
-    ls /path/to/det_coco_val | grep jpg > det_coco_val.txt
+    ls /path/to/coco_val2017 | grep jpg > det_coco_val.txt
     ```
 
     - 参考：[eval_lvis.py](../source_code/eval_lvis.py)，进行精度统计
@@ -185,7 +185,7 @@
     python3 ../build_in/vsx/python/yolo_world_text_prof.py \
         --model_prefix deploy_weights/text_build_run_stream_fp16/mod \
         --vdsp_params  ../build_in/vdsp_params/text-vdsp_params.json \
-        --tokenizer_path ./clip-vit-base-patch32 \
+        --tokenizer_path path/to/clip-vit-base-patch32 \
         --device_ids  [0] \
         --batch_size  1 \
         --instance 1 \

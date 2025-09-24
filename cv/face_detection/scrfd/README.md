@@ -109,26 +109,26 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
     cd scrfd
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_scrfd.yaml
+    vamc compile ../build_in/build/official_scrfd.yaml
 
 ### step.4 模型推理
 1. runstream
     - 参考：[scrfd_vsx.py](./build_in/vsx/python/scrfd_vsx.py)
     ```bash
-    python ./build_in/vsx/python/scrfd_vsx.py \
+    python ../build_in/vsx/python/scrfd_vsx.py \
         --file_path  /path/to/widerface/val/images \
         --model_prefix_path deploy_weights/official_scrfd_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
     ```
 
     - 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
     ```
-    cd ../common/eval/;
-    python3 setup.py build_ext --inplace;
-    cd -;
-    python ../common/eval/evaluation.py -p runstream_output/ -g ../common/eval/ground_truth;
+    cd ../common/eval/
+    python3 setup.py build_ext --inplace
+    cd ../../workspace/
+    python ../../common/eval/evaluation.py -p runstream_output/ -g ../../common/eval/ground_truth
     ```
 
     ```
@@ -151,14 +151,14 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 1. 性能测试
     - 配置[insightface-scrfd_500m-vdsp_params.json](./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json)
     ```
-    vamp -m deploy_weights/official_scrfd_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,640,640]
+    vamp -m deploy_weights/official_scrfd_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,640,640]
     ```
 
 2. 精度测试
 
     - 数据准备，参考：[image2npz.py](../common/utils/image2npz.py)，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
         --dataset_path widerface/val/images \
         --target_path  input_npz  \
         --text_path widerface_npz_list.txt
@@ -167,7 +167,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
     - vamp推理获取npz文件
     ```bash
     vamp -m deploy_weights/official_scrfd_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  \
+        --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  \
         -i 8 -p 1 -b 22 -s [3,640,640] \
         --datalist widerface_npz_list.txt \
         --path_output output
@@ -179,11 +179,11 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
         --input_image_dir widerface/val/images \
         --model_size 640 640 \
         --vamp_datalist_path widerface_npz_list.txt \
-        --vamp_output_dir vamp_result
+        --vamp_output_dir output
     ```
 
     - 精度评估，参考：[evaluation.py](../common/eval/evaluation.py)
     ```bash
-    python ../common/eval/evaluation.py.py -p xxxx -g xxxx
+    python ../../common/eval/evaluation.py -p result_npz -g ../../common/eval/ground_truth
     ```
 

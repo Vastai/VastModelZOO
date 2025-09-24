@@ -260,17 +260,17 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     cd yolov8_pose
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/ultralytics_yolov8_pose.yaml
+    vamc compile ../build_in/build/ultralytics_yolov8_pose.yaml
     ```
     - 转换后将在当前目录下生成`deploy_weights/ultralytics_yolov8_pose_run_stream_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](./build_in/vsx/python/yolov8_pose_vsx.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/yolov8_pose_vsx.py \
+    python ../build_in/vsx/python/yolov8_pose_vsx.py \
         --file_path  /path/to/coco/det_coco_val \
         --model_prefix_path deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json \
         --label_txt /path/to/coco.txt \
         --save_dir ./runstream_output \
         --device 0
@@ -279,7 +279,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 2. [eval.py](./source_code/eval.py)，精度统计，指定gt路径和上步骤中的txt保存路径，即可获得精度指标
     ```
-    python ./source_code/eval.py --gt path/to/person_keypoints_val2017.json --pred runmodel_output/predictions.json 
+    python ../source_code/eval.py --gt path/to/person_keypoints_val2017.json --pred runstream_output/predictions.json 
     ```
     - 测试精度如下：
     ```
@@ -303,10 +303,10 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     
     ```bash
-    python ../common/utils/image2npz.py  --dataset_path /path/to/eval/coco_val2017 --target_path  path/to/coco_val2017_npz  --text_path npz_datalist.txt
+    python ../../common/utils/image2npz.py  --dataset_path /path/to/eval/coco_val2017 --target_path  path/to/coco_val2017_npz  --text_path npz_datalist.txt
     ```
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json -i 2 p 2 -b 1
     ```

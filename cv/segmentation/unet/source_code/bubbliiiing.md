@@ -36,6 +36,9 @@
 
 2. 模型编译
     ```bash
+    cd unet
+    mkdir workspace
+    cd workspace
     vamc compile ../build_in/build/bubbliiiing_unet.yaml
     ```
 
@@ -72,7 +75,7 @@
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/unet_resnet50-int8-kl_divergence-3_256_256-vacc/unet_resnet50 \
-    --vdsp_params build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256] \
     --datalist npz_datalist.txt \
     --path_output npz_output

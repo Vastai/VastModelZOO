@@ -94,13 +94,16 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/official_modnet.yaml
+    cd modnet
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/official_modnet.yaml
     ```
 
 ### step.4 模型推理
 1. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/vsx_inference.py \
+    python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/PPM-100/image \
         --model_prefix_path deploy_weights/official_modnet_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-modnet-vdsp_params.json \
@@ -112,7 +115,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 ### step.5 性能精度测试
 1. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ./build_in/vdsp_params/image2npz.py \
+    python ../build_in/vdsp_params/image2npz.py \
     --dataset_path datasets/PPM-100/image \
     --target_path  datasets/PPM-100/image_npz \
     --text_path npz_datalist.txt
@@ -121,7 +124,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 2. 性能测试，配置vdsp参数[official-modnet-vdsp_params.json](./build_in/vdsp_params/official-modnet-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_modnet_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/official-modnet-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-modnet-vdsp_params.json \
     -i 2 p 2 -b 1
     ```
 
@@ -130,7 +133,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/mod \
-    --vdsp_params build_in/vdsp_params/official-modnet-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-modnet-vdsp_params.json \
     -i 2 p 2 -b 1 \
     --datalist npz_datalist.txt \
     --path_output npz_output

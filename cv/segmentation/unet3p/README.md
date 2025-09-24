@@ -105,13 +105,16 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/official_unet3p.yaml
+    cd unet3p
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/official_unet3p.yaml
     ```
 
 ### step.4 模型推理
 1. runstream推理，参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/vsx_inference.py \
+    python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/AutoPortraitMatting/testing/images \
         --model_prefix_path deploy_weights/official_unet3p_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
@@ -123,7 +126,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式（注意配置图片后缀为`.png`）：
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
     --dataset_path AutoPortraitMatting/testing/images \
     --target_path  AutoPortraitMatting/testing/images_npz \
     --text_path npz_datalist.txt
@@ -132,7 +135,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 2. 性能测试，配置vdsp参数[avbuffer-unetpp-vdsp_params.json](./build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_unet3p_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1
     ```
 
@@ -141,18 +144,18 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_unet3p_run_stream_int8/mod \
-    --vdsp_params build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \
     --path_output npz_output
     ```
 4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
     --src_dir AutoPortraitMatting/testing/images \
     --gt_dir AutoPortraitMatting/testing/masks \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir vamp/opuputs \
+    --out_npz_dir npz_output \
     --input_shape 128 128 \
     --draw_dir npz_draw_result \
     --vamp_flag
