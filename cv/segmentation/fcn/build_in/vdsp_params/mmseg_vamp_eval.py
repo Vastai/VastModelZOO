@@ -76,7 +76,7 @@ if __name__ == "__main__":
             predict = cv2.resize(predict, ori_image.size, interpolation=cv2.INTER_CUBIC)
             predict = predict.argmax(axis=-1)
 
-            colors = np.loadtxt("segmentation/fcn/source_code/awesome/voc2012_colors.txt").astype('uint8')
+            colors = np.loadtxt("../source_code/awesome/voc2012_colors.txt").astype('uint8')
             color = colorize(predict.astype(np.uint8), colors)
             color.save(os.path.join(args.draw_dir, file_name))
 

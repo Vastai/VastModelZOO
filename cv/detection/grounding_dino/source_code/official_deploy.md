@@ -89,17 +89,17 @@
         --imgmod_prefix deploy_weights/image_encoder_build_run_stream_fp16/mod \
         --imgmod_vdsp_params ../build_in/vdsp_params/image_encoder-vdsp_params.json \
         --decmod_prefix deploy_weights/decoder_build_run_stream_fp16/mod \
-        --tokenizer_path ./bert-base-uncased \
-        --label_file /path/to/coco/coco.txt \
+        --tokenizer_path /path/to/bert-base-uncased \
+        --label_file ../../common/label/coco.txt \
         --device_id  0 \
         --threshold 0.01 \
         --dataset_filelist ./det_coco_val.txt \
-        --dataset_root /path/to/det_coco_val/ \
+        --dataset_root /path/to/coco_val2017 \
         --dataset_output_folder ./grounding_dino_out
     ```
     - det_coco_val.txt生成方法
     ```
-    ls /path/to/det_coco_val | grep jpg > det_coco_val.txt
+    ls /path/to/coco_val2017 | grep jpg > det_coco_val.txt
     ```
     
     - 参考：
@@ -130,7 +130,7 @@
     python3 ../build_in/vsx/python/grounding_dino_text_enc_prof.py \
         -m deploy_weights/text_encoder_build_run_stream_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/text_encoder-vdsp_params.json \
-        --tokenizer_path /opt/vastai/vaststreamx/data/tokenizer/bert-base-uncased \
+        --tokenizer_path /path/to/bert-base-uncased \
         --device_ids [0] \
         --batch_size 1 \
         --instance 1 \

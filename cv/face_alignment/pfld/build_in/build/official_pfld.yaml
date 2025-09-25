@@ -24,7 +24,7 @@ dataset:
   type: tvm
   path: /path/to/keypoint/calib
   sampler:
-    suffix: png
+    suffix: jpg
     get_data_num: 50
   process_ops: 
     - type: DecodeImage

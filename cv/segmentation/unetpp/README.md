@@ -113,16 +113,19 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/official_unetpp.yaml
+    cd unetpp
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/official_unetpp.yaml
     ```
 
 ### step.4 模型推理
 1. runstream推理，参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/vsx_inference.py \
+    python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/dsb2018/dsb2018_256_val/images \
         --model_prefix_path deploy_weights/official_unetpp_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
         --gt_path /path/to/dsb2018/dsb2018_256_val/masks \
         --save_dir ./runstream_output \
         --device 0
@@ -131,7 +134,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式（注意配置图片后缀为`.png`）：
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
     --dataset_path dsb2018/dsb2018_256_val/images \
     --target_path  dsb2018/dsb2018_256_val/images_npz \
     --text_path npz_datalist.txt
@@ -140,7 +143,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 2. 性能测试，配置vdsp参数[unetzoo-unetpp-vdsp_params.json](./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,96,96]
     ```
 
@@ -149,7 +152,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/official_unetpp_run_stream_int8/unetpp \
-    --vdsp_params ./build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/unetzoo-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,96,96] \
     --datalist npz_datalist.txt \
     --path_output npz_output
@@ -157,7 +160,7 @@ UNetPP算法的后处理即是对网络输出的heatmap进行逐像素判断，�
 
 4. [vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
     --src_dir dsb2018/dsb2018_256_val/images \
     --gt_dir dsb2018/dsb2018_256_val/masks \
     --input_npz_path npz_datalist.txt \

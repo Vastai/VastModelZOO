@@ -77,7 +77,7 @@ tag: v2.6.0
 ```
 1. 首先，需要进入到PaddleOCR工程主目录，安装PaddleOCR：
 ```
-pip install -r requrement.txt
+pip install -r requirements.txt
 python setup.py install
 ```
 
@@ -124,18 +124,18 @@ python setup.py install
     cd crnn
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/resnet34_vd.yaml
+    vamc compile ../build_in/build/resnet34_vd.yaml
     ```
     - 转换后将在当前目录下生成`deploy_weights/crnn_resnet34_vd_run_stream_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](./build_in/vsx/python/crnn_vsx.py)，修改参数并运行如下脚本
     ```bash
-    python ./build_in/vsx/python/crnn_vsx.py \
+    python ../build_in/vsx/python/crnn_vsx.py \
         --file_path  path/to/CUTE80/img \
         --model_prefix_path deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
-        --label ./source_code/config/ic15_dict.txt \
+        --vdsp_params_info ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
+        --label ../source_code/config/ic15_dict.txt \
         --output_file cute80_runstream_pred.txt \
         --device 0
     ```
@@ -143,7 +143,7 @@ python setup.py install
 
 2. [crnn_eval.py](./source_code/crnn_eval.py)，精度统计，指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
    ```bash
-    python ./source_code/crnn_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
+    python ../source_code/crnn_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
    ```
    - 测试精度如下：
    ```
@@ -153,7 +153,7 @@ python setup.py install
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`：
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
     --dataset_path eval/CUTE80 \
     --target_path eval/CUTE80_npz \
     --text_path npz_datalist.txt
@@ -165,7 +165,7 @@ python setup.py install
     ```bash
     python3 ./build_in/vsx/python/crnn_prof.py \
         -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
-        --vdsp_params ../vacc_code/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
         --device_ids [0] \
         --batch_size 8 \
         --instance 1 \
@@ -179,7 +179,7 @@ python setup.py install
     ```bash
     python3 ./build_in/vsx/python/crnn_prof.py \
     -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     --device_ids [0] \
     --batch_size 1 \
     --instance 1 \
@@ -193,7 +193,7 @@ python setup.py install
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
-    --vdsp_params ./build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist data/datasets_npz/CUTE80.txt \
     --path_output npz_output
@@ -201,5 +201,5 @@ python setup.py install
 
 4. [vamp_eval.py](./build_in/vsx/python/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
-    python ./build_in/vsx/python/vamp_eval.py --label_file data/label/CUTE80.txt --pred_npz_dir npz_output
+    python ../build_in/vsx/python/vamp_eval.py --label_file data/label/CUTE80.txt --pred_npz_dir npz_output
    ```

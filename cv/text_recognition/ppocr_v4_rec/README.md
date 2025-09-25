@@ -128,25 +128,25 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
     cd ppocr_v4_rec
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/ppocr_v4_rec.yaml
+    vamc compile ../build_in/build/ppocr_v4_rec.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考: [ppocr_v4_rec_vsx.py](./build_in/vsx/python/ppocr_v4_rec_vsx.py)
     ```bash
-    python ./build_in/vsx/python/ppocr_v4_rec_vsx.py \
+    python ../build_in/vsx/python/ppocr_v4_rec_vsx.py \
         --file_path  path/to/CUTE80/img \
         --model_prefix_path deploy_weights/ppocr_v4_rec_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/ppocr-v4-rec-vdsp_params.json \
-        --label ./source_code/config/ppocr_keys_v1.txt \
+        --vdsp_params_info ../build_in/vdsp_params/ppocr-v4-rec-vdsp_params.json \
+        --label ../source_code/config/ppocr_keys_v1.txt \
         --output_file cute80_runstream_pred.txt \
         --device 0
     ```
 
     - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
     ```bash
-    python ./source_code/ppocr_v4_rec_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
+    python ../source_code/ppocr_v4_rec_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
     ```
     
     ```
@@ -160,9 +160,9 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
 ### step.5 性能测试
 1. 性能测试
     ```bash
-    python3 ./build_in/vsx/python/ppocr_v4_rec_prof.py \
+    python3 ../build_in/vsx/python/ppocr_v4_rec_prof.py \
         -m deploy_weights/ppocr_v4_rec_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/ppocr-v4-rec-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/ppocr-v4-rec-vdsp_params.json \
         --device_ids [0] \
         --batch_size 8 \
         --instance 1 \

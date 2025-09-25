@@ -95,6 +95,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     - 需要自己生成预处理后的数据，进入[官方工程](https://github.com/jhb86253817/PIPNet.git)，按如下步骤操作：
     ```bash
     cd lib
+    #执行预处理脚本时需按照实际模型输入尺寸进行修改，本例中为256
     python preprocess.py WFLW
     ```
 
@@ -113,7 +114,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
     cd pipnet
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_pipnet.yaml
+    vamc compile ../build_in/build/official_pipnet.yaml
     ```
 
 ### step.4 模型推理
@@ -121,12 +122,12 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 1. runstream
     - 参考：[vsx_infer.py](./build_in/vsx/python/vsx_infer.py)
     ```bash
-    python ./build_in/vsx/python/vsx_infer.py \
+    python ../build_in/vsx/python/vsx_infer.py \
         --data_dir  /path/to/face/face_alignment/wflw/WFLW \
         --model_prefix_path deploy_weights/official_pipnet_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-pip_resnet18-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-pip_resnet18-vdsp_params.json \
         --save_dir runstream_output \
-        --meanface_txt ./source_code/meanface.txt \
+        --meanface_txt ../source_code/meanface.txt \
         --device 0
     ```
 
@@ -147,7 +148,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 1. 性能测试
     - 配置[official-pip_resnet18-vdsp_params.json](./build_in/vdsp_params/official-pip_resnet18-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_pipnet_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-pip_resnet18-vdsp_params.json -i 2 p 2 -b 2
+    vamp -m deploy_weights/official_pipnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-pip_resnet18-vdsp_params.json -i 2 p 2 -b 2
     ```
 
 2. 精度测试
@@ -155,21 +156,21 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ../common/utils/image2npz.py --dataset_path data/WFLW/images_test --target_path  path/to/vamp_test_data  --text_path npz_datalist.txt
+    python ../../common/utils/image2npz.py --dataset_path path/to/WFLW/images_test --target_path  path/to/vamp_test_data  --text_path npz_datalist.txt
     ```
 
     - vamp推理获取npz结果
     ```bash
     vamp -m deploy_weights/official_pipnet_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/official-pip_resnet18-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-pip_resnet18-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt --path_output npz_output
     ```
 
-    - 解析vamp输出的npz文件，并得到精度结果，参考：[npz_decode.py](../common/eval/npz_decode.py)
+    - 解析vamp输出的npz文件，并得到精度结果，参考：[npz_decode.py](./source_code/npz_decode.py)
     ```bash
-    python ../common/eval/npz_decode.py  -input_npz_path npz_datalist.txt \
-        --out_npz_dir outputs/ \
+    python ../source_code/npz_decode.py  --input_npz_path npz_datalist.txt \
+        --out_npz_dir npz_output/ \
         --input_shape 256 256 \
         --vamp_flag
     ```

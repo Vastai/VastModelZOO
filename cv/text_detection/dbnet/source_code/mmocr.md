@@ -113,7 +113,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     python ../build_in/vdsp_params/mmocr_vamp_eval.py \
     --gt_dir icdar2015/Challenge4/ch4_test_images \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir outputs/dbnet \
+    --out_npz_dir npz_output \
     --input_shape 736 1280 \
     --draw_dir npz_draw_result \
     --vamp_flag

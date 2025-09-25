@@ -113,7 +113,7 @@ output = np.clip(output * 255, 0, 255)
     cd pairlie
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_pairlie.yaml
+    vamc compile ../build_in/build/official_pairlie.yaml
     ```
 
 ### step.4 模型推理
@@ -124,7 +124,7 @@ output = np.clip(output * 255, 0, 255)
         --lr_image_dir  /path/to/lol/eval15/low/ \
         --hr_image_dir /path/to/lol/eval15/high \
         --model_prefix_path deploy_weights/official_pairlie_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-pairlie-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-pairlie-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -142,7 +142,7 @@ output = np.clip(output * 255, 0, 255)
     - 配置vdsp参数[official-pairlie-vdsp_params.json](./build_in/vdsp_params/official-pairlie-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_pairlie_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/official-pairlie-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-pairlie-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,400,600]
     ```
 
@@ -168,10 +168,10 @@ output = np.clip(output * 255, 0, 255)
 
     - 解析npz结果并统计精度，参考[official-vamp_eval.py](./build_in/vdsp_params/official-vamp_eval.py)
    ```bash
-    python ./build_in/vdsp_params/official-vamp_eval.py \
+    python ../build_in/vdsp_params/official-vamp_eval.py \
         --gt_dir low_light_enhance/lol/eval15/high \
         --input_npz_path npz_datalist.txt \
-        --out_npz_dir outputs/ \
+        --out_npz_dir npz_output/ \
         --input_shape 400 600 \
         --draw_dir npz_draw_result \
         --vamp_flag

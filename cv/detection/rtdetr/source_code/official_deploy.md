@@ -56,7 +56,7 @@
 - 注意当前只支持FP16的模型。
 - 需要配置odsp环境变量
     ```
-    cd /path/to/odsp_plugin/vastai/
+    cd /path/to/odsp_plugin/vastai/coco_val2017
     sudo ./build.sh
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/odsp_plugin/vastai/lib:/path/to/odsp_plugin/protobuf/lib/x86_64
     ```
@@ -80,10 +80,10 @@
     - 参考: [rtdetr_vsx.py](../build_in/vsx/python/rtdetr_vsx.py)
     ```bash
     python ../build_in/vsx/python/rtdetr_vsx.py \
-        --file_path path/to/det_coco_val \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/official_rtdetr_run_stream_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/rtdetr-vdsp_params.json \
-        --label_txt /path/to/coco/coco.txt \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```

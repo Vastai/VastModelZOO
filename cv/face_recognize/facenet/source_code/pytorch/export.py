@@ -11,7 +11,8 @@ import torch
 import torchvision
 import numpy as np
 import pandas as pd
-from facenet_pytorch import MTCNN, InceptionResnetV1
+from models.mtcnn import MTCNN
+from models.inception_resnet_v1 import InceptionResnetV1
 from PIL import Image
 
 

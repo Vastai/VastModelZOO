@@ -106,8 +106,8 @@ def get_text(text_path,prob_need = False):
     return info_dict
 
 if __name__ == '__main__':
-    pred_txt = "./workspace/weights/decode.txt"
-    gt_txt = "./workspace/weights/test_info.txt"
+    pred_txt = "../../workspace/weights/decode.txt"
+    gt_txt = "../../workspace/weights/test_info.txt"
 
     metric = Accuracy()
     metric.reset()

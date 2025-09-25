@@ -108,8 +108,8 @@ torch_out = torch.onnx._export(hand_estimation.model, inputs, 'hand.onnx', expor
     cd openpose
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/pytorch_openpose_body.yaml
-    vamc compile ./build_in/build/pytorch_openpose_hand.yaml
+    vamc compile ../build_in/build/pytorch_openpose_body.yaml
+    vamc compile ../build_in/build/pytorch_openpose_hand.yaml
     ```
 
 ### step.4 模型推理
@@ -117,12 +117,12 @@ torch_out = torch.onnx._export(hand_estimation.model, inputs, 'hand.onnx', expor
     - 参考[openpose_vsx.py](./build_in/vsx/python/openpose_vsx.py)生成预测的txt结果
 
     ```
-    python ./build_in/vsx/python/openpose_vsx.py \
+    python ../build_in/vsx/python/openpose_vsx.py \
         --file_path path/to/open_pose_test \
         --body_prefix_path deploy_weights/pytorch_openpose_body_run_stream_int8/mod \
-        --body_vdsp_info ./build_in/vdsp_params/pytorch-body-vdsp_params.json \
+        --body_vdsp_info ../build_in/vdsp_params/pytorch-body-vdsp_params.json \
         --hand_prefix_path deploy_weights/pytorch_openpose_hand_run_stream_int8/mod \
-        --hand_vdsp_info ./build_in/vdsp_params/pytorch-hand-vdsp_params.json \
+        --hand_vdsp_info ../build_in/vdsp_params/pytorch-hand-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -131,13 +131,13 @@ torch_out = torch.onnx._export(hand_estimation.model, inputs, 'hand.onnx', expor
 1. body模型，性能测试：
     ```bash
     vamp -m deploy_weights/pytorch_openpose_body_run_stream_fp16/mod \
-    --vdsp_params ./build_in/vdsp_params/pytorch-body-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/pytorch-body-vdsp_params.json \
     -i 2 p 2 -b 1 -s [3,184,184]
     ```
 
 2. hand模型，性能测试：
     ```bash
     vamp -m deploy_weights/pytorch_openpose_hand_run_stream_fp16/mod \
-    --vdsp_params ./build_in/vdsp_params/pytorch-hand-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/pytorch-hand-vdsp_params.json \
     -i 2 p 2 -b 1 -s [3,184,184]
     ```

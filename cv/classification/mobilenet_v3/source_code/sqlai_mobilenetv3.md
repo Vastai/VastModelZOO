@@ -41,7 +41,7 @@
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/mod.txt
+    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
     ```
 
 

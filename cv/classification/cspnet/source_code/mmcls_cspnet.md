@@ -63,7 +63,7 @@ python tools/deployment/pytorch2onnx.py \
 1. 性能测试
     - 配置[timm-cspresnet50-vdsp_params.json](../build_in/vdsp_params/timm-cspresnet50-vdsp_params.json)
     ```bash
-    vamp -m ./deploy_weights/mmcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/timm-cspresnet50-vdsp_params.json  -i 8 -p 1 -b 2
+    vamp -m deploy_weights/mmcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/timm-cspresnet50-vdsp_params.json  -i 8 -p 1 -b 2
     ```
 
 2. 精度测试
@@ -75,7 +75,7 @@ python tools/deployment/pytorch2onnx.py \
     ```
     - vamp推理获取npz文件
     ```
-    vamp -m ./deploy_weights/mmcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/timm-cspresnet50-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,256,256] --datalist imagenet_npz.txt --path_output output
+    vamp -m deploy_weights/mmcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/timm-cspresnet50-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,256,256] --datalist imagenet_npz.txt --path_output output
     ```
     
     - 解析npz输出结果用于精度评估，参考：[vamp_npz_decode.py](../../common/eval/vamp_npz_decode.py)

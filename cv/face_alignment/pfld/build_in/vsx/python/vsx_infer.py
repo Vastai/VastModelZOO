@@ -290,7 +290,7 @@ if __name__ == '__main__':
     gt_landmark_dict = load_gt(args.gt)
 
     nme_list = []
-    file_list = glob.glob(os.path.join(args.data_dir)+"/*.png")
+    file_list = glob.glob(os.path.join(args.data_dir)+"/*.jpg")
     face_aligner = VSXInference(args.model_prefix_path, args.vdsp_params_info, args.device_id, args.batch)
     text = []
     nme_list=[]

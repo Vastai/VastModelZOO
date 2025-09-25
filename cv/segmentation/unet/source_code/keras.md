@@ -28,6 +28,9 @@
 
 2. 模型编译
     ```bash
+    cd unet
+    mkdir workspace
+    cd workspace
     vamc compile ../build_in/build/keras_unet.yaml
     ```
     
@@ -64,7 +67,7 @@
 3. 精度测试，推理得到npz结果：
     ```bash
     vamp -m deploy_weights/keras_unet_run_stream_int8/mod \
-    --vdsp_params build_in/vdsp_params/keras-unet-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/keras-unet-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256] \
     --datalist npz_datalist.txt \
     --path_output npz_output

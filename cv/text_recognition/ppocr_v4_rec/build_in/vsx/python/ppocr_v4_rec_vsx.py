@@ -395,7 +395,7 @@ if __name__ == '__main__':
         print(f"{args.file_path} => {out_str}")
     else:
         # Test multiple images
-        images = glob.glob(os.path.join(args.file_path, "*.png"))
+        images = glob.glob(os.path.join(args.file_path, "*.jpg"))
         images = sorted(images)
         time_begin = time.time()
         results = text_reco.run_batch(images)
