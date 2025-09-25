@@ -47,7 +47,7 @@
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py result.txt
+    python ../../common/eval/eval_topk.py runstream_result.txt
     ```
 
     ```
@@ -58,7 +58,7 @@
 ### step.5 性能测试
 1. 使用[infer_vit_prof.py](../build_in/vsx/infer_vit_prof.py)进行benchmark， 命令如下
     ```bash
-    python3 vit_prof.py \
+    python3 ../build_in/vsx/infer_vit_prof.py \
         -m vit-b-fp16-none-1_3_224_224-vacc/mod \
         --norm_elf_file ../../common/elf/normalize \
         --space_to_depth_elf_file ../../common/elf/space_to_depth \

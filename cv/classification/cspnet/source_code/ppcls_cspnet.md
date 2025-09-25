@@ -72,7 +72,7 @@ paddle2onnx  --model_dir /path/to/cspnet_paddle_model/ \
 
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
-    python ../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
+    python ../../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
     ```
 
     - vamp推理获取npz文件
