@@ -8,7 +8,7 @@ frontend:
     - 224
     - 224
   type: onnx
-  checkpoint: http://192.168.20.139:8888/vastml/modelzoo/classification/dlanet/timm/onnx/dla34.onnx
+  checkpoint: /path/to/dla34.onnx
   dtype: fp32
 
 backend:
