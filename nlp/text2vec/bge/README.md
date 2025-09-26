@@ -262,7 +262,7 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
     ```bash
     python ../common/source_code/onnx_export.py \
         --model bge/bge-m3 \
-        --task embedding \
+        --type embedding \
         --seqlen 512 \
         --save_dir ./onnx_weights
     ```
