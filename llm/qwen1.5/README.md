@@ -127,14 +127,3 @@
     accelerate==0.25.0
     transformers==4.40
     ```
-
-## Pytorch Deploy
-
-### step.1 模型准备
-|  models |    demo_code    | tips |
-| :------ | :------: | :------: | 
-|[Qwen/Qwen1.5-0.5B-Chat](https://hf-mirror.com/Qwen/Qwen1.5-0.5B-Chat) | [demo](./pytorch/demo/qwen1.5.py) | - |
-|[Qwen/Qwen1.5-1.8B-Chat](https://hf-mirror.com/Qwen/Qwen1.5-1.8B-Chat) | [demo](./pytorch/demo/qwen1.5.py) | - |
-
-### step.2 模型推理
-- 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改，参见上表`demo_code`部分
