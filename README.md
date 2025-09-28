@@ -18,9 +18,7 @@
 
 ## 依赖软件
 
-- 瀚博推理引擎类型：
-    - Build_In: 瀚博自研软件栈推理引擎
-        - 可通过拉取[docker](./docs/docker/README.md)快速在瀚博硬件产品上进行验证测试
+- 部署模型及测试可查看[docker说明](./docs/docker/README.md)，并基于提供的镜像快速在瀚博硬件产品上进行验证测试
 
 - 版本说明
 
@@ -31,8 +29,7 @@
     | VAMC | 3.4.1 | 模型转换工具 |
     | VastPipe | 2.7.3 | 全流程低代码开发框架 |
     | VastStreamX | 2.8.3 | SDK应用API库   |
-
-    > Driver及工具文档下载链接: [Baidu Netdisk](https://pan.baidu.com/s/5Lkb0SUPu7r_VdSH53zZWAA)
+    | VastGenX | 1.1.2 | 模型部署工具 |
 
 ## 模型列表
 
