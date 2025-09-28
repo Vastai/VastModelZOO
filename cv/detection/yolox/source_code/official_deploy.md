@@ -9,12 +9,13 @@
 
 2. 转换模型至onnx格式可运行如下脚本
     ```
-    python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth -s $SIZE --output-name /path/to/save_model.onnx
+    python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.onnx
     ```
     - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
-    - `s`参数表示模型输入尺寸，建议32的倍数
     - `output-name`参数表示转换的onnx模型保存路径
+
+**Note:** 转换模型需要指定模型输入尺寸，建议32的倍数，可通过修改`tools/export_onnx.py`或`tools/export_torchscript.py`中`dummy_input = torch.randn(args.batch_size, 3, exp.test_size[0], exp.test_size[1])`指定模型输入尺寸
 
 ### step.2 准备数据集
 - [校准数据集](http://images.cocodataset.org/zips/val2017.zip)
