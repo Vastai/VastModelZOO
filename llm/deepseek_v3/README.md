@@ -36,6 +36,8 @@
 
 - [DeepSeek-V3.1-Base](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Base)
 
+- [DeepSeek-V3.1-Terminus](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Terminus)
+
 
 模型下载步骤如下所示。
 
@@ -63,6 +65,8 @@ export PATH=$PATH:~/.local/bin
 - DeepSeek-V3.1
 
 - DeepSeek-V3.1-Base
+
+- DeepSeek-V3.1-Terminus
 
 
 每个模型大小约为642GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
