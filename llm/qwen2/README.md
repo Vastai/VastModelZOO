@@ -149,4 +149,4 @@
 [Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP4/8 |
 
 ### step.2 模型推理
-- 参考：[vllm/README.md](../../llm/qwen3/README.md)
+- 参考：[vllm/README.md](../qwen3/vllm/README.md)
