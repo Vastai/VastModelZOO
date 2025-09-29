@@ -62,7 +62,7 @@
 
     - 基于上一步vsx推理的结果，进行精度评估，参考[eval_topk.py](../../common/eval/eval_topk.py)
     ```
-    python ../../common/eval/eval_topk.py result.txt
+    python ../../common/eval/eval_topk.py runstream_result.txt
     ```
 
     ```

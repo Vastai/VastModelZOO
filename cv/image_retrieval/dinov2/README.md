@@ -79,7 +79,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
     cd dinov2
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_dinov2.yaml
+    vamc compile ../build_in/build/official_dinov2.yaml
     ```
 
 ### step.4 模型推理
@@ -87,7 +87,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
     - 参考: [official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     - 获取对应的[elf文件](../../classification/common/elf/)
     ```bash
-    python ./build_in/vsx/python/official_vsx_inference.py \
+    python ../build_in/vsx/python/official_vsx_inference.py \
         --dataset_root /path/to/roxford5k/jpg \
         --model_prefix deploy_weights/official_dinov2_run_stream_fp16/mod \
         --norm_elf_file /path/to/elf/normalize \
@@ -106,6 +106,6 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
     - 配置vdsp参数[official-dinov2_vitl14_reg4-vdsp_params.json](./build_in/vdsp_params/official-dinov2_vitl14_reg4-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_dinov2_run_stream_fp16/mod \
-    --vdsp_params ./build_in/vdsp_params/official-dinov2_vitl14_reg4-vdsp_params.json \
+    --vdsp_params ../build_in/vdsp_params/official-dinov2_vitl14_reg4-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,224,224]
     ```

@@ -102,7 +102,7 @@ docker run \
     --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
     --host 0.0.0.0 \
     --port 8000 \
-    --served-model-name DS3-R1
+    --served-model-name DeepSeek-R1
 ```
 
 参数说明如下所示。
@@ -194,9 +194,9 @@ python3 benchmark_serving.py \
     --num-prompts 5 \
     --random-input-len 128 \
     --ignore-eos \
-    --random-output-len 1024 \    
+    --random-output-len 1024 \
     --max-concurrency 1 \
-    --served-model-name DS3-R1 \
+    --served-model-name DeepSeek-R1 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
@@ -250,7 +250,7 @@ python3 benchmark_serving.py \
 
 **步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/evalscope/precision_llm.py)获取精度测评结果。
 
 测评主要参数如下所示：
 

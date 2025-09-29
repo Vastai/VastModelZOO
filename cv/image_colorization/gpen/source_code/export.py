@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     # onnx==10.0.0，opset 10
     import onnx
-    torch.onnx.export(facegan.model, input_data, checkpoint.replace(".pth", "-" + str(facegan.in_resolution) + ".onnx"), input_names=["input"], output_names=["output"], opset_version=11)
+    torch.onnx.export(facegan.model, input_data, checkpoint.replace(".pth", "-" + str(facegan.in_resolution) + ".onnx"), input_names=["input"], output_names=["output"], opset_version=10)
     shape_dict = {"input": input_shape}
     onnx_model = onnx.load(checkpoint.replace(".pth", "-" + str(facegan.in_resolution) + ".onnx"))
 

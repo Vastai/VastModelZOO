@@ -77,17 +77,17 @@ python export.py
     cd deep_sort
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_deepsort.yaml
+    vamc compile ../build_in/build/official_deepsort.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[vsx.py](./build_in/vsx/python/vsx.py)
     ```bash
-    python ./build_in/vsx/python/vsx.py \
+    python ../build_in/vsx/python/vsx.py \
         --image_dir  /path/to/MOT17/test/MOT17-01-FRCNN/img1/  \
         --model_prefix_path deploy_weights/official_deepsort_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-deepsort-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-deepsort-vdsp_params.json \
         --device 0
     ```
 
@@ -96,7 +96,7 @@ python export.py
 
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_deepsort_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-deepsort-vdsp_params.json -i 1 -b 1 -d 0 -p 1
+    vamp -m deploy_weights/official_deepsort_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-deepsort-vdsp_params.json -i 1 -b 1 -d 0 -p 1
     ```
 
 ### Tips

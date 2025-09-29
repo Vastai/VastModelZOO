@@ -36,6 +36,9 @@
 
 2. 模型编译
     ```bash
+    cd bisenet
+    mkdir workspace
+    cd workspace
     vamc compile ../build_in/build/coincheung_config.yaml
     ```
 

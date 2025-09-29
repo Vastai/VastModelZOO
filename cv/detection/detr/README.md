@@ -92,26 +92,26 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     cd detr
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_detr.yaml
+    vamc compile ../build_in/build/official_detr.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考[vsx脚本](./build_in/vsx/python/infer_detr.py)
     ```bash
-    python3 ./build_in/vsx/python/infer_detr.py \
+    python3 ../build_in/vsx/python/infer_detr.py \
         --model_prefix deploy_weights/official_detr_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-detr-vdsp_params.json  \
+        --vdsp_params ../build_in/vdsp_params/official-detr-vdsp_params.json  \
         --device_id 0  \
         --threshold 0.01 \
-        --label_file ../common/label/coco_91.txt \
-        --file_path /path/to/coco/det_coco_val \
+        --label_file ../../common/label/coco_91.txt \
+        --file_path /path/to/coco_val2017 \
         --save_dir ./runstream_output
     ```
 
     - 参考：[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
-        python ../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
     ```
 
     ```
@@ -135,9 +135,9 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 ### step.5 性能测试
 1. 参考[infer_detr_prof.py](./build_in/vsx/python/infer_detr_prof.py)进行性能测试
     ```bash
-    python3 ./build_in/vsx/python/infer_detr_prof.py \
+    python3 ../build_in/vsx/python/infer_detr_prof.py \
         -m deploy_weights/official_detr_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-detr-vdsp_params.json  \
+        --vdsp_params ../build_in/vdsp_params/official-detr-vdsp_params.json  \
         --device_ids [0] \
         --batch_size 1 \
         --instance 1 \

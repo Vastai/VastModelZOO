@@ -164,12 +164,3 @@ Qwen2-VL 采用了一种混合训练机制，结合了图像和视频数据，�
     embed_tokens.cpu().numpy().tofile("embed_tokens.bin")
     print(f"embed_tokens shape: {embed_tokens.shape}")
     ```
-
-## TORCH_VACC部署
-
-|  model |    script  | tips |
-| :------: | :------: | :------: |
-| [Qwen/Qwen2-VL-2B-Instruct](https://hf-mirror.com/Qwen/Qwen2-VL-2B-Instruct) |[qwen2_vl.py](./pytorch/qwen2_vl.py) |  |
-| [Qwen/Qwen2-VL-7B-Instruct](https://hf-mirror.com/Qwen/Qwen2-VL-7B-Instruct)|[qwen2_vl.py](./pytorch/qwen2_vl.py)|  |
-
-> 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改

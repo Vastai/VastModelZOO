@@ -47,10 +47,10 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
 
     ```
     python ../build_in/vsx/bubbliiiing_yolov4_detector.py \
-        --file_path path/to/det_coco_val \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/bubbliiiing_yolov4_run_stream_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/bubbliiiing-yolov4-vdsp_params.json \
-        --label_txt path/to/coco.txt \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -124,17 +124,17 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
     vamp -m deploy_weights/bubbliiiing_yolov4_run_stream_int8/mod \
         --vdsp_params ../build_in/vdsp_params/bubbliiiing-yolov4-vdsp_params.json \
         -i 1 p 1 -b 1 \
-        --datalist datasets/coco_npz_datalist.txt \
+        --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```
 
     - 解析npz文件，参考：[npz_decode.py](../../common/utils/npz_decode.py)
     ```bash
     python ../../common/utils/npz_decode.py \
-        --txt result_npz --label_txt datasets/coco.txt \
-        --input_image_dir datasets/coco_val2017 \
+        --txt result_npz --label_txt ../../common/label/coco.txt \
+        --input_image_dir path/to/coco_val2017 \
         --model_size 640 640 \
-        --vamp_datalist_path datasets/coco_npz_datalist.txt \
+        --vamp_datalist_path path/to/npz_datalist.txt \
         --vamp_output_dir npz_output
     ```
 
@@ -142,5 +142,5 @@ commit: b7c2212250037c262282bac06fcdfe97ac86c055
     ```bash
     python ../../common/eval/eval_map.py \
         --gt path/to/instances_val2017.json \
-        --txt path/to/vamp_draw_output
+        --txt path/to/result_npz
     ```

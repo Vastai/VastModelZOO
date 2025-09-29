@@ -119,7 +119,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
     cd yolov10
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/config_official.yaml
+    vamc compile ../build_in/build/official_yolov10.yaml
     ```
 
 ### step.4 模型推理
@@ -127,18 +127,18 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
     - 配置模型路径和测试数据路径等参数
 
     ```
-    python ../common/vsx/detection.py \
-        --file_path path/to/det_coco_val \
+    python ../../common/vsx/detection.py \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/official_yolov10_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-yolov10s-vdsp_params.json \
-        --label_txt path/to/coco.txt \
+        --vdsp_params_info ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```
 
     - 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
-    python ../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
@@ -185,7 +185,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 1. 性能测试
     - 配置[official-yolov10s-vdsp_params.json](./build_in/vdsp_params/official-yolov10s-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
+    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
     ```
 
 2. 精度测试
@@ -193,7 +193,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
         --dataset_path path/to/coco_val2017 \
         --target_path  path/to/coco_val2017_npz \
         --text_path npz_datalist.txt
@@ -202,27 +202,27 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
     - vamp推理获取npz结果输出
     ```bash
     vamp -m deploy_weights/official_yolov10_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/official-yolov10s-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
         -i 1 p 1 -b 1 \
-        --datalist datasets/coco_npz_datalist.txt \
+        --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```
 
     - 解析npz文件，参考：[npz_decode.py](../common/utils/npz_decode.py)
     ```bash
-    python ../common/utils/npz_decode.py \
-        --txt result_npz --label_txt datasets/coco.txt \
-        --input_image_dir datasets/coco_val2017 \
+    python ../../common/utils/npz_decode.py \
+        --txt result_npz --label_txt ../../common/label/coco.txt \
+        --input_image_dir path/to/coco_val2017 \
         --model_size 640 640 \
-        --vamp_datalist_path datasets/coco_npz_datalist.txt \
+        --vamp_datalist_path path/to/npz_datalist.txt \
         --vamp_output_dir npz_output
     ```
 
     - 精度统计，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
-    python ../common/eval/eval_map.py \
+    python ../../common/eval/eval_map.py \
         --gt path/to/instances_val2017.json \
-        --txt path/to/vamp_draw_output
+        --txt path/to/result_npz
     ```
 
 ## Tips

@@ -112,7 +112,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     cd yolov8_seg
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/yolov8_seg.yaml
+    vamc compile ../build_in/build/yolov8_seg.yaml
     ```
 
 ### step.4 模型推理
@@ -120,10 +120,10 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     - 依赖自定义算子：[yolov8_seg_post_proc](./build_in/vsx/python/yolov8_seg_post_proc)
 
     ```bash
-    python ./build_in/vsx/python/yolov8_seg.py \
+    python ../build_in/vsx/python/yolov8_seg.py \
         --file_path  path/to/coco/det_coco_val \
         --model_prefix_path deploy_weights/yolov8s_seg_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
         --vdsp_custom_op ./yolov8_seg_post_proc  \
         --label_txt path/to/coco/coco.txt \
         --save_dir ./output --device 0
@@ -131,7 +131,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 2. 精度统计：[eval_map.py](./build_in/vsx/python/eval.py)，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
    ```bash
-    python ./build_in/vsx/python/eval.py \
+    python ../build_in/vsx/python/eval.py \
         --gt path/to/instances_val2017.json \
         --pred ./predictions.json
    ```
@@ -139,7 +139,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
         --dataset_path path/to/coco_val2017 \
         --target_path  path/to/coco_val2017_npz \
         --text_path npz_datalist.txt
@@ -153,7 +153,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 3. npz结果输出
     ```bash
     vamp -m deploy_weights/yolov8s_seg-int8-percentile-3_640_640-vacc/yolov8s_seg \
-        --vdsp_params ./build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
         -i 2 p 2 -b 1 \
         --datalist npz_datalist.txt \
         --path_output npz_output
@@ -163,16 +163,16 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 4. [npz_decode.py](./build_in/vsx/python/npz_decode.py)，解析vamp输出的npz文件，生成predictions.json
     ```bash
-    python ./build_in/vsx/python/npz_decode.py \
-        --label-txt coco.txt \
-        --input-image datasets/coco_val2017 \
+    python ../build_in/vsx/python/npz_decode.py \
+        --label-txt path/to/coco.txt \
+        --input-image path/to/coco_val2017 \
         --model_size 640 640 \
-        --datalist-txt datasets/npz_datalist.txt \
+        --datalist-txt npz_datalist.txt \
         --vamp-output npz_output
     ```
 5. [eval_map.py](./build_in/vsx/python/eval.py)，精度统计，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
    ```bash
-    python ./build_in/vsx/python/eval.py \
+    python ../build_in/vsx/python/eval.py \
         --gt path/to/instances_val2017.json \
         --txt TEMP/predictions.json
    ```

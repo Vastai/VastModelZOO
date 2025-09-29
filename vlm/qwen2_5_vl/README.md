@@ -129,13 +129,3 @@
     embed_tokens.cpu().numpy().tofile("embed_tokens.bin")
     print(f"embed_tokens shape: {embed_tokens.shape}")
     ```
-
-
-## TORCH_VACC部署
-
-|  model |  script  | tips |
-| :------: | :------: | :------: |
- | [Qwen/Qwen2.5-VL-3B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-VL-3B-Instruct) |[qwen2_5_vl.py](./pytorch/qwen2_5_vl.py)|  |
-| [Qwen/Qwen2.5-VL-7B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct) |[qwen2_5_vl.py](./pytorch/qwen2_5_vl.py)|  |
-
-> 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改

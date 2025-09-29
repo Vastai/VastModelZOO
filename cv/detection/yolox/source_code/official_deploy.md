@@ -1,21 +1,21 @@
 ### step.1 获取预训练模型
 1. 基于[yolox](https://github.com/Megvii-BaseDetection/YOLOX/tree/0.3.0),转换模型至torchscript格式可运行如下脚本
     ```
-    python tools/export_torchscript.py -n yolox_s -c /path/to/yolox.pth -s $SIZE --output-name /path/to/save_model.torchscript.pt
+    python tools/export_torchscript.py -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.torchscript.pt
     ```
     - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
-    - `s`参数表示模型输入尺寸，建议32的倍数
     - `output-name`参数表示转换的torchscript模型保存路径
 
 2. 转换模型至onnx格式可运行如下脚本
     ```
-    python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth -s $SIZE --output-name /path/to/save_model.onnx
+    python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.onnx
     ```
     - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
-    - `s`参数表示模型输入尺寸，建议32的倍数
     - `output-name`参数表示转换的onnx模型保存路径
+
+**Note:** 转换模型需要指定模型输入尺寸，建议32的倍数，可通过修改`tools/export_onnx.py`或`tools/export_torchscript.py`中`dummy_input = torch.randn(args.batch_size, 3, exp.test_size[0], exp.test_size[1])`指定模型输入尺寸
 
 ### step.2 准备数据集
 - [校准数据集](http://images.cocodataset.org/zips/val2017.zip)
@@ -46,10 +46,10 @@
 
     ```
     python ../../common/vsx/detection.py \
-        --file_path path/to/det_coco_val \
+        --file_path path/to/coco_val2017 \
         --model_prefix_path deploy_weights/official_yolox_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
-        --label_txt path/to/coco.txt \
+        --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
     ```
@@ -98,16 +98,16 @@
     vamp -m deploy_weights/official_yolox_run_stream_int8/mod \
         ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
         -i 2 p 2 -b 1\
-        --datalist datasets/coco_npz_datalist.txt \
+        --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```
     - 解析npz文件，参考：[npz_decode.py](../../common/utils/npz_decode.py)
         ```bash
         python ../../common/utils/npz_decode.py \
-            --txt result_npz --label_txt datasets/coco.txt \
-            --input_image_dir datasets/coco_val2017 \
+            --txt result_npz --label_txt ../../common/label/coco.txt \
+            --input_image_dir path/to/coco_val2017 \
             --model_size 640 640 \
-            --vamp_datalist_path datasets/coco_npz_datalist.txt \
+            --vamp_datalist_path path/to/npz_datalist.txt \
             --vamp_output_dir npz_output
         ```
     
@@ -115,6 +115,6 @@
     ```bash
     python ../../common/eval/eval_map.py \
         --gt path/to/instances_val2017.json \
-        --txt path/to/vamp_draw_output
+        --txt path/to/result_npz
     ```
 

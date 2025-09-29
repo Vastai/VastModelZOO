@@ -47,11 +47,11 @@
 
     ```
     python ../build_in/vsx/yolov5_ultralytics_dynamic.py \
-        --dataset_root path/to/det_coco_val \
-        --dataset_filelist path/to/det_coco_val \
+        --dataset_root path/to/coco_val2017 \
+        --dataset_filelist path/to/coco_val2017 \
         --module_info deploy_weights/ultralytics_yolov5s_dynamic_run_stream_int8/ultralytics_yolov5s_dynamic_run_stream_int8_module_info.json \
         --vdsp_params ../build_in/vdsp_params/yolo_div255_bgr888.json \
-        --label_file path/to/coco.txt \
+        --label_file ../../common/label/coco.txt \
         --dataset_output_folder ./runstream_output \
         --device 0
     ```

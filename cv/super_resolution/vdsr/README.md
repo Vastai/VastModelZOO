@@ -127,17 +127,17 @@ torch.onnx.export(model, input_data, 'drrn.onnx', input_names=["input"], output_
     cd vdsr
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_vdsr.yaml
+    vamc compile ../build_in/build/official_vdsr.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
-    python ./build_in/vsx/python/vsx_inference.py \
+    python ../build_in/vsx/python/vsx_inference.py \
         --lr_image_dir  /path/to/Set5_BMP/scale_4 \
         --model_prefix_path deploy_weights/official_vdsr_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-vdsr-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-vdsr-vdsp_params.json \
         --hr_image_dir /path/to/Set5_BMP/hr \
         --save_dir ./runstream_output \
         --device 0
@@ -157,7 +157,7 @@ torch.onnx.export(model, input_data, 'drrn.onnx', input_names=["input"], output_
     - 配置vdsp参数[official-vdsr-vdsp_params.json](./build_in/vdsp_params/official-vdsr-vdsp_params.json)，执行：
     ```bash
     vamp -m deploy_weights/official_vdsr_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/official-vdsr-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-vdsr-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,256,256]
     ```
 
@@ -166,7 +166,7 @@ torch.onnx.export(model, input_data, 'drrn.onnx', input_names=["input"], output_
 
     - 数据准备，基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`（注意只需要YCrcb颜色空间的Y通道信息）：
     ```bash
-    python ./build_in/vdsp_params/image2npz.py \
+    python ../build_in/vdsp_params/image2npz.py \
         --dataset_path Set5_BMP/scale_4 \
         --target_path  Set5_BMP/scale_4_npz \
         --text_path npz_datalist.txt
@@ -175,7 +175,7 @@ torch.onnx.export(model, input_data, 'drrn.onnx', input_names=["input"], output_
     - vamp推理得到npz结果
     ```bash
     vamp -m deploy_weights/official_vdsr_run_stream_int8/mod \
-        --vdsp_params ./build_in/vdsp_params/pytorch-vdsr-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/pytorch-vdsr-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,256,256] \
         --datalist npz_datalist.txt \
         --path_output npz_output
@@ -183,11 +183,11 @@ torch.onnx.export(model, input_data, 'drrn.onnx', input_names=["input"], output_
 
     - 解析npz结果并统计精度，参考：[vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)，
     ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
         --src_dir Set5_BMP/scale_4 \
         --gt_dir Set5_BMP/hr \
         --input_npz_path npz_datalist.txt \
-        --out_npz_dir outputs/drrn \
+        --out_npz_dir npz_output \
         --input_shape 256 256 \
         --draw_dir npz_draw_result \
         --vamp_flag

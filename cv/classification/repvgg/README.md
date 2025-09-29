@@ -120,7 +120,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     cd repvgg
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_repvgg.yaml
+    vamc compile ../build_in/build/official_repvgg.yaml
     ```
 
 ### step.4 模型推理
@@ -131,7 +131,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
         --infer_mode sync \
         --file_path path/to/ILSVRC2012_img_val \
         --model_prefix_path deploy_weights/official_repvgg_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-repvgg_a0-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-repvgg_a0-vdsp_params.json \
         --label_txt path/to/imagenet.txt \
         --save_dir ./runstream_output \
         --save_result_txt result.txt \
@@ -140,7 +140,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     - 精度评估
     ```
-    python ../common/eval/eval_topk.py ./runmodel_output/mod.txt
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
     ```
 
     ```
@@ -163,7 +163,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
-    python ../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
+    python ../../common/utils/image2npz.py --dataset_path ILSVRC2012_img_val --target_path  input_npz  --text_path imagenet_npz.txt
     ```
 
     - vamp推理获取npz文件
@@ -173,10 +173,10 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     - 解析输出结果用于精度评估，参考：[vamp_npz_decode.py](../common/eval/vamp_npz_decode.py)
     ```bash
-    python  ../common/eval/vamp_npz_decode.py imagenet_npz.txt output imagenet_result.txt imagenet.txt
+    python  ../../common/eval/vamp_npz_decode.py imagenet_npz.txt output imagenet_result.txt imagenet.txt
     ```
     
     - 精度评估，参考：[eval_topk](../common/eval/eval_topk.py)
     ```bash
-    python ../common/eval/eval_topk.py imagenet_result.txt
+    python ../../common/eval/eval_topk.py imagenet_result.txt
     ```

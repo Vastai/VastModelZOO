@@ -27,7 +27,7 @@ def make_npz_text(args):
     if not os.path.exists(args.target_path):
         os.makedirs(args.target_path, exist_ok=True)
     with open(args.text_path, 'w') as f:
-        files_list = glob.glob(args.dataset_path + "/*/*png")
+        files_list = glob.glob(args.dataset_path + "/*/*jpg")
 
         for img_file in tqdm(files_list):
             sub_folder =  os.path.split(img_file)[0].split("/")[-1]

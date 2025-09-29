@@ -385,7 +385,7 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     ```bash
     python ../common/source_code/onnx_export.py \
         --model bce-embedding-base_v1 \
-        --task embedding \
+        --type embedding \
         --seqlen 512 \
         --save_dir ./onnx_weights
     ```

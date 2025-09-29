@@ -1,0 +1,55 @@
+name: keras_mobilenetv1_run_stream_int8
+
+frontend:
+  shape:
+    input_1:
+    - 1
+    - 3
+    - 224
+    - 224
+  type: keras
+  checkpoint: /path/to/mobilenet_v1.h5
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/ILSVRC2012_img_calib
+  sampler:
+    suffix: JPEG
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 256
+      - 256
+    - type: CenterCrop
+      crop_size:
+      - 224
+      - 224
+    - type: Normalize
+      mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+

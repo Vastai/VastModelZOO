@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
             predict_mask = cv2.resize(predict, ori_image.size, interpolation=cv2.INTER_CUBIC)
 
-            colors = np.loadtxt("segmentation/deeplab_v3/source_code/vainf/voc2012_colors.txt").astype('uint8')
+            colors = np.loadtxt("../source_code/vainf/voc2012_colors.txt").astype('uint8')
             color = colorize(predict_mask.argmax(axis=2).astype(np.uint8), colors)
             color.save(os.path.join(args.draw_dir, file_name))
 

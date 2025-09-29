@@ -82,13 +82,3 @@
     accelerate==0.25.0
     transformers==4.34.0
     ```
-
-## Pytorch Deploy
-
-### step.1 模型准备
-|  models |    demo_code    |  tips |
-| :------ | :------: | :------: |
-|[meta-llama/Llama-2-7b-chat-hf](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)|[demo](./pytorch/demo/llama2_7b.py) |  - |
-
-### step.2 模型推理
-- 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改，参见上表`demo_code`部分

@@ -139,21 +139,6 @@
     transformers==4.40
     ```
 
-## Pytorch Deploy
-
-### step.1 模型准备
-|  models |    demo_code    | tips |
-| :------ | :------: | :------: | 
-|[Qwen/Qwen2.5-0.5B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-0.5B-Instruct) | [demo](./pytorch/demo/qwen2.5.py) | - |
-|[Qwen/Qwen2.5-1.5B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-1.5B-Instruct) | [demo](./pytorch/demo/qwen2.5.py) | - |
-|[Qwen/Qwen2.5-3B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-3B-Instruct) | [demo](./pytorch/demo/qwen2.5.py) | - |
-|[Qwen/Qwen2.5-7B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-7B-Instruct) | [demo](./pytorch/demo/qwen2.5.py) | - |
-|[Qwen/Qwen2.5-14B-Instruct](https://hf-mirror.com/Qwen/Qwen2.5-14B-Instruct) | [demo](./pytorch/demo/qwen2.5.py) | - |
-
-### step.2 模型推理
-- 基于`torch_vacc`在`VA16`硬件下推理，一般基于官方demo进行适当修改，参见上表`demo_code`部分
-
-
 ## vLLM Deploy
 
 ### step.1 模型准备
@@ -164,4 +149,4 @@
 [Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP4/8 |
 
 ### step.2 模型推理
-- 参考：[vllm/README.md](../../llm/qwen3/vllm/README.md)
+- 参考：[vllm/README.md](../qwen3/vllm/README.md)

@@ -36,6 +36,8 @@
 
 - [DeepSeek-V3.1-Base](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Base)
 
+- [DeepSeek-V3.1-Terminus](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-V3.1-Terminus)
+
 
 模型下载步骤如下所示。
 
@@ -63,6 +65,8 @@ export PATH=$PATH:~/.local/bin
 - DeepSeek-V3.1
 
 - DeepSeek-V3.1-Base
+
+- DeepSeek-V3.1-Terminus
 
 
 每个模型大小约为642GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
@@ -117,7 +121,7 @@ docker run \
     --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
     --host 0.0.0.0 \
     --port 8000 \
-    --served-model-name DS3-V3
+    --served-model-name DeepSeek-V3
 ```
 
 参数说明如下所示。
@@ -209,9 +213,9 @@ python3 benchmark_serving.py \
     --num-prompts 5 \
     --random-input-len 128 \
     --ignore-eos \
-    --random-output-len 1024 \    
+    --random-output-len 1024 \
     --max-concurrency 1 \
-    --served-model-name DS3-V3 \
+    --served-model-name DeepSeek-V3 \
     --save-result \
     --result-dir ./benchmark_result \
     --result-filename result.json     
@@ -264,7 +268,7 @@ python3 benchmark_serving.py \
 
 **步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
 
-**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/vastgenx/evalscope/precision_llm.py)获取精度测评结果。
+**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../docs/evalscope/precision_llm.py)获取精度测评结果。
 
 测评主要参数如下所示：
 

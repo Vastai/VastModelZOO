@@ -48,6 +48,9 @@
 2. 模型编译
 
     ```bash
+    cd fcn
+    mkdir workspace
+    cd workspace
     vamc compile ../build_in/build/awesome_fcn.yaml
     ```
 

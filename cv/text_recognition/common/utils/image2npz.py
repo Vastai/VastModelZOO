@@ -53,7 +53,7 @@ def make_npz_text(args):
     if not os.path.exists(args.target_path):
         os.makedirs(args.target_path, exist_ok=True)
     with open(args.text_path, 'w') as f:
-        files_list, _ = find_file_by_suffix(args.dataset_path, suffix_list=[".png"], recursive=True)
+        files_list, _ = find_file_by_suffix(args.dataset_path, suffix_list=[".jpg"], recursive=True)
 
         for img_file in tqdm(files_list):
             sub_folder =  os.path.split(img_file)[0].split("/")[-1]

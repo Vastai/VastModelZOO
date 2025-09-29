@@ -46,8 +46,8 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
 1. 获取模型
 
     ```bash
-    git clone https://github.91chi.fun/https://github.com/Media-Smart/vedastr.git
-    pip install requirements.txt
+    git clone https://github.com/Media-Smart/vedastr.git
+    pip install -r requirements.txt
     ```
 2. 截断网络输出`reshape`, [code](https://github.com/Media-Smart/vedastr/blob/master/vedastr/models/heads/fc_head.py#L70)
 
@@ -58,7 +58,7 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
 3. 导出模型
 
    ```bash
-    mv ./source_code/torch2onnx.py  vedastr/
+    cp ./source_code/torch2onnx.py  vedastr/
     cd vedastr
     python torch2onnx.py ./configs/resnet_fc.py ./resnet_fc.pth ./resnet_fc_without_reshape.onnx
    ```
@@ -77,39 +77,42 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/config.yaml
+    cd cnn_ctc
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/config.yaml
     ```
 
 ### step.4 模型推理
 **NOTE:** [sdk1.x sample](./build_in/runstream/run_vacl.py)
 ```
-python run_vacl.py
+python ../build_in/runstream/run_vacl.py
 ```
 
 ### step.5 性能精度测试
 1. 生成推理数据`npz`以及对应的`dataset.txt`
 
     ```bash
-     python ./build_in/vdsp_params/image2npz.py --dataset_path ./workspace/weights/iii5k/ --target_path  ./workspace/weights/ocr_npz  --text_path ./workspace/weights/ocr_npz.txt
+     python ../build_in/vdsp_params/image2npz.py --dataset_path /path/to/iii5k/ --target_path  ./ocr_npz  --text_path ./ocr_npz.txt
     ```
 
 2. 执行测试
 
    ```bash
-    vamp  -m ./workspace/weights/resnet_fc-int8-percentile-1_32_100-vacc/resnet_fc --vdsp_params ./build_in/vdsp_params/vdsp_params.json -i 1 -d 0 -b 1
+    vamp  -m ./weights/resnet_fc-int8-percentile-1_32_100-vacc/resnet_fc/mod --vdsp_params ./build_in/vdsp_params/vdsp_params.json -i 1 -d 0 -b 1
    ```
 
 3. 结果解析
 
     ```bash
-    cd ./build_in/utils
-    python decode_result.py ./workspace/weights/resnet_fc-int8-percentile-1_32_100-debug-result ./workspace/weights/decode.txt
+    cd ../build_in/utils
+    python decode_result.py ./weights/resnet_fc-int8-percentile-1_32_100-debug-result ./weights/decode.txt
     ```
 
 4. 精度评估
 
    ```bash
-   cd ./build_in/utils
+   cd ../build_in/utils
    python eval.py
    ```
    输出结果如下：

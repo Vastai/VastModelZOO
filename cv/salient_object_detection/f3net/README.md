@@ -123,24 +123,24 @@ with torch.no_grad():
     cd dhsnet
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_f3net.yaml
+    vamc compile ../build_in/build/official_f3net.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     ```bash
-    python ./build_in/vsx/python/official_vsx_inference.py \
+    python ../build_in/vsx/python/official_vsx_inference.py \
         --image_dir /path/to/sod/ECSSD/image \
         --model_prefix_path deploy_weights/official_f3net_run_stream_fp16/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-f3net-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-f3net-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
     ```
 
     - 统计精度信息, 基于[eval.py](../common/eval/eval.py)
         ```
-        python ../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json
+        python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json
         ```
         - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
         - 配置数据集路径：[config_dataset.json](../common/eval/examples/config_dataset.json)
@@ -169,7 +169,7 @@ with torch.no_grad():
     - 配置vdsp参数[official-f3net-vdsp_params.json](./build_in/vdsp_params/official-f3net-vdsp_params.json)
     ```bash
     vamp -m deploy_weights/official_f3net_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-f3net-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-f3net-vdsp_params.json \
         -i 1 p 1 -b 1
     ```
 
@@ -178,7 +178,7 @@ with torch.no_grad():
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`：
     ```bash
-    python ../common/utils/image2npz.py \
+    python ../../common/utils/image2npz.py \
         --dataset_path sod/ECSSD/image \
         --target_path sod/ECSSD/image_npz \
         --text_path npz_datalist.txt
@@ -187,7 +187,7 @@ with torch.no_grad():
     - vamp推理得到npz结果
     ```bash
     vamp -m deploy_weights/official_f3net_run_stream_fp16/mod \
-        --vdsp_params ./build_in/vdsp_params/official-f3net-vdsp_params.json \
+        --vdsp_params ../build_in/vdsp_params/official-f3net-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \
         --path_output npz_output
@@ -195,7 +195,7 @@ with torch.no_grad():
 
     - 解析npz结果，基于[vamp_eval.py](./build_in/vdsp_params/vamp_eval.py)
     ```bash
-    python ./build_in/vdsp_params/vamp_eval.py \
+    python ../build_in/vdsp_params/vamp_eval.py \
         --src_dir data/ECSSD/image \
         --gt_dir data/ECSSD/mask \
         --input_npz_path npz_datalist.txt \
@@ -207,7 +207,7 @@ with torch.no_grad():
 
     - 统计精度信息, 基于[eval.py](../common/eval/eval.py)
         ```
-        python ../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json
+        python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/source_code/config_method.json
         ```
         - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
         - 配置数据集路径：[config_dataset.json](../common/eval/examples/config_dataset.json)

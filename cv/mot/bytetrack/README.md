@@ -156,14 +156,14 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mix_mot20_
     cd bytetrack
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/official_bytetrack.yaml
+    vamc compile ../build_in/build/official_bytetrack.yaml
     ```
 
 ### step.4 模型推理
 1. runstream
     - 参考：[eval_vsx.py](./build_in/vsx/python/eval_vsx.py)
     ```bash
-    python ./build_in/vsx/python/eval_vsx.py \
+    python ../build_in/vsx/python/eval_vsx.py \
         --model_prefix_path deploy_weights/official_bytetrack_run_stream_int8/mod \
         --vdsp_params_info ./build_in/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json \
         --path /path/to/mot/MOT17/train \
@@ -219,9 +219,9 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mix_mot20_
 
     - 参考[demo_vsx.py](./build_in/vsx/python/demo_vsx.py)运行demo，测试检测跟踪整体pipeline
     ```
-    python ./build_in/vsx/python/demo_vsx.py \
+    python ../build_in/vsx/python/demo_vsx.py \
         --model_prefix_path deploy_weights/official_bytetrack_run_stream_int8/mod \
-        --vdsp_params_info ./build_in/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json \
         --path /path/to/palace.mp4 \
         --result_dir result/track_eval
     ```
@@ -231,5 +231,5 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mix_mot20_
 
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_bytetrack_run_stream_int8/mod --vdsp_params ./build_in/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json -i 1 -b 1 -d 0 -p 1
+    vamp -m deploy_weights/official_bytetrack_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json -i 1 -b 1 -d 0 -p 1
     ```
