@@ -3,7 +3,7 @@
 ## 获取镜像
 
 ```bash
-docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202508
+docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202509
 ```
 
 若算法模型（如LLM、VLM方向模型）基于`VastGenX`部署，则需要拉取`vastmodelzoo-vastgenx`
@@ -15,7 +15,7 @@ docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202509
 ## 启动镜像
 
 ```bash
-docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202508 bash
+docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202509 bash
 ```
 
 > docker内部署有vamc、deploy两个conda环境，可分别用于模型转换、精度/性能测试
