@@ -1,0 +1,41 @@
+name: centerface_fp16
+
+frontend:
+  shape:
+    input.1:
+    - 1
+    - 3
+    - 640
+    - 640
+  type: onnx
+  checkpoint: /path/to/centerface.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: kl_divergence
+
+dataset:
+  type: tvm
+  path: /path/to/widerface/val/calib
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 640
+      - -1
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/

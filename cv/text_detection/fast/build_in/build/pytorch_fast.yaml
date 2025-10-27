@@ -1,0 +1,49 @@
+name: pytorch_fast_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 512
+    - 512
+  type: onnx
+  checkpoint: path/to/fast_tiny_ctw_512_finetune_ic17mlt.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/ocr/ctw1500/test/text_image
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 512
+      - 512
+    - type: Normalize
+      div255: true
+      mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/

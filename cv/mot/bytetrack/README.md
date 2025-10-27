@@ -227,7 +227,7 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mix_mot20_
     ```
 
 ### step.5 性能测试
-**Note:** 基于`tracking by detection`的多目标跟踪算法包括检测、track两个流程，modelzoo只提供检测算法模型的性能测试，整体pipeline性能可使用vastpipe测试。精度采用python脚本计算
+**Note:** 基于`tracking by detection`的多目标跟踪算法包括检测、track两个流程，modelzoo只提供检测算法模型的性能测试，整体pipeline性能可使用vastpipe测试。精度采用python脚本计算，如上`Step.4`
 
 1. 性能测试
     ```bash

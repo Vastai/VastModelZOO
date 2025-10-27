@@ -1,0 +1,44 @@
+name: official_real_esrgan_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 128
+    - 128
+  type: onnx
+  checkpoint: /path/to/real_esrgan_x4plus.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+   
+
+dataset:
+  type: tvm
+  path: /path/to/DIV2K_valid_LR_bicubic/X4/
+  sampler:
+    suffix: png
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [128, 128]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+
+

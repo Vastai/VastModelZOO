@@ -1,7 +1,7 @@
 name: bert_large_en_qa-384
 
 frontend:
-  checkpoint: ./huggingface/source_code/pretrain_model/torchscript/bert_large_en_qa-384.torchscript.pt
+  checkpoint: /path/to/bert_large_en_qa-384.torchscript.pt
   shape:
     input_ids: [1, 384]
     attention_mask: [1, 384]
@@ -22,7 +22,7 @@ backend:
   
 dataset:
   type: tvm
-  path: ./datasets/hg_calib_384/
+  path: /path/to/hg_calib_384/
   sampler:
     suffix: NPZ
     get_data_num: 10

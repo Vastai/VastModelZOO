@@ -11,7 +11,7 @@ frontend:
     token_type_ids:
     - 1
     - 128
-  checkpoint: electra-base.torchscript.pt
+  checkpoint: /path/to/electra-base.torchscript.pt
   type: pytorch
   dtype: int64
 
@@ -28,7 +28,7 @@ backend:
 
 dataset:
   type: tvm
-  path: hgface_calib
+  path: /path/to/hgface_calib
   sampler:
     suffix: NPZ
     get_data_num: 10

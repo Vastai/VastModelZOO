@@ -26,7 +26,7 @@
     cd electra
     mkdir workspace
     cd workspace
-    vamc build ./build_in/build/electra_huggingface.yaml
+    vamc build ../build_in/build/electra_huggingface.yaml
     ```
    
 ### step.5 模型推理
@@ -34,8 +34,8 @@
 
    ```bash
    python ../../common/utils/sequence2npz.py \
-       --npz_path ./datasets/MRPC/dev408 \
-       --save_path ./save_dir/datasets/npz_val/dev408/dev408.txt
+       --npz_path /path/to/MRPC/dev408 \
+       --save_path npz_datalist.txt
    ```
 - runstream 运行
   - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
@@ -43,11 +43,11 @@
     运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../sdk1.0
+    cd ../../common/sdk1.0
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 512 \
-        --datalist_path ./save_dir/datasets/dev408_6inputs.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./result/dev408
     ```
 
@@ -60,7 +60,7 @@
     ```bash
     cd ../../common/vsx/python/
     python vsx_sc.py \
-        --data_list ./save_dir/datasets/dev408_6inputs.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./build_deploy/electra_base_128/electra_base_128 \
         --device_id 0 \
         --batch 1 \
@@ -73,7 +73,7 @@
 
    基于[mrpc_eval.py](../../common/eval/mrpc_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path ./datasets/MRPC/dev.tsv
+   python ../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path /path/to/MRPC/dev.tsv
    ```
 
 ### step.6 性能精度测试
@@ -82,12 +82,12 @@
 2. 执行性能测试：
     ```bash
    vamp -m deploy_weights/electra_base_mrpc-int8-max-mutil_input-vacc/electra_base_mrpc \
-        --vdsp_params vacc_info/electra_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
         --processes 2 \
-        --datalist ./data/lists/npz_datalist.txt \
+        --datalist npz_datalist.txt \
         --path_output ./save/electra
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../../common/vamp_info/) 目录下找到

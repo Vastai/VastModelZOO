@@ -25,7 +25,7 @@
 运行 pt2torchscript.py
 
 ```bash
-cd path/to/algorithm_modelzoo/question_answering/bert/huggingface/source_code/pretrain_model
+cd VastModelZOO/nlp/question_answering/bert/huggingface/source_code/pretrain_model
 
 python pt2torchscript.py  \
     --model_name_or_path ./bert_base_en_qa-384 \

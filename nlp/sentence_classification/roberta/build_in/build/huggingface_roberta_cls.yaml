@@ -11,7 +11,7 @@ frontend:
     token_type_ids:
     - 1
     - 128
-  checkpoint: ./weights/roberta_cls.torchscript.pt
+  checkpoint: /path/to/roberta_cls.torchscript.pt
 
   type: pytorch
   dtype: int64
@@ -29,7 +29,7 @@ backend:
 
 dataset:
   type: tvm
-  path: ./datasets/hg_calib_384/
+  path: /path/to/hg_calib_384/
   sampler:
     suffix: NPZ
     get_data_num: 10

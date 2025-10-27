@@ -94,17 +94,17 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     cd bert
     mkdir workspace
     cd workspace
-    vamc compile ./huggingface/build_in/build/huggingface_bert_ner.yaml
-    vamc compile ./huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
+    vamc compile ../huggingface/build_in/build/huggingface_bert_ner.yaml
+    vamc compile ../huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
     ```
 
 ### step.5 模型推理
 - 基于 [sequence2npz.py](../common/utils/sequence2npz.py)，获得推理数据`npz`以及对应的`npz_datalist.txt`
 
    ```bash
-   python ../common/utils/sequence2npz.py \
-       --npz_path ./datasets/china-people-daily-ner-corpus/NER256/test4636_6inputs \
-       --save_path ./save_dir/datasets/npz_val/test4636_6inputs.txt
+   python ../../common/utils/sequence2npz.py \
+       --npz_path /path/to/china-people-daily-ner-corpus/NER256/test4636_6inputs \
+       --save_path npz_datalist.txt
    ```
 
 - runstream 运行
@@ -113,11 +113,11 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../sdk1.0
+    cd ../../common/sdk1.0
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 1024 \
-        --datalist_path ./save_dir/datasets/val_npz_6input.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./output
     ```
 
@@ -128,17 +128,17 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    python ../common/vsx/python/vsx_ner.py \
-        --data_list ./save_dir/datasets/npz_val/test4636_6inputs.txt \
+    python ../../common/vsx/python/vsx_ner.py \
+        --data_list npz_datalist.txt \
         --model_prefix_path ./deploy_weights/bert_base_chinese_ner/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./bert_out
 
     # run torchscript
-    python ../common/utils/run_torchscript.py \
-        --data_list ./save_dir/datasets/npz_val/test4636_6inputs.txt \
-        --model_path huggingface/source_code/pretrain_model/bert_base_zh_ner-256.torchscript.pt \
+    python ../../common/utils/run_torchscript.py \
+        --data_list npz_datalist.txt \
+        --model_path ../huggingface/source_code/pretrain_model/bert_base_zh_ner-256.torchscript.pt \
         --save_dir ./bert_torch_out
     ```
 
@@ -149,9 +149,9 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
    基于 [people_daily_eval.py](../common/eval/people_daily_eval.py)，解析npz结果，并评估精度
    ```bash
 
-    python ../common/eval/people_daily_eval.py \
+    python ../../common/eval/people_daily_eval.py \
        --result_dir ./bert_out \
-       --label_path ./datasets/people_daily/instance_Peoples_Daily.txt
+       --label_path /path/to/people_daily/instance_Peoples_Daily.txt
    ```
 
    ```
@@ -176,11 +176,11 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     export VSX_DISABLE_DEEPBIND=1
     vamp -m deploy_weights/bert_base_chinese_ner/mod \
         --shape [[1,256],[1,256],[1,256],[1,256],[1,256],[1,256]] \
-        --vdsp_params ../common/vamp_info/bert_vdsp.json \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 1 \
         --processes 1 \
-        --datalist ./save_dir/datasets/npz_val/test4636_6inputs.txt  \
+        --datalist npz_datalist.txt  \
         --path_output ./vamp_bert_out
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../common/vamp_info/) 目录下找到
@@ -190,7 +190,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 3. 精度评估
     基于 [people_daily_eval.py](../common/eval/people_daily_eval.py)，解析npz结果，并评估结果，可参考 step.5
     ```bash
-    python ../common/eval/people_daily_eval.py \
+    python ../../common/eval/people_daily_eval.py \
        --result_dir ./vamp_bert_out \
-       --label_path ./datasets/people_daily/instance_Peoples_Daily.txt
+       --label_path /path/to/people_daily/instance_Peoples_Daily.txt
    ```

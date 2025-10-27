@@ -1,0 +1,42 @@
+name: official_usuir_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 720
+    - 1280
+  type: onnx
+  checkpoint: /path/to/uieb-3_720_1280.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/low_light_enhancement/low_light_enhancement/UIE/UIEBD/test/image
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [720, 1280] # [720, 1280] [300, 400]
+    - type: Normalize
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+

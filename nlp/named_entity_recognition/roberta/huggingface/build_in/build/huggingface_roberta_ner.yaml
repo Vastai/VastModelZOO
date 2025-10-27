@@ -1,7 +1,7 @@
 name: roberta_wwm_ext_base_ner
 
 frontend:
-  checkpoint: ./huggingface/source_code/pretrain_model/roberta_wwm_ext_base_zh-256.torchscript.pt
+  checkpoint: /path/to/roberta_wwm_ext_base_zh-256.torchscript.pt
   shape:
     input_ids: [1, 256]
     attention_mask: [1, 256]
@@ -12,7 +12,7 @@ frontend:
 
 dataset:
   type: tvm
-  path: ./datasets/hgface_calib
+  path: /path/to/hgface_calib
   sampler:
     suffix: NPZ
     get_data_num: 10

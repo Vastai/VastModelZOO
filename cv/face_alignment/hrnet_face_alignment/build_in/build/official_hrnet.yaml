@@ -1,0 +1,45 @@
+name: official_pfld_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 256
+    - 256
+  type: onnx
+  checkpoint: /path/to/HR18_WFLW-3_256_256.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/wflw/WFLW/test
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_BGR2RGB
+    - type: Normalize
+      mean:
+      - 0
+      - 0
+      - 0
+      std:
+      - 1
+      - 1
+      - 1
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/

@@ -1,0 +1,21 @@
+name: elic_dynamic_gs_run_stream_fp16
+
+frontend:
+  shape:
+    /9/Add_output_0: [[1, 192, 128, 128], [1, 192, 512, 512]]
+  checkpoint: /path/to/gs-dynamic.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    opt_level: 2
+  dynamic_params:
+    is_elic_gs: true
+    enable_graph_partition: true
+
+workspace:
+  path: ./deploy_weights

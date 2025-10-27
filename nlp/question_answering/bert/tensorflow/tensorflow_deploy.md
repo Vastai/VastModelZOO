@@ -26,8 +26,8 @@
     cd bert
     mkdir workspace
     cd workspace
-    vamc compile ./build_in/build/tensorflow_bert_base_en_qa-384.yaml
-    vamc compile ./build_in/build/tensorflow_bert_large_en_qa-384.yaml
+    vamc compile ../build_in/build/tensorflow_bert_base_en_qa-384.yaml
+    vamc compile ../build_in/build/tensorflow_bert_large_en_qa-384.yaml
     ```
 
 ### step.5 模型推理
@@ -35,8 +35,8 @@
 
    ```bash
    python ../../common/utils/gen_datalist.py \
-       --data_dir ./datasets/val_npz_6inputs \
-       --save_path ./datasets/npz_datalist.txt
+       --data_dir /path/to/val_npz_6inputs \
+       --save_path npz_datalist.txt
    ```
 
 - runstream 运行
@@ -49,7 +49,7 @@
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 1536 \
-        --datalist_path ./save_dir/datasets/val_npz_6input.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./output
     ```
 
@@ -61,14 +61,14 @@
 
     ```bash
     python ../../common/vsx/python/vsx_qa.py \
-        --data_list ./datasets/npz_datalist.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./deploy_weights/bert_base_en_qa-384/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./bert_base_en_qa-384_out
 
     python ../../common/vsx/python/vsx_qa.py \
-        --data_list ./datasets/npz_datalist.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./deploy_weights/bert_large_en_qa-384/mod \
         --device_id 0 \
         --batch 1 \
@@ -83,12 +83,12 @@
    ```bash
    python ../common/eval/squad_eval.py  \
        --result_dir ./bert_base_en_qa-384_out\
-       --eval_path ./datasets/dev-v1.1.json \
+       --eval_path /path/to/dev-v1.1.json \
        --vocab_path ../../common/vocab.txt
 
    python ../common/eval/squad_eval.py  \
        --result_dir ./bert_large_en_qa-384_out\
-       --eval_path ./datasets/dev-v1.1.json \
+       --eval_path /path/to/dev-v1.1.json \
        --vocab_path ../../common/vocab.txt
    ```
 
@@ -99,7 +99,7 @@
 
     ```bash
    vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
-        --vdsp_params vacc_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
@@ -110,12 +110,12 @@
 
     ```bash
     vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
-        --vdsp_params vacc_info/bert_vdsp.yaml \
-        --hwconfig vacc_info/hw_config.json \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --hwconfig ../../common/vamp_info/bert_hw_config.json \
         --batch_size 1 \
         --instance 6 \
         --processes 2
-        --datalist ./data/lists/npz_datalist.txt \
+        --datalist npz_datalist.txt \
         --path_output ./save/bert
     ```
 

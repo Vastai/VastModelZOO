@@ -113,8 +113,8 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     cd roberta
     mkdir workspace
     cd workspace
-    vamc compile ./huggingface/build_in/build/huggingface_roberta_ner.yaml
-    vamc compile ./huggingface/build_in/build/huggingface_roberta_ner_fp16.yaml
+    vamc compile ../huggingface/build_in/build/huggingface_roberta_ner.yaml
+    vamc compile ../huggingface/build_in/build/huggingface_roberta_ner_fp16.yaml
     ```
 
 ### step.5 模型推理
@@ -123,8 +123,8 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
    ```bash
    cd ../../sentence_classification/common/utils
    python sequence2npz.py \
-       --npz_path ./datasets/test4636_6inputs \
-       --save_path ./datasets/test4636_6inputs.txt
+       --npz_path /path/to/test4636_6inputs \
+       --save_path npz_datalist.txt
    ```
 
 - runstream 运行
@@ -133,11 +133,11 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../common/sdk1.0
+    cd ../../common/sdk1.0
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 1024 \
-        --datalist_path ./save_dir/datasets/val_npz_6input.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./output
     ```
 
@@ -148,33 +148,33 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../common/vsx/python/
+    cd ../../common/vsx/python/
     python vsx_ner.py \
-        --data_list ./save_dir/datasets/val_npz_6input.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./build_deploy/roberta_base_ner_256/roberta_base_ner_256 \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
 
     # int8
-    python ../common/vsx/python/vsx_ner.py \
-        --data_list ./datasets/test4636_6inputs.txt \
+    python ../../common/vsx/python/vsx_ner.py \
+        --data_list npz_datalist.txt \
         --model_prefix_path ./deploy_weights/roberta_wwm_ext_base_ner/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
     
     # fp16
-    python ../common/vsx/python/vsx_ner.py \
-        --data_list ./datasets/test4636_6inputs.txt \
+    python ../../common/vsx/python/vsx_ner.py \
+        --data_list npz_datalist.txt \
         --model_prefix_path ./deploy_weights/fp16/roberta_wwm_ext_base_ner/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out_fp16
     
     # torchscript pt
-    python ../common/utils/run_torchscript.py \
-        --data_list ./datasets/test4636_6inputs.txt \
+    python ../../common/utils/run_torchscript.py \
+        --data_list npz_datalist.txt \
         --model_path ./huggingface/source_code/pretrain_model/roberta_wwm_ext_base_zh-256.torchscript.pt \
         --save_dir ./out_torch
 
@@ -186,15 +186,15 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
    基于 [people_daily_eval.py](../common/eval/people_daily_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../common/eval/people_daily_eval.py \
+   python ../../common/eval/people_daily_eval.py \
        --result_dir ./out \
        --label_path ./datasets/instance_Peoples_Daily.txt
 
-    python ../common/eval/people_daily_eval.py \
+    python ../../common/eval/people_daily_eval.py \
        --result_dir ./out_fp16 \
        --label_path ./datasets/instance_Peoples_Daily.txt
 
-    python ../common/eval/people_daily_eval.py \
+    python ../../common/eval/people_daily_eval.py \
        --result_dir ./out_torch \
        --label_path ./datasets/instance_Peoples_Daily.txt
    ```
@@ -215,15 +215,14 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
 ### step.6 性能精度测试
 1. 基于[sequence2npz.py](../../sentence_classification/common/utils/sequence2npz.py)，生成推理数据`npz`以及对应的`npz_datalist.txt`, 可参考 step.5
-
 2. 执行性能测试：
     ```bash
     vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max-mutil_input-vacc/bert_base_chinese_ner_256 \
-        --vdsp_params vacc_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
         --batch_size 1 \
         --instance 6 \
         --processes 2
-        --datalist ./data/lists/npz_datalist.txt \
+        --datalist npz_datalist.txt \
         --path_output ./save/bert
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../common/vamp_info/) 目录下找到

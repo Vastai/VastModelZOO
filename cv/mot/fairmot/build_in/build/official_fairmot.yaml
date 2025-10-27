@@ -1,0 +1,40 @@
+name: official_fairmot_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 608
+    - 1088
+  type: onnx
+  checkpoint: /path/to/fairmot_yolov5s.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/mot/MOT17/calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size: [608, 1088]
+      adaptive_side: long
+    - type: Normalize
+      div255: true
+      norm_type: null
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
