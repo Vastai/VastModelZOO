@@ -1,7 +1,7 @@
 model: bert_large_en_qa-384
 
 frontend:
-  checkpoint: ./tensorflow/source_code/pretrain_model/pb/bert_large_en_qa-384.pb
+  checkpoint: /path/to/bert_large_en_qa-384.pb
   shape:
     input_ids_1: [1, 384]
     input_mask_1: [1, 384]
@@ -11,7 +11,7 @@ frontend:
 
 dataset:
   type: tvm
-  path: ./datasets/tf_calib
+  path: /path/to/tf_calib
   sampler:
     suffix: NPZ
     get_data_num: 10

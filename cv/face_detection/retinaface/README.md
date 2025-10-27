@@ -126,7 +126,7 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
 2. [evaluation.py](../common/eval/evaluation.py)，精度统计，指定gt路径和上步骤中的txt保存路径，即可获得精度指标
     - 注意需要先执行以下命令安装依赖库
     ```
-    cd ../common/eval/
+    cd ../../common/eval/
     python3 setup.py build_ext --inplace
     ```
     - 然后切换到之前的workspace目录进行精度验证
@@ -146,7 +146,7 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
 ### step.5 性能精度测试
 1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`widerface_npz_list.txt`
     ```bash
-    python ../../common/utils/image2npz.py --dataset_path widerface/val/images/ --target_path datasets/widerface_npz --text_path datasets/widerface_npz_list.txt
+    python ../../common/utils/image2npz.py --dataset_path /path/to/widerface/val/images/ --target_path /path/to/widerface_npz --text_path widerface_npz_list.txt
     ```
 
 2. 性能测试
@@ -156,18 +156,18 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
 
 3. npz结果输出
     ```bash
-    vamp -m deploy_weights/official_retinaface_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1 --datalist datasets/widerface_npz_list.txt --path_output result
+    vamp -m deploy_weights/official_retinaface_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1 --datalist widerface_npz_list.txt --path_output result
     ```
 
 4. [npz_decode.py](../common/utils/npz_decode.py)，解析vamp输出的npz文件，进行绘图和保存txt结果
     ```bash
-    python ../../common/utils/npz_decode.py --txt result_npz  --input_image_dir datasets/widerface/val/images --model_size 640 640 --vamp_datalist_path datasets/widerface_npz_list.txt --vamp_output_dir result
+    python ../../common/utils/npz_decode.py --txt result_npz  --input_image_dir /path/to/widerface/val/images --model_size 640 640 --vamp_datalist_path widerface_npz_list.txt --vamp_output_dir result
     ```
 
 5. [evaluation.py](../common/eval/evaluation.py)，精度统计，指定上步骤中的txt保存路径，即可获得mAP评估指标（先安装[评估包](../common/eval/)）
    ```bash
     # 安装评估包
-    cd ../common/eval/
+    cd ../../common/eval/
     python setup.py build_ext --inplace
     # 评估
     python ../../common/eval/evaluation.py -p result_npz -g ../../common/eval/ground_truth

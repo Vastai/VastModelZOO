@@ -1,0 +1,59 @@
+name: official_pfsrnet_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 16
+    - 16
+  type: onnx
+  checkpoint: /path/to/pfsrnet-16.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+   
+
+dataset:
+  type: tvm
+  path: /path/to/sr/CelebA/Img/img_align_celeba_1k
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops:
+    - type: DecodeImage
+      backend: pillow
+    - type: CenterCrop
+      crop_size: [178, 178]
+      backend: pillow
+    - type: Resize
+      size: [128, 128]
+      backend: pillow
+    - type: Resize
+      size: [64, 64]
+      backend: pillow
+    - type: Resize
+      size: [32, 32]
+      backend: pillow
+    - type: Resize
+      size: [16, 16]
+      backend: pillow
+    - type: Normalize
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+
+
+
+
+

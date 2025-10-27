@@ -1,7 +1,7 @@
 name: bce-reranker-base_v1-512-int8
 
 frontend:
-  checkpoint: onnx_weights/bce/bce-reranker-base_v1-512-sim.onnx
+  checkpoint: /path/to/bce-reranker-base_v1-512-sim.onnx
   shape:
     input_ids:
     - 1
@@ -31,7 +31,7 @@ backend:
 
 dataset:
   type: tvm
-  path: ./vacc_deploy/quant_dir123
+  path: ./path/to/quant_dir123
   sampler:
     suffix: npz
     get_data_num: 10

@@ -1,0 +1,20 @@
+{
+    "OpType": "FUSION_OP_RGB_LETTERBOX_CVTCOLOR_NORM_TENSOR_EXT",
+    "OpConfig": {
+        "IimageFormat": "RGB_PLANAR",
+        "ResizeType": "BILINEAR_CV",
+        "Padding": [
+            0,
+            0,
+            0
+        ],
+        "PaddingLeft": 0,
+        "PaddingRight": 0,
+        "PaddingTop": 0,
+        "PaddingBottom": 0,
+        "ResizeWidth": 512,
+        "ResizeHeight": 512,
+        "NormaType": "DIV255",
+        "ColorCvtCode": "NO_CHANGE"
+    }
+}

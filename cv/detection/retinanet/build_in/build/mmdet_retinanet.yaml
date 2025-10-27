@@ -1,0 +1,45 @@
+name: mmdet_retinanet_run_stream_int8
+
+frontend:
+  checkpoint: /path/to/retinanet_r50_fpn_1x_coco.onnx
+  shape:
+    input:
+    - 1
+    - 3
+    - 1024
+    - 1024
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/det_coco_calib
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 1024
+      - -1
+      adaptive_side: long
+    - type: Pad
+      pad_to_square: true
+    - type: Normalize
+      div255: true
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/

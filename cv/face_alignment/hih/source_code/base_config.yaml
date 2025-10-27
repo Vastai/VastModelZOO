@@ -1,0 +1,35 @@
+config:
+  inference_indice: -1
+  norm_indices: [60, 72]
+  num_landmarks: 98
+  heatmap_size: 64
+  pad_crop: true
+  batch_size: 1
+  device_id: 0
+
+  # heatmap_method: "GAUSS"
+  # heatmap_sigma: 1.5
+  # offset_size: 8
+  # offset_method: "GAUSS"
+  # offset_sigma: 1.0
+
+  # head_type: hih
+  # data_type: 'WFLW'
+  # data_folder: 'train'
+  # test_folder: 'test'
+  # batch_size: 16
+  # num_workers: 4
+  # init_lr: 5e-6
+  # num_epochs: 60
+  # decay_steps: [30, 50]
+  # val_epoch: [[40,5],[70,1]]
+  # input_size: 256
+  # backbone: 'hourglass'
+  # num_stack: 4
+  # num_layer: 4
+  # num_feature: 256
+  # target_o: 384
+  # criterion_heatmap: 'l2'
+  # criterion_offset: 'cls'
+  # loss_heatmap_weight: 1
+  # loss_offset_weight: 0.05

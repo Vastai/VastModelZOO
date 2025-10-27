@@ -8,7 +8,7 @@ frontend:
     att_mask:
     - 1
     - 512
-  checkpoint: ./electra_model/cib_bert.onnx
+  checkpoint: /path/to/cib_bert.onnx
   dtype: int64
 
 backend:
@@ -26,7 +26,7 @@ backend:
     calibrate_range: 0.99999
 
 dataset:
-  path: ./datasets/calib_512
+  path: /path/to/calib_512
   sampler:
     get_data_num: 5
 

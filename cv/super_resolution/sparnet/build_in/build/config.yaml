@@ -1,0 +1,36 @@
+name: sparnet_light_attn3d
+
+frontend:
+  shape:
+    input: [1, 3, 128, 128]
+  checkpoint: /path/to/sparnet_light_attn3d-128.onnx
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  path: /path/to/code/model_check/SR/face/Face-SPARNet/datasets/test_dirs/Helen_test_DIC/LR
+  sampler:
+    suffix: null
+    get_data_num: 500
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [128, 128]
+    - type: Normalize
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+    - type: ToTensor
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: true
+  save_log: true
+
+

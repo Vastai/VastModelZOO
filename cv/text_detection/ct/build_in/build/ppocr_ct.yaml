@@ -1,0 +1,48 @@
+name: ppocr_ct_run_stream_int8
+
+frontend:
+  shape:
+    x:
+    - 1
+    - 3
+    - 640
+    - 960
+  type: onnx
+  checkpoint: /path/to/det_r18_vd_ct.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/ocr/total_text/Images/Test
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size:
+      - 640
+      - 960
+    - type: Normalize
+      div255: true
+      mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/

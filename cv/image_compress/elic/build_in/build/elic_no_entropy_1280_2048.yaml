@@ -1,0 +1,22 @@
+name: elic_no_entropy_1280_2048_run_stream_fp16
+
+frontend:
+  shape:
+    input: [1, 3, 1280, 2048]
+  checkpoint: /path/to/elic_no_entropy_1280x2048.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    opt_level: 2
+    data_transport_mode: 1
+    split_convergence_points: ["0, 10","180, 190"]
+    partition_convergence_dsp_enable: true
+    enable_float_to_half: true
+
+workspace:
+  path: ./deploy_weights

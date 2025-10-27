@@ -121,9 +121,17 @@
 | :------: | :------: | :------: | :------: | :-----: |
 | [CenterNet](./cv/detection/centernet/README.md)  |    [official](https://github.com/xingyizhou/CenterNet)    | <details> <summary>model name</summary><ul><li align="left">centernet_res18</li></ul></details> |   object detection   | Build_In | 
 | [DETR](./cv/detection/detr/README.md)  |   [facebook](https://github.com/facebookresearch/detr?tab=readme-ov-file)   | <details> <summary>model name</summary><ul><li align="left">detr_res50</li></ul></details> |   object detection   | Build_In |
+| [FastestDet](./cv/detection/fastestdet/README.md) |   [official](https://github.com/dog-qiuqiu/FastestDet)    |   <details> <summary>model name</summary><ul><li align="left">fastestdet</li></ul></details>    |   object detection   | Build_In |
 | [Grounding-DINO](./cv/detection/grounding_dino/README.md)  |   [official](https://github.com/IDEA-Research/GroundingDINO)   | <details> <summary>model name</summary><ul><li align="left">groundingdino_swint_ogc</li><li align="left">groundingdino_swinb_cogcoor</li></ul></details> |   object detection   | Build_In |
+| [NanoDet](./cv/detection/nanodet/README.md)  | [official](https://github.com/RangiLyu/nanodet) |    <details> <summary>model name</summary><ul><li align="left">nanodet_m</li><li align="left">nanodet_plus_m</li><li align="left">nanodet_plus_m_1.5x</li></ul></details>     |   object detection   | Build_In | 
+| [RetinaNet](./cv/detection/retinanet/README.md)   |  [pytorch](https://github.com/yhenon/pytorch-retinanet/tree/master)  | <details> <summary>model name</summary><ul><li align="left">retinanet_resnet50</li></ul></details> |   object detection   | Build_In |
+| [RetinaNet](./cv/detection/retinanet/README.md)   |  [mlcommons](https://github.com/mlcommons/inference/tree/master/vision/classification_and_detection)  | <details> <summary>model name</summary><ul><li align="left">retinanet_resnext50_32x4d_fpn</li></ul></details> |   object detection   | Build_In |
+| [RetinaNet](./cv/detection/retinanet/README.md)   |  [mmdet](https://github.com/open-mmlab/mmdetection/tree/v3.1.0)  | <details> <summary>model name</summary><ul><li align="left">retinanet_r18_fpn_1x_coco</li><li align="left">retinanet_r18_fpn_1x8_1x_coco</li><li align="left">retinanet_r50_fpn_1x_coco</li><li align="left">retinanet_r50_fpn_2x_coco</li><li align="left">retinanet_r50_fpn_fp16_1x_coco</li><li align="left">retinanet_r50_caffe_fpn_1x_coco</li><li align="left">retinanet_r101_fpn_1x_coco</li><li align="left">retinanet_r101_fpn_2x_coco</li><li align="left">retinanet_r101_caffe_fpn_1x_coco</li><li align="left">retinanet_x101_32x4d_fpn_1x_coco</li><li align="left">retinanet_x101_32x4d_fpn_2x_coco</li><li align="left">retinanet_x101_64x4d_fpn_1x_coco</li><li align="left">retinanet_x101_64x4d_fpn_2x_coco</li><li align="left">retinanet_r50_fpn_mstrain_3x_coco</li><li align="left">retinanet_r101_caffe_fpn_mstrain_3x_coco</li><li align="left">retinanet_r101_fpn_mstrain_3x_coco</li><li align="left">retinanet_x101_64x4d_fpn_mstrain_3x_coco</li></ul></details> |   object detection   | Build_In | 
 | [RT-DETR](./cv/detection/rtdetr/README.md)  |   [official](https://github.com/lyuwenyu/RT-DETR)   | <details> <summary>model name</summary><ul><li align="left">rtdetr_r18vd</li></ul></details> |   object detection   | Build_In |
 | [YOLO-World](./cv/detection/yolo_world/README.md)  |   [official](https://github.com/AILab-CVC/YOLO-World)   | <details> <summary>model name</summary><ul><li align="left">yolo_world_v2_l</li></ul></details> |   object detection   | Build_In | 
+| [YOLOF](./cv/detection/yolof/README.md)   |  [mmdet](https://github.com/open-mmlab/mmdetection/tree/main/configs/yolof)  | <details> <summary>model name</summary><ul><li align="left">yolof</li></ul></details> |   object detection   | Build_In |
+| [YoloFastV2](./cv/detection/yolofastv2/README.md) | [official](https://github.com/dog-qiuqiu/Yolo-FastestV2)  |   <details> <summary>model name</summary><ul><li align="left">yolofastv2</li></ul></details>    |   object detection   | Build_In | 
+| [YOLOR](./cv/detection/yolor/README.md)    |    [official](https://github.com/WongKinYiu/yolor/tree/paper) |   <details> <summary>model name</summary><ul><li align="left">yolor_d6</li><li align="left">yolor_e6</li><li align="left">yolor_w6</li><li align="left">yolor_p6</li></ul></details>    |   object detection   |   Build_In   |
 |  [Yolov3](./cv/detection/yolov3/README.md)   |  [pytorch(u)](https://github.com/ultralytics/yolov3/tree/v9.5.0)  | <details> <summary>model name</summary><ul><li align="left">yolov3</li><li align="left">yolov3-spp</li><li align="left">yolov3-tiny</li></ul></details> |   object detection   |   Buid_In    |
 |  [Yolov4](./cv/detection/yolov4/README.md)   | [darknet](https://github.com/AlexeyAB/darknet)  |  <details> <summary>model name</summary><ul><li align="left">yolov4</li><li align="left">yolov4_tiny</li><li align="left">yolov4_csp</li><li align="left">yolov4_csp_swish</li><li align="left">yolov4_csp_x_swish</li><li align="left">yolov4x_mish</li></ul></details>  |   object detection   |  Buid_In    |
 |  [Yolov4](./cv/detection/yolov4/README.md)   | [bubbliiiing](https://github.com/bubbliiiing/yolov4-pytorch)    |    <details> <summary>model name</summary><ul><li align="left">yolov4</li><li align="left">yolov4_tiny</li></ul></details>    |   object detection   |  Buid_In   |
@@ -150,9 +158,14 @@
 | [Deeplab_v3_plus](./cv/segmentation/deeplab_v3/README.md) | [pytorch](https://github.com/VainF/DeepLabV3Plus-Pytorch) |   <details> <summary>model name</summary><ul><li align="left">deeplabv3plus_resnet50</li><li align="left">deeplabv3plus_resnet101</li></ul></details>   |     segmentation     | Build_In | 
 | [FCN](./cv/segmentation/fcn/README.md)    |    [pytorch](https://github.com/Tramac/awesome-semantic-segmentation-pytorch/blob/master/README.md) |  <details> <summary>model name</summary><ul><li align="left">fcn8s</li><li align="left">fcn16s</li><li align="left">fcn32s</li></ul></details>  |     segmentation     | Build_In | 
 | [FCN](./cv/segmentation/fcn/README.md)    | [mmseg](https://github.com/open-mmlab/mmsegmentation/tree/master/configs/fcn) |   <details> <summary>model name</summary><ul><li align="left">fcn_r50_d8_20k</li><li align="left">fcn_r50_d8_40k</li><li align="left">fcn_r101_d8_20k</li><li align="left">fcn_r101_d8_40k</li></ul></details>    |     segmentation     | Build_In |
+| [HRNet_Seg](./cv/segmentation/hrnet/README.md)  |    [pytorch](https://github.com/HRNet/HRNet-Semantic-Segmentation/tree/pytorch-v1.1)    | <details> <summary>model name</summary><ul><li align="left">HRNetV2-W48</li><li align="left">HRNetV2-W18-Small-v1</li><li align="left">HRNetV2-W18-Small-v2</li></ul></details> |     segmentation     | Build_In |
 | [Human_Seg](./cv/segmentation/human_seg/README.md)    | [pytorch](https://github.com/thuyngch/Human-Segmentation-PyTorch) |    <details> <summary>model name</summary><ul><li align="left">unet_resnet18</li><li align="left">deeplabv3plus_resnet18</li></ul></details>    |  human segmentation  | Build_In |
 | [Mask2Former](./cv/segmentation/mask2former/README.md)   |   [official](https://github.com/facebookresearch/Mask2Former)    |  <details> <summary>model name</summary><ul><li align="left">maskformer2_R50</li></ul></details>  |     instance segmentation     | Build_In | 
 | [MODNet](./cv/segmentation/modnet/README.md) |  [official](https://github.com/ZHKKKe/MODNet)   | <details> <summary>model name</summary><ul><li align="left">modnet</li></ul></details>  |  matting   | Build_In | 
+| [ParseNet](./cv/segmentation/parsenet/README.md) | [pytorch](https://github.com/yangxy/GPEN/blob/main/face_parse/parse_model.py) |    <details> <summary>model name</summary><ul><li align="left">parsenet</li></ul></details> |  face segmentation   | Build_In |
+| [R2U_Net](./cv/segmentation/r2u_net/README.md)  |   [pytorch](https://github.com/Andy-zhujunwen/UNET-ZOO)   | <details> <summary>model name</summary><ul><li align="left">r2u_net</li></ul></details> |     segmentation     | Build_In |
+| [RefineNet](./cv/segmentation/refinenet/README.md)    |   [pytorch](https://github.com/DrSleep/light-weight-refinenet)    | <details> <summary>model name</summary><ul><li align="left">refinenet_resnet101</li><li align="left">refinenet_lw_resnet50</li><li align="left">refinenet_lw_resnet101</li><li align="left">refinenet_lw_resnet152</li><li align="left">refinenet_lw_mobilenetv2</li></ul></details>  |     segmentation     | Build_In |
+| [STDC](./cv/segmentation/stdc/README.md)   |   [official](https://github.com/MichaelFan01/STDC-Seg)    |  <details> <summary>model name</summary><ul><li align="left">stdc1</li></ul></details>  |     segmentation     | Build_In |
 | [Unet](./cv/segmentation/unet/README.md)   |    [bubbliiiing](https://github.com/bubbliiiing/unet-pytorch) | <details> <summary>model name</summary><ul><li align="left">unet_vgg16</li><li align="left">unet_resnet50</li></ul></details> |     segmentation     | Build_In |
 | [Unet](./cv/segmentation/unet/README.md)   |   [milesial](https://github.com/milesial/Pytorch-UNet)    |   <details> <summary>model name</summary><ul><li align="left">unet_scale0.5</li><li align="left">unet_scale1.0</li></ul></details>    |     segmentation     | Build_In | 
 | [Unet](./cv/segmentation/unet/README.md)   |    [keras](https://github.com/zhixuhao/unet)    |  <details> <summary>model name</summary><ul><li align="left">unet</li></ul></details>   |     segmentation     | Build_In | 
@@ -165,16 +178,20 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: | 
-| [PIPNet](./cv/face_alignment/pipnet/README.md)  |   [official](https://github.com/jhb86253817/PIPNet/tree/master)   | <details> <summary>model name</summary><ul><li align="left">pip_resnet18</li><li align="left">pip_resnet101</li><li align="left">pipnet_mobilenet_v2</li><li align="left">pipnet_mobilenet_v3</li></ul></details> |    face alignment    |   Build_In   |
+| [HIH](./cv/face_alignment/hih/README.md) |   [pytorch](https://github.com/starhiking/HeatmapInHeatmap)    |  <details> <summary>model name</summary><ul><li align="left">hih_wflw_s</li><li align="left">hih_wflw_b</li></ul></details>   |     face alignment     | Build_In | 
+| [HRNet_Face_Alignment](./cv/face_alignment/hrnet_face_alignment/README.md) |  [pytorch](https://github.com/HRNet/HRNet-Facial-Landmark-Detection)  | <details> <summary>model name</summary><ul><li align="left">HR18_300W</li><li align="left">HR18_AFLW</li><li align="left">HR18_COFW</li><li align="left">HR18_WFLW</li></ul></details>  |    face alignment    | Build_In | 
 | [PFLD](./cv/face_alignment/pfld/README.md)  |  [pytorch](https://github.com/polarisZhao/PFLD-pytorch)   |  <details> <summary>model name</summary><ul><li align="left">pfld</li></ul></details>   |    face alignment    |   Build_In   |
+| [PIPNet](./cv/face_alignment/pipnet/README.md)  |   [official](https://github.com/jhb86253817/PIPNet/tree/master)   | <details> <summary>model name</summary><ul><li align="left">pip_resnet18</li><li align="left">pip_resnet101</li><li align="left">pipnet_mobilenet_v2</li><li align="left">pipnet_mobilenet_v3</li></ul></details> |    face alignment    |   Build_In   |
 
 
 - face detection
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: | 
+| [CenterFace](./cv/face_detection/centerface/README.md)  |     [onnx](https://github.com/Star-Clouds/CenterFace)     |  <details> <summary>model name</summary><ul><li align="left">centerface</li><li align="left">centerface_bnmerged</li></ul></details>  |    face detection    | Build_In | 
 | [RetinaFace](./cv/face_detection/retinaface/README.md)  | [pytorch](https://github.com/biubug6/Pytorch_Retinaface)  |    <details> <summary>model name</summary><ul><li align="left">retinaface-resnet50</li><li align="left">retinaface-mobilenet0.25</li></ul></details>    |    face detection    |   Build_In   |
 | [SCRFD](./cv/face_detection/scrfd/README.md) |  [insightface](https://github.com/deepinsight/insightface/tree/master/detection/scrfd)  |    <details> <summary>model name</summary><ul><li align="left">scrfd_500m</li><li align="left">scrfd_500m_bnkps</li><li align="left">scrfd_1g</li><li align="left">scrfd_2.5g</li><li align="left">scrfd_2.5g_bnkps</li><li align="left">scrfd_10g</li><li align="left">scrfd_10g_bnkps</li><li align="left">scrfd_34g</li></ul></details>    |    face detection    | Build_In |
+|  [YOLO5Face](./cv/face_detection/yolov5_face/README.md)  |   [pytorch](https://github.com/deepcam-cn/yolov5-face)    | <details> <summary>model name</summary><ul><li align="left">yolov5n0.5_face</li><li align="left">yolov5n_face</li><li align="left">yolov5s_face</li><li align="left">yolov5m_face</li><li align="left">yolov5l_face</li></ul></details> |    face detection    | Build_In |
 
 
 - facial quality
@@ -206,6 +223,14 @@
 | [GPEN](./cv/image_colorization/gpen/README.md) |   [official](https://github.com/yangxy/GPEN)    | <details> <summary>model name</summary><ul><li align="left">gpen</li></ul></details> |    image colorization    | Build_In | 
 
 
+- image compress
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [Elic](./cv/image_compress/elic/README.md) |     [official](https://github.com/JiangWeibeta/ELIC) | <details> <summary>model name</summary><ul><li align="left">elic</li></ul></details> |  image compress  | Build_In |
+| [Mlicpp](./cv/image_compress/mlic_pp/README.md) |  [official](https://github.com/JiangWeibeta/MLIC)  |    <details> <summary>model name</summary><ul><li align="left">mlicpp</li></ul></details>    |  image compress  | Build_In |
+
+
 - image retrieval
 
 |  model |    codebase    |  model list |    model type | runtime |
@@ -218,6 +243,7 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [PairLIE](./cv/low_light_image_enhancement/pairlie/README.md)    |    [official](https://github.com/zhenqifu/PairLIE)    |  <details> <summary>model name</summary><ul><li align="left">pairlie</li></ul></details>  | low light image enhancement | Build_In |
+| [USUIR](./cv/low_light_image_enhancement/usuir/README.md)    |    [official](https://github.com/zhenqifu/USUIR)    |  <details> <summary>model name</summary><ul><li align="left">uieb</li><li align="left">ruie</li></ul></details>  | low light image enhancement | Build_In | 
 
 
 - mot
@@ -226,6 +252,9 @@
 | :------: | :------: | :------: | :------: | :-----: |
 | [ByteTrack](./cv/mot/bytetrack/README.md)   |   [official](https://github.com/ifzhang/ByteTrack)   |    <details> <summary>model name</summary><ul><li align="left">ByteTrack_ablation</li><li align="left">bytetrack_x_mot17</li><li align="left">bytetrack_l_mot17</li><li align="left">bytetrack_m_mot17</li><li align="left">bytetrack_s_mot17</li><li align="left">bytetrack_nano_mot17</li><li align="left">bytetrack_tiny_mot17</li><li align="left">bytetrack_x_mot20</li></ul></details>    |    mot |   Build_In   |
 | [DeepSort](./cv/mot/deep_sort/README.md)   |   [pytorch](https://github.com/ZQPei/deep_sort_pytorch)   |    <details> <summary>model name</summary><ul><li align="left">fast reid</li></ul></details>    |    mot |   Build_In   |
+|   [FairMOT](./cv/mot/fairmot/README.md)   |   [official](https://github.com/ifzhang/FairMOT)   |    <details> <summary>model name</summary><ul><li align="left">fairmot_yolov5s</li></ul></details>    |    mot |   Build_In   |
+|   [JDE](./cv/mot/jde/README.md)   |   [pytorch](https://github.com/Zhongdao/Towards-Realtime-MOT/tree/master)   |    <details> <summary>model name</summary><ul><li align="left">jde_1088x608_uncertainty</li><li align="left">jde_864x480_uncertainty</li><li align="left">jde_576x320_uncertainty</li></ul></details>    |    mot |   Build_In   |
+|   [OCSORT](./cv/mot/ocsort/README.md)   |   [pytorch](https://github.com/noahcao/OC_SORT/tree/master)   |    <details> <summary>model name</summary><ul><li align="left">ocsort_mot17_ablation</li><li align="left">ocsort_x_mot17</li><li align="left">ocsort_x_mot20</li><li align="left">ocsort_dance_model</li></ul></details>    |    mot |   Build_In   |
 
 
 - pose
@@ -247,20 +276,39 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
+| [BSANet](./cv/salient_object_detection/bsanet/README.md) | [official](https://github.com/xuebinqin/BASNet) | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
+| [BSANet](./cv/salient_object_detection/bsanet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
+| [DHSNet](./cv/salient_object_detection/dhsnet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">dhsnet</li></ul></details>  |   salient object detection   | Build_In | 
+| [EGNet](./cv/salient_object_detection/egnet/README.md) |   [salod](https://github.com/moothes/SALOD)   | <details> <summary>model name</summary><ul><li align="left">egnet</li></ul></details>  |   salient object detection   | Build_In | 
 | [F3Net](./cv/salient_object_detection/f3net/README.md)  |  [official](https://github.com/weijun88/F3Net)  |  <details> <summary>model name</summary><ul><li align="left">f3net</li></ul></details>  |   salient object detection   | Build_In |
+| [GCPANet](./cv/salient_object_detection/gcpanet/README.md)     |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">gcpanet</li></ul></details> |   salient object detection   | Build_In |
 | [ISNet](./cv/salient_object_detection/isnet/README.md)  |  [official](https://github.com/xuebinqin/DIS)   |  <details> <summary>model name</summary><ul><li align="left">isnet</li></ul></details>  |   salient object detection   | Build_In |
+| [SCRN](./cv/salient_object_detection/scrn/README.md)   |   [salod](https://github.com/moothes/SALOD/tree/master)   |  <details> <summary>model name</summary><ul><li align="left">scrn</li></ul></details>   |   salient object detection   | Build_In |
+| [U2Net](./cv/salient_object_detection/u2net/README.md)   |   [official](https://github.com/xuebinqin/U-2-Net/tree/master)   | <details> <summary>model name</summary><ul><li align="left">u2net</li><li align="left">u2net_human_seg</li><li align="left">u2netp</li></ul></details>   |   salient object detection   | Build_In |
 
 
 - super_resolution
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
+| [Bicubic_PlusPlus](./cv/super_resolution/bicubic_plusplus/README.md)    | [official](https://github.com/aselsan-research-imaging-team/bicubic-plusplus) |  <details> <summary>model name</summary><ul><li align="left">bicubic_plusplus_2x</li><li align="left">bicubic_plusplus_3x</li></ul></details>   |   super resolution   | Build_In |
+| [BSRGAN](./cv/super_resolution/bsrgan/README.md) |   [official](https://github.com/cszn/BSRGAN)    | <details> <summary>model name</summary><ul><li align="left">bsrnet_x4</li><li align="left">bsrgan_x4</li><li align="left">bsrgan_x2</li></ul></details> |   super resolution   | Build_In |
+| [ECBSR](./cv/super_resolution/ecbsr/README.md)    | [official](https://github.com/xindongzhang/ECBSR) |  <details> <summary>model name</summary><ul><li align="left">ecbsr_plain_2x</li></ul></details>   |   super resolution   | Build_In |
+| [ECBSR](./cv/super_resolution/ecbsr/README.md)    | [basicsr](https://github.com/XPixelGroup/BasicSR) |  <details> <summary>model name</summary><ul><li align="left">ecbsr_rgb_2x</li></ul></details>   |   super resolution   | Build_In |
 | [EDSR](./cv/super_resolution/edsr/README.md) |   [basicsr](https://github.com/XPixelGroup/BasicSR/blob/v1.4.2/docs/ModelZoo_CN.md#图像超分官方模型)    | <details> <summary>model name</summary><ul><li align="left">edsr_1x</li><li align="left">edsr_m2x</li></ul></details> |   super resolution   | Build_In |
 | [EDSR](./cv/super_resolution/edsr/README.md) | [official](https://github.com/sanghyun-son/EDSR-PyTorch)  | <details> <summary>model name</summary><ul><li align="left">edsr_x2</li><li align="left">edsr_baseline_x2</li><li align="left">edsr_baseline_x4</li></ul></details> |   super resolution   | Build_In |
-| [GPEN](./cv/super_resolution/gpen/README.md)  |   [official](https://github.com/yangxy/GPEN)    |  <details> <summary>model name</summary><ul><li align="left">gpen</li></ul></details>   |    face super resolution | Build_In |
+| [ESRGAN](./cv/super_resolution/esrgan/README.md) |  [official](https://github.com/xinntao/ESRGAN)  |    <details> <summary>model name</summary><ul><li align="left">esrgan_x4</li></ul></details>    |   super resolution   | Build_In | 
+| [FSRNet*](./cv/super_resolution/fsrnet/README.md)  |   [pytorch](https://github.com/cs-giung/FSRNet-pytorch)   | <details> <summary>model name</summary><ul><li align="left">fsrnet</li></ul></details>  |    super resolution | Build_In | 
+| [GPEN](./cv/super_resolution/gpen/README.md)  |   [official](https://github.com/yangxy/GPEN)    |  <details> <summary>model name</summary><ul><li align="left">gpen</li></ul></details>   |    super resolution | Build_In |
+| [LESRCNN](./cv/super_resolution/lesrcnn/README.md)    |   [official](https://github.com/hellloxiaotian/LESRCNN)   |  <details> <summary>model name</summary><ul><li align="left">lesrcnn_x2</li><li align="left">lesrcnn_x4</li></ul></details>   |   super resolution   | Build_In |  
+| [MSRN](./cv/super_resolution/msrn/README.md) |     [official](https://github.com/MIVRC/MSRN-PyTorch)     |  <details> <summary>model name</summary><ul><li align="left">msrn</li></ul></details>   |   super resolution   | Build_In | 
 |  [NCNet](./cv/super_resolution/ncnet/README.md)  |  [official](https://github.com/Algolzw/NCNet)   |  <details> <summary>model name</summary><ul><li align="left">ncnet</li></ul></details>  |   super resolution   | Build_In |
+| [PFSRNet](./cv/super_resolution/pfsrnet/README.md) |  [official](https://github.com/DeokyunKim/Progressive-Face-Super-Resolution)  | <details> <summary>model name</summary><ul><li align="left">pfsrnet</li></ul></details> |    face super resolution | Build_In |
 | [RCAN](./cv/super_resolution/rcan/README.md) | [official](https://github.com/yulunzhang/RCAN)  |    <details> <summary>model name</summary><ul><li align="left">rcan</li><li align="left">rcan2</li></ul></details>    |   super resolution   | Build_In |
 | [RCAN](./cv/super_resolution/rcan/README.md) |     [basicsr](https://github.com/XPixelGroup/BasicSR)     |  <details> <summary>model name</summary><ul><li align="left">rcan</li></ul></details>   |   super resolution   | Build_In |
+| [Real_ESRGAN](./cv/super_resolution/real_esrgan/README.md)     |    [official](https://github.com/xinntao/Real-ESRGAN)     |   <details> <summary>model name</summary><ul><li align="left">real_esrgan_x4plus</li><li align="left">real_esrnet_x4plus</li><li align="left">real_esrgan_x4plus_anime_6b</li></ul></details>   |   super resolution   | Build_In | 
+| [RealSR](./cv/super_resolution/realsr/README.md) | [official](https://github.com/Tencent/Real-SR)  |  <details> <summary>model name</summary><ul><li align="left">DF2K</li><li align="left">DF2K-JPEG</li><li align="left">DPED</li></ul></details>  |   super resolution   | Build_In |
+| [SPARNet](./cv/super_resolution/sparnet/README.md) |   [official](https://github.com/chaofengc/Face-SPARNet)   |    <details> <summary>model name</summary><ul><li align="left">sparnet_light_attn3d</li></ul></details> |    super resolution | Build_In | 
 | [VDSR](./cv/super_resolution/vdsr/README.md) |    [pytorch](https://github.com/twtygqyy/pytorch-vdsr)    |  <details> <summary>model name</summary><ul><li align="left">vdsr</li></ul></details>   |   super resolution   | Build_In |
 
 
@@ -268,9 +316,17 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
+| [CT](./cv/text_detection/ct/README.md)    |   [ppocr](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/algorithm_det_ct.md)    |  <details> <summary>model name</summary><ul><li align="left">det_r18_vd_ct</li></ul></details>  |    text detection    | Build_In |
 | [DBNet](./cv/text_detection/dbnet/README.md) |   [ppocr](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_det_db.md)    |  <details> <summary>model name</summary><ul><li align="left">dbnet_mobilenet_v3</li><li align="left">dbnet_resnet50_vd</li><li align="left">ch_PP_OCRv3_det</li><li align="left">ch_PP_OCRv4_det</li><li align="left">en_PP_OCRv3_det</li></ul></details>  |    text detection     | Build_In |
 | [DBNet](./cv/text_detection/dbnet/README.md) |    [official](https://github.com/MhLiao/DB) |  <details> <summary>model name</summary><ul><li align="left">dbnet_resnet18</li><li align="left">dbnet_resnet50</li></ul></details>   |    text detection     | Build_In |
 | [DBNet](./cv/text_detection/dbnet/README.md) | [mmocr](https://github.com/open-mmlab/mmocr/tree/main/configs/textdet/dbnet)  |   <details> <summary>model name</summary><ul><li align="left">dbnet_resnet18_fpnc_1200e_icdar2015</li><li align="left">dbnet_resnet18_fpnc_1200e_totaltext</li><li align="left">dbnet_resnet18_fpnc_100k_synthtext</li><li align="left">dbnet_resnet50_1200e_icdar2015</li><li align="left">dbnet_resnet50_oclip_1200e_icdar2015</li></ul></details>    |    text detection     | Build_In |
+| [EAST](./cv/text_detection/east/README.md)  |  [ppocr](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/algorithm_det_east.md)   |   <details> <summary>model name</summary><ul><li align="left">det_r50_vd_east</li><li align="left">det_mv3_east</li></ul></details>   |    text detection     | Build_In |
+| [FAST](./cv/text_detection/fast/README.md)  |    [pytorch](https://github.com/czczup/FAST/tree/main)    | <details> <summary>model name</summary><ul><li align="left">fast_base_ic17mlt_640</li><li align="left">fast_small_ic17mlt_640</li><li align="left">fast_tiny_ic17mlt_640</li><li align="left">fast_tiny_tt_448_finetune_ic17mlt</li><li align="left">fast_tiny_tt_512_finetune_ic17mlt</li><li align="left">fast_tiny_tt_640_finetune_ic17mlt</li><li align="left">fast_small_tt_512_finetune_ic17mlt</li><li align="left">fast_small_tt_640_finetune_ic17mlt</li><li align="left">fast_base_tt_512_finetune_ic17mlt</li><li align="left">fast_base_tt_640_finetune_ic17mlt</li><li align="left">fast_base_tt_800_finetune_ic17mlt</li><li align="left">fast_tiny_ctw_512_finetune_ic17mlt</li><li align="left">fast_small_ctw_512_finetune_ic17mlt</li><li align="left">fast_base_ctw_512_finetune_ic17mlt</li><li align="left">fast_base_ctw_640_finetune_ic17mlt</li><li align="left">fast_tiny_ic15_736_finetune_ic17mlt</li><li align="left">fast_small_ic15_736_finetune_ic17mlt</li><li align="left">fast_base_ic15_736_finetune_ic17mlt</li><li align="left">fast_base_ic15_896_finetune_ic17mlt</li><li align="left">fast_base_ic15_1280_finetune_ic17mlt</li><li align="left">fast_tiny_msra_512_finetune_ic17mlt</li><li align="left">fast_tiny_msra_736_finetune_ic17mlt</li><li align="left">fast_small_msra_736_finetune_ic17mlt</li><li align="left">fast_base_msra_736_finetune_ic17mlt</li></ul></details> |    text detection     | Build_In |
+| [FCENet](./cv/text_detection/fcenet/README.md)  | [mmocr](https://github.com/open-mmlab/mmocr/tree/main/configs/textdet/fcenet)  |    <details> <summary>model name</summary><ul><li align="left">fcenet_resnet50_fpn_1500e_icdar2015</li><li align="left">fcenet_resnet50_oclip_fpn_1500e_icdar2015</li><li align="left">fcenet_resnet50_fpn_1500e_totaltext</li><li align="left">fcenet_resnet50_oclip_fpn_1500e_ctw1500</li></ul></details>    |    text detection     | Build_In |
+| [PAN](./cv/text_detection/pan/README.md)   |  [pan_pp.pytorch](https://github.com/whai362/pan_pp.pytorch/blob/master/config/pan/README.md)   |   <details> <summary>model name</summary><ul><li align="left">pan_r18_ctw</li><li align="left">pan_r18_ctw_finetune</li><li align="left">pan_r18_ic15</li><li align="left">pan_r18_ic15_finetune</li><li align="left">pan_r18_tt</li><li align="left">pan_r18_tt_finetune</li><li align="left">pan_r18_msra</li><li align="left">pan_r18_msra_finetune</li></ul></details>   |    text detection     | Build_In |
+| [PAN++ detection only](./cv/text_detection/pan++/README.md)     |   [pan_pp.pytorch](https://github.com/whai362/pan_pp.pytorch/blob/master/config/pan_pp/pan_pp_r18_ic15_736_det_only.py)   |  <details> <summary>model name</summary><ul><li align="left">panpp_r18_ic15_det</li></ul></details>  |    text detection     | Build_In | 
+| [PSENet](./cv/text_detection/psenet/README.md)  |    [pytorch](https://github.com/whai362/pan_pp.pytorch/blob/master/config/psenet/README.md) |   <details> <summary>model name</summary><ul><li align="left">psenet_r50_ic15_736</li><li align="left">psenet_r50_ic15_1024</li><li align="left">psenet_r50_ic15_736_finetune</li><li align="left">psenet_r50_ic15_1024_finetune</li><li align="left">psenet_r50_ctw</li><li align="left">psenet_r50_ctw_finetune</li><li align="left">psenet_r50_tt</li><li align="left">psenet_r50_tt_finetune</li></ul></details>    |    text detection     | Build_In |
+| [Text Snake](./cv/text_detection/text_snake/README.md)  | [mmocr](https://github.com/open-mmlab/mmocr/tree/main/configs/textdet/textsnake)  |    <details> <summary>model name</summary><ul><li align="left">textsnake_resnet50_fpn</li><li align="left">textsnake_resnet50_oclip_fpn</li></ul></details>    |    text detection     | Build_In |
 
 
 - text recognition
@@ -299,15 +355,18 @@
 | :------: | :------: | :------: | :------: | :-----: |
 | [BERT](./nlp/named_entity_recognition/bert/README.md)   |  [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py) |  <details> <summary>model name</summary><ul><li align="left">bert_base_zh_ner-256</li></ul></details>  | named entity recognition |   Build_In   |
 | [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh-256</li></ul></details>  | named entity recognition |   Build_In   |
+| [ERNIE](./nlp/named_entity_recognition/ernie/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/ernie/modeling_ernie.py)    |  <details> <summary>model name</summary><ul><li align="left">ernie1.0_base_zh</li><li align="left">ernie2.0_base_en</li><li align="left">ernie2.0_large_en</li><li align="left">ernie3.0_base_zh</li><li align="left">ernie3.0_medium_zh</li><li align="left">ernie3.0_xbase_zh </li></ul></details>  | named entity recognition |   Build_In   |
+| [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh</li></ul></details>  |  named entity recognition |   Build_In   |
+| [XLMRoBERTa](./nlp/named_entity_recognition/xlmroberta/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/xlm_roberta/modeling_xlm_roberta.py)    |  <details> <summary>model name</summary><ul><li align="left">xlmroberta_base_zh_ner</li></ul></details>  | named entity recognition |   Build_In  | 
 
 
 - question answering
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [BERT](./nlp/question_answering/bert/README.md)   |    [tensorflow](https://github.com/google-research/bert)    | <details> <summary>model name</summary><ul><li align="left">bert_base_en_qa-384</li><li align="left">bert_large_en_qa-384</li></ul></details> | sentence classification |   Build_In   |
-| [BERT](./nlp/question_answering/bert/README.md)   |    [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py) |  <details> <summary>model name</summary><ul><li align="left">bert_base_en_qa-384</li><li align="left">bert_large_en_qa-384</li></ul></details>  | sentence classification |   Build_In   |
-
+| [BERT](./nlp/question_answering/bert/README.md)   |    [tensorflow](https://github.com/google-research/bert)    | <details> <summary>model name</summary><ul><li align="left">bert_base_en_qa-384</li><li align="left">bert_large_en_qa-384</li></ul></details> | question answering |   Build_In   |
+| [BERT](./nlp/question_answering/bert/README.md)   |    [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py) |  <details> <summary>model name</summary><ul><li align="left">bert_base_en_qa-384</li><li align="left">bert_large_en_qa-384</li></ul></details>  | question answering |   Build_In   |
+| [ERNIE](./nlp/question_answering/ernie/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/ernie/modeling_ernie.py)    |  <details> <summary>model name</summary><ul><li align="left">ernie1.0_base_zh</li><li align="left">ernie2.0_base_en</li><li align="left">ernie2.0_large_en</li><li align="left">ernie3.0_base_zh</li><li align="left">ernie3.0_medium_zh</li><li align="left">ernie3.0_xbase_zh </li></ul></details>  | question answering |   Build_In   |
 
 - sentence classification
 
@@ -318,16 +377,31 @@
 | [BERT](./nlp/sentence_classification/bert/README.md)   |  [modelscope](https://www.modelscope.cn/models/iic/nlp_structbert_sentiment-classification_chinese-base/summary)   |  <details> <summary>model name</summary><ul><li align="left">nlp_structbert_sentiment-classification_chinese-base</li></ul></details>   | sentence classification |   Build_In   |
 | [Electra](./nlp/sentence_classification/electra/README.md) |  [CIB](https://drive.google.com/drive/folders/1ii0Kz6nxZujiMkoMozrWLbBCGpjmWqh2?usp=sharing)   |   <details> <summary>model name</summary><ul><li align="left">electra_small-512</li></ul></details>   | sentence classification |   Build_In   |
 | [Electra](./nlp/sentence_classification/electra/README.md) |  [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/electra/modeling_electra.py)   |   <details> <summary>model name</summary><ul><li align="left">electra_small_dc_mrpc-128</li><li align="left">electra_small_gen_mrpc-128</li><li align="left">electra_base_dc_mrpc-128</li><li align="left">electra_base_gen_mrpc-128</li><li align="left">electra_large_dc_mrpc-128</li></ul></details>    | sentence classification |   Build_In   |
+| [ERNIE](./nlp/sentence_classification/ernie/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/ernie/modeling_ernie.py)    |  <details> <summary>model name</summary><ul><li align="left">ernie1.0_base_zh</li><li align="left">ernie2.0_base_en</li><li align="left">ernie2.0_large_en</li><li align="left">ernie3.0_base_zh</li><li align="left">ernie3.0_medium_zh</li><li align="left">ernie3.0_xbase_zh </li></ul></details>  | sentence classification |   Build_In   |
 | [RoBERTa](./nlp/sentence_classification/roberta/README.md) | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_base_en_cls-128</li></ul></details>  | sentence classification |   Build_In   |
+| [XLMRoBERTa](./nlp/sentence_classification/xlmroberta/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/xlm_roberta/modeling_xlm_roberta.py)    |  <details> <summary>model name</summary><ul><li align="left">xlmroberta_base_en_cls</li></ul></details>  |  sentence classification |   Build_In   | 
+
 
 - Text2Vec
+
+- 以下是Embedding模型
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [acge](./nlp/text2vec/acge/README.md) | [huggingface](https://huggingface.co/aspire/acge_text_embedding) |  <details> <summary>model name</summary><ul><li align="left">acge_text_embedding</li></ul></details> | Embedding model  |  Build_In |
+| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | Embedding model  |  Build_In |
+| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
+| [e5](./nlp/text2vec/e5/README.md)| [huggingface](https://huggingface.co/collections/intfloat/multilingual-e5-text-embeddings-67b2b8bb9bff40dec9fb3534) |  <details> <summary>model name</summary><ul><li align="left">multilingual-e5-small</li><li align="left">multilingual-e5-base</li><li align="left">multilingual-e5-large</li><li align="left">multilingual-e5-large-instruct</li></ul></details> | Embedding model  |  Build_In |
+| [gte](./nlp/text2vec/gte/README.md) | [huggingface](https://huggingface.co/thenlper) |  <details> <summary>model name</summary><ul><li align="left">gte-small</li><li align="left">gte-base</li><li align="left">gte-large</li></ul></details> | Embedding model  |  Build_In |
+| [m3e](./nlp/text2vec/m3e/README.md)| [huggingface](https://huggingface.co/moka-ai) |  <details> <summary>model name</summary><ul><li align="left">m3e-small</li><li align="left">m3e-base</li><li align="left">m3e-large</li></ul></details> | Embedding model  |  Build_In |
+| [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | Embedding model  |  Build_In |
+
+- 以下是Reranker模型
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [bge]((./nlp/text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
 | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
-
-
 
 </details>
 

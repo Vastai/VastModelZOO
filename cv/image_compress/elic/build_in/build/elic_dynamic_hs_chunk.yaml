@@ -1,0 +1,20 @@
+name: elic_dynamic_hs_chunk_run_stream_fp16
+
+frontend:
+  shape:
+    z_hat: [[1,192,8,8], [1,192,32,32]]
+  checkpoint: /path/to/hs_chunk-dynamic.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    opt_level: 2
+  dynamic_params:
+    is_elic_gs: true
+
+workspace:
+  path: ./deploy_weights

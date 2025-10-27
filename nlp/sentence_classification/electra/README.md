@@ -11,7 +11,7 @@ ELECTRA 是 Manning  联合 google brain 与 2020年3月开源的 nlp 预训练�
 如上图，electra 由两部分组成，分别是 generator 以及 discriminator，两个都是 transformer 的 encoder结构，只是两者的 size 不同：
 
 - generator：实际是一个小的 masked language model（通常是 1/4 的discriminator的size），该模块的具体作用是他采用了经典的bert的MLM方式：
-首先随机选取15%的tokens，替代为[MASK]token，（取消了bert的80%[MASK],10%unchange, 10% random replaced 的操作，具体原因也是因为没必要，因为我们finetuning使用的discriminator)
+首先随机选取15%的tokens，替代为[MASK]token，(取消了bert的80%[MASK],10%unchange, 10% random replaced 的操作，具体原因也是因为没必要，因为我们finetuning使用的discriminator)
 使用generator去训练模型，使得模型预测masked token，得到corrupted tokens
 generator的目标函数和bert一样，都是希望被masked的能够被还原成原本的original tokens
 如上图， token，the 和 cooked 被随机选为被masked，然后generator预测得到corrupted tokens，变成了the和ate；

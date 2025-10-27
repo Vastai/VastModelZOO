@@ -198,6 +198,7 @@ make
    ```
 
 ### step.5 性能精度测试
+
 1. 性能测试，修改vdsp参数[official-centernet_res18-vdsp_params.json](./build_in/vdsp_params/official-centernet_res18-vdsp_params.json)：
     ```bash
     vamp -m deploy_weights/official_centernet_run_stream_int8/mod \
