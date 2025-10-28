@@ -67,7 +67,7 @@ COCO数据集支持目标检测、关键点检测、实力分割、全景分割�
 
 ### step.1 获取预训练模型
 
-目前Compiler暂不支持官方提供的转换脚本生成的`onnx`以及`torchscript`模型生成三件套，需基于以下脚本生成`torchscript`格式进行三件套转换(onnx暂不支持)
+可基于以下脚本生成`torchscript`或`onnx`格式进行三件套转换
 
 ```python
 import os
@@ -77,6 +77,7 @@ from ultralytics import YOLO
 models = ['yolov8n.pt', 'yolov8s.pt', 'yolov8m.pt', 'yolov8l.pt', 'yolov8x.pt']
 size = [416, 608, 640, 1024, 2048]
 
+# torchscript
 for m in models:
     for s in size:
         MODEL = os.path.join('./weights', m)
@@ -87,6 +88,12 @@ for m in models:
         scripted_model = torch.jit.trace(model.model, img_tensor, check_trace=False).eval()
 
         torch.jit.save(scripted_model, os.path.join('./torchscript', m.split('.')[0] + '-' + str(s) + '.torchscript.pt'))
+
+# onnx
+for m in models:
+    MODEL = os.path.join('./weights', m)
+    model = YOLO(MODEL)
+    model.export(format="onnx", opset=11, imgsz=640, simplify=True)
 ```
 
 ### step.2 准备数据集
