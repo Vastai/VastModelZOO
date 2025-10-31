@@ -18,7 +18,7 @@
 
 ## 依赖软件
 
-基于瀚博半导体的硬件产品使用ModelZOO前，可参考[瀚博开发者中心](https://developer.vastaitech.com/)准备环境依赖
+基于瀚博半导体的硬件产品使用`VastModelZOO`前，可参考[瀚博开发者中心](https://developer.vastaitech.com/)准备环境依赖
 
 - 版本号：VVI-1.1
 
