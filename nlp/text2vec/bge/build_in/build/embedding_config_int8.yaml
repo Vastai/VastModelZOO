@@ -1,7 +1,7 @@
 name: bce-embedding-base_v1-512-int8
 
 frontend:
-  checkpoint: onnx_weights/bce/bce-embedding-base_v1-512-sim.onnx
+  checkpoint: /path/to//bce-embedding-base_v1-512-sim.onnx
   shape:
     input_ids:
     - 1
@@ -32,7 +32,7 @@ backend:
 
 dataset:
   type: tvm
-  path: ./quant_dir
+  path: /path/to//quant_dir
   sampler:
     suffix: npz
     get_data_num: 10

@@ -1,0 +1,40 @@
+name: official_stdc_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 512
+    - 512
+  type: pytorch
+  checkpoint: /path/to/stdc1.torchscript.pt
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/cityscapes/quant
+  sampler:
+    suffix: png
+    get_data_num: 20
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size: [512, 512]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

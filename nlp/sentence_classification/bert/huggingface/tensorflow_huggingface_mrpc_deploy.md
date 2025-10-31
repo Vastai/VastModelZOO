@@ -13,7 +13,7 @@
 - [评估数据集-v1.3](https://drive.google.com/drive/folders/1i5iWGYYnfM9LWOoxxer8041iNpbBHVhl)
 - [评估数据集-v1.5](https://drive.google.com/drive/folders/1whjFLfxYUjPFOM_ALp17WbfnUTAecDhC)
 - [评估数据集-v1.5-512](https://drive.google.com/drive/folders/1HR2caJ6vyoVbjBWk4j7m7j25olk-RvtG)
-- labels： [dev.tsv](http://192.168.20.139:8888/vastml/dataset/nlp/MRPC/dev.tsv)
+- labels： [dev.tsv](https://drive.google.com/drive/folders/1kv675JT_IzanhIvB6kiz5_pNFiRdHEFX)
 > 注意： 由于 compiler 1.5 版本将 bert 相关模型的输入改变为6个。 因此，1.5 版本的校验数据集需使用 `评估数据集-v1.5`, 输入长度为512请使用 `评估数据集-v1.5-512`。
 
 ### step.4 模型转换
@@ -31,7 +31,7 @@
     cd bert
     mkdir workspace
     cd workspace
-    vamc build ./build_in/build/bert_mrpc.yaml
+    vamc build ../build_in/build/bert_mrpc.yaml
     ```
 
 ### step.5 模型推理
@@ -39,8 +39,8 @@
 
    ```bash
    python ../../common/utils/sequence2npz.py \
-       --npz_path ./datasets/MRPC/dev408 \
-       --save_path ./save_dir/datasets/npz_val/dev408/dev408.txt
+       --npz_path /path/to/MRPC/dev408 \
+       --save_path npz_datalist.txt
    ```
 - runstream 运行
   - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
@@ -48,11 +48,11 @@
     运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../sdk1.0
+    cd ../../common/sdk1.0/
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 512 \
-        --datalist_path ./save_dir/datasets/dev408_6inputs.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./result/dev408
     ```
 
@@ -65,7 +65,7 @@
     ```bash
     cd ../../common/vsx/python/
     python vsx_sc.py \
-        --data_list ./save_dir/datasets/dev408_6inputs.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./build_deploy/bert_base_128/bert_base_128 \
         --device_id 0 \
         --batch 1 \
@@ -78,21 +78,21 @@
 
    基于[mrpc_eval.py](../../common/eval/mrpc_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path ./datasets/MRPC/dev.tsv
+   python ../../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path /path/to/MRPC/dev.tsv
    ```
 
 ### step.6 性能精度测试
-1. 基于[sequence2npz.py](../../common/utils/sequence2npz.py)，获得推理数据`npz`以及对应的`npz_datalist.txt`， 可参考 step.6
+1. 基于[sequence2npz.py](../../common/utils/sequence2npz.py)，获得推理数据`npz`以及对应的`npz_datalist.txt`， 可参考 step.5
 
 2. 执行测试：
     ```bash
    vamp -m deploy_weights/bert_base_mrpc-int8-max-mutil_input-vacc/bert_base_mrpc \
-        --vdsp_params vacc_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
         --processes 2 \
-        --datalist ./data/lists/npz_datalist.txt \
+        --datalist npz_datalist.txt \
         --path_output ./save/bert
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../../common/vamp_info/) 目录下找到
@@ -101,4 +101,4 @@
 
 3. 精度评估
 
-    基于[mrpc_eval.py](../../common/eval/mrpc_eval.py)，解析和评估npz结果， 可参考 step.6
+    基于[mrpc_eval.py](../../common/eval/mrpc_eval.py)，解析和评估npz结果， 可参考 step.5

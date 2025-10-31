@@ -1,0 +1,24 @@
+name: elic_dynamic_gs0_run_stream_fp16
+
+frontend:
+  shape:
+    y_hat: [[1, 320, 32, 32], [1, 320, 128, 128]]
+  checkpoint: /path/to/gs0-dynamic.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    opt_level: 2
+  dynamic_params:
+    is_elic_gs: true
+    
+graph:
+  extra_ops:
+    type: insert_odma
+
+workspace:
+  path: ./deploy_weights

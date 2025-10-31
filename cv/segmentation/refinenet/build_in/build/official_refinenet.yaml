@@ -1,0 +1,40 @@
+name: official_refinenet_run_stream_int8
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 500
+    - 500
+  type: onnx
+  checkpoint: /path/to/refinenet_resnet101-3_500_500.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/VOCdevkit/VOC2012/JPEGImages_val
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: Resize
+      size: [500, 500]
+    - type: Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

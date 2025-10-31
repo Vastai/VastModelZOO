@@ -1,7 +1,7 @@
 name: bge-reranker-v2-m3-512-fp16
 
 frontend:
-  checkpoint: onnx_weights/bce/bge-reranker-v2-m3-512-sim.onnx
+  checkpoint: /path/to//bge-reranker-v2-m3-512-sim.onnx
   shape:
     input_ids:
     - 1

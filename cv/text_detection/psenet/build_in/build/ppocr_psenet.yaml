@@ -1,0 +1,51 @@
+name: ppocr_psenet_run_stream_int8
+
+frontend:
+  shape:
+    x:
+    - 1
+    - 3
+    - 736
+    - 1280
+  type: onnx
+  checkpoint: /path/to/det_r50_vd_pse.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: kl_divergence
+    quantize_per_channel: true
+
+dataset:
+  type: tvm
+  path: /path/to/icdar2015/Challenge4/ch4_test_images
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops: 
+    - type: DecodeImage
+    - type: CvtColor
+      code: COLOR_RGB2BGR
+    - type: Resize
+      size:
+      - 736
+      - 1280
+    - type: Normalize
+      div255: true
+      mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+    - type: ToTensor
+
+workspace:
+  path: ./deploy_weights/
+

@@ -290,7 +290,10 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/embedding_config_fp16.yaml
+    cd bge
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/embedding_config_fp16.yaml
     ```
 
 ### step.4 模型推理
@@ -298,12 +301,12 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
     - 配置模型路径等参数，推理脚本内指定的文本对
 
     ```bash
-    python ./build_in/vsx/demo.py \
-        --vacc_weight bge-m3-512-fp16/mod \
-        --torch_weight bge/bge-m3 \
+    python ../build_in/vsx/demo.py \
+        --vacc_weight ./vacc_deploy/bge-m3-512-fp16/mod \
+        --torch_weight /path/to/bge/bge-m3 \
         --task embedding \
         --eval_engine vacc \
-        --eval_dataset mteb-sts12-sts_test.jsonl \
+        --eval_dataset /path/to/mteb-sts12-sts_test.jsonl \
         --seqlen 512
     ```
 
@@ -313,7 +316,7 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
 
     ```bash
     vamp -m vacc_deploy/bge-m3-512-fp16/mod \
-    --vdsp_params text2vec/common/vacc_code/vdsp_params/embedding-vdsp_params.json \
+    --vdsp_params ../../common/vacc_code/vdsp_params/embedding-vdsp_params.json \
     -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
     ```
 
@@ -321,13 +324,13 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
     - 配置模型路径等参数，指定`--eval_mode`参数为True，进行精度评估
 
     ```bash
-    python ./build_in/vsx/demo.py \
-        --vacc_weight bge-m3-512-fp16/mod \
-        --torch_weight bge/bge-m3 \
+    python ../build_in/vsx/demo.py \
+        --vacc_weight ./vacc_deploy/bge-m3-512-fp16/mod \
+        --torch_weight /path/to/bge/bge-m3 \
         --task embedding \
         --eval_mode \
         --eval_engine vacc \
-        --eval_dataset mteb-sts12-sts_test.jsonl \
+        --eval_dataset /path/to/mteb-sts12-sts_test.jsonl \
         --seqlen 512
     ```
 

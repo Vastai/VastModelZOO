@@ -1,7 +1,7 @@
 name: bce-embedding-base_v1-512-fp16
 
 frontend:
-  checkpoint: onnx_weights/bce/bce-embedding-base_v1-512-sim.onnx
+  checkpoint: /path/to//bce-embedding-base_v1-512-sim.onnx
   shape:
     input_ids:
     - 1

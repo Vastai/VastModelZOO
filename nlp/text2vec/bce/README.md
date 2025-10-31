@@ -413,7 +413,10 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
 
 2. 模型编译
     ```bash
-    vamc compile ./build_in/build/embedding_config_fp16.yaml
+    cd bce
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/embedding_config_fp16.yaml
     ```
 
 ### step.4 模型推理
@@ -421,12 +424,12 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     - 配置模型路径等参数，推理脚本内指定的文本对
 
     ```bash
-    python ./build_in/vsx/demo.py \
-        --vacc_weight bce-embedding-base_v1-512-fp16/mod \
-        --torch_weight bge/bce-embedding-base_v1 \
+    python ../build_in/vsx/demo.py \
+        --vacc_weight ./vacc_deploy/bce-embedding-base_v1-512-fp16/mod \
+        --torch_weight /path/to/bge/bce-embedding-base_v1 \
         --task embedding \
         --eval_engine vacc \
-        --eval_dataset mteb-sts12-sts_test.jsonl \
+        --eval_dataset /path/to/mteb-sts12-sts_test.jsonl \
         --seqlen 512
     ```
 
@@ -436,20 +439,20 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
 
     ```bash
     vamp -m vacc_deploy/bce-embedding-base_v1-512-fp16/mod \
-    --vdsp_params text2vec/common/vacc_code/vdsp_params/embedding-vdsp_params.json \
+    --vdsp_params ../../common/vacc_code/vdsp_params/embedding-vdsp_params.json \
     -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
     ```
 2. 精度测试：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，指定`--eval_mode`参数为`True`，进行精度评估
 
     ```bash
-    python ./build_in/vsx/demo.py \
-        --vacc_weight bce-embedding-base_v1-512-fp16/mod \
-        --torch_weight bge/bce-embedding-base_v1 \
+    python ../build_in/vsx/demo.py \
+        --vacc_weight ./vacc_deploy/bce-embedding-base_v1-512-fp16/mod \
+        --torch_weight /path/to/bge/bce-embedding-base_v1 \
         --task embedding \
         --eval_mode \
         --eval_engine vacc \
-        --eval_dataset mteb-sts12-sts_test.jsonl \
+        --eval_dataset /path/to/mteb-sts12-sts_test.jsonl \
         --seqlen 512
     ```
 

@@ -1,0 +1,19 @@
+name: decompress_gs_sim_run_stream_fp16
+
+frontend:
+  checkpoint: /path/to/decompress_gs_sim.onnx
+  shape:
+    y_hat: [1,320,32,48]
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0 # 2 for int8
+    data_transport_mode: 1
+    enable_float_to_half: true
+
+workspace:
+  path: ./deploy_weights/

@@ -7,7 +7,7 @@
   ```bash
   conda create -n hf_bert python=3.7
   conda activate hf_bert
-  cd /path/to/vastmodelzoo/question_answering/bert/huggingface/source_code/finetune
+  cd /path/to/VastModelZOO/nlp/question_answering/bert/huggingface/source_code/finetune
   pip install -r requirements.txt  #
   ```
 

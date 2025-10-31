@@ -30,7 +30,7 @@
     cd bert
     mkdir workspace
     cd workspace
-    vamc build ./build_in/build/bert_sst2_telecom.yaml
+    vamc build ../build_in/build/bert_sst2_telecom.yaml
     ```
     > 注意：当前配置文件是基于 compiler v1.5 版本的，具体参数配置请用户根据系统、环境版本自行修改
 
@@ -39,8 +39,8 @@
 
    ```bash
    python ../../common/utils/gen_datalist.py \
-       --data_dir ./datasets/SST2/test_128_6input \
-       --save_path ./save_dir/datasets/npz_val/npz_datalist.txt
+       --data_dir /path/to/SST2/test_128_6input \
+       --save_path npz_datalist.txt
    ```
 
 - runstream 运行
@@ -49,11 +49,11 @@
     运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
 
     ```bash
-    cd ../sdk1.0
+    cd ../../common/sdk1.0/
     python sample_nlp.py \
         --model_info ./network.json \
         --bytes_size 512 \
-        --datalist_path ./save_dir/datasets/dev408_6inputs.txt \
+        --datalist_path npz_datalist.txt \
         --save_dir ./result/dev408
     ```
 
@@ -66,7 +66,7 @@
     ```bash
     cd ../../common/vsx/python/
     python vsx_sc.py \
-        --data_list ./save_dir/datasets/dev408_6inputs.txt\
+        --data_list npz_datalist.txt\
         --model_prefix_path ./build_deploy/bert_base_128/bert_base_128 \
         --device_id 0 \
         --batch 1 \
@@ -79,7 +79,7 @@
 
    基于[sst2_telecom_eval.py](../../common/eval/sst2_telecom_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../../common/eval/imdb_eval.py --labels_path ss2_label.txt --result_dir ./result/sst2_128
+   python ../../common/eval/sst2_telecom_eval.py --labels_path ss2_label.txt --result_dir ./result/sst2_128
    ```
 
 
@@ -89,12 +89,12 @@
 2. 执行性能测试：
     ```bash
    vamp -m deploy_weights/bert_base_sst2_telecom-int8-max-mutil_input-vacc/bert_base_sst2_telecom \
-        --vdsp_params vacc_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
         --processes 2 \
-        --datalist ./save_dir/datasets/npz_val/npz_datalist.txt \
+        --datalist npz_datalist.txt \
         --path_output ./save/bert_sst2_telecom
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../../common/vamp_info/) 目录下找到

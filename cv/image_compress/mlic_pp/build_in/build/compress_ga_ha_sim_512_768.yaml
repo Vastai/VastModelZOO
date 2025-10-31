@@ -1,0 +1,19 @@
+name: compress_ga_ha_sim_512_768_run_stream_fp16
+
+frontend:
+  checkpoint: /path/to/compress_ga_ha_sim_512_768.onnx
+  shape:
+    x: [1,3,512,768]
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0 # 2 for int8
+    data_transport_mode: 1
+    enable_float_to_half: true
+
+workspace:
+  path: ./deploy_weights/

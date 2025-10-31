@@ -1,0 +1,20 @@
+name: elic_hs_chunk_run_stream_fp16
+
+frontend:
+  shape:
+    z_hat: [1,192,8,8]
+  checkpoint: /path/to/hs_chunk.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+    mem_inplace: true
+    opt_level: 2
+
+workspace:
+  path: ./deploy_weights
+

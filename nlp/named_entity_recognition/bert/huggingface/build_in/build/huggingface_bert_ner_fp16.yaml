@@ -1,7 +1,7 @@
 name: bert_base_chinese_ner
 
 frontend:
-  checkpoint: ./huggingface/source_code/pretrain_model/bert_base_zh_ner-256.torchscript.pt
+  checkpoint: /path/to/bert_base_zh_ner-256.torchscript.pt
   shape:
     input_ids: [1, 256]
     attention_mask: [1, 256]
@@ -12,7 +12,7 @@ frontend:
 
 dataset:
   type: tvm
-  path: ./datasets/china-people-daily-ner-corpus/calib
+  path: /path/to/china-people-daily-ner-corpus/calib
   sampler:
     suffix: NPZ
     get_data_num: 10

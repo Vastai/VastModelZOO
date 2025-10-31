@@ -1,0 +1,20 @@
+name: elic_gaha_run_stream_fp16
+
+frontend:
+  shape:
+    x: [1, 3, 512, 512]
+  checkpoint: /path/to/gaha.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+    mem_inplace: true
+    opt_level: 2
+
+workspace:
+  path: ./deploy_weights
+

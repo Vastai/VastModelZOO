@@ -1,0 +1,36 @@
+name: jde_1088x608_uncertainty
+
+frontend:
+  shape:
+    input: [1, 3, 608, 1088]
+  checkpoint: /path/to/jde_1088x608_uncertainty.onnx
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    data_transport_mode: 1
+
+  quantize:
+    calibrate_mode: max
+    quantize_per_channel: true
+
+dataset:
+  path:  ./datasets/tracking/MOT16/train/
+  sampler:
+    suffix: jpg
+    get_data_num: 1000
+  process_ops:
+    - type: DecodeImage
+    - type: Resize
+      size: [608, 1088]
+    - type: Normalize
+      div255: true
+      norm_type: null
+    - type: ToTensor
+
+
+workspace:
+  work_dir: ./deploy_weights/
+  enable_ir: false
+  save_log: true
