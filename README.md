@@ -18,18 +18,9 @@
 
 ## 依赖软件
 
-- 部署模型及测试可查看[docker说明](./docs/docker/README.md)，并基于提供的镜像快速在瀚博硬件产品上进行验证测试
+基于瀚博半导体的硬件产品使用`VastModelZOO`前，可参考[瀚博开发者中心](https://developer.vastaitech.com/)准备环境依赖
 
-- 版本说明
-
-    |  组件 |    版本    |  工具说明  |
-    | :------: | :------: | :------: |
-    | Driver | 3.3.0 | PCIe 驱动包  |
-    | AI-Release | AI_3.1.1_GR | AI 工具包 |
-    | VAMC | 3.4.1 | 模型转换工具 |
-    | VastPipe | 2.7.3 | 全流程低代码开发框架 |
-    | VastStreamX | 2.8.9 | SDK应用API库   |
-    | VastGenX | 1.2.1 | 模型部署工具 |
+- 版本号：VVI-1.1
 
 ## 模型列表
 
