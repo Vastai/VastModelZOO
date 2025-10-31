@@ -25,11 +25,11 @@
     |  组件 |    版本    |  工具说明  |
     | :------: | :------: | :------: |
     | Driver | 3.3.0 | PCIe 驱动包  |
-    | AI-Release | AI3.0_SP9_0811 | AI 工具包 |
+    | AI-Release | AI_3.1.1_GR | AI 工具包 |
     | VAMC | 3.4.1 | 模型转换工具 |
     | VastPipe | 2.7.3 | 全流程低代码开发框架 |
-    | VastStreamX | 2.8.3 | SDK应用API库   |
-    | VastGenX | 1.1.2 | 模型部署工具 |
+    | VastStreamX | 2.8.9 | SDK应用API库   |
+    | VastGenX | 1.2.1 | 模型部署工具 |
 
 ## 模型列表
 

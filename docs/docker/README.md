@@ -3,26 +3,26 @@
 ## 获取镜像
 
 ```bash
-docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202509
+docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202510
 ```
 
 若算法模型（如LLM、VLM方向模型）基于`VastGenX`部署，则需要拉取`vastmodelzoo-vastgenx`
 
 ```bash
-docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202509
+docker pull harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202510
 ```
 
 ## 启动镜像
 
 ```bash
-docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202509 bash
+docker run -it --ipc=host --privileged --name=vastmodelzoo harbor.vastaitech.com/ai_deliver/vastmodelzoo-base:202510 bash
 ```
 
 > docker内部署有vamc、deploy两个conda环境，可分别用于模型转换、精度/性能测试
 
 `vastmodelzoo-vastgenx`镜像启动命令参考如下：
 ```bash
-docker run --ipc=host -it --ipc=host --privileged --name=vastmodelzoo_vastgenx harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202509  bash
+docker run --ipc=host -it --ipc=host --privileged --name=vastmodelzoo_vastgenx harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202510  bash
 ```
 
 ## 测试
@@ -114,7 +114,7 @@ vamc compile ../../llm/qwen2/build_in/build/hf_qwen2_fp16.yaml
 
 #### Step.2 启动模型服务
 
-参考[vastgenx说明文档](../vastgenx/README.md)在`harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202509`镜像中启动模型服务，命令如下：
+参考[vastgenx说明文档](../vastgenx/README.md)在`harbor.vastaitech.com/ai_deliver/vastmodelzoo-vastgenx:202510`镜像中启动模型服务，命令如下：
 
 ```bash
 vastgenx serve --model vacc_deploy/Qwen2-7B-fp16-tp4-1024-2048/ --port 9900 --llm_devices "[12,13,14,15]"
