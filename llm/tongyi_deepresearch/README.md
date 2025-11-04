@@ -21,6 +21,14 @@
         - 调整生成量化模型文件夹中config.json字段，形同[config.json#L38](https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8/blob/main/config.json#L38)
         - 调整模型state_dict中的量化层键名："weight_scale" -> "weight_scale_inv"
 
+- 执行命令：
+
+    ```bash
+    python3 quant.py --model_path Tongyi-DeepResearch-30B-A3B \
+        --save_path quantized_model \
+        --do_sample
+    ```
+
 ### step.3 模型推理
 
 1. 参考瀚博训推软件生态链文档，获取`vllm_vacc`和`torch_vacc`
