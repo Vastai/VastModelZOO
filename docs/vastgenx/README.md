@@ -22,7 +22,7 @@ vastgenx serve [--model MODEL] [--host HOST] [--port PORT] [--batch_size BATCH_S
 --host 服务ip地址，默认值：0.0.0.0
 --port 服务端口号，默认值：9000
 --batch_size 模型batch_size,默认值: 16
---llm_devices 指定 llm 模型运行在哪些die上，默认值:[0~tp]
+--llm_devices 指定 llm 模型运行在哪些die上，默认值:[0~tp-1]
 --vit_model 指定vit模型所在文件夹，若不指定，则在--model参数文件夹里找vit模型。只有模型为vlm时，该参数生效
 --vit_devices 指定 vit 模型运行在哪些die上，只有模型是vlm时生效，默认使用 llm_devices[0]
 --min_pixels 指定 vit 模型 min_pixels 参数，只有模型是vlm时生效，默认从preprocess_config.json里读取
