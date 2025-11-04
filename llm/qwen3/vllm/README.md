@@ -48,7 +48,6 @@ export PATH=$PATH:~/.local/bin
 - Qwen3-30B-A3B-Instruct-2507-FP8
 - Qwen3-30B-A3B-Thinking-2507-FP8
 - Qwen3-Coder-30B-A3B-Instruct-FP8
-- Tongyi-DeepResearch-30B-A3B-FP8
 - Qwen3-235B-A22B-FP8
 - Qwen3-235B-A22B-Instruct-2507-FP8
 - Qwen3-235B-A22B-Thinking-2507-FP8
@@ -59,15 +58,11 @@ export PATH=$PATH:~/.local/bin
 下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
 
 
-对于 Qwen3 系列模型（除Tongyi-DeepResearch-30B-A3B-FP8外）：
+对于 Qwen3 系列模型：
 ```shell
 modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ```
 
-对于 Tongyi-DeepResearch-30B-A3B-FP8 模型：
-```shell
-modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$Model_Name
-```
 
 
 ## 注意事项
