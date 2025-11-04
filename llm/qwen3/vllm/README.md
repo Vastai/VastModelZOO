@@ -109,8 +109,11 @@ docker run \
 
 参数说明如下所示。
 
-- `--tensor-parallel-size`：张量并行数, 目前Qwen3 30B系列支持 TP2 对应参数：“--tensor-parallel-size 2” ; TP4 对应参数：“--tensor-parallel-size 4”;
-对于 Qwen3 235B系列仅支持 TP16 对应参数： “--tensor-parallel-size 16”
+- `--tensor-parallel-size`：张量并行数。
+
+   - 对于 Qwen3 30B 系列模型，仅支持设置为2 或 4。
+   
+   - 对于 Qwen3 235B系列模型，仅支持设置为 16。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
@@ -122,7 +125,7 @@ docker run \
 
 - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-235B-A22B-FP8 模型需要设置该参数。
 
->注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
+> 注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
 
 # 测试模型性能
@@ -174,7 +177,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  >该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
+> 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致。
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
