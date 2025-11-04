@@ -432,6 +432,12 @@
 | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
 
 
+> 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习而来
+
+|  model |    codebase    |  model list |    model type | runtime | priority |
+| :------: | :------: | :------: | :------: | :-----: | :------: |
+|[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |LLM | vLLM | p1 |
+
 </details>
 
 <details><summary>VLM Models</summary>
