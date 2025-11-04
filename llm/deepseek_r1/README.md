@@ -18,7 +18,7 @@
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc |AI3.1_POC_1013 (Preview Version)|
+| vllm_vacc |AI3.1.1_GR_1031 (Preview Version)|
 
 
 ## 支持的模型
@@ -92,7 +92,7 @@ docker run \
     -v /path/to/model:/weights/ \
     -p 8000:8000 \
     --ipc=host \
-    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1_POC_1013 \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1.1_GR_1031 \
     vllm serve /weights/DeepSeek-R1-0528 \
     --trust-remote-code \
     --tensor-parallel-size 32 \

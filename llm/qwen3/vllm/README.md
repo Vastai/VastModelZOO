@@ -15,7 +15,7 @@
 | Driver | V3.3.0|
 | torch | 2.7.0+cpu|
 | vllm | 0.9.2+cpu|
-| vllm_vacc |AI3.1_POC_1013 (Preview Version)|
+| vllm_vacc |AI3.1.1_GR_1031 (Preview Version)|
 
 ## 支持的模型
 
@@ -48,7 +48,9 @@ export PATH=$PATH:~/.local/bin
 - Qwen3-30B-A3B-Instruct-2507-FP8
 - Qwen3-30B-A3B-Thinking-2507-FP8
 - Qwen3-Coder-30B-A3B-Instruct-FP8
-
+- Qwen3-235B-A22B-FP8
+- Qwen3-235B-A22B-Instruct-2507-FP8
+- Qwen3-235B-A22B-Thinking-2507-FP8
 
 每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
@@ -56,17 +58,18 @@ export PATH=$PATH:~/.local/bin
 下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
 
 
-
+对于 Qwen3 系列模型：
 ```shell
 modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ```
+
 
 
 ## 注意事项
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4，模型最大上下文长度为 128K。
+- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4或16，模型最大上下文长度为 128K。
 
 - 模型同时支持最大并发数为 4。
 
@@ -87,7 +90,7 @@ docker run \
     -v /path/to/model:/weights/ \
     -p 8000:8000 \
     --ipc=host \
-    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1_POC_1013 \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1.1_GR_1031 \
     vllm serve /weights/Qwen3-30B-A3B-FP8 \
     --trust-remote-code \
     --tensor-parallel-size 2 \
@@ -101,7 +104,11 @@ docker run \
 
 参数说明如下所示。
 
-- `--tensor-parallel-size`：张量并行数, 目前Qwen3 系列支持 TP2 对应参数：“--tensor-parallel-size 2” ; TP4 对应参数：“--tensor-parallel-size 4”
+- `--tensor-parallel-size`：张量并行数。
+
+   - 对于 Qwen3 30B 系列模型，仅支持设置为2 或 4。
+   
+   - 对于 Qwen3 235B系列模型，仅支持设置为 16。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
@@ -111,9 +118,9 @@ docker run \
 
 - `--max-model-len`：模型最大上下文长度，TP4 最大支持128k上下文，TP2 最大支持64k上下文
 
-- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8 模型需要设置该参数。
+- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-235B-A22B-FP8 模型需要设置该参数。
 
->注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
+> 注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
 
 # 测试模型性能
@@ -165,7 +172,7 @@ python3 benchmark_serving.py \
 - `--max-concurrency`：最大请求并发数。
 
 - `--served-model-name`：API 中使用的模型名称。
-  >该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
+> 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致。
 
 - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
