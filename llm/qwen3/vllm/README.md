@@ -4,7 +4,10 @@
 
 # 硬件要求
 
-部署 Qwen3-30B-A3B-FP8 模型进行推理至少需要单卡VA16（1*128G）。
+| 模型规格 |  最低硬件配置要求|
+| --- | --- |
+| Qwen3 30B系列 | 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
+| Qwen3 235B系列 | 单台 VA16（4*128G）服务器|
 
 # 版本信息
 
@@ -29,6 +32,14 @@
 
 - [Qwen3-Coder-30B-A3B-Instruct-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8)
 
+- [Tongyi-DeepResearch-30B-A3B-FP8](https://www.modelscope.cn/models/iic/Tongyi-DeepResearch-30B-A3B)
+
+- [Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8)
+
+- [Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8)
+
+- [Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8)
+
 模型下载步骤如下所示。
 
 1. 安装 ModelScope。
@@ -45,25 +56,37 @@ export PATH=$PATH:~/.local/bin
 `$Model_Name`：
 
 - Qwen3-30B-A3B-FP8
+
 - Qwen3-30B-A3B-Instruct-2507-FP8
+
 - Qwen3-30B-A3B-Thinking-2507-FP8
+
 - Qwen3-Coder-30B-A3B-Instruct-FP8
+
+- Tongyi-DeepResearch-30B-A3B-FP8
+
 - Qwen3-235B-A22B-FP8
+
 - Qwen3-235B-A22B-Instruct-2507-FP8
+
 - Qwen3-235B-A22B-Thinking-2507-FP8
 
-每个模型大小约为31GB,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
+模型文件较大,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
 
 下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
 
 
-对于 Qwen3 系列模型：
+对于 Qwen3 系列模型（除Tongyi-DeepResearch-30B-A3B-FP8外）：
 ```shell
 modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ```
 
-
+对于 Tongyi-DeepResearch-30B-A3B-FP8 模型：
+```shell
+modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$Model_Name
+```
+> 对于 Tongyi-DeepResearch-30B-A3B-FP8 模型，启动模型服务前需经过 VACC 量化，详细可参考[https://github.com/Vastai/VastModelZOO/tree/develop/llm/tongyi_deepresearch](https://github.com/Vastai/VastModelZOO/tree/develop/llm/tongyi_deepresearch)。
 
 ## 注意事项
 
