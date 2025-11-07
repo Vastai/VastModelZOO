@@ -267,6 +267,8 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
         --save_dir ./onnx_weights
     ```
 
+    **Note:** 若模型文件超过2G，则转换脚本中可在`onnx.save`添加配置`save_as_external_data=True, all_tensors_to_one_file=True`
+
 ### step.2 数据集
 1. 精度评估数据集：
     - embedding
