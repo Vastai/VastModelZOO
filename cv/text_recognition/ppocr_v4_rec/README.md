@@ -110,8 +110,8 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
 ```
 
 ### step.2 准备数据集
-- [校准数据集](http://cs-chan.com/downloads_CUTE80_dataset.html)
-- [评估数据集](http://cs-chan.com/downloads_CUTE80_dataset.html)
+- [评估数据集](https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyaybRmHiI?rlkey=2rywtkyuz67b20hk58zkfhh2r&e=1&dl=0)
+- 通过[lmdb_datasets.py](../common/utils/lmdb_datasets.py)加载lmdb格式数据生成图片及标签文件
 - 通过[image2npz.py](../common/utils/image2npz.py)，转换为对应npz文件
 
 
@@ -144,9 +144,9 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
         --device 0
     ```
 
-    - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件(格式可参考：[label](vsx/python/label/CUTE80.txt))和上步骤中的txt保存路径，即可获得精度指标
+    - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
     ```bash
-    python ../source_code/ppocr_v4_rec_eval.py --gt_file vsx/python/label/CUTE80.txt --output_file ./cute80_runstream_pred.txt
+    python ../source_code/ppocr_v4_rec_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
     ```
     
     ```
