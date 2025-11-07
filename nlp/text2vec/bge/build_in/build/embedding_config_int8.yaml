@@ -1,7 +1,7 @@
-name: bce-embedding-base_v1-512-int8
+name: bge-embedding-base_v1-512-int8
 
 frontend:
-  checkpoint: /path/to//bce-embedding-base_v1-512-sim.onnx
+  checkpoint: /path/to/bge-embedding-base_v1-512-sim.onnx
   shape:
     input_ids:
     - 1
