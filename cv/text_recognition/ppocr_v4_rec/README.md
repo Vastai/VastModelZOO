@@ -144,9 +144,9 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
         --device 0
     ```
 
-    - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
+    - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件(格式可参考：[label](vsx/python/label/CUTE80.txt))和上步骤中的txt保存路径，即可获得精度指标
     ```bash
-    python ../source_code/ppocr_v4_rec_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
+    python ../source_code/ppocr_v4_rec_eval.py --gt_file vsx/python/label/CUTE80.txt --output_file ./cute80_runstream_pred.txt
     ```
     
     ```
