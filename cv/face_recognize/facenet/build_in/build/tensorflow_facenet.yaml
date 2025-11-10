@@ -2,7 +2,7 @@ name: tensorflow_facenet_run_stream_int8
 
 frontend:
   shape:
-    input:0:
+    input:
     - 1
     - 3
     - 160
