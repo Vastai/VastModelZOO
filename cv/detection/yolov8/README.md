@@ -127,7 +127,7 @@ for m in models:
     ```
     python ../../common/vsx/detection.py \
         --file_path path/to/coco_val2017 \
-        --model_prefix_path deploy_weights/ultralytics_yolov8s_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/ultralytics_yolov8s_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
