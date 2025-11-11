@@ -155,7 +155,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 1. 性能测试
     - 配置[official-repvgg_a0-vdsp_params.json](./build_in/vdsp_params/official-repvgg_a0-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_repvgg_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/official-repvgg_a0-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
+    vamp -m deploy_weights/official_repvgg_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-repvgg_a0-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,224,224]
     ```
 
 2. 精度测试
@@ -168,7 +168,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
     - vamp推理获取npz文件
     ```
-    vamp -m deploy_weights/official_repvgg_run_stream_fp16/mod --vdsp_params ./build_in/vdsp_params/official-repvgg_a0-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
+    vamp -m deploy_weights/official_repvgg_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-repvgg_a0-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
     ```
 
     - 解析输出结果用于精度评估，参考：[vamp_npz_decode.py](../common/eval/vamp_npz_decode.py)
