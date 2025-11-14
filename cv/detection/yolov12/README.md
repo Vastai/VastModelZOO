@@ -125,7 +125,7 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
 
     - 参考[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
-    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt path/to/result
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
