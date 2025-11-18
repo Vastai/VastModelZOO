@@ -34,6 +34,7 @@
     pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
     pip3 install transformers tokenizers numpy opencv-python onnx onnxsim onnxruntime chardet decorator
     pip install mmcv==2.0.0rc4 -f https://download.openmmlab.com/mmcv/dist/cpu/torch1.11/index.html
+    pip install easydict
 
     pip3 install openmim supervision==0.18.0 mmdet>=3.0.0 mmengine>=0.7.1 mmyolo==0.6.0
     pip3 install lvis  # 如后续有报错，参考https://github.com/lvis-dataset/lvis-api/pull/38
