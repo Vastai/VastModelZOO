@@ -75,22 +75,27 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
 link: https://github.com/PaddlePaddle/PaddleOCR/blob/v2.6.0/doc/doc_ch/algorithm_rec_crnn.md
 tag: v2.6.0
 ```
+
+**Note:** 转换onnx模型需在Python3.8环境下执行
+
 1. 首先，需要进入到PaddleOCR工程主目录，安装PaddleOCR：
-```
-pip install -r requirements.txt
-python setup.py install
-```
+
+    ```
+    pip install -r requirements.txt
+    python setup.py install
+    ```
 
 2. 将CRNN文本识别训练过程中保存的模型，转换成inference model
     - 获取[原始模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/en/rec_r34_vd_none_bilstm_ctc_v2.0_train.tar)
     ```bash
+    # 转换推理模型时，需在configs/rec/rec_r34_vd_none_bilstm_ctc.yml中配置词典路径，可参考ppocr/utils/ic15_dict.txt
     python tools/export_model.py -c configs/rec/rec_r34_vd_none_bilstm_ctc.yml -o Global.pretrained_model=configs/rec/rec_r34_vd_none_bilstm_ctc.yml -o Global.pretrained_model=./rec_r34_vd_none_bilstm_ctc_v2.0_train/best_accuracy Global.save_inference_dir=./inference_result/rec_crnn
     ```
 
 3. 利用paddle2onnx导出onnx模型
 
     ```bash
-    paddle2onnx --model_dir ./inference_result/rec_crnn/ --model_filename inference.pdmodel --params_filename inference.pdiparams --save_file ./inference_result/rec_crnn/crnn.onnx --opset_version 10 --input_shape_dict="{'x':[1,3,32,100]}"
+    paddle2onnx --model_dir ./inference_result/rec_crnn/ --model_filename inference.pdmodel --params_filename inference.pdiparams --save_file ./inference_result/rec_crnn/crnn.onnx --opset_version 10
     ```
 
 4. 优化onnx模型
@@ -106,9 +111,14 @@ python setup.py install
     ```
 
 ### step.2 准备数据集
-- [校准数据集](http://cs-chan.com/downloads_CUTE80_dataset.html)
-- [评估数据集](http://cs-chan.com/downloads_CUTE80_dataset.html)
+- [评估数据集](https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyaybRmHiI?rlkey=2rywtkyuz67b20hk58zkfhh2r&e=1&dl=0)
+- 通过[lmdb_datasets.py](../common/utils/lmdb_datasets.py)加载lmdb格式数据生成图片及标签文件
+    ```bash
+    cd ../common/utils
+    python lmdb_datasets.py
+    ```
 - 通过[image2npz.py](../common/utils/image2npz.py)，转换为对应npz文件
+
 
 ### step.3 模型转换
 1. 根据具体模型修改配置文件
@@ -137,7 +147,7 @@ python setup.py install
         --vdsp_params_info ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
         --label ../source_code/config/ic15_dict.txt \
         --output_file cute80_runstream_pred.txt \
-        --device 0
+        --device_id 0
     ```
     - 注意替换命令行中--file_path为实际路径
 
@@ -163,7 +173,7 @@ python setup.py install
     - 由于vamp暂不支持该性能测试，所以这里使用python脚本进行性能测试
     - 测试最大吞吐
     ```bash
-    python3 ./build_in/vsx/python/crnn_prof.py \
+    python3 ../build_in/vsx/python/crnn_prof.py \
         -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
         --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
         --device_ids [0] \
@@ -177,7 +187,7 @@ python setup.py install
     ```
     - 测试最小时延
     ```bash
-    python3 ./build_in/vsx/python/crnn_prof.py \
+    python3 ../build_in/vsx/python/crnn_prof.py \
     -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     --device_ids [0] \

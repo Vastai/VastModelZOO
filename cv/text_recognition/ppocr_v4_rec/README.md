@@ -112,7 +112,12 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
 ### step.2 准备数据集
 - [评估数据集](https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyaybRmHiI?rlkey=2rywtkyuz67b20hk58zkfhh2r&e=1&dl=0)
 - 通过[lmdb_datasets.py](../common/utils/lmdb_datasets.py)加载lmdb格式数据生成图片及标签文件
+    ```bash
+    cd ../common/utils
+    python lmdb_datasets.py
+    ```
 - 通过[image2npz.py](../common/utils/image2npz.py)，转换为对应npz文件
+
 
 
 ### step.3 模型转换
