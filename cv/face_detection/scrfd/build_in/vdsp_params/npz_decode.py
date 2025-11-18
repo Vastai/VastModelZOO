@@ -12,6 +12,27 @@ from PIL import Image
 from tqdm import tqdm
 from typing import Dict, Generator, Iterable, List, Union
 
+def clip_coords(boxes, shape):
+    boxes[:, [0, 2]] = boxes[:, [0, 2]].clip(0, shape[1])  # x1, x2
+    boxes[:, [1, 3]] = boxes[:, [1, 3]].clip(0, shape[0])  # y1, y2
+
+def scale_coords(img1_shape, coords, img0_shape, ratio_pad=None):
+    
+    # Rescale coords (xyxy) from img1_shape to img0_shape
+    if ratio_pad is None:  # calculate from img0_shape
+        gain = min(img1_shape[0] / img0_shape[0], img1_shape[1] / img0_shape[1])  # gain  = old / new
+        pad = (img1_shape[1] - img0_shape[1] * gain) / 2, (img1_shape[0] - img0_shape[0] * gain) / 2  # wh padding
+    else:
+        gain = ratio_pad[0][0]
+        pad = ratio_pad[1]
+
+    coords[:, [0, 2]] -= pad[0]  # x padding
+    coords[:, [1, 3]] -= pad[1]  # y padding
+    coords[:, :4] /= gain
+
+    clip_coords(coords, img0_shape)
+    return coords
+
 def distance2bbox(points, distance, max_shape=None):
     """Decode distance prediction to bounding box.
     Args:
@@ -129,6 +150,7 @@ def post_process(net_outs, det_scale, img, thresh=0.5, use_kps=True, input_heigh
             pos_kpss = kpss[pos_inds]
             kpss_list.append(pos_kpss)
 
+    # 这里要根据letterbox原理把bboxes还原到原图大小
     #return scores_list, bboxes_list, kpss_list
     scores = np.vstack(scores_list)
     scores_ravel = scores.ravel()
@@ -136,14 +158,17 @@ def post_process(net_outs, det_scale, img, thresh=0.5, use_kps=True, input_heigh
     #bboxes = bboxes_list
     # bboxes = np.vstack(bboxes_list) / det_scale
     bboxes_list = np.vstack(bboxes_list)
-    bboxes_list[:, ::2] = bboxes_list[:, ::2] / det_scale[0]
-    bboxes_list[:, 1::2] = bboxes_list[:, 1::2] / det_scale[1]
+    bboxes_list[:, ::2] = bboxes_list[:, ::2]
+    bboxes_list[:, 1::2] = bboxes_list[:, 1::2]
     bboxes = bboxes_list
+    origin_img = img
+    bboxes = scale_coords([input_height, input_width], bboxes, origin_img.shape).round()
+
     if use_kps:
         # kpss = np.vstack(kpss_list) / det_scale
         kpss_list = np.vstack(kpss_list)
-        kpss_list[:, ::2] = kpss_list[:, ::2] / det_scale[0]
-        kpss_list[:, 1::2] = kpss_list[:, 1::2] / det_scale[1]
+        kpss_list[:, ::2] = kpss_list[:, ::2]
+        kpss_list[:, 1::2] = kpss_list[:, 1::2]
         kpss = kpss_list
     pre_det = np.hstack((bboxes, scores)).astype(np.float32, copy=False)
     pre_det = pre_det[order, :]
@@ -215,14 +240,15 @@ class Decoder:
         for i in range(6):
             net_outs[i] = net_outs[i].numpy()
 
-        bboxes, kpss = post_process(net_outs, [640/w, 640/h], origin_img, use_kps=len(stream_ouput_data)==9)
+        bboxes, kpss = post_process(net_outs, [640/w, 640/h], origin_img,use_kps=False)
 
         COLORS = np.random.uniform(0, 255, size=(len(classes_list), 3))
         if not os.path.isdir(os.path.join(save_dir, image_file.split('/')[-2])):
             os.makedirs(os.path.join(save_dir, image_file.split('/')[-2]))
         fin = open(os.path.join(save_dir, image_file.split('/')[-2], image_file.split('/')[-1].replace('jpg', 'txt')), 'w')
         file_name = os.path.basename(image_file)[:-4]
-        fin.writelines(file_name + '\n')
+        #fin.writelines(file_name + '\n')
+        fin.write('{:s}\n'.format('%s/%s' % (image_file.split('/')[-2], file_name)))
         fin.write(str(bboxes.shape[0]) + '\n')
         for i in range(bboxes.shape[0]):
             bbox = bboxes[i]
@@ -316,3 +342,4 @@ if __name__ == "__main__":
     print(args)
 
     npz2txt(args)
+
