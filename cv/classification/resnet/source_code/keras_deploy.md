@@ -25,6 +25,8 @@
     vamc compile ../build_in/build/keras_resnet.yaml
     ```
 
+    **Note:** 需基于Python3.8环境进行模型转换操作
+
 ### step.4 模型推理
 1. runstream
     - 参考：[classification.py](../../common/vsx/classification.py)
