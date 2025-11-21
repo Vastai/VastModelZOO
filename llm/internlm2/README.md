@@ -18,7 +18,7 @@
 | [internlm/internlm2-chat-20b](https://huggingface.co/collections/internlm/internlm2-65b0ce04970888799707893c) | GQA，[modeling_internlm2_vacc.py](./build_in/source_code/modeling_internlm2_vacc.py) |
 
 
-## TVM_VACC部署
+## Build_In Deploy
 
 ### step.1 模型准备
 
@@ -55,12 +55,15 @@
     > - int8精度: 编译参数`backend.dtype: int8`
     
     ```bash
-    vamc compile ./build_in/build/hf_internlm_fp16.yaml
-    vamc compile ./build_in/build/hf_internlm_int8.yaml
+    cd internlm2
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_internlm_fp16.yaml
+    vamc compile ../build_in/build/hf_internlm_int8.yaml
     ```
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

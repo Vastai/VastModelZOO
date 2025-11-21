@@ -1,0 +1,29 @@
+name: qwen2_vl_7b_visual_gptq_fp16
+
+frontend:
+  checkpoint: /path/to/Qwen2-VL-7B-Instruct-GPTQ-Int4
+  shape:
+    pixel_values: [4096, 1176]
+    attention_mask: [1, 4096, 4096]
+    cos: [4096, 80]
+    sin: [4096, 80]
+  type: huggingface
+  model_kwargs:
+    model_arch: vacc
+    build_visual: true
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    data_transport_mode: 1
+    attention_split_num: 32
+    ffn_split_num: 4
+    llm_build: true
+    output_layout: ["0:YX", "1:YX", "2:YX", "3:YX", "4:YX", "5:YX"]
+
+workspace:
+  path: vamc_results
+  env_recheck: false
+

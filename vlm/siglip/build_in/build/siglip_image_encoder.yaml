@@ -1,0 +1,19 @@
+name: siglip_image_run_stream_fp16
+
+frontend:
+  shape:
+    pixel_values: [1, 3, 384, 384]
+  checkpoint: /path/to/siglip-instruct-sim.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+    enable_dense_to_matmul: true
+
+
+workspace:
+  path: ./deploy_weights/

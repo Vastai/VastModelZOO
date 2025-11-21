@@ -16,14 +16,14 @@
 | [baichuan-inc/Baichuan2-13B-Chat](https://huggingface.co/baichuan-inc)   | MHA，基于Alibi位置编码，最长序列长度4096 |
 
 
-## TVM_VACC部署
+## Build_In Deploy
 
 ### step.1 模型准备
 
 1. 参考`Support Models`列表下载模型权重
 2. 网络修改
 - 为了方便部署`Baichuan`系列模型， 在官方源码的基础上， 对`modeling_baichuan.py`做了一些修改，其中左图为修改的代码
-- 7B：[modeling_baichuan7b_vacc.py](./build_in/source_code/modeling_baichuan7b_vacc.py)
+- 7B：[modeling_baichuan7b_vacc.py](./source_code/modeling_baichuan7b_vacc.py)
     - 1. Attention.forward，修改QKV reshape，替换`scaled_dot_product_attention`
 
     ![](../../images/llm/baichuan/baichuan7b_attention.png)
@@ -32,7 +32,7 @@
 
     ![](../../images/llm/baichuan/baichuan7b_normhead.png)
 
-- 13B：[modeling_baichuan13b_vacc.py](./build_in/source_code/modeling_baichuan13b_vacc.py)
+- 13B：[modeling_baichuan13b_vacc.py](./source_code/modeling_baichuan13b_vacc.py)
     - 1. gen_alibi_mask，修改gen_alibi_mask函数的实现，函数参数增加rank_num和rankid，每次调用该函数，只返回当前rank对应的那一部分attention_mask，减少内存消耗和model proto占用
 
     ![](../../images/llm/baichuan/baichuan13b_gen_alibi_mask.png)
@@ -65,7 +65,7 @@
 
     ![](../../images/llm/baichuan/baichuan13b_forcausallm_forward.png)
 
-    - 9. 为支持int8_per_channel量化，在quantizer.py中添加int8_per_channel量化的支持，[quantizer_vacc.py](./build_in/source_code/quantizer_vacc.py)
+    - 9. 为支持int8_per_channel量化，在quantizer.py中添加int8_per_channel量化的支持，[quantizer_vacc.py](./source_code/quantizer_vacc.py)
     ![](../../images/llm/baichuan/Snipaste_2024-05-14_10-51-32.png)
 
     
@@ -90,13 +90,16 @@
     > - int8精度: 编译参数`backend.dtype: int8`
 
     ```bash
-    vamc compile ./build_in/build/hf_baichuan_fp16.yaml
-    vamc compile ./build_in/build/hf_baichuan_int8.yaml
+    cd baichuan2
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_baichuan_fp16.yaml
+    vamc compile ../build_in/build/hf_baichuan_int8.yaml
     ```
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 
 ### Tips

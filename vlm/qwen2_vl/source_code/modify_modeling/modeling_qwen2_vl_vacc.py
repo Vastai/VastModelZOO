@@ -11,7 +11,7 @@
 import math
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple, Union
-
+import warnings
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -53,6 +53,7 @@ logger = logging.get_logger(__name__)
 
 _CONFIG_FOR_DOC = "Qwen2VLConfig"
 
+warnings.filterwarnings("ignore", category=torch.jit.TracerWarning)
 
 @dataclass
 class Qwen2VLCausalLMOutputWithPast(ModelOutput):
@@ -1230,6 +1231,8 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
         self.gradient_checkpointing = False
         # Initialize weights and apply final processing
         self.post_init()
+        self.iter_num = config.iter_num if hasattr(config, "iter_num") else 0
+        self.insert_slice = config.insert_slice if hasattr(config, "insert_slice") else 0
 
     def get_input_embeddings(self):
         return self.embed_tokens
@@ -1442,6 +1445,11 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
                 all_self_attns += (layer_outputs[1],)
 
         hidden_states = self.norm(hidden_states)
+
+        # add strided_slice
+        if not self.iter_num and self.insert_slice:
+            hidden_states = hidden_states[:,-1:,:]
+
         # add hidden states from the last decoder layer
         if output_hidden_states:
             all_hidden_states += (hidden_states,)

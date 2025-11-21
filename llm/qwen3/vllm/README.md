@@ -56,13 +56,9 @@ export PATH=$PATH:~/.local/bin
 `$Model_Name`：
 
 - Qwen3-30B-A3B-FP8
-
 - Qwen3-30B-A3B-Instruct-2507-FP8
-
 - Qwen3-30B-A3B-Thinking-2507-FP8
-
 - Qwen3-Coder-30B-A3B-Instruct-FP8
-
 - Tongyi-DeepResearch-30B-A3B-FP8
 
 - Qwen3-235B-A22B-FP8
@@ -81,7 +77,6 @@ export PATH=$PATH:~/.local/bin
 ```shell
 modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
 ```
-
 对于 Tongyi-DeepResearch-30B-A3B-FP8 模型：
 ```shell
 modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$Model_Name

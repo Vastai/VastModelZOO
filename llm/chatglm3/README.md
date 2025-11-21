@@ -12,17 +12,17 @@
 
 | models | tips |
 | :---: | :--: |
-| [THUDM/chatglm3-6b-base](https://huggingface.co/THUDM/chatglm3-6b-base)   | GQA，[modeling_chatglm3_vacc.py](./build_in/source_code/modeling_chatglm3_vacc.py) |
-| [THUDM/chatglm3-6b](https://huggingface.co/THUDM/chatglm3-6b)  | GQA，[modeling_chatglm3_vacc.py](./build_in/source_code/modeling_chatglm3_vacc.py) |
+| [THUDM/chatglm3-6b-base](https://huggingface.co/THUDM/chatglm3-6b-base)   | GQA，[modeling_chatglm3_vacc.py](./source_code/modeling_chatglm3_vacc.py) |
+| [THUDM/chatglm3-6b](https://huggingface.co/THUDM/chatglm3-6b)  | GQA，[modeling_chatglm3_vacc.py](./source_code/modeling_chatglm3_vacc.py) |
 
-## TVM_VACC部署
+## Build_In Deploy
 
 ### step.1 模型准备
 
 1. 参考`Support Models`列表下载模型权重
 2. 网络修改
 - 为了方便部署`ChatGLM`系列模型，在官方源码基础上，对`modeling_chatglm.py`做了一些修改，具体修改如下， 其中左图为修改的代码
-- [modeling_chatglm3_vacc.py](./build_in/source_code/modeling_chatglm3_vacc.py)
+- [modeling_chatglm3_vacc.py](./source_code/modeling_chatglm3_vacc.py)
 
   - 1. CoreAttention，适应tp切分调整size，不区分torch版本， 统一`forward`函数
 
@@ -86,14 +86,17 @@
     > - int8精度: 编译参数`backend.dtype: int8`
 
     ```bash
-    vamc compile ./build_in/build/hf_chatglm_fp16.yaml
-    vamc compile ./build_in/build/hf_chatglm_int8.yaml
-    vamc compile ./build_in/build/hf_chatglm_kv8.yaml
+    cd chatglm3
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_chatglm_fp16.yaml
+    vamc compile ../build_in/build/hf_chatglm_int8.yaml
+    vamc compile ../build_in/build/hf_chatglm_kv8.yaml
     ```
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 
 ### Tips

@@ -18,14 +18,14 @@
 | [internlm/internlm2_5-20b-chat](https://huggingface.co/collections/internlm/internlm25-66853f32717072d17581bc13) | GQA，[modeling_internlm2_vacc.py](./build_in/source_code/modeling_internlm2_vacc.py) |
 
 
-## TVM_VACC部署
+## Build_In Deploy
 
 ### step.1 模型准备
 
 #### internlm2
 1. 参考`Support Models`列表下载模型权重
 2. 为了方便部署`Internlm2`系列模型， 在官方源码的基础上， 对`modeling_internlm2.py`做一些修改，其中左图为修改的代码
-- [modeling_internlm2_vacc.py](./build_in/source_code/modeling_internlm2_vacc.py)
+- [modeling_internlm2_vacc.py](./source_code/modeling_internlm2_vacc.py)
     - 参考glm2拆分qkv, 方便后续的tensor并行
 
     ![](../../images/llm/internlm/internlm2_selfattn_forward.png)
@@ -55,12 +55,15 @@
     > - int8精度: 编译参数`backend.dtype: int8`
     
     ```bash
-    vamc compile ./build_in/build/hf_internlm_fp16.yaml
-    vamc compile ./build_in/build/hf_internlm_int8.yaml
+    cd internlm2_5
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_internlm_fp16.yaml
+    vamc compile ../build_in/build/hf_internlm_int8.yaml
     ```
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

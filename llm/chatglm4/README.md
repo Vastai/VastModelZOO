@@ -13,16 +13,16 @@
 
 | models | tips |
 | :---: | :--: |
-| [THUDM/glm-4-9b-hf](https://huggingface.co/collections/THUDM/glm-4-665fcf188c414b03c2f7e3b7)  | GQA，[modeling_chatglm4_vacc.py](./build_in/source_code/modeling_chatglm4_vacc.py) |
-| [THUDM/glm-4-9b-chat-hf](https://huggingface.co/collections/THUDM/glm-4-665fcf188c414b03c2f7e3b7) | GQA，[modeling_chatglm4_vacc.py](./build_in/source_code/modeling_chatglm4_vacc.py) |
+| [THUDM/glm-4-9b-hf](https://huggingface.co/collections/THUDM/glm-4-665fcf188c414b03c2f7e3b7)  | GQA，[modeling_chatglm4_vacc.py](./source_code/modeling_chatglm4_vacc.py) |
+| [THUDM/glm-4-9b-chat-hf](https://huggingface.co/collections/THUDM/glm-4-665fcf188c414b03c2f7e3b7) | GQA，[modeling_chatglm4_vacc.py](./source_code/modeling_chatglm4_vacc.py) |
 
-## TVM_VACC部署
+## Build_In Deploy
 
 ### step.1 模型准备
 
 1. 参考`Support Models`列表下载模型权重
 2. 网络修改
-- 为了部署chatglm4模型，modeling_chatglm.py需要适当修改，修改后[modeling_chatglm4_vacc.py](./build_in/source_code/modeling_chatglm4_vacc.py)
+- 为了部署chatglm4模型，modeling_chatglm.py需要适当修改，修改后[modeling_chatglm4_vacc.py](./source_code/modeling_chatglm4_vacc.py)
   - 1. CoreAttention，适应tp切分调整size
   ![](../../images/chatglm/Snipaste_2024-09-06_16-51-26.png)
   - 2. CoreAttention，使用手动实现scaled_dot_product_attention
@@ -53,14 +53,17 @@
     > - int8精度: 编译参数`backend.dtype: int8`
 
     ```bash
-    vamc compile ./build_in/build/hf_chatglm_fp16.yaml
-    vamc compile ./build_in/build/hf_chatglm_int8.yaml
-    vamc compile ./build_in/build/hf_chatglm_kv8.yaml
+    cd chatglm4
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_chatglm_fp16.yaml
+    vamc compile ../build_in/build/hf_chatglm_int8.yaml
+    vamc compile ../build_in/build/hf_chatglm_kv8.yaml
     ```
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 
 ### Tips

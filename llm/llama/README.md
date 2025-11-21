@@ -59,8 +59,11 @@
     > - int8精度: 编译参数`backend.dtype: int8`
     
     ```bash
-    vamc compile ./build_in/build/hf_llama_fp16.yaml
-    vamc compile ./build_in/build/hf_llama_int8.yaml
+    cd llama
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_llama_fp16.yaml
+    vamc compile ../build_in/build/hf_llama_int8.yaml
     ```
 
 ### step.4 模型推理

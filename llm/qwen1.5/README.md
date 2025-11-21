@@ -65,22 +65,22 @@
 
 2. 模型修改
     - 为在瀚博软件栈部署`Qwen1.5`系列模型，在官方源码的基础上，需要对`modeling_qwen2.py`做一些修改，其中左图为修改的代码
-    - [modeling_qwen2_vacc.py](./build_in/source_code/modeling_qwen2_vacc.py)
+    - [modeling_qwen2_vacc.py](./source_code/modeling_qwen2_vacc.py)
         - 修改相关依赖的导入方式
         ![](../../images/llm/qwen/Snipaste_2024-04-11_14-10-36.png)
         - 基于config.insert_slice来判断是否插入strided_slice
         ![](../../images/llm/qwen/Snipaste_2024-04-15_17-26-31.png)
-        - class Qwen2ForCausalLM添加quantize方法，支持per_channel int8量化，[quantization_vacc.py](./build_in/source_code/quantization_vacc.py)
+        - class Qwen2ForCausalLM添加quantize方法，支持per_channel int8量化，[quantization_vacc.py](./source_code/quantization_vacc.py)
         ![](../../images/llm/qwen/Snipaste_2024-04-15_17-29-26.png)
         - 迁移transformers==4.37.0版本内cache_utils,modeling_attn_mask_utils,modeling_outputs和utils中移动至modeling_qwen2_vacc.py
 
-    - [configuration_qwen2_vacc.py](./build_in/source_code/configuration_qwen2_vacc.py)
+    - [configuration_qwen2_vacc.py](./source_code/configuration_qwen2_vacc.py)
         - 修改对于相关依赖的导入方式
         ![](../../images/llm/qwen/Snipaste_2024-04-15_17-31-20.png)
-    - [quantization_vacc.py](./build_in/source_code/quantization_vacc.py)
+    - [quantization_vacc.py](./source_code/quantization_vacc.py)
         - Qwen2ForCausalLM添加quantize方法，支持per_channel int8量化
         ![](../../images/llm/qwen/Snipaste_2025-03-20_20-10-41.png)
-    - [config_vacc.json](./build_in/source_code/config_vacc.json)
+    - [config_vacc.json](./source_code/config_vacc.json)
         - 添加_attn_implementation选项，并将其只配置为eager；并添加auto_map选项
         ![](../../images/llm/qwen/Snipaste_2024-04-15_17-34-02.png)
     - 将以上修改后文件，放置与原始权重目录下（注意不同子模型，对应修改config_vacc.json文件）
@@ -107,13 +107,16 @@
     > - int8精度: 编译参数`backend.dtype: int8`
     
     ```bash
-    vamc compile ./build_in/build/hf_qwen1.5_fp16.yaml
-    vamc compile ./build_in/build/hf_qwen1.5_int8.yaml
+    cd qwen1.5
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_qwen1.5_fp16.yaml
+    vamc compile ../build_in/build/hf_qwen1.5_int8.yaml
     ```
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

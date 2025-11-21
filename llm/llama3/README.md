@@ -69,12 +69,15 @@
     > - int8精度: 编译参数`backend.dtype: int8`
     
     ```bash
-    vamc compile ./build_in/build/hf_llama3_fp16.yaml
-    vamc compile ./build_in/build/hf_llama3_int8.yaml
+    cd llama3
+    mkdir workspace
+    cd workspace
+    vamc compile ../build_in/build/hf_llama3_fp16.yaml
+    vamc compile ../build_in/build/hf_llama3_int8.yaml
     ```
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)
