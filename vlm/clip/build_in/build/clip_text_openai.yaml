@@ -1,0 +1,17 @@
+name: clip_text_run_stream_fp16
+
+frontend:
+  shape:
+    text: [1, 77]
+  checkpoint: /path/to/clip_vit_b_32_text_sim.onnx
+  type: onnx
+  dtype: fp32
+
+backend :
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+
+workspace:
+  path: ./deploy_weights/
