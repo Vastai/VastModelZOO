@@ -206,7 +206,7 @@ tag: v2.6.0
     --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \
-    --path_output npz_output
+    --path_output npz_output --backend vastpipe
     ```
 
 4. [vamp_eval.py](./build_in/vsx/python/vamp_eval.py)，解析npz结果，绘图并统计精度：
