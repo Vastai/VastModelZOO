@@ -11,6 +11,13 @@ import vaststreamx as vsx
 import numpy as np
 import argparse
 import ast
+
+import os
+import sys
+current_file_path = os.path.dirname(os.path.abspath(__file__))
+common_path = os.path.join(current_file_path, "../../../")
+sys.path.append(common_path)
+
 import common.utils as utils
 from typing import Union, List
 from easydict import EasyDict as edict

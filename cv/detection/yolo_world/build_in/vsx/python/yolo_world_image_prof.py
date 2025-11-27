@@ -11,7 +11,7 @@ import os
 import sys
 
 current_file_path = os.path.dirname(os.path.abspath(__file__))
-common_path = os.path.join(current_file_path, "../..")
+common_path = os.path.join(current_file_path, "../")
 sys.path.append(common_path)
 
 from common.yolo_world_image import YoloWorldImage

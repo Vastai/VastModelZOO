@@ -49,7 +49,7 @@ python export_timm_torchvision_model.py \
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
     ```
 
     ```
@@ -77,7 +77,7 @@ python export_timm_torchvision_model.py \
 
     - vamp推理获取npz文件
     ```
-    vamp -m deploy_weights/torch_resnet50_run_model_fp16/mod --vdsp_params ../build_in/vdsp_params/orchvision-resnet50-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
+    vamp -m deploy_weights/torch_resnet50_run_model_fp16/mod --vdsp_params ../build_in/vdsp_params/torchvision-resnet50-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,224,224] --datalist imagenet_npz.txt --path_output output
     ```
 
     - 解析输出结果用于精度评估，参考：[vamp_npz_decode.py](../../common/eval/vamp_npz_decode.py)

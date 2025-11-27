@@ -50,7 +50,7 @@ paddle2onnx  --model_dir /path/to/resnet_paddle_model/ \
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
     ```
 
     ```

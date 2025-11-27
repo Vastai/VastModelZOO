@@ -34,12 +34,13 @@
     pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
     pip3 install transformers tokenizers numpy opencv-python onnx onnxsim onnxruntime chardet decorator
     pip install mmcv==2.0.0rc4 -f https://download.openmmlab.com/mmcv/dist/cpu/torch1.11/index.html
+    pip install easydict
 
     pip3 install openmim supervision==0.18.0 mmdet>=3.0.0 mmengine>=0.7.1 mmyolo==0.6.0
     pip3 install lvis  # 如后续有报错，参考https://github.com/lvis-dataset/lvis-api/pull/38
 
     # 安装YOLO-World库
-    git clone https://gitee.com/tutu96177/YOLO-World.git
+    git clone --recursive https://gitee.com/tutu96177/YOLO-World.git
     git checkout fef90a96a9bd19727d13d1cdce3ec6dda8837b35
     cd path/to/YOLO-World
     pip3 install -e .
@@ -48,7 +49,7 @@
 - 基于以上修改后仓库，将脚本[onnx_export.py](./official/onnx_export.py)移动至{YOLO-World/deploy}目录，分两次导出两个onnx
     - 第一次，导出完整onnx（后续从里面截取image_backbone部分）
         ```shell
-        python multimodal/yolo_world/source_code/official/onnx_export.py \
+        python ./deploy/onnx_export.py \
             --config configs/pretrain/yolo_world_v2_l_vlpan_bn_2e-3_100e_4x8gpus_obj365v1_goldg_train_1280ft_lvis_minival.py \
             --checkpoint yolo_world_v2_l_obj365v1_goldg_pretrain_1280ft-9babe3f6.pth \
             --export image \
@@ -56,7 +57,7 @@
         ```
     - 第二次，导出text部分bs1的onnx（后续从里面截取text_backbone部分）
         ```shell
-        python multimodal/yolo_world/source_code/official/onnx_export.py \
+        python ./deploy/onnx_export.py \
             --config configs/pretrain/yolo_world_v2_l_vlpan_bn_2e-3_100e_4x8gpus_obj365v1_goldg_train_1280ft_lvis_minival.py \
             --checkpoint yolo_world_v2_l_obj365v1_goldg_pretrain_1280ft-9babe3f6.pth \
             --export text \
@@ -79,11 +80,11 @@
 
 - 对以上两个简化onnx进行截断，独立出image_backbone和text_backbone，方便后续vacc编译；增加后缀`_sub`在同目录下生成onnx
     ```shell
-    python multimodal/yolo_world/source_code/official/onnx_sub.py \
+    python ./deploy/onnx_sub.py \
         --onnx_file ./output_onnx/yolo_world_v2_l_obj365v1_goldg_pretrain_1280ft-9babe3f6_image-sim.onnx \
         --export image
 
-    python multimodal/yolo_world/source_code/official/onnx_sub.py \
+    python ./deploy/onnx_sub.py \
         --onnx_file ./output_onnx/yolo_world_v2_l_obj365v1_goldg_pretrain_1280ft-9babe3f6_text-sim.onnx \
         --export text
     ```

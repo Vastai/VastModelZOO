@@ -36,6 +36,7 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 ### step.4 模型推理
 1. 参考[vsx脚本](../build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
+    # pip install scipy==1.9.1
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/lfw_mtcnnpy_160 \
         --model_prefix_path deploy_weights/pytorch_facenet_run_stream_int8/mod \
@@ -57,7 +58,7 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 1. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ../../common/utils/image2npz.py \
-    --dataset_path lfw_mtcnnpy_160 \
+    --dataset_path /path/to/lfw_mtcnnpy_160 \
     --target_path lfw_mtcnnpy_160_npz \
     --text_path npz_datalist.txt
     ```
@@ -78,9 +79,10 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 
 4. [npz_decode.py](../../common/eval/npz_decode.py)，解析vamp输出的npz文件，并进行精度测试
     ```bash
+    # pip install scipy==1.9.1
     python ../../common/eval/npz_decode.py \
-    --gt_dir ./lfw_mtcnnpy_160 \
-    --gt_pairs_path ./pairs.txt \
+    --gt_dir /path/to/lfw_mtcnnpy_160 \
+    --gt_pairs_path /path/to/pairs.txt \
     --input_npz_path npz_datalist.txt \
     --out_npz_dir vamp_result
     ```

@@ -104,7 +104,7 @@
 1. 动态尺寸模型不能使用vamp工具测试性能，需要使用性能测试脚本进行测试，参考：[dynamic_yolo_prof.py](../build_in/vsx/dynamic_yolo_prof.py)
     ```bash
     python3 ../build_in/vsx/dynamic_yolo_prof.py \ 
-        -m ./deploy_weights/ultralytics_dynamic_yolov5_run_stream_int8/ultralytics_dynamic_yolov5_run_stream_int8_module_info.json \
+        -m ./deploy_weights/ultralytics_yolov5s_dynamic_run_stream_int8/ultralytics_yolov5s_dynamic_run_stream_int8_module_info.json \
         --vdsp_params ../build_in/vdsp_params/yolo_div255_bgr888.json \
         --max_input_shape "[1,3,640,640]" \
         --model_input_shape "[1,3,640,640]" \

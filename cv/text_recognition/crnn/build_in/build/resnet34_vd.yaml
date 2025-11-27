@@ -20,6 +20,7 @@ backend:
   compile:
     data_transport_mode: 1
     cluster_mode: 0
+    real_output_shape: [[32,48]]
 
 dataset:
   type: tvm

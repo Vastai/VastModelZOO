@@ -1,0 +1,26 @@
+name: Mistral-7B-Instruct-fp16-tp4-1024-2048
+
+frontend:
+  checkpoint: /path/to/Mistral-7B-Instruct-v0.2/
+  type: huggingface
+
+  shape:
+    input_ids: [[1024], [2048]]
+  model_kwargs:
+    tp: 4
+    b2s: true
+    model_arch: vacc
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  merge_params: true
+  compile:
+    data_type: 0
+    gather_data_vccl_dsp_enable: true
+
+
+workspace:
+  path: ./vacc_deploy
+  workers: 4
+

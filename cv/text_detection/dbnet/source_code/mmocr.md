@@ -67,7 +67,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     cd dbnet
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/mmocr_config.yaml
+    vamc compile ../build_in/build/mmocr_dbnet.yaml
     ```
     - 转换后将在当前目录下生成`deploy_weights/mmocr_dbnet_run_stream_int8`文件夹，其中包含转换后的模型文件。
 
@@ -103,7 +103,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     ```bash
     vamp -m deploy_weights/mmocr_dbnet_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json \
-    -i 1 p 1 -b 1
+    -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \
     --path_output npz_output
     ```

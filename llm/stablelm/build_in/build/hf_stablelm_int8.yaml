@@ -1,0 +1,27 @@
+name: stablelm-2-1_6b-int8-tp4-1024-2048
+
+frontend:
+  checkpoint: /path/to/stablelm-2-1_6b
+  type: huggingface
+
+  shape:
+    input_ids: [[1024], [2048]]
+  model_kwargs:
+    tp: 4
+    b2s: true
+    model_arch: vacc
+  quantize:
+    type: w8a16_gptq
+    
+backend:
+  type: tvm_vacc
+  dtype: int8
+  merge_params: true
+  compile:
+    data_type: 0
+    gather_data_vccl_dsp_enable: true
+
+workspace:
+  path: ./vacc_deploy
+  workers: 4
+

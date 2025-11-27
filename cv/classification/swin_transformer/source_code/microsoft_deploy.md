@@ -59,6 +59,19 @@
 ### step.5 模型推理
 1. runstream
     - 参考：[infer_swin.py](../build_in/vsx/infer_swin.py)
+
+    准备测试前，需先准备数据集路径文件`ILSVRC2012_img_val_filelist.txt`，格式如下：
+
+    ```
+    ......
+    ILSVRC2012_img_val/n12267677/ILSVRC2012_val_00001058.JPEG
+    ILSVRC2012_img_val/n12267677/ILSVRC2012_val_00001117.JPEG
+    ILSVRC2012_img_val/n12267677/ILSVRC2012_val_00002139.JPEG
+    ......
+    ```
+
+    运行如下命令进行精度测试：
+
     ```bash
     python ../build_in/vsx/infer_swin.py \
         -m deploy_weights/microsoft_swin_transformer_run_stream_fp16/mod \
@@ -85,8 +98,8 @@
 1. 使用[infer_swin_prof.py](../build_in/vsx/infer_swin_prof.py)进行benchmark
     ```bash
     python3 ../build_in/vsx/infer_swin_prof.py \
-        -m swin_b-fp16-none-1_3_224_224-vacc/mod \
-        --vdsp_params vdsp_prams/microsoft-swin_b-vdsp_params.json \
+        -m deploy_weights/microsoft_swin_transformer_run_stream_fp16/mod \
+        --vdsp_params ../build_in/vdsp_params/microsoft-swin_b-vdsp_params.json \
         --device_ids [0] \
         --batch_size 1 \
         --instance 1 \
