@@ -73,6 +73,8 @@
     - [qwen2_5_vl_visual.yaml](./build_in/build/qwen2_5_vl_visual.yaml)
 
     ```bash
+    # LLM部分转换前，需设置VACC_STACK_SIZE环境变量
+    export VACC_STACK_SIZE=256
     vamc compile ./build_in/build/qwen2_5_vl_llm.yaml
     vamc compile ./build_in/build/qwen2_5_vl_visual.yaml
     ```
