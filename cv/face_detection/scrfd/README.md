@@ -117,7 +117,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
     ```bash
     python ../build_in/vsx/python/scrfd_vsx.py \
         --file_path  /path/to/widerface/val/images \
-        --model_prefix_path deploy_weights/official_scrfd_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_scrfd_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json \
         --save_dir ./runstream_output \
         --device 0
@@ -125,9 +125,9 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 
     - 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
     ```
-    cd ../common/eval/
+    cd ../../common/eval/
     python3 setup.py build_ext --inplace
-    cd ../../workspace/
+    cd ../../scrfd/workspace/
     python ../../common/eval/evaluation.py -p runstream_output/ -g ../../common/eval/ground_truth
     ```
 
@@ -151,7 +151,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 1. 性能测试
     - 配置[insightface-scrfd_500m-vdsp_params.json](./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json)
     ```
-    vamp -m deploy_weights/official_scrfd_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,640,640]
+    vamp -m deploy_weights/official_scrfd_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 1 -p 1 -b 1 -s [3,640,640]
     ```
 
 2. 精度测试
@@ -166,16 +166,16 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 
     - vamp推理获取npz文件
     ```bash
-    vamp -m deploy_weights/official_scrfd_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_scrfd_run_stream_int8/mod \
         --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  \
-        -i 8 -p 1 -b 22 -s [3,640,640] \
+        -i 1 -p 1 -b 1 -s [3,640,640] \
         --datalist widerface_npz_list.txt \
         --path_output output
     ```
 
     - 解析npz文件，参考[npz_decode.py](./build_in/vdsp_params/npz_decode.py)
     ```
-    python npz_decode.py --txt result_npz \
+    python ../build_in/vdsp_params/npz_decode.py --txt result_npz \
         --input_image_dir widerface/val/images \
         --model_size 640 640 \
         --vamp_datalist_path widerface_npz_list.txt \

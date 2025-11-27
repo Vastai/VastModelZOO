@@ -1,0 +1,17 @@
+name: clip_image_run_stream_fp16
+
+frontend:
+  shape:
+    image: [1, 3, 224, 224]
+  checkpoint: /path/to/clip_vit_b_32_img_sim.onnx
+  type: onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+
+workspace:
+  path: ./deploy_weights/

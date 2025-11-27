@@ -8,10 +8,31 @@
 
 """PyTorch Qwen2-VL model."""
 
+# coding=utf-8
+# Copyright 2024 The Qwen team, Alibaba Group and the HuggingFace Inc. team. All rights reserved.
+#
+# This code is based on EleutherAI's GPT-NeoX library and the GPT-NeoX
+# and OPT implementations in this library. It has been modified from its
+# original forms to accommodate minor architectural differences compared
+# to GPT-NeoX and OPT used by the Meta AI team that trained the model.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""PyTorch Qwen2-VL model."""
+
 import math
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple, Union
-
+import warnings
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -53,6 +74,7 @@ logger = logging.get_logger(__name__)
 
 _CONFIG_FOR_DOC = "Qwen2VLConfig"
 
+warnings.filterwarnings("ignore", category=torch.jit.TracerWarning)
 
 @dataclass
 class Qwen2VLCausalLMOutputWithPast(ModelOutput):
@@ -1230,6 +1252,8 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
         self.gradient_checkpointing = False
         # Initialize weights and apply final processing
         self.post_init()
+        self.iter_num = config.iter_num if hasattr(config, "iter_num") else 0
+        self.insert_slice = config.insert_slice if hasattr(config, "insert_slice") else 0
 
     def get_input_embeddings(self):
         return self.embed_tokens
@@ -1442,6 +1466,11 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
                 all_self_attns += (layer_outputs[1],)
 
         hidden_states = self.norm(hidden_states)
+
+        # add strided_slice
+        if not self.iter_num and self.insert_slice:
+            hidden_states = hidden_states[:,-1:,:]
+
         # add hidden states from the last decoder layer
         if output_hidden_states:
             all_hidden_states += (hidden_states,)

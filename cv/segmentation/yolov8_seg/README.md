@@ -116,63 +116,39 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[yolov8_seg.py](./build_in/vsx/python/yolov8_seg.py)
+1. runstream推理，参考：[yolov8_seg_vsx.py](./build_in/vsx/python/yolov8_seg_vsx.py)
     - 依赖自定义算子：[yolov8_seg_post_proc](./build_in/vsx/python/yolov8_seg_post_proc)
 
     ```bash
-    python ../build_in/vsx/python/yolov8_seg.py \
+    python ../build_in/vsx/python/yolov8_seg_vsx.py \
         --file_path  path/to/coco/det_coco_val \
         --model_prefix_path deploy_weights/yolov8s_seg_run_stream_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
-        --vdsp_custom_op ./yolov8_seg_post_proc  \
+        --vdsp_custom_op ../build_in/vsx/python/yolov8_seg_post_proc  \
         --label_txt path/to/coco/coco.txt \
         --save_dir ./output --device 0
     ```
 
-2. 精度统计：[eval_map.py](./build_in/vsx/python/eval.py)，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
+2. 精度统计：[eval.py](./build_in/vsx/python/eval.py)，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
    ```bash
     python ../build_in/vsx/python/eval.py \
         --gt path/to/instances_val2017.json \
         --pred ./predictions.json
    ```
 
-### step.5 性能精度测试
-1. 基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
-    ```bash
-    python ../../common/utils/image2npz.py \
-        --dataset_path path/to/coco_val2017 \
-        --target_path  path/to/coco_val2017_npz \
-        --text_path npz_datalist.txt
-    ```
-2. 性能测试
-    ```bash
-    vamp -m deploy_weights/yolov8s_seg-int8-percentile-3_640_640-vacc/yolov8s_seg \
-        --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
-        -i 2 p 2 -b 1
-    ```
-3. npz结果输出
-    ```bash
-    vamp -m deploy_weights/yolov8s_seg-int8-percentile-3_640_640-vacc/yolov8s_seg \
-        --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
-        -i 2 p 2 -b 1 \
-        --datalist npz_datalist.txt \
-        --path_output npz_output
-    ```
+### step.5 性能测试
 
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+使用[yolov8_seg_prof.py](./build_in/vsx/python/yolov8_seg_prof.py)脚本来测试性能， 命令如下
 
-4. [npz_decode.py](./build_in/vsx/python/npz_decode.py)，解析vamp输出的npz文件，生成predictions.json
-    ```bash
-    python ../build_in/vsx/python/npz_decode.py \
-        --label-txt path/to/coco.txt \
-        --input-image path/to/coco_val2017 \
-        --model_size 640 640 \
-        --datalist-txt npz_datalist.txt \
-        --vamp-output npz_output
-    ```
-5. [eval_map.py](./build_in/vsx/python/eval.py)，精度统计，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
-   ```bash
-    python ../build_in/vsx/python/eval.py \
-        --gt path/to/instances_val2017.json \
-        --txt TEMP/predictions.json
-   ```
+```bash
+python3 ../build_in/vsx/python/yolov8_seg_prof.py \
+    -m deploy_weights/yolov8s_seg_run_stream_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
+    --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
+    --device_ids [0] \
+    --shape "[3,640,640]" \
+    --batch_size 1 \
+    --instance 6 \
+    --iterations 600 \
+    --queue_size 1
+```

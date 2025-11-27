@@ -102,7 +102,7 @@ paddle2onnx --model_dir weights/det_r50_vd_db_v2.0_train_inference \
     python ../build_in/vdsp_params/vamp_eval.py \
     --gt_dir icdar2015/Challenge4/ch4_test_images \
     --input_npz_path npz_datalist.txt \
-    --out_npz_dir outputs/dbnet \
+    --out_npz_dir npz_output \
     --input_shape 736 1280 \
     --draw_dir npz_draw_result \
     --vamp_flag

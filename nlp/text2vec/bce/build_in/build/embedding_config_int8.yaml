@@ -1,7 +1,7 @@
-name: bge-m3-512-int8
+name: bce-embedding-base_v1-512-int8
 
 frontend:
-  checkpoint: /path/to/bge-m3/bge-m3-512-sim.onnx
+  checkpoint: /path/to/bce-embedding-base_v1-512.onnx
   shape:
     input_ids:
     - 1

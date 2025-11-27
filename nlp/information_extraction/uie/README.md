@@ -65,7 +65,7 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
 
 ### step.2 准备数据集
 1. 下载原仓库数据集：[doccano_ext.json](https://bj.bcebos.com/paddlenlp/datasets/uie/doccano_ext.json)
-2. 替换上述文件`doccano_ext.json`中的关键词"目的地"为"终点站"，修改后文件：`doccano_ext.json`
+2. 替换上述文件`doccano_ext.json`中的关键词"目的地"为"终点站"
 
 3. 参考源仓库[数据标注](https://github.com/HUSTAI/uie_pytorch?tab=readme-ov-file#42-数据标注)，对数据集进行数据转换：[doccano.py](https://github.com/HUSTAI/uie_pytorch/blob/main/doccano.py)
     > 执行后会在`--save_dir`目录下生成训练/验证/测试集文件
@@ -92,14 +92,14 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
     > 当前只支持fp16
 
 ### step.4 模型推理
+- 根据具体模型修改执行参数路径
 - runstream推理示例，参考：[uie_vsx_infer.py](./build_in/vsx/python/uie_vsx_infer.py)
   ```bash
-  cd ./build_in/vsx/python/
   export GLOG_minloglevel=1
-  python3 uie_vsx_infer.py \
+  python3 build_in/vsx/python/uie_vsx_infer.py \
       --model_prefix deploy_weights/uie_base_fp16/mod \
-      --vdsp_params  ../../vdsp_params/hustai-uie_base-vdsp_params.json \
-      --tokenizer_path ./uie_base_pytorch/ \
+      --vdsp_params  build_in/vdsp_params/hustai-uie_base-vdsp_params.json \
+      --tokenizer_path path/to/uie_base_pytorch/ \
       --batch_size  64 \
       --device 0 \
       --schema "航母" \
@@ -114,13 +114,13 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
 
   ```bash
   export GLOG_minloglevel=1
-  python uie_vsx_evaluate.py \
+  python build_in/vsx/python/uie_vsx_evaluate.py \
     --model_prefix deploy_weights/uie_base_fp16/mod \
-      --vdsp_params  ../../vdsp_params/hustai-uie_base-vdsp_params.json \
-    --tokenizer_path ./uie_base_pytorch/ \
+    --vdsp_params  build_in/vdsp_params/hustai-uie_base-vdsp_params.json \
+    --tokenizer_path path/to/uie_base_pytorch/ \
     -d 0 \
     --batch_size 16 \
-    --test_path ./dev.txt
+    --test_path path/to/dev.txt
 
     # 预期精度统计结果                                                                 
     # Class Name: all_classes
@@ -137,10 +137,10 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
   export GLOG_minloglevel=1
 
   # 测试模型最大吞吐
-  python3 uie_vsx_prof.py \
+  python3 build_in/vsx/python/uie_vsx_prof.py \
   --model_prefix deploy_weights/uie_base_fp16/mod \
-  --vdsp_params  ../../vdsp_params/hustai-uie_base-vdsp_params.json \
-  --tokenizer_path ./uie_base_pytorch/ \
+  --vdsp_params  build_in/vdsp_params/hustai-uie_base-vdsp_params.json \
+  --tokenizer_path path/to/uie_base_pytorch/ \
   --device_ids  [0] \
   --batch_size  64 \
   --instance 1 \
@@ -150,10 +150,10 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
   --queue_size 1
 
   # 测试模型最小时延
-  python3 uie_vsx_prof.py \
+  python3 build_in/vsx/python/uie_vsx_prof.py \
   --model_prefix deploy_weights/uie_base_fp16/mod \
-  --vdsp_params  ../../vdsp_params/hustai-uie_base-vdsp_params.json \
-  --tokenizer_path ./uie_base_pytorch/ \
+  --vdsp_params  build_in/vdsp_params/hustai-uie_base-vdsp_params.json \
+  --tokenizer_path path/to/uie_base_pytorch/ \
   --device_ids  [0] \
   --batch_size  1 \
   --instance 1 \

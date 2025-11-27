@@ -1,0 +1,33 @@
+name: logics_parsing_visual_fp16
+
+frontend:
+  checkpoint: /path/to/Logics-Parsing/
+  shape:
+    pixel_values: [6144, 1176]
+    attention_mask: [1, 6144, 6144]
+    cos: [6144, 80]
+    sin: [6144, 80]
+  type: huggingface
+  model_kwargs:
+    model_arch: vacc
+    build_visual: true
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_type: 0
+    data_transport_mode: 1
+    attention_split_num: 96
+    ffn_split_num: 48
+    llm_build: true
+    output_layout: ["0:YX", "1:YX", "2:YX", "3:YX", "4:YX", "5:YX"]
+    fullatt_block_indexes: [7, 15, 23, 31] # for qwen2.5_vl
+
+workspace:
+  path: vamc_results
+  pyenv:
+    transformers: 4.51.3
+    huggingface-hub: 0.30.2
+  env_recheck: false
+

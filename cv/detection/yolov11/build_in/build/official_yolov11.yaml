@@ -50,7 +50,7 @@ backend:
     calibrate_mode: percentile
     quantize_per_channel: true
     skip_matmul_layers: [0, 1] # yolo11-n/s/m
-    # skip_matmul_layers: [0, 1, 2, 3, 4, 5, 6, 7]  # yolo11-l/m
+    # skip_matmul_layers: [0, 1, 2, 3, 4, 5, 6, 7]  # yolo11-l/x
     calibrate_chunk_by: -1
 
 workspace:

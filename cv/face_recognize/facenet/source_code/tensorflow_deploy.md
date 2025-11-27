@@ -38,6 +38,7 @@ commit: 096ed770f163957c1e56efa7feeb194773920f6e
 ### step.4 模型推理
 1. 参考[vsx脚本](../build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
+    # pip install scipy==1.9.1
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/lfw_mtcnnpy_160 \
         --model_prefix_path deploy_weights/tensorflow_facenet_run_stream_int8/mod \
@@ -60,7 +61,7 @@ commit: 096ed770f163957c1e56efa7feeb194773920f6e
 1. 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ../../common/utils/image2npz.py \
-    --dataset_path lfw_mtcnnpy_160 \
+    --dataset_path /path/to/lfw_mtcnnpy_160 \
     --target_path lfw_mtcnnpy_160_npz \
     --text_path npz_datalist.txt
     ```
@@ -72,8 +73,8 @@ commit: 096ed770f163957c1e56efa7feeb194773920f6e
 
 3. 精度测试，输出npz结果
     ```bash
-    vamp -m deploy_weights/facenet_vggface2-int8-kl_divergence-3_160_160-vacc/facenet_vggface2 \
-    --vdsp_params face_recognize/facenet/build_in/vdsp_params/tensorflow-facenet_vggface2-vdsp_params.json \
+    vamp -m eploy_weights/tensorflow_facenet_run_stream_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/tensorflow-facenet_vggface2-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \
     --path_output vamp_result
@@ -81,9 +82,10 @@ commit: 096ed770f163957c1e56efa7feeb194773920f6e
 
 4. [npz_decode.py](../../common/eval/npz_decode.py)，解析vamp输出的npz文件，并进行精度测试
     ```bash
+    # pip install scipy==1.9.1
     python ../../common/eval/npz_decode.py \
-    --gt_dir ./lfw_mtcnnpy_160 \
-    --gt_pairs_path ./pairs.txt \
+    --gt_dir /path/to/lfw_mtcnnpy_160 \
+    --gt_pairs_path /path/to/pairs.txt \
     --input_npz_path npz_datalist.txt \
     --out_npz_dir vamp_result
     ```

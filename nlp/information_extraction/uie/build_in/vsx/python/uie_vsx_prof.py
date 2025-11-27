@@ -18,7 +18,7 @@ common_path = os.path.join(current_file_path, "../..")
 sys.path.append(common_path)
 
 from uie_vacc import UIEVacc
-from common.model_profiler import ModelProfiler
+from model_profiler import ModelProfiler
 
 
 def argument_parser():

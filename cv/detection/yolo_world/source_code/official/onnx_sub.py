@@ -55,6 +55,6 @@ if __name__ == "__main__":
     args = parse.parse_args()
 
     if args.export == 'image':
-        get_sub_model_clip(args.onnx_file)
-    else:
         get_batch_model_img(args.onnx_file)
+    else:
+        get_sub_model_clip(args.onnx_file)

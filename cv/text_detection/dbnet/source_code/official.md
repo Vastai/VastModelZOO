@@ -30,7 +30,7 @@ commit: e5a12f5c2f0c2b4a345b5b8392307ef73481d5f6
     cd dbnet
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/official_config.yaml
+    vamc compile ../build_in/build/official_dbnet.yaml
     ```
     - 转换后将在当前目录下生成`deploy_weights/official_dbnet_run_stream_int8`文件夹，其中包含转换后的模型文件。
 
