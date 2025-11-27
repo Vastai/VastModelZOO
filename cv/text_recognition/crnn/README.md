@@ -205,11 +205,11 @@ tag: v2.6.0
     vamp -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     -i 1 p 1 -b 1 \
-    --datalist data/datasets_npz/CUTE80.txt \
+    --datalist npz_datalist.txt \
     --path_output npz_output
     ```
 
 4. [vamp_eval.py](./build_in/vsx/python/vamp_eval.py)，解析npz结果，绘图并统计精度：
    ```bash
-    python ../build_in/vsx/python/vamp_eval.py --label_file data/label/CUTE80.txt --pred_npz_dir npz_output
+    python ../build_in/vsx/python/vamp_eval.py --label_file data/label/CUTE80.txt --pred_npz_dir npz_output --npz_datalist npz_datalist.txt
    ```

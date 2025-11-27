@@ -155,7 +155,7 @@ if __name__ == '__main__':
     for index in range(len(labels)):
         file_name = datalist[index].replace('\n','').split('/')[-1].split('.')[0]
         pred = np.load(os.path.join(args.pred_npz_dir, 'output_' + str(index).zfill(6) + ".npz"))
-        pred_str = converter(pred['output_0'].reshape(1,25,37))
+        pred_str = converter(pred['output_0'].reshape(1,32,48)[:, :25, :37])
         print(pred_str)
         if normalize_text(pred_str[0][0]) == normalize_text(labels[file_name]):
             right_num += 1
