@@ -430,6 +430,9 @@
 - 参见：[center_point.patch](./center_point.patch)
 
     ```bash
+    git clone https://github.com/open-mmlab/OpenPCDet.git
+    cd OpenPCDet
+    git checkout 8cacccec11db6f59bf6934600c9a175dae254806
     git apply center_point.patch
     ```
 

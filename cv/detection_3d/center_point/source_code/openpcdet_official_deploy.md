@@ -20,6 +20,7 @@
 - 安装OpenPCDet环境，需有CUDA环境机器，具体参考官方安装步骤：[docs/INSTALL.md](https://github.com/open-mmlab/OpenPCDet/blob/master/docs/INSTALL.md)
     ```bash
     git clone https://github.com/open-mmlab/OpenPCDet.git
+    cd OpenPCDet
     git checkout 8cacccec11db6f59bf6934600c9a175dae254806
 
     conda create -n openpcdet python=3.10
