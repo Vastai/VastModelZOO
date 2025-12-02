@@ -17,14 +17,23 @@
 
 
 ## step.1 安装OpenPCDet环境
-- 检出仓库
+- 安装OpenPCDet环境，需有CUDA环境机器，具体参考官方安装步骤：[docs/INSTALL.md](https://github.com/open-mmlab/OpenPCDet/blob/master/docs/INSTALL.md)
     ```bash
-    git clone https://github.com/open-mmlab/OpenPCDet
+    git clone https://github.com/open-mmlab/OpenPCDet.git
     git checkout 8cacccec11db6f59bf6934600c9a175dae254806
+
+    conda create -n openpcdet python=3.10
+    conda activate openpcdet
+    # pip3 install torch torchvision
+    pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+
+    pip install spconv-cu124
+    python setup.py develop
+
+    # https://github.com/open-mmlab/OpenPCDet/issues/1583
+    pip install setuptools==58 av2 kornia==0.5.8 onnxsim
+    pip install -r requirements.txt
     ```
-
-- 安装OpenPCDet环境，需有CUDA环境机器，参考官方安装步骤：[docs/INSTALL.md](https://github.com/open-mmlab/OpenPCDet/blob/master/docs/INSTALL.md)
-
 
 
 ## step.2 源码修改和onnx导出
