@@ -425,6 +425,14 @@
         return batch_dict['cls_preds'], batch_dict['box_preds'], batch_dict['dir_cls_preds']
     ```
 
+
+### 以上修改，可通过git-pathch一次更新
+- 参见：[center_point.patch](./center_point.patch)
+
+    ```bash
+    git apply center_point.patch
+    ```
+
 ### onnx算子注册
 - `PointPillarScatterFunction`算子注册，参考：[export.py](../source_code/onnx_utils/export.py)
 
