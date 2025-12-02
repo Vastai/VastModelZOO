@@ -426,7 +426,7 @@
     ```
 
 
-### 以上修改，可通过git-pathch一次更新
+### 以上修改，可通过git-patch一次更新
 - 参见：[center_point.patch](./center_point.patch)
 
     ```bash
