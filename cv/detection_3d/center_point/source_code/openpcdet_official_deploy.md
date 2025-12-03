@@ -157,7 +157,7 @@
 
 2. 模型转换配置文件
 
-   - [official_kitti_center_point.yaml](../vacc_code/build/official_kitti_center_point.yaml)
+   - [official_kitti_center_point.yaml](../build_in/build/official_kitti_center_point.yaml)
    - 由于硬件的限制，当前只支持int8量化模型，不支持fp16量化模型
    - 转换后将在当前目录下生成`deploy_weights/official_kitti_centerpoint_run_stream_int8`文件夹，其中包含转换后的模型文件
 
@@ -165,17 +165,17 @@
    cd center_point
    mkdir workspace
    cd workspace
-   vamc compile ../vacc_code/build/official_kitti_center_point.yaml
+   vamc compile ../build_in/build/official_kitti_center_point.yaml
    ```
 
    > 此处告警`PointPillarScatterFunction`算子是正常的，此算子非onnx标准算子
 
 ## step.5 模型推理&评估
 
-1. 参考[vsx/center_point_runstream.py](../vacc_code/vsx/center_point_runstream.py)：生成推理的txt结果
+1. 参考[vsx/center_point_runstream.py](../build_in/vsx/center_point_runstream.py)：生成推理的txt结果
 
    ```bash
-   python3  ../vacc_code/vsx/center_point_runstream.py \
+   python3  ../build_in/vsx/center_point_runstream.py \
        -m "[/path/to/official_kitti_centerpoint_run_stream_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
@@ -221,10 +221,10 @@
 
 1. 测试最大吞吐
 
-   - 参考[center_point_prof.py](../vacc_code/vsx/center_point_prof.py)，测试最大吞吐
+   - 参考[center_point_prof.py](../build_in/vsx/center_point_prof.py)，测试最大吞吐
 
    ```bash
-   python3 ../vacc_code/vsx/center_point_prof.py \
+   python3 ../build_in/vsx/center_point_prof.py \
        -m "[/path/to/official_kitti_centerpoint_run_stream_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
@@ -244,10 +244,10 @@
 
 2. 测试最小时延
 
-   - 参考[center_point_prof.py](../vacc_code/vsx/center_point_prof.py)，测试最小时延
+   - 参考[center_point_prof.py](../build_in/vsx/center_point_prof.py)，测试最小时延
 
    ```bash
-   python3 ../vacc_code/vsx/center_point_prof.py \
+   python3 ../build_in/vsx/center_point_prof.py \
        -m "[/path/to/official_kitti_centerpoint_run_stream_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
