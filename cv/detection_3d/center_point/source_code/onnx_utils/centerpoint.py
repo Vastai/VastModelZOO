@@ -3,7 +3,9 @@ from .detector3d_template import Detector3DTemplate
 
 class CenterPoint(Detector3DTemplate):
     def __init__(self, model_cfg, num_class, dataset):
-        super().__init__(model_cfg=model_cfg, num_class=num_class, dataset=dataset)
+        super().__init__(model_cfg=model_cfg,
+                         num_class=num_class,
+                         dataset=dataset)
         self.module_list = self.build_networks()
 
     # def forward(self, batch_dict):
@@ -20,36 +22,29 @@ class CenterPoint(Detector3DTemplate):
     #     else:
     #         pred_dicts, recall_dicts = self.post_processing(batch_dict)
     #         return pred_dicts, recall_dicts
-        
+
     # export onnx
     def forward(self, spatial_features):
         if self.model_cfg['EXPORT_FLAG'] == 0:
-            # export PillarVFE  
+            # export PillarVFE
             cur_module = self.module_list[0]
             out = cur_module(spatial_features)
             return out
         elif self.model_cfg['EXPORT_FLAG'] == 1:
-            # export BaseBEVBackbone_CenterHead  
+            # export BaseBEVBackbone_CenterHead
             cur_module = self.module_list[2]
             spatial_features_2d = cur_module(spatial_features)
             cur_module = self.module_list[3]
             out = cur_module(spatial_features_2d)
             return out
         else:
-            print("export error")
-          
-        
-
-
+            print('export error')
 
     def get_training_loss(self):
         disp_dict = {}
 
         loss_rpn, tb_dict = self.dense_head.get_loss()
-        tb_dict = {
-            'loss_rpn': loss_rpn.item(),
-            **tb_dict
-        }
+        tb_dict = {'loss_rpn': loss_rpn.item(), **tb_dict}
 
         loss = loss_rpn
         return loss, tb_dict, disp_dict
@@ -64,8 +59,9 @@ class CenterPoint(Detector3DTemplate):
 
             recall_dict = self.generate_recall_record(
                 box_preds=pred_boxes,
-                recall_dict=recall_dict, batch_index=index, data_dict=batch_dict,
-                thresh_list=post_process_cfg.RECALL_THRESH_LIST
-            )
+                recall_dict=recall_dict,
+                batch_index=index,
+                data_dict=batch_dict,
+                thresh_list=post_process_cfg.RECALL_THRESH_LIST)
 
         return final_pred_dict, recall_dict

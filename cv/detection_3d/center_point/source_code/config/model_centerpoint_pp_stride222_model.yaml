@@ -111,7 +111,7 @@ MODEL:
                 NMS_PRE_MAXSIZE: 4096
                 NMS_POST_MAXSIZE: 500
 
-    
+
 
     POST_PROCESSING:
         RECALL_THRESH_LIST: [0.3, 0.5, 0.7]

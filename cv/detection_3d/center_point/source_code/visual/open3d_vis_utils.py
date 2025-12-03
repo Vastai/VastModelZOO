@@ -1,21 +1,14 @@
-"""
-Open3d visualization tool box
-Written by Jihan YANG
+"""Open3d visualization tool box Written by Jihan YANG.
+
 All rights preserved from 2021 - present.
 """
-import open3d
-import torch
 import matplotlib
 import numpy as np
+import open3d
+import torch
 
-box_colormap = [
-    [1, 1, 1],
-    [0, 1, 0],
-    [0, 1, 1],
-    [1, 1, 0],
-    [1, 0, 1],
-    [1, 1, 0]
-]
+box_colormap = [[1, 1, 1], [0, 1, 0], [0, 1, 1], [1, 1, 0], [1, 0, 1],
+                [1, 1, 0]]
 
 
 def get_coor_colors(obj_labels):
@@ -29,15 +22,23 @@ def get_coor_colors(obj_labels):
     colors = matplotlib.colors.XKCD_COLORS.values()
     max_color_num = obj_labels.max()
 
-    color_list = list(colors)[:max_color_num+1]
-    colors_rgba = [matplotlib.colors.to_rgba_array(color) for color in color_list]
+    color_list = list(colors)[:max_color_num + 1]
+    colors_rgba = [
+        matplotlib.colors.to_rgba_array(color) for color in color_list
+    ]
     label_rgba = np.array(colors_rgba)[obj_labels]
     label_rgba = label_rgba.squeeze()[:, :3]
 
     return label_rgba
 
 
-def draw_scenes(points, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
+def draw_scenes(points,
+                gt_boxes=None,
+                ref_boxes=None,
+                ref_labels=None,
+                ref_scores=None,
+                point_colors=None,
+                draw_origin=True):
     if isinstance(points, torch.Tensor):
         points = points.cpu().numpy()
     if isinstance(gt_boxes, torch.Tensor):
@@ -53,7 +54,8 @@ def draw_scenes(points, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scor
 
     # draw origin
     if draw_origin:
-        axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=1.0, origin=[0, 0, 0])
+        axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=1.0, origin=[0, 0, 0])
         vis.add_geometry(axis_pcd)
 
     pts = open3d.geometry.PointCloud()
@@ -61,7 +63,8 @@ def draw_scenes(points, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scor
 
     vis.add_geometry(pts)
     if point_colors is None:
-        pts.colors = open3d.utility.Vector3dVector(np.ones((points.shape[0], 3)))
+        pts.colors = open3d.utility.Vector3dVector(
+            np.ones((points.shape[0], 3)))
     else:
         pts.colors = open3d.utility.Vector3dVector(point_colors)
 

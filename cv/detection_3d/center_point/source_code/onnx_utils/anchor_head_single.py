@@ -5,17 +5,15 @@ from .anchor_head_template import AnchorHeadTemplate
 
 
 class AnchorHeadSingle(AnchorHeadTemplate):
-    def __init__(
-        self,
-        model_cfg,
-        input_channels,
-        num_class,
-        class_names,
-        grid_size,
-        point_cloud_range,
-        predict_boxes_when_training=True,
-        **kwargs
-    ):
+    def __init__(self,
+                 model_cfg,
+                 input_channels,
+                 num_class,
+                 class_names,
+                 grid_size,
+                 point_cloud_range,
+                 predict_boxes_when_training=True,
+                 **kwargs):
         super().__init__(
             model_cfg=model_cfg,
             num_class=num_class,
@@ -27,12 +25,14 @@ class AnchorHeadSingle(AnchorHeadTemplate):
 
         self.num_anchors_per_location = sum(self.num_anchors_per_location)
 
-        self.conv_cls = nn.Conv2d(
-            input_channels, self.num_anchors_per_location * self.num_class, kernel_size=1
-        )
-        self.conv_box = nn.Conv2d(
-            input_channels, self.num_anchors_per_location * self.box_coder.code_size, kernel_size=1
-        )
+        self.conv_cls = nn.Conv2d(input_channels,
+                                  self.num_anchors_per_location *
+                                  self.num_class,
+                                  kernel_size=1)
+        self.conv_box = nn.Conv2d(input_channels,
+                                  self.num_anchors_per_location *
+                                  self.box_coder.code_size,
+                                  kernel_size=1)
 
         if self.model_cfg.get('USE_DIRECTION_CLASSIFIER', None) is not None:
             self.conv_dir_cls = nn.Conv2d(

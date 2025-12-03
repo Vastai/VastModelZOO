@@ -1,6 +1,6 @@
+import argparse
 import glob
 import os
-import argparse
 
 import numpy as np
 
@@ -9,6 +9,7 @@ try:
     import cumm.tensorview as tv
 except:
     pass
+
 
 # 1. mask_points_and_boxes_outside_range
 def get_pointcloud_mask_by_limit_range(points, limit_range):
@@ -21,12 +22,10 @@ def get_pointcloud_mask_by_limit_range(points, limit_range):
 spconv 点云转换器
 '''
 
+
 # 2. VoxelGeneratorV2
-def create_voxel_generator(voxel_space_size,
-                           coord_range,
-                           num_point_features,
-                           max_points_per_voxel,
-                           max_voxels_per_cloud):
+def create_voxel_generator(voxel_space_size, coord_range, num_point_features,
+                           max_points_per_voxel, max_voxels_per_cloud):
 
     try:
         from spconv.utils import VoxelGeneratorV2 as VoxelGenerator
@@ -40,20 +39,17 @@ def create_voxel_generator(voxel_space_size,
             spconv_ver = 2
 
     if spconv_ver == 1:
-        voxel_generator = VoxelGenerator(
-            voxel_size=voxel_space_size,
-            point_cloud_range=coord_range,
-            max_num_points=max_points_per_voxel,
-            max_voxels=max_voxels_per_cloud
-        )
+        voxel_generator = VoxelGenerator(voxel_size=voxel_space_size,
+                                         point_cloud_range=coord_range,
+                                         max_num_points=max_points_per_voxel,
+                                         max_voxels=max_voxels_per_cloud)
     else:
         voxel_generator = VoxelGenerator(
             vsize_xyz=voxel_space_size,
             coors_range_xyz=coord_range,
             num_point_features=num_point_features,
             max_num_points_per_voxel=max_points_per_voxel,
-            max_num_voxels=max_voxels_per_cloud
-        )
+            max_num_voxels=max_voxels_per_cloud)
     return voxel_generator
 
 
@@ -61,11 +57,11 @@ def get_paddings_indicator(actual_num, max_num, axis=0):
     actual_num = np.expand_dims(actual_num, axis + 1)
     max_num_shape = [1] * len(actual_num.shape)
     max_num_shape[axis + 1] = -1
-    max_num = np.arange(max_num, dtype=np.int32).reshape(
-        max_num_shape)  # 得到体素真实点max
+    max_num = np.arange(max_num,
+                        dtype=np.int32).reshape(max_num_shape)  # 得到体素真实点max
     # 得到各个体素中每个像素的mask,若为True则为真实坐标，若为False，则为补齐坐标
     paddings_indicator = actual_num > max_num
-    return paddings_indicator   # [N,32]
+    return paddings_indicator  # [N,32]
 
 
 def point2voxel(points,
@@ -83,20 +79,23 @@ def point2voxel(points,
                 voxel_space_size_x,
                 voxel_space_size_y,
                 voxel_space_size_z,
-                num_point_features = 4):
+                num_point_features=4):
 
     avaliable_points = points
 
-    masks = get_pointcloud_mask_by_limit_range(avaliable_points, [point_cloud_range_startx, point_cloud_range_starty, point_cloud_range_startz,
-                                                                  point_cloud_range_endx,  point_cloud_range_endy,  point_cloud_range_endz])
+    masks = get_pointcloud_mask_by_limit_range(avaliable_points, [
+        point_cloud_range_startx, point_cloud_range_starty,
+        point_cloud_range_startz, point_cloud_range_endx,
+        point_cloud_range_endy, point_cloud_range_endz
+    ])
     avaliable_points = avaliable_points[masks]
 
-    voxel_generator = create_voxel_generator([voxel_space_size_x, voxel_space_size_y, voxel_space_size_z],
-                                             [point_cloud_range_startx, point_cloud_range_starty, point_cloud_range_startz,
-                                              point_cloud_range_endx,  point_cloud_range_endy,  point_cloud_range_endz],
-                                             num_point_features,
-                                             max_points_per_voxel,
-                                             max_voxels_per_cloud)
+    voxel_generator = create_voxel_generator(
+        [voxel_space_size_x, voxel_space_size_y, voxel_space_size_z], [
+            point_cloud_range_startx, point_cloud_range_starty,
+            point_cloud_range_startz, point_cloud_range_endx,
+            point_cloud_range_endy, point_cloud_range_endz
+        ], num_point_features, max_points_per_voxel, max_voxels_per_cloud)
     assert tv is not None, f"Unexpected error, library: 'cumm' wasn't imported properly."
     voxel_output = voxel_generator.point_to_voxel(
         tv.from_numpy(avaliable_points))
@@ -158,7 +157,8 @@ def point2voxel(points,
     out_channel = input_channel + expand_channel
 
     out_features = np.zeros(
-        (max_voxels_cur_cloud, max_points_per_voxel, out_channel), dtype=np.float32)
+        (max_voxels_cur_cloud, max_points_per_voxel, out_channel),
+        dtype=np.float32)
     out_features[:real_counts, :, :] = features
 
     return out_features, out_coords, out_mask
@@ -170,13 +170,31 @@ def int_list(value):
     except ValueError:
         raise argparse.ArgumentTypeError("should be split by ','")
 
-parser = argparse.ArgumentParser(description="generate qdata")
-parser.add_argument("--kitti_data", type=str, default = "./points", help = "points file dir")
-parser.add_argument("--save_path", type=str, default = "./qdata", help="rpn model path")
-parser.add_argument("--quant_num", type=int, default = 50, help="quant data num")
-parser.add_argument("--max_voxel_num", type=int, default = 32000, help="max voxel num")
-parser.add_argument("--voxel_size", type=int_list, default=[0.32,0.32,4.2], help="voxel size")
-parser.add_argument("--coors_range", type=int_list, default=[-50,-103.6,-0.1,103.6,50,4.1], help="coors range",)
+
+parser = argparse.ArgumentParser(description='generate qdata')
+parser.add_argument('--kitti_data',
+                    type=str,
+                    default='./points',
+                    help='points file dir')
+parser.add_argument('--save_path',
+                    type=str,
+                    default='./qdata',
+                    help='rpn model path')
+parser.add_argument('--quant_num', type=int, default=50, help='quant data num')
+parser.add_argument('--max_voxel_num',
+                    type=int,
+                    default=32000,
+                    help='max voxel num')
+parser.add_argument('--voxel_size',
+                    type=int_list,
+                    default=[0.32, 0.32, 4.2],
+                    help='voxel size')
+parser.add_argument(
+    '--coors_range',
+    type=int_list,
+    default=[-50, -103.6, -0.1, 103.6, 50, 4.1],
+    help='coors range',
+)
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -189,7 +207,7 @@ if __name__ == '__main__':
         os.makedirs(save_path)
 
     dataset = []
-    quant_data_all_file = f"{quant_data_path}/*.bin"
+    quant_data_all_file = f'{quant_data_path}/*.bin'
     data_list = glob.glob(quant_data_all_file, recursive=True)
     data_list.sort()
     all_files = [f for f in data_list]
@@ -199,22 +217,23 @@ if __name__ == '__main__':
     for file in range(quant_count):
         sample_file = all_files[file]
         points = np.fromfile(sample_file, dtype=np.float32).reshape(-1, 4)
-        features, coords, masks = point2voxel(points,
-                                              max_voxels_cur_cloud=args.max_voxel_num,
-                                              max_voxels_per_cloud=args.max_voxel_num,
-                                              max_points_per_voxel=32,
-                                              expand_batch=True,
-                                              use_abslote_xyz=True,
-                                              point_cloud_range_startx=args.coors_range[0],
-                                              point_cloud_range_starty=args.coors_range[1],
-                                              point_cloud_range_startz=args.coors_range[2],
-                                              point_cloud_range_endx=args.coors_range[3],
-                                              point_cloud_range_endy=args.coors_range[4],
-                                              point_cloud_range_endz=args.coors_range[5],
-                                              voxel_space_size_x=args.voxel_size[0],
-                                              voxel_space_size_y=args.voxel_size[1],
-                                              voxel_space_size_z=args.voxel_size[2])
-                                              
+        features, coords, masks = point2voxel(
+            points,
+            max_voxels_cur_cloud=args.max_voxel_num,
+            max_voxels_per_cloud=args.max_voxel_num,
+            max_points_per_voxel=32,
+            expand_batch=True,
+            use_abslote_xyz=True,
+            point_cloud_range_startx=args.coors_range[0],
+            point_cloud_range_starty=args.coors_range[1],
+            point_cloud_range_startz=args.coors_range[2],
+            point_cloud_range_endx=args.coors_range[3],
+            point_cloud_range_endy=args.coors_range[4],
+            point_cloud_range_endz=args.coors_range[5],
+            voxel_space_size_x=args.voxel_size[0],
+            voxel_space_size_y=args.voxel_size[1],
+            voxel_space_size_z=args.voxel_size[2])
+
         features = features.transpose(2, 1, 0)
         features = np.expand_dims(features, 0)
 
@@ -225,12 +244,14 @@ if __name__ == '__main__':
         coords2[1, :] = coords[0, :]
         coords = coords2
 
-        print("features:",features.shape,features.dtype, "coords:",coords.shape,coords.dtype, "mask:", masks.shape,masks.dtype)
+        print('features:', features.shape, features.dtype, 'coords:',
+              coords.shape, coords.dtype, 'mask:', masks.shape, masks.dtype)
         np.savez(
-                os.path.join(save_path, os.path.splitext(os.path.split(sample_file)[-1])[0] + ".npz"),
-                **{
-                    "input" : features,
-                    "voxel_coords_xyz" : coords,
-                    "mask" : masks,
-                }
-            )
+            os.path.join(
+                save_path,
+                os.path.splitext(os.path.split(sample_file)[-1])[0] + '.npz'),
+            **{
+                'input': features,
+                'voxel_coords_xyz': coords,
+                'mask': masks,
+            })

@@ -1,10 +1,11 @@
-import time
+import concurrent.futures
 import queue
 import threading
-import concurrent.futures
-from easydict import EasyDict as edict
+import time
+
 import numpy as np
 import vaststreamx as vsx
+from easydict import EasyDict as edict
 
 
 class ProfilerResult:
@@ -17,7 +18,7 @@ class ProfilerResult:
         self.config = None
 
     def __str__(self) -> str:
-        repr_str = "\n- "
+        repr_str = '\n- '
         if self.config:
             repr_str += f"""number of instances: {self.config.instance}
   devices: {self.config.device_ids}
@@ -32,7 +33,7 @@ class ProfilerResult:
 """
         if self.config:
             for i, pecent in enumerate(self.config.percentiles):
-                repr_str += f"    p{pecent} latency: {self.latency_pecents[i]}\n"
+                repr_str += f'    p{pecent} latency: {self.latency_pecents[i]}\n'
         return repr_str
 
 
@@ -53,28 +54,24 @@ class ModelProfiler:
     def profiling(self):
         threads = []
         for i in range(len(self.models_)):
-            device_id = self.config_.device_ids[i % len(self.config_.device_ids)]
+            device_id = self.config_.device_ids[i %
+                                                len(self.config_.device_ids)]
             if self.config_.queue_size == 0:
                 thread_inst = threading.Thread(
-                    target=self.drive_on_latancy_mode, args=(i, device_id)
-                )
+                    target=self.drive_on_latancy_mode, args=(i, device_id))
             else:
-                thread_inst = threading.Thread(
-                    target=self.drive_one_instance, args=(i, device_id)
-                )
+                thread_inst = threading.Thread(target=self.drive_one_instance,
+                                               args=(i, device_id))
             thread_inst.start()
             threads.append(thread_inst)
         for thread_inst in threads:
             thread_inst.join()
-        latency_us = (
-            np.array(self.latency_end_) - np.array(self.latency_begin_)
-        ) * 1000000
+        latency_us = (np.array(self.latency_end_) -
+                      np.array(self.latency_begin_)) * 1000000
         result = ProfilerResult()
-        result.latency_pecents = (
-            np.percentile(latency_us, self.config_.percentiles + [0, 100])
-            .astype("int")
-            .tolist()
-        )
+        result.latency_pecents = (np.percentile(
+            latency_us,
+            self.config_.percentiles + [0, 100]).astype('int').tolist())
         result.latency_max = result.latency_pecents.pop()
         result.latency_min = result.latency_pecents.pop()
         result.latency_avg = int(np.mean(latency_us))
@@ -111,15 +108,15 @@ class ModelProfiler:
                 else:
                     time.sleep(0.00001)
 
-        cunsume_thread = threading.Thread(
-            target=cunsume_thread_func, args=(context, queue_futs, tocks)
-        )
+        cunsume_thread = threading.Thread(target=cunsume_thread_func,
+                                          args=(context, queue_futs, tocks))
         cunsume_thread.start()
         start = time.time()
         with concurrent.futures.ThreadPoolExecutor() as executor:
             while self.iters_left_ > 0 or self.long_time_test_:
                 tick = time.time()
-                fut = executor.submit(self.process_async, self.models_[idx], infer_data)
+                fut = executor.submit(self.process_async, self.models_[idx],
+                                      infer_data)
                 queue_futs.put(fut)
                 self.iters_left_ -= 1
                 context.left += 1
@@ -130,7 +127,8 @@ class ModelProfiler:
         end = time.time()
         self.merge_lock.acquire()
         time_used = (end - start) * 1000000
-        self.throughput_ += len(ticks) * self.config_.batch_size * 1000000.0 / time_used
+        self.throughput_ += len(
+            ticks) * self.config_.batch_size * 1000000.0 / time_used
         assert len(ticks) == len(tocks)
         self.latency_begin_ += ticks
         self.latency_end_ += tocks
@@ -164,7 +162,8 @@ class ModelProfiler:
 
         self.merge_lock.acquire()
         time_used = (end - start) * 1000000
-        self.throughput_ += len(ticks) * self.config_.batch_size * 1000000.0 / time_used
+        self.throughput_ += len(
+            ticks) * self.config_.batch_size * 1000000.0 / time_used
         assert len(ticks) == len(tocks)
         self.latency_begin_ += ticks
         self.latency_end_ += tocks

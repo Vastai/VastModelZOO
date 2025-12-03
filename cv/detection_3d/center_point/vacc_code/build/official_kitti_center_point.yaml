@@ -99,5 +99,3 @@ backend:
 
 workspace:
   path: ./deploy_weights
-
-

@@ -12,7 +12,8 @@ class PointPillarScatter(nn.Module):
         assert self.nz == 1
 
     def forward(self, batch_dict, **kwargs):
-        pillar_features, coords = batch_dict['pillar_features'], batch_dict['voxel_coords']
+        pillar_features, coords = batch_dict['pillar_features'], batch_dict[
+            'voxel_coords']
         batch_spatial_features = []
         batch_size = coords[:, 0].max().int().item() + 1
         for batch_idx in range(batch_size):
@@ -25,7 +26,10 @@ class PointPillarScatter(nn.Module):
 
             batch_mask = coords[:, 0] == batch_idx
             this_coords = coords[batch_mask, :]
-            indices = this_coords[:, 1] + this_coords[:, 2] * self.nx + this_coords[:, 3]
+            indices = this_coords[:,
+                                  1] + this_coords[:,
+                                                   2] * self.nx + this_coords[:,
+                                                                              3]
             # print('indices 1 dims is max: {}'.format(this_coords[:, 1].max()))
             # print('indices 1 dims is min: {}'.format(this_coords[:, 1].min()))
             indices = indices.type(torch.long)
@@ -36,10 +40,9 @@ class PointPillarScatter(nn.Module):
 
         batch_spatial_features = torch.stack(batch_spatial_features, 0)
         batch_spatial_features = batch_spatial_features.view(
-            batch_size, self.num_bev_features * self.nz, self.ny, self.nx
-        )
+            batch_size, self.num_bev_features * self.nz, self.ny, self.nx)
         batch_dict['spatial_features'] = batch_spatial_features
-        
+
         ## save features for debug
         # import numpy as np
         # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/spatial_features.npy", batch_spatial_features.cpu().numpy())
@@ -56,7 +59,8 @@ class PointPillarScatter3d(nn.Module):
         self.num_bev_features_before_compression = self.model_cfg.NUM_BEV_FEATURES // self.nz
 
     def forward(self, batch_dict, **kwargs):
-        pillar_features, coords = batch_dict['pillar_features'], batch_dict['voxel_coords']
+        pillar_features, coords = batch_dict['pillar_features'], batch_dict[
+            'voxel_coords']
 
         batch_spatial_features = []
         batch_size = coords[:, 0].max().int().item() + 1
@@ -70,11 +74,8 @@ class PointPillarScatter3d(nn.Module):
 
             batch_mask = coords[:, 0] == batch_idx
             this_coords = coords[batch_mask, :]
-            indices = (
-                this_coords[:, 1] * self.ny * self.nx
-                + this_coords[:, 2] * self.nx
-                + this_coords[:, 3]
-            )
+            indices = (this_coords[:, 1] * self.ny * self.nx +
+                       this_coords[:, 2] * self.nx + this_coords[:, 3])
             indices = indices.type(torch.long)
             pillars = pillar_features[batch_mask, :]
             pillars = pillars.t()
@@ -83,8 +84,8 @@ class PointPillarScatter3d(nn.Module):
 
         batch_spatial_features = torch.stack(batch_spatial_features, 0)
         batch_spatial_features = batch_spatial_features.view(
-            batch_size, self.num_bev_features_before_compression * self.nz, self.ny, self.nx
-        )
+            batch_size, self.num_bev_features_before_compression * self.nz,
+            self.ny, self.nx)
         batch_dict['spatial_features'] = batch_spatial_features
         return batch_dict
 
@@ -95,7 +96,8 @@ from torch.autograd import Function
 # 定义 map_roi_levels 反算金字塔层函数
 class PointPillarScatterFunction(Function):
     @staticmethod
-    def forward(ctx, pillar_features, coords, mask, size_x, size_y, size_z, features):
+    def forward(ctx, pillar_features, coords, mask, size_x, size_y, size_z,
+                features):
         ctx.size_x = size_x
         ctx.size_y = size_y
         ctx.size_z = size_z
@@ -103,7 +105,7 @@ class PointPillarScatterFunction(Function):
         ctx.mask = mask
 
         mask = int(torch.sum(mask))
-        print("mask is:", mask)
+        print('mask is:', mask)
         coords = coords[:mask, :]
         pillar_features = pillar_features[:mask, ...]
         batch_spatial_features = []
@@ -118,9 +120,8 @@ class PointPillarScatterFunction(Function):
 
             batch_mask = coords[:, 0] == batch_idx
             this_coords = coords[batch_mask, :]
-            indices = (
-                this_coords[:, 1] + this_coords[:, 2] * ctx.size_x + this_coords[:, 3]
-            )  # x,y转index z + y*W + x
+            indices = (this_coords[:, 1] + this_coords[:, 2] * ctx.size_x +
+                       this_coords[:, 3])  # x,y转index z + y*W + x
             indices = indices.type(torch.long)
             pillars = pillar_features[batch_mask, :]
             pillars = pillars.t()  # 转置，C,index
@@ -129,8 +130,8 @@ class PointPillarScatterFunction(Function):
 
         batch_spatial_features = torch.stack(batch_spatial_features, 0)
         batch_spatial_features = batch_spatial_features.view(
-            batch_size, ctx.features * ctx.size_z, ctx.size_y, ctx.size_x
-        )  # resize得到n,c,h,w的特征图
+            batch_size, ctx.features * ctx.size_z, ctx.size_y,
+            ctx.size_x)  # resize得到n,c,h,w的特征图
         return batch_spatial_features
 
     @staticmethod
@@ -166,9 +167,10 @@ class PointPillarScatter2(nn.Module):
             batch_dict['voxel_coords'],
             batch_dict['mask'],
         )
-        batch_spatial_features = ppscatter_function(
-            pillar_features, coords, mask, self.nx, self.ny, self.nz, self.num_bev_features
-        )
+        batch_spatial_features = ppscatter_function(pillar_features, coords,
+                                                    mask, self.nx, self.ny,
+                                                    self.nz,
+                                                    self.num_bev_features)
         # [1,64,496,432]
         batch_dict['spatial_features'] = batch_spatial_features
         return batch_dict

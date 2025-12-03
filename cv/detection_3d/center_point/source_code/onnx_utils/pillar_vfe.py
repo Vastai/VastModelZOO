@@ -6,7 +6,11 @@ from .vfe_template import VFETemplate
 
 
 class PFNLayer(nn.Module):
-    def __init__(self, in_channels, out_channels, use_norm=True, last_layer=False):
+    def __init__(self,
+                 in_channels,
+                 out_channels,
+                 use_norm=True,
+                 last_layer=False):
         super().__init__()
 
         self.last_vfe = last_layer
@@ -27,14 +31,16 @@ class PFNLayer(nn.Module):
             # nn.Linear performs randomly when batch size is too large
             num_parts = inputs.shape[0] // self.part
             part_linear_out = [
-                self.linear(inputs[num_part * self.part : (num_part + 1) * self.part])
+                self.linear(inputs[num_part * self.part:(num_part + 1) *
+                                   self.part])
                 for num_part in range(num_parts + 1)
             ]
             x = torch.cat(part_linear_out, dim=0)
         else:
             x = self.linear(inputs)
         torch.backends.cudnn.enabled = False
-        x = self.norm(x.permute(0, 2, 1)).permute(0, 2, 1) if self.use_norm else x
+        x = self.norm(x.permute(0, 2, 1)).permute(0, 2,
+                                                  1) if self.use_norm else x
         torch.backends.cudnn.enabled = True
         x = F.relu(x)
         ## save features for debug
@@ -51,7 +57,8 @@ class PFNLayer(nn.Module):
 
 
 class PillarVFE(VFETemplate):
-    def __init__(self, model_cfg, num_point_features, voxel_size, point_cloud_range, **kwargs):
+    def __init__(self, model_cfg, num_point_features, voxel_size,
+                 point_cloud_range, **kwargs):
         super().__init__(model_cfg=model_cfg)
 
         self.use_norm = self.model_cfg.USE_NORM
@@ -70,10 +77,10 @@ class PillarVFE(VFETemplate):
             in_filters = num_filters[i]
             out_filters = num_filters[i + 1]
             pfn_layers.append(
-                PFNLayer(
-                    in_filters, out_filters, self.use_norm, last_layer=(i >= len(num_filters) - 2)
-                )
-            )
+                PFNLayer(in_filters,
+                         out_filters,
+                         self.use_norm,
+                         last_layer=(i >= len(num_filters) - 2)))
         self.pfn_layers = nn.ModuleList(pfn_layers)
 
         self.voxel_x = voxel_size[0]
@@ -90,9 +97,9 @@ class PillarVFE(VFETemplate):
         actual_num = torch.unsqueeze(actual_num, axis + 1)
         max_num_shape = [1] * len(actual_num.shape)
         max_num_shape[axis + 1] = -1
-        max_num = torch.arange(max_num, dtype=torch.int, device=actual_num.device).view(
-            max_num_shape
-        )
+        max_num = torch.arange(max_num,
+                               dtype=torch.int,
+                               device=actual_num.device).view(max_num_shape)
         paddings_indicator = actual_num.int() > max_num
         return paddings_indicator
 
@@ -133,7 +140,7 @@ class PillarVFE(VFETemplate):
     #     mask = self.get_paddings_indicator(voxel_num_points, voxel_count, axis=0)
     #     mask = torch.unsqueeze(mask, -1).type_as(voxel_features)
     #     features *= mask
-        
+
     #     # # save features for debug
     #     # import os
     #     # import numpy as np
@@ -141,22 +148,22 @@ class PillarVFE(VFETemplate):
     #     # tmp = features.cpu().numpy().transpose(2, 1, 0).astype(np.float32)
     #     # tmp = np.expand_dims(tmp, axis=0)
     #     # features_out[:,:,:,:6445] = tmp
-        
+
     #     # coords_out = np.zeros((3, 32000)).astype(np.int16)
     #     # # selected_indices = [0, 2, 3]
     #     # selected_indices = [3, 2, 1]
     #     # array = coords.cpu().numpy().transpose(1, 0).astype(np.int16)
     #     # new_array = array[selected_indices, :]
     #     # coords_out[:, :6445] = new_array
-        
+
     #     # mask = np.zeros(32000)
     #     # mask[:6445] = 1
     #     # mask = mask.astype(np.int8)
-        
+
     #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/features.npy", tmp.astype("float16"))
     #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/coords.npy", new_array)
     #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/mask.npy", mask[:6445].reshape(1,6445))
-        
+
     #     # np.savez(
     #     #     './jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/data.npz',
     #     #     **{
@@ -165,18 +172,17 @@ class PillarVFE(VFETemplate):
     #     #         "mask": mask,
     #     #     }
     #     # )
-        
-        
+
     #     for pfn in self.pfn_layers:
     #         features = pfn(features)
     #     features = features.squeeze()
     #     batch_dict['pillar_features'] = features
-        
+
     #     ## save features for debug
     #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/pillar_features.npy", features.cpu().numpy())
-        
+
     #     return batch_dict
-    
+
     # export onnx
     def forward(self, features, **kwargs):
         for pfn in self.pfn_layers:
@@ -188,7 +194,8 @@ class PillarVFE(VFETemplate):
 
 # NOTE(lance)
 class PillarVFE2(VFETemplate):
-    def __init__(self, model_cfg, num_point_features, voxel_size, point_cloud_range, **kwargs):
+    def __init__(self, model_cfg, num_point_features, voxel_size,
+                 point_cloud_range, **kwargs):
         super().__init__(model_cfg=model_cfg)
 
         self.use_norm = self.model_cfg.USE_NORM
@@ -207,10 +214,10 @@ class PillarVFE2(VFETemplate):
             in_filters = num_filters[i]
             out_filters = num_filters[i + 1]
             pfn_layers.append(
-                PFNLayer(
-                    in_filters, out_filters, self.use_norm, last_layer=(i >= len(num_filters) - 2)
-                )
-            )
+                PFNLayer(in_filters,
+                         out_filters,
+                         self.use_norm,
+                         last_layer=(i >= len(num_filters) - 2)))
         self.pfn_layers = nn.ModuleList(pfn_layers)
 
         self.voxel_x = voxel_size[0]
@@ -227,12 +234,12 @@ class PillarVFE2(VFETemplate):
         actual_num = torch.unsqueeze(actual_num, axis + 1)
         max_num_shape = [1] * len(actual_num.shape)
         max_num_shape[axis + 1] = -1
-        max_num = torch.arange(max_num, dtype=torch.int, device=actual_num.device).view(
-            max_num_shape
-        )  # 得到体素真实点max
-        paddings_indicator = (
-            actual_num.int() > max_num
-        )  # 得到各个体素中每个像素的mask,若为True则为真实坐标，若为False，则为补齐坐标
+        max_num = torch.arange(max_num,
+                               dtype=torch.int,
+                               device=actual_num.device).view(
+                                   max_num_shape)  # 得到体素真实点max
+        paddings_indicator = (actual_num.int() > max_num
+                              )  # 得到各个体素中每个像素的mask,若为True则为真实坐标，若为False，则为补齐坐标
         return paddings_indicator  # [N,32]
 
     def forward(self, batch_dict, **kwargs):
