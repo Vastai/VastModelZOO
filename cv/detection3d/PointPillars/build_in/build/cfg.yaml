@@ -1,4 +1,4 @@
-name: pointpillar_run_stream_int8
+name: pointpillar_int8
 
 frontend:
   checkpoint: /path/to/pointpillar_openpcdet.onnx

@@ -321,7 +321,7 @@
     - 由于硬件的限制，当前只支持int8量化模型，不支持fp16量化模型
     - [cfg.yaml](../build_in/build/cfg.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - int8精度: 编译参数`backend.dtype: int8`
     
 
@@ -336,12 +336,10 @@
 
 ## step.5 模型推理&评估
 
-> **runstream**形式，注意编译参数backend.type: tvm_vacc
-
-1. 参考[pointpillar_runstream.py](../build_in/vsx/pointpillar_runstream.py)生成推理的txt结果
+1. 参考[pointpillar_infer.py](../build_in/vsx/pointpillar_infer.py)生成推理的txt结果
     ```bash
-    python3  ../build_in/vsx/pointpillar_runstream.py \
-        -m "[/path/to/pointpillar_run_stream_int8/mod]" \
+    python3  ../build_in/vsx/pointpillar_infer.py \
+        -m "[/path/to/pointpillar_int8/mod]" \
         --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
         --max_voxel_num [16000] \
         --voxel_size [0.16,0.16,4] \
@@ -352,7 +350,7 @@
         --normalize_enabled 0 \
         --max_points_num 12000000 \
         --dataset_root  /path/to/fov_pointcloud_float16 \
-        --dataset_output_folder runstream_output
+        --dataset_output_folder infer_output
     ```
     - 注意替换命令行中/path/to为实际路径
 
@@ -379,7 +377,7 @@
     - 使用[evaluation.py](../source_code/eval/evaluation.py)脚本进行精度评估
         - 精度评估命令为：
         ```
-        python ../source_code/eval/evaluation.py --out_dir runstream_output
+        python ../source_code/eval/evaluation.py --out_dir infer_output
         ```
         
 ## step.6 模型推理性能评估
@@ -387,7 +385,7 @@
     - 参考[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最大吞吐
     ```bash
     python3 ../build_in/vsx/pointpillar_prof.py \
-        -m "[/path/to/pointpillar_run_stream_int8/mod]" \
+        -m "[/path/to/pointpillar_int8/mod]" \
         --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
         --max_voxel_num [16000] \
         --max_points_num 12000000 \
@@ -409,7 +407,7 @@
     - 参考[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最小时延
     ```bash
     python3 ../build_in/vsx/pointpillar_prof.py \
-        -m "[/path/to/pointpillar_run_stream_int8/mod]" \
+        -m "[/path/to/pointpillar_int8/mod]" \
         --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
         --max_voxel_num [16000] \
         --max_points_num 12000000 \

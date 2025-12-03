@@ -28,7 +28,7 @@ def argument_parser():
     parser.add_argument(
         "-m",
         "--model_prefixs",
-        default="[/path/to/pointpillar_run_stream_int8/mod]",
+        default="[/path/to/pointpillar_int8/mod]",
         help="model prefix of the model suite files",
     )
     parser.add_argument(

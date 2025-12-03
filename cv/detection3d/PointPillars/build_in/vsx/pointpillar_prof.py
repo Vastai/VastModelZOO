@@ -21,7 +21,7 @@ def argument_parser():
     parser.add_argument(
         "-m",
         "--model_prefixs",
-        default="[/opt/vastai/vaststreamx/data/models/pointpillar-int8-percentile-16000_32_10_3_16000_1_16000-vacc/mod]",
+        default="[/path/to/pointpillar_int8/mod]",
         help="model prefix of the model suite files",
     )
     parser.add_argument(
