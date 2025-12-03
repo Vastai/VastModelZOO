@@ -1,7 +1,11 @@
-"""Open3d visualization tool box Written by Jihan YANG.
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 
-All rights preserved from 2021 - present.
-"""
 import matplotlib
 import numpy as np
 import open3d
