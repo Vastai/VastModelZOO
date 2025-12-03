@@ -355,29 +355,10 @@
     - 注意替换命令行中/path/to为实际路径
 
 2. 精度评估
-    - 按Step.3准备数据步骤，生成calib和label_2文件夹数据，将`calib`文件夹移动到`source_code/eval/evals/kitti`文件夹下，`label_2`移动到`source_code/eval/kitti_eval_system`文件夹下
-        ```bash
-        cd ../source_code/eval/evals/
-        mkdir kitti
-    
-        mv path/calib source_code/eval/evals/kitti
-        mv path/label_2 source_code/eval/kitti_eval_system/label
-        mv path/kitti_infos_val.pkl source_code/eval/evals/kitti
-    
-        #!!!文件路径格式为!!!!：
-        # source_code/eval/evals/kitti
-        # source_code/eval/kitti_eval_system/label
-        ```
-
-    - 该方法的原理是将pointpillar模型的输出结果，通过相机内参等信息，通过各种变换转换成kitti标注txt的形式，然后再计算精度等结果。
-        - kitti的标签文件每行数据代表的意思分别是：类别/截断程度/遮挡等级/物体观察角度/2D边界框坐标(x1,y1,x2,y2)/3D尺寸(h,w,l)/3D位置(x,y,z)/绕相机Y轴的旋转角，总共有15个值
-        - 模型输出结果通过相机内参信息转换后，生成的txt文件内容中除了上述15个值之外，后面会有一个confidence的值，总共16个值
-    - 该方法需要保证**每个点云文件都有对应的相机内参信息**时才能使用。
-        - kitti数据集中，每个点云文件对应的相机内参信息在kitti的calib文件夹中，每个点云文件对应一个calib文件，文件名与点云文件名相同
-    - 使用[evaluation.py](../source_code/eval/evaluation.py)脚本进行精度评估
+    - 使用[evaluation.py](../../common/kitti_eval/eval/evaluation.py)脚本进行精度评估
         - 精度评估命令为：
         ```
-        python ../source_code/eval/evaluation.py --out_dir infer_output
+        python ../../common/kitti_eval/eval/evaluation.py --out_dir infer_output
         ```
         
 ## step.6 模型推理性能评估
