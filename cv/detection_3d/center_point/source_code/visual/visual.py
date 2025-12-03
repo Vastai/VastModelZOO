@@ -1,5 +1,12 @@
-import argparse
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 
+import argparse
 import numpy as np
 import open3d
 import open3d_vis_utils as V

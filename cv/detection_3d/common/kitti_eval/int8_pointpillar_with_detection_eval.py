@@ -1,4 +1,11 @@
-# encoding=utf-8
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 '''
 Author: zhouying.han zhouying.han@vastaitech.com
 Date: 2023-01-07 14:02:40

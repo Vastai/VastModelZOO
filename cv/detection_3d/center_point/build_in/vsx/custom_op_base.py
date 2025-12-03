@@ -1,5 +1,12 @@
-import vaststreamx as vsx
+# ==============================================================================
+#
+# Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
+#
+# ==============================================================================
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 
+import vaststreamx as vsx
 
 class CustomOpBase:
     def __init__(self, op_name, elf_file, device_id):
