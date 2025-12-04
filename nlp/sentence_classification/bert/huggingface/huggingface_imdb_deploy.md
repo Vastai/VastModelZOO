@@ -1,10 +1,6 @@
 ### step.1 获取模型
-- 首先下载 huggingface 官网下载模型，下载路径：https://huggingface.co/textattack/bert-base-uncased-imdb
-  
-    ```bash
-    cd /path/to/weights
-    git clone https://huggingface.co/textattack/bert-base-uncased-imdb
-    ```  
+- 首先下载 huggingface 官网下载模型：https://huggingface.co/textattack/bert-base-uncased-imdb
+
 - 将 pt 格式模型转换为 torchscript 格式模型， 可参考：[pt2torchscript](./source_code/pretrain_model/README.md)
 
  
@@ -28,10 +24,7 @@
 
 2. 模型编译
     ```bash
-    cd bert
-    mkdir workspace
-    cd workspace
-    vamc build ../build_in/build/bert_imdb.yaml
+    vamc compile ../build_in/build/bert_imdb.yaml
     ```
   
     > 注意：当前配置文件是基于 compiler v1.5 版本的，具体参数配置请用户根据系统、环境版本自行修改
@@ -69,7 +62,7 @@
     cd ../../common/vsx/python/
     python vsx_sc.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/bert_base_128/bert_base_128 \
+        --model_prefix_path ./build_deploy/bert/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./result/dev408
@@ -81,7 +74,7 @@
 
    基于[imdb_eval.py](../../common/eval/imdb_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../../common/eval/imdb_eval.py --labels_path label.txt --result_dir ./result/imdb_128
+   python ../../common/eval/imdb_eval.py --labels_path label.txt --result_dir ./result/dev408
    ```
 
 ### step.5 性能精度测试
