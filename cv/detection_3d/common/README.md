@@ -15,7 +15,7 @@
   > 其中彩色图像数据、点云数据、相机矫正数据均包含training（7481）和testing（7518）两个部分，标签数据只在training数据中。
 
   ```bash
-  mv data*.zip ../OpenPCDet/data/kitti/ && cd ../OpenPCDet/data/kitti/
+  mv data*.zip /path/to/OpenPCDet/data/kitti/ && cd /path/to/OpenPCDet/data/kitti/
   unzip xxx.zip
   ```
 
@@ -35,19 +35,17 @@
 2. 下载数据划分文件
 
    ```bash
-   mkdir ./data/kitti/ && mkdir ./data/kitti/ImageSets
-
    # 下载数据划分文件
    # val.txt/test.txt/train.txt 原仓库已存在
    # https://github.com/open-mmlab/OpenPCDet/tree/master/data/kitti/ImageSets
-
+   cd /path/to/OpenPCDet
    wget -c  https://raw.githubusercontent.com/traveller59/second.pytorch/master/second/data/ImageSets/trainval.txt --no-check-certificate --content-disposition -O ./data/kitti/ImageSets/trainval.txt
    ```
 
 3. 划分数据集
 
    ```bash
-   cd OpenPCDet
+   cd /path/to/OpenPCDet
    python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
    ```
 
@@ -65,19 +63,38 @@
    │   │   │── kitti_infos_trainval.pkl
    │   │   │── kitti_infos_val.pkl
    ```
+4. 数据预处理主要是从原始数据中提取并处理视野(Field of View, FOV)内的点云数据。参考[get_fov_data.py](./kitti_eval/get_fov_data.py)
 
-4. 相关代码：[kitti_eval](./kitti_eval)
+   ```bash
+   cd ./kitti_eval/
+   python get_fov_data.py \
+   --dataset_yaml /path/to/OpenPCDet/tools/cfgs/dataset_configs/kitti_dataset.yaml \
+   --data_path /path/to/OpenPCDet/data/kitti
+   ```
+
+   ```bash
+   #主要生成了val文件
+   OpenPCDet
+   ├── data
+   │   ├── kitti
+   │   │   │── val
+   │   │   │   ├── calib & label_2
+   │   │   │   ├── fov_pointcloud_float32
+   │   │   │   ├── fov_pointcloud_float16
+   ```
+
+5. 相关代码：[kitti_eval](./kitti_eval)
 
 
-5. 精度测评
-- 按前文准备数据步骤，移动training文件夹下生成calib和label_2文件夹数据
+6. 精度测评
+- 按前文准备数据步骤，移动val文件夹下生成calib和label_2文件夹数据
     > 将`calib`文件夹移动到`./kitti_eval/evals`文件夹下，`label_2`移动到`./kitti_eval/kitti_eval_system`文件夹下
 
     ```bash
     cd ./kitti_eval
 
-    ln -s  /path/to/OpenPCDet/data/kitti/training/calib evals/kitti
-    ln -s  /path/to/OpenPCDet/data/kitti/training/label_2 kitti_eval_system/label
+    ln -s  /path/to/OpenPCDet/data/kitti/val/calib evals/kitti
+    ln -s  /path/to/OpenPCDet/data/kitti/val/label_2 kitti_eval_system/label
     ln -s  /path/to/OpenPCDet/data/kitti/kitti_infos_val.pkl evals/kitti
     ```
 

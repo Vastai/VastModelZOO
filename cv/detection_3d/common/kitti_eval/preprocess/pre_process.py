@@ -8,7 +8,7 @@
 
 import glob
 import os
-
+import argparse
 import numpy as np
 
 tv = None
@@ -170,10 +170,14 @@ def point2voxel(points,
 
     return out_features, out_coords, out_mask
 
+parser = argparse.ArgumentParser(description="generate qdata")
+parser.add_argument("--kitti_data", type=str, default = "/path/to/fov_pointcloud_float32", help = "points file dir")
+parser.add_argument("--save_path", type=str, default = "/path/to/fov_pointcloud_float32_npz", help="save file dir")
+args = parser.parse_args()
 
 if __name__ == '__main__':
-    quant_data_path = "./projects/adas/OpenPCDet/data/kitti/val/fov_pointcloud_float32"
-    save_path = "./projects/adas/OpenPCDet/data/kitti/val/fov_pointcloud_float32_npz"
+    quant_data_path = args.kitti_data
+    save_path = args.save_path
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
