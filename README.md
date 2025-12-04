@@ -138,6 +138,12 @@
 |   [Yolox](./cv/detection/yolox/README.md)    | [official](https://github.com/Megvii-BaseDetection/YOLOX) |   <details> <summary>model name</summary><ul><li align="left">yolox_s</li><li align="left">yolox_m</li><li align="left">yolox_l</li><li align="left">yolox_x</li><li align="left">yolox_darknet</li><li align="left">yolox_tiny</li><li align="left">yolox_nano</li></ul></details>   |   object detection   |   Build_In   |
 |   [Yolox](./cv/detection/yolox/README.md)    |    [mmyolo](https://github.com/open-mmlab/mmyolo/blob/main/configs/yolox/README.md)     |    <details> <summary>model name</summary><ul><li align="left">yolox_s</li><li align="left">yolox_tiny</li></ul></details>    |   object detection   | Build_In |
 
+- detection3d
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   | 
+
 
 - segmentation
 
