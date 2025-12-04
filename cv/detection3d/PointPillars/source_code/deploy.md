@@ -174,7 +174,7 @@
                     mask,
                     size_x,size_y,size_z,
                     size_features)
-    register_custom_op_symbolic("vacc::PointPillarScatterFunction", symbolic,11)
+    register_custom_op_symbolic("vacc::PointPillarScatterFunction", symbolic, 1)
    ```
 
 4. 修改模型返回值，PointPillar共有5个子模块，其中前4个为网络BackBone相关，因此只需要计算前4个即可
@@ -221,7 +221,7 @@
     ckpt下载[pointpillar_7728.pth](https://drive.google.com/file/d/1wMxWTpU1qUoY3DsCH31WJmvJxcjFXKlm/view)
 
    ```bash
-    mv ./onnx_utils/export.py  ../OpenPCDet/tools/ && cd ../OpenPCDet/tools/
+    mv ./onnx_utils/export.py  /path/to/OpenPCDet/tools/ && cd /path/to/OpenPCDet/tools/
     python export.py --cfg_file ./cfgs/kitti_models/pointpillar.yaml  --ckpt /path/to/pointpillar_7728.pth
    ```
 
@@ -239,7 +239,7 @@
    其中彩色图像数据、点云数据、相机矫正数据均包含training（7481）和testing（7518）两个部分，标签数据只有training数据。
 
    ```bash
-   mv data*.zip ../OpenPCDet/data/kitti/ && cd ../OpenPCDet/data/kitti/
+   mv data*.zip /path/to/OpenPCDet/data/kitti/ && cd /path/to/OpenPCDet/data/kitti/
    unzip xxx.zip
    ```
 
@@ -259,19 +259,17 @@
 2. 下载数据划分文件
 
    ```bash
-   mkdir ./data/kitti/ && mkdir ./data/kitti/ImageSets
-
    # 下载数据划分文件
    # val.txt/test.txt/train.txt 原仓库已存在
    # https://github.com/open-mmlab/OpenPCDet/tree/master/data/kitti/ImageSets
-
+   cd /path/to/OpenPCDet
    wget -c  https://raw.githubusercontent.com/traveller59/second.pytorch/master/second/data/ImageSets/trainval.txt --no-check-certificate --content-disposition -O ./data/kitti/ImageSets/trainval.txt
    ```
 
 3. 划分数据集
 
    ```bash
-   cd OpenPCDet
+   cd /path/to/OpenPCDet
    python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
    ```
    ```bash
@@ -289,20 +287,30 @@
    │   │   │── kitti_infos_val.pkl
    ```
 
-4. 在kitty数据集官方benchmark数据结果的跑测中，是只用了前向数据的。在OpenPCDet官方工程中对Kitty数据的filter处理在 `pcdet/datasets/kitti_dataset.py`
+4. 在kitty数据集官方benchmark数据结果的跑测中，是只用了前向数据的。在OpenPCDet官方工程中对Kitty数据的filter处理在 `pcdet/datasets/kitti_dataset.py`。本次数据预处理主要是从原始数据中提取并处理视野(Field of View, FOV)内的点云数据。参考[get_fov_data.py](../../common/kitti_eval/get_fov_data.py)
 
    ```bash
-   cd ./preprocess
+   cd ../../common/kitti_eval/
    python get_fov_data.py \
    --dataset_yaml /path/to/OpenPCDet/tools/cfgs/dataset_configs/kitti_dataset.yaml \
    --data_path /path/to/OpenPCDet/data/kitti
    ```
+   ```bash
+   #主要生成了val文件
+   OpenPCDet
+   ├── data
+   │   ├── kitti
+   │   │   │── val
+   │   │   │   ├── calib & label_2
+   │   │   │   ├── fov_pointcloud_float32
+   │   │   │   ├── fov_pointcloud_float16
+   ```
 
 5. 校准数据集数据处理
-   将点云数据体素化并保存为 `npz`文件
+   将点云数据体素化并保存为 `npz`文件,参考[pre_process.py](../../common/kitti_eval/pre_process.py)
 
    ```bash
-   cd ./preprocess
+   cd ../../common/kitti_eval/
    python pre_process.py \
    --kitti_data /path/to/fov_pointcloud_float32 \
    --save_path /path/to/fov_pointcloud_float32_npz 

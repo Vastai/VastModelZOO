@@ -32,7 +32,7 @@ def symbolic(g, pillar_features,
                 mask,
                 size_x,size_y,size_z,
                 size_features)
-register_custom_op_symbolic("vacc::PointPillarScatterFunction", symbolic,11)
+register_custom_op_symbolic("vacc::PointPillarScatterFunction", symbolic, 1)
 
 class DemoDataset(DatasetTemplate):
     def __init__(self, dataset_cfg, class_names, training=True, root_path=None, logger=None, ext='.bin'):
@@ -134,7 +134,7 @@ def main():
         dummy_input['batch_size'] = 1
 
         torch.onnx.export(model,       # model being run
-            dummy_input,               # model input (or a tuple for multiple inputs)
+            {"batch_dict": dummy_input},  # model input (or a tuple for multiple inputs)
             "./pointpillar_openpcdet.onnx",  # where to save the model (can be a file or file-like object)
             export_params=True,        # store the trained parameter weights inside the model file
             opset_version=9,          # the ONNX version to export the model to
