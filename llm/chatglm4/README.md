@@ -22,13 +22,15 @@
 
 1. 参考`Support Models`列表下载模型权重
 2. 网络修改
-- 为了部署chatglm4模型，modeling_chatglm.py需要适当修改，修改后[modeling_chatglm4_vacc.py](./build_in/source_code/modeling_chatglm4_vacc.py)
+- 为了部署chatglm4模型，modeling_chatglm.py需要适当修改，修改后：[modeling_chatglm4_vacc.py](./build_in/source_code/modeling_chatglm4_vacc.py)
   - 1. CoreAttention，适应tp切分调整size
   ![](../../images/chatglm/Snipaste_2024-09-06_16-51-26.png)
   - 2. CoreAttention，使用手动实现scaled_dot_product_attention
   ![](../../images/chatglm/Snipaste_2024-09-06_16-50-13.png)
   ![](../../images/chatglm/Snipaste_2024-09-06_16-50-43.png)
 
+- 参考[source_code](./build_in/source_code)内文件，复制到原始权重目录
+    - 注意`config_vacc.json`文件内的`"auto_map"`字段，其它参数和原始`config.json`一致
 
 ### step.2 数据集
 

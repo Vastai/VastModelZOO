@@ -79,6 +79,9 @@
 
   ![](../../images/llm/chatglm/gen_add_quant.png)
 
+- 参考[source_code](./build_in/source_code)内文件，复制到原始权重目录
+    - 注意`config_vacc.json`文件内的`"auto_map"`字段，其它参数和原始`config.json`一致
+
 
 ### step.2 数据集
 
