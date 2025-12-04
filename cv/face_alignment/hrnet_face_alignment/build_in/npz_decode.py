@@ -224,7 +224,7 @@ def main(args):
     # failure_rate_008: 0.0824
     # failure_rate_010: 0.0324
 
-    # runmodel
+    # vacc
     # nme: 0.0498
     # failure_rate_008: 0.1044
     # failure_rate_010: 0.0452

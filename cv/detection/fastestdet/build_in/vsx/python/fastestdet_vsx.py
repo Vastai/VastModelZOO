@@ -38,7 +38,7 @@ def read_activation_value(file):
 parse = argparse.ArgumentParser(description="RUN Det WITH VSX")
 parse.add_argument("--file_path",type=str,default="/path/to/data/det_coco_val/",help="img or dir  path",)
 parse.add_argument("--model_prefix_path", type=str,default="./deploy_weights/official_fastestdet_run_stream_fp16/mod", help="model info")
-parse.add_argument("--vdsp_params_info",type=str,default="../vacc_code/params_info/official-fastestdet-vdsp_params.json",help="vdsp op info",)
+parse.add_argument("--vdsp_params_info",type=str,default="../build_in/params_info/official-fastestdet-vdsp_params.json",help="vdsp op info",)
 parse.add_argument("--label_txt", type=str, default="/path/to/coco.txt", help="label txt")
 parse.add_argument("--device_id", type=int, default=0, help="device id")
 parse.add_argument("--batch", type=int, default=1, help="bacth size")

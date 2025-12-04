@@ -18,7 +18,6 @@ python ../../common/utils/export_timm_torchvision_model.py \
 1. 根据具体模型，修改编译配置
     - [torchvision_resnext.yaml](../build_in/build/torchvision_resnext.yaml)
     
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子

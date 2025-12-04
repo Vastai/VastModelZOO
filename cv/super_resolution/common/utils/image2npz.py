@@ -19,7 +19,7 @@ def make_npz_text(args):
     os.makedirs(args.target_path, exist_ok=True)
 
     with open(args.text_path, 'w') as f:
-        files_list = glob.glob(args.dataset_path + "/*.png")
+        files_list = glob.glob(args.dataset_path + "/*.png") # you can change to jpg/jpeg
         files_list.sort()
         
         for img_file in tqdm(files_list):

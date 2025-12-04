@@ -214,7 +214,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--vdsp_params",
-        default="../vacc_code/vdsp_params/facebook-detr-vdsp_params.json",
+        default="../build_in/vdsp_params/facebook-detr-vdsp_params.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(

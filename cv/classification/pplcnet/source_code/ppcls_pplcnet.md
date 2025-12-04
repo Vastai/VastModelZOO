@@ -52,7 +52,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmodel_output/result.txt
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
     ```
 
     ```

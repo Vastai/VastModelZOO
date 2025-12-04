@@ -174,7 +174,7 @@ def parser_args():
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="../vacc_code/vdsp_params/pytorch-hrnetv2-vdsp_params.json",
+        default="../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--npz_datalist", type = str, default = "./npz_datalist.txt", help = "npz dir path")
@@ -207,7 +207,7 @@ if __name__ == '__main__':
         landmarks = result[0]
         out = {"output_0": landmarks}
         image_name = os.path.basename(file).split('.')[0]
-        # 需要从npz_filt_list中去取文件名才能和runmodel对齐
+        # 需要从npz_filt_list中去取文件名才能对齐
         # 多的图片不做写入
         for npz_file in npz_filt_list:
             if image_name in npz_file:
