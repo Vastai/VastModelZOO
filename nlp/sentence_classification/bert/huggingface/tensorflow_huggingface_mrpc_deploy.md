@@ -87,7 +87,7 @@
 2. 执行测试：
     ```bash
    vamp -m deploy_weights/bert_base_mrpc-int8-max-mutil_input-vacc/bert_base_mrpc \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \

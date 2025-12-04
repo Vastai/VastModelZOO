@@ -150,7 +150,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 2. 执行性能测试
     ```bash
    vamp -m deploy_weights/roberta_base_mrpc-int8-max-mutil_input-vacc/roberta_base_mrpc \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
