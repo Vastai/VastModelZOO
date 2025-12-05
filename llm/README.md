@@ -17,7 +17,7 @@
     - 添加文档中描述的`xxx_modeling_xxx.py`等相关文件至模型文件夹内
 
 - 模型编译序列长度**必须为16的倍数**
-- 编译70b时需要添加`环境变量`, `export VACC_STACK_SIZE=256`
+- 编译32b以上模型时需要添加环境变量, `export VACC_STACK_SIZE=256`
 - 模型编译yaml表`frontend-model_kwargs`参数`b2s: true`开启可提升模型吞吐，建议性能测试中：
     - 测吞吐开启
     - 测时延关闭
