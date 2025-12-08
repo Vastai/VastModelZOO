@@ -8,19 +8,6 @@
 
 部署 DeepSeek-V3/V3.1 系列模型进行推理需要 1 台 VA16（8*128G）服务器。
 
-# 版本信息
-
-# 版本配套说明
-
-
-| 组件 |  版本|
-| --- | --- |
-| Driver | V3.3.0|
-| torch | 2.7.0+cpu|
-| vllm | 0.9.2+cpu|
-| vllm_vacc |AI3.1.1_GR_1031 (Preview Version)|
-
-
 
 ## 支持的模型
 
@@ -48,8 +35,6 @@ pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple
 export PATH=$PATH:~/.local/bin
 ```
 
-
-
 2. 根据实际情况选择对应的模型下载。
 
 其中，“`$Path`”为模型保存路径，“`$Model_Name`”为模型名称，如下所示，请根据实际情况替换。
@@ -75,30 +60,20 @@ export PATH=$PATH:~/.local/bin
 下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
 
 
-
 ```shell
 modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Name
 ```
-
-
-
-
 
 
 ## 注意事项
 
 在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
 
-- 模型最大上下文长度为 64K，输入最大长度为 56K，如果开启 MTP 输入最大长度为48K.	
+- 模型最大上下文长度为 128K，输入最大长度为 100K，如果开启 MTP，模型最大上下文长度为 64K，输入最大长度为48K.	
 
 - 同时支持最大并发数为 4。
 
 - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理。 
-
-
-
-
-
 
 
 # 环境安装
@@ -109,16 +84,19 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 ```bash
 docker run \
     --privileged=true --shm-size=256g \
+    --name vllm_service \
     -v /path/to/model:/weights/ \
     -p 8000:8000 \
     --ipc=host \
-    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1.1_GR_1031 \
-    vllm serve /weights/DeepSeek-V3-0324 \
+    -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
+    -e FUSE_ALL_DECODER_LAYERS="0" \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.2_GR_1202 \
+    vllm serve /weights/DeepSeek-V3.1-Terminus \
     --trust-remote-code \
     --tensor-parallel-size 32 \
-    --max-model-len 65536 \
+    --pipeline-parallel-size 2 \
+    --max-model-len 131072 \
     --enforce-eager \
-    --speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
     --host 0.0.0.0 \
     --port 8000 \
     --served-model-name DeepSeek-V3
@@ -126,7 +104,13 @@ docker run \
 
 参数说明如下所示。
 
+- `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对100k输入时，需要设置该参数。
+
+- `FUSE_ALL_DECODER_LAYERS="0"`禁用融合优化环境变量设置，仅针对100k输入时，需要设置该参数。
+
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek-V3/V3.1 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
+
+- `--pipeline-parallel-size`：流水线并行数，仅测试100k输入时，需要设置该参数"--pipeline-parallel-size 2"。
 
 - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
@@ -134,9 +118,10 @@ docker run \
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度。最大支持64k上下文。
+- `--max-model-len`：模型最大上下文长度。最大支持128K，若开启 MTP，模型最大上下文长度为 64K。
 
-- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek-V3/V3.1 系列模型生效
+- `--speculative-config` : 是否开启MTP模式，只对 DeepSeek-V3/V3.1 系列模型生效，若开启MTP，则设置参数：--speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
+。100k输入不支持MTP模式。
 
 # 测试模型性能
 
@@ -144,10 +129,10 @@ docker run \
 
 ## vLLM 自带框架测试模型性能
 
-通过 vLLM 自带框架进行模型测试的指令如下所示，所在路径为容器（启动 vLLM 服务的容器）内的“/test/benchmark”目录下。
+通过 vLLM 自带框架进行模型测试的指令如下所示。
 
 ```shell
-python3 benchmark_serving.py \
+vllm bench serve \
     --host <IP> \
     --port <Port> \
     --model <model_path> \
@@ -162,7 +147,6 @@ python3 benchmark_serving.py \
     --result-dir <result> \
     --result-filename <result_name>
 ```
-
 
 其中，参数说明如下所示。
 
@@ -198,19 +182,19 @@ python3 benchmark_serving.py \
 
 **步骤 1.** 启动  vLLM 服务。
 
-**步骤 2.** 测试DeepSeek-V3-0324模型性能。
+**步骤 2.** 测试DeepSeek-V3.1-Terminus模型性能。
 
 ```shell
 docker exec -it  vllm_service bash
 cd /test/benchmark
 mkdir benchmark_result
 export OPENAI_API_KEY="token-abc123"
-python3 benchmark_serving.py \
+vllm bench serve \
     --host <IP> \
     --port 8000 \
-    --model /weights/DeepSeek-V3-0324 \
+    --model /weights/DeepSeek-V3.1-Terminus \
     --dataset-name random \
-    --num-prompts 5 \
+    --num-prompts 3 \
     --random-input-len 128 \
     --ignore-eos \
     --random-output-len 1024 \
@@ -223,25 +207,19 @@ python3 benchmark_serving.py \
 其中，“vllm_service”为vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；“host”为本机ip地址。
 
 
-
-
-本次测试使用“/test/benchmark/benchmark.sh”进行批量测试。
-
-
-
 ## 性能结果指标说明
 
-- Maximum req： 最大并发数。
+- Maximum request concurrency： 最大并发数。
 
-- Duration：请求测试耗时。
+- Benchmark duration：请求测试耗时。
 
-- Successful req：请求总数。
+- Successful requests：请求总数。
 
-- input tokens：输入Token数量。
+- Total input tokens：输入Token数量。
 
-- generated tokens：输出Token数量。
+- Total generated tokens：输出Token数量。
 
-- Req throughput：每秒处理的请求数。
+- Request throughput：每秒处理的请求数。
 
 - Output token throughput：每秒输出Token数量。
 
@@ -251,14 +229,10 @@ python3 benchmark_serving.py \
 
 - Mean TPOT：模型生成每个输出 Token 所需的平均时间。
 
-- Decode Token throughput：Decode阶段每秒输出Token数量。
-
-- Per-req Decoding token throughput：Decode阶段平均每个用户每秒输出Token数量。
-
+- Mean ITL: token间延迟。
 
 
 # 测试模型精度
-
 
 模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 进行评估。EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
 
@@ -314,8 +288,6 @@ python3 benchmark_serving.py \
 Open WebUI通过容器启动，本节以 DeepSeek-V3-0324 模型为例进行说明如何访问 Open WebUI。
 
 
-
-
 **操作步骤**
 
 **步骤 1.** 启动 vLLM 服务。
@@ -349,8 +321,6 @@ docker run -d \
 Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:18080)访问  Open WebUI。
 
 其中，“HostIP” 为 Open WebUI 服务所在IP地址。
-
-
 
 
 **步骤 4.** 访问 Open WebUI 页面，并根据界面提示注册账号并登录。
