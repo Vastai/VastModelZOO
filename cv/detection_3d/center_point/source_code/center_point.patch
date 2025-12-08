@@ -1,0 +1,1230 @@
+diff --git a/pcdet/datasets/custom/custom_dataset.py b/pcdet/datasets/custom/custom_dataset.py
+index 3715210..acedc84 100644
+--- a/pcdet/datasets/custom/custom_dataset.py
++++ b/pcdet/datasets/custom/custom_dataset.py
+@@ -1,6 +1,6 @@
+ import copy
+-import pickle
+ import os
++import pickle
+
+ import numpy as np
+
+@@ -20,63 +20,99 @@ class CustomDataset(DatasetTemplate):
+             logger:
+         """
+         super().__init__(
+-            dataset_cfg=dataset_cfg, class_names=class_names, training=training, root_path=root_path, logger=logger
++            dataset_cfg=dataset_cfg,
++            class_names=class_names,
++            training=training,
++            root_path=root_path,
++            logger=logger,
+         )
+         self.split = self.dataset_cfg.DATA_SPLIT[self.mode]
+
+-        split_dir = os.path.join(self.root_path, 'ImageSets', (self.split + '.txt'))
+-        self.sample_id_list = [x.strip() for x in open(split_dir).readlines()] if os.path.exists(split_dir) else None
++        split_dir = os.path.join(self.root_path, "ImageSets", (self.split + ".txt"))
++        self.sample_id_list = (
++            [x.strip() for x in open(split_dir).readlines()] if os.path.exists(split_dir) else None
++        )
+
+         self.custom_infos = []
+         self.include_data(self.mode)
+         self.map_class_to_kitti = self.dataset_cfg.MAP_CLASS_TO_KITTI
+
+     def include_data(self, mode):
+-        self.logger.info('Loading Custom dataset.')
++        self.logger.info("Loading Custom dataset.")
+         custom_infos = []
+
+         for info_path in self.dataset_cfg.INFO_PATH[mode]:
+-            info_path = self.root_path / info_path
+-            if not info_path.exists():
++
++            # xjg
++            info_path = os.path.join(self.root_path, info_path)
++            if not os.path.exists(info_path):
++            # info_path = self.root_path / info_path
++            # if not info_path.exists():
+                 continue
+-            with open(info_path, 'rb') as f:
++            with open(info_path, "rb") as f:
+                 infos = pickle.load(f)
+                 custom_infos.extend(infos)
+
+         self.custom_infos.extend(custom_infos)
+-        self.logger.info('Total samples for CUSTOM dataset: %d' % (len(custom_infos)))
++        self.logger.info("Total samples for CUSTOM dataset: %d" % (len(custom_infos)))
+
+     def get_label(self, idx):
+-        label_file = self.root_path / 'labels' / ('%s.txt' % idx)
++        label_file = self.root_path / "labels" / ("%s.txt" % idx)
+         assert label_file.exists()
+-        with open(label_file, 'r') as f:
++        with open(label_file, "r") as f:
+             lines = f.readlines()
+
+         # [N, 8]: (x y z dx dy dz heading_angle category_id)
+         gt_boxes = []
+         gt_names = []
+         for line in lines:
+-            line_list = line.strip().split(' ')
+-            gt_boxes.append(line_list[:-1])
+-            gt_names.append(line_list[-1])
++            # NOTE(lance) -> robosense: [N, 11] like kitti, need slice -> (category_id x y z dx dy dz heading_angle)
++            line_list = line.strip().split(" ")
++            new_line = [
++                line_list[0],
++                line_list[7],
++                line_list[8],
++                line_list[9],
++                line_list[6],
++                line_list[5],
++                line_list[4],
++                line_list[-1],
++            ]
++            gt_boxes.append(new_line[1:])
++            gt_names.append(new_line[0])
+
+         return np.array(gt_boxes, dtype=np.float32), np.array(gt_names)
+-
++
+     def get_lidar(self, idx):
+-        lidar_file = self.root_path / 'points' / ('%s.npy' % idx)
+-        assert lidar_file.exists()
+-        point_features = np.load(lidar_file)
++        # lidar_file = self.root_path / "points" / ("%s.bin" % idx)
++        # assert lidar_file.exists()
++        lidar_file = os.path.join(self.root_path , "points" , ("%s.bin" % idx))
++        # print(f'lidar_file:{lidar_file}')
++        assert os.path.exists(lidar_file)
++
++        # Load point features from file
++        point_features = np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)
++        # Check if intensity normalization is required
++        intensity = point_features[:, -1]
++        if intensity.max() > 1.0 or intensity.min() < 0.0:
++            # Normalize intensity to the range [0, 1]
++            point_features[:, -1] = (intensity - intensity.min()) / (intensity.max() - intensity.min())
+         return point_features
+-
++
+     def set_split(self, split):
+         super().__init__(
+-            dataset_cfg=self.dataset_cfg, class_names=self.class_names, training=self.training,
+-            root_path=self.root_path, logger=self.logger
++            dataset_cfg=self.dataset_cfg,
++            class_names=self.class_names,
++            training=self.training,
++            root_path=self.root_path,
++            logger=self.logger,
+         )
+         self.split = split
+
+-        split_dir = self.root_path / 'ImageSets' / (self.split + '.txt')
+-        self.sample_id_list = [x.strip() for x in open(split_dir).readlines()] if split_dir.exists() else None
++        split_dir = self.root_path / "ImageSets" / (self.split + ".txt")
++        self.sample_id_list = (
++            [x.strip() for x in open(split_dir).readlines()] if split_dir.exists() else None
++        )
+
+     def __len__(self):
+         if self._merge_all_iters_to_one_epoch:
+@@ -89,39 +125,37 @@ class CustomDataset(DatasetTemplate):
+             index = index % len(self.custom_infos)
+
+         info = copy.deepcopy(self.custom_infos[index])
+-        sample_idx = info['point_cloud']['lidar_idx']
++        sample_idx = info["point_cloud"]["lidar_idx"]
+         points = self.get_lidar(sample_idx)
+-        input_dict = {
+-            'frame_id': self.sample_id_list[index],
+-            'points': points
+-        }
+-
+-        if 'annos' in info:
+-            annos = info['annos']
+-            annos = common_utils.drop_info_with_name(annos, name='DontCare')
+-            gt_names = annos['name']
+-            gt_boxes_lidar = annos['gt_boxes_lidar']
+-            input_dict.update({
+-                'gt_names': gt_names,
+-                'gt_boxes': gt_boxes_lidar
+-            })
++
++        input_dict = {"frame_id": self.sample_id_list[index], "points": points}
++
++        if "annos" in info:
++            annos = info["annos"]
++            annos = common_utils.drop_info_with_name(annos, name="DontCare")
++            gt_names = annos["name"]
++            gt_boxes_lidar = annos["gt_boxes_lidar"]
++            input_dict.update({"gt_names": gt_names, "gt_boxes": gt_boxes_lidar})
+
+         data_dict = self.prepare_data(data_dict=input_dict)
+
+         return data_dict
+
+     def evaluation(self, det_annos, class_names, **kwargs):
+-        if 'annos' not in self.custom_infos[0].keys():
+-            return 'No ground-truth boxes for evaluation', {}
++        if "annos" not in self.custom_infos[0].keys():
++            return "No ground-truth boxes for evaluation", {}
+
+         def kitti_eval(eval_det_annos, eval_gt_annos, map_name_to_kitti):
+-            from ..kitti.kitti_object_eval_python import eval as kitti_eval
+             from ..kitti import kitti_utils
++            from ..kitti.kitti_object_eval_python import eval as kitti_eval
+
+-            kitti_utils.transform_annotations_to_kitti_format(eval_det_annos, map_name_to_kitti=map_name_to_kitti)
+             kitti_utils.transform_annotations_to_kitti_format(
+-                eval_gt_annos, map_name_to_kitti=map_name_to_kitti,
+-                info_with_fakelidar=self.dataset_cfg.get('INFO_WITH_FAKELIDAR', False)
++                eval_det_annos, map_name_to_kitti=map_name_to_kitti
++            )
++            kitti_utils.transform_annotations_to_kitti_format(
++                eval_gt_annos,
++                map_name_to_kitti=map_name_to_kitti,
++                info_with_fakelidar=self.dataset_cfg.get("INFO_WITH_FAKELIDAR", False),
+             )
+             kitti_class_names = [map_name_to_kitti[x] for x in class_names]
+             ap_result_str, ap_dict = kitti_eval.get_official_eval_result(
+@@ -130,30 +164,46 @@ class CustomDataset(DatasetTemplate):
+             return ap_result_str, ap_dict
+
+         eval_det_annos = copy.deepcopy(det_annos)
+-        eval_gt_annos = [copy.deepcopy(info['annos']) for info in self.custom_infos]
+-
+-        if kwargs['eval_metric'] == 'kitti':
+-            ap_result_str, ap_dict = kitti_eval(eval_det_annos, eval_gt_annos, self.map_class_to_kitti)
++        eval_gt_annos = [copy.deepcopy(info["annos"]) for info in self.custom_infos]
++
++        if kwargs.get('point_cloud_range', None):
++            for eval_gt_anno in eval_gt_annos:
++                mask = box_utils.mask_boxes_outside_range_numpy(
++                    boxes=eval_gt_anno["gt_boxes_lidar"],
++                    limit_range=kwargs['point_cloud_range'],
++                    # use_center_to_filter=True,
++                    use_center_to_filter=False,
++                )
++
++                eval_gt_anno["gt_boxes_lidar"] = eval_gt_anno["gt_boxes_lidar"][mask]
++                eval_gt_anno["name"] = eval_gt_anno["name"][mask]
++
++        if kwargs["eval_metric"] == "kitti":
++            ap_result_str, ap_dict = kitti_eval(
++                eval_det_annos, eval_gt_annos, self.map_class_to_kitti
++            )
+         else:
+             raise NotImplementedError
+
+         return ap_result_str, ap_dict
+
+-    def get_infos(self, class_names, num_workers=4, has_label=True, sample_id_list=None, num_features=4):
++    def get_infos(
++        self, class_names, num_workers=4, has_label=True, sample_id_list=None, num_features=4
++    ):
+         import concurrent.futures as futures
+
+         def process_single_scene(sample_idx):
+-            print('%s sample_idx: %s' % (self.split, sample_idx))
++            print("%s sample_idx: %s" % (self.split, sample_idx))
+             info = {}
+-            pc_info = {'num_features': num_features, 'lidar_idx': sample_idx}
+-            info['point_cloud'] = pc_info
++            pc_info = {"num_features": num_features, "lidar_idx": sample_idx}
++            info["point_cloud"] = pc_info
+
+             if has_label:
+                 annotations = {}
+                 gt_boxes_lidar, name = self.get_label(sample_idx)
+-                annotations['name'] = name
+-                annotations['gt_boxes_lidar'] = gt_boxes_lidar[:, :7]
+-                info['annos'] = annotations
++                annotations["name"] = name
++                annotations["gt_boxes_lidar"] = gt_boxes_lidar[:, :7]
++                info["annos"] = annotations
+
+             return info
+
+@@ -164,26 +214,28 @@ class CustomDataset(DatasetTemplate):
+             infos = executor.map(process_single_scene, sample_id_list)
+         return list(infos)
+
+-    def create_groundtruth_database(self, info_path=None, used_classes=None, split='train'):
++    def create_groundtruth_database(self, info_path=None, used_classes=None, split="train"):
+         import torch
+
+-        database_save_path = Path(self.root_path) / ('gt_database' if split == 'train' else ('gt_database_%s' % split))
+-        db_info_save_path = Path(self.root_path) / ('custom_dbinfos_%s.pkl' % split)
++        database_save_path = Path(self.root_path) / (
++            "gt_database" if split == "train" else ("gt_database_%s" % split)
++        )
++        db_info_save_path = Path(self.root_path) / ("custom_dbinfos_%s.pkl" % split)
+
+         database_save_path.mkdir(parents=True, exist_ok=True)
+         all_db_infos = {}
+
+-        with open(info_path, 'rb') as f:
++        with open(info_path, "rb") as f:
+             infos = pickle.load(f)
+
+         for k in range(len(infos)):
+-            print('gt_database sample: %d/%d' % (k + 1, len(infos)))
++            print("gt_database sample: %d/%d" % (k + 1, len(infos)))
+             info = infos[k]
+-            sample_idx = info['point_cloud']['lidar_idx']
++            sample_idx = info["point_cloud"]["lidar_idx"]
+             points = self.get_lidar(sample_idx)
+-            annos = info['annos']
+-            names = annos['name']
+-            gt_boxes = annos['gt_boxes_lidar']
++            annos = info["annos"]
++            names = annos["name"]
++            gt_boxes = annos["gt_boxes_lidar"]
+
+             num_obj = gt_boxes.shape[0]
+             point_indices = roiaware_pool3d_utils.points_in_boxes_cpu(
+@@ -191,18 +243,23 @@ class CustomDataset(DatasetTemplate):
+             ).numpy()  # (nboxes, npoints)
+
+             for i in range(num_obj):
+-                filename = '%s_%s_%d.bin' % (sample_idx, names[i], i)
++                filename = "%s_%s_%d.bin" % (sample_idx, names[i], i)
+                 filepath = database_save_path / filename
+                 gt_points = points[point_indices[i] > 0]
+
+                 gt_points[:, :3] -= gt_boxes[i, :3]
+-                with open(filepath, 'w') as f:
++                with open(filepath, "w") as f:
+                     gt_points.tofile(f)
+
+                 if (used_classes is None) or names[i] in used_classes:
+                     db_path = str(filepath.relative_to(self.root_path))  # gt_database/xxxxx.bin
+-                    db_info = {'name': names[i], 'path': db_path, 'gt_idx': i,
+-                               'box3d_lidar': gt_boxes[i], 'num_points_in_gt': gt_points.shape[0]}
++                    db_info = {
++                        "name": names[i],
++                        "path": db_path,
++                        "gt_idx": i,
++                        "box3d_lidar": gt_boxes[i],
++                        "num_points_in_gt": gt_points.shape[0],
++                    }
+                     if names[i] in all_db_infos:
+                         all_db_infos[names[i]].append(db_info)
+                     else:
+@@ -210,74 +267,93 @@ class CustomDataset(DatasetTemplate):
+
+         # Output the num of all classes in database
+         for k, v in all_db_infos.items():
+-            print('Database %s: %d' % (k, len(v)))
++            print("Database %s: %d" % (k, len(v)))
+
+-        with open(db_info_save_path, 'wb') as f:
++        with open(db_info_save_path, "wb") as f:
+             pickle.dump(all_db_infos, f)
+
+     @staticmethod
+     def create_label_file_with_name_and_box(class_names, gt_names, gt_boxes, save_label_path):
+-        with open(save_label_path, 'w') as f:
++        with open(save_label_path, "w") as f:
+             for idx in range(gt_boxes.shape[0]):
+                 boxes = gt_boxes[idx]
+                 name = gt_names[idx]
+                 if name not in class_names:
+                     continue
+                 line = "{x} {y} {z} {l} {w} {h} {angle} {name}\n".format(
+-                    x=boxes[0], y=boxes[1], z=(boxes[2]), l=boxes[3],
+-                    w=boxes[4], h=boxes[5], angle=boxes[6], name=name
++                    x=boxes[0],
++                    y=boxes[1],
++                    z=(boxes[2]),
++                    l=boxes[3],
++                    w=boxes[4],
++                    h=boxes[5],
++                    angle=boxes[6],
++                    name=name,
+                 )
+                 f.write(line)
+
+
+ def create_custom_infos(dataset_cfg, class_names, data_path, save_path, workers=4):
+     dataset = CustomDataset(
+-        dataset_cfg=dataset_cfg, class_names=class_names, root_path=data_path,
+-        training=False, logger=common_utils.create_logger()
++        dataset_cfg=dataset_cfg,
++        class_names=class_names,
++        root_path=data_path,
++        training=False,
++        logger=common_utils.create_logger(),
+     )
+-    train_split, val_split = 'train', 'val'
++    train_split, val_split = "train", "test"
+     num_features = len(dataset_cfg.POINT_FEATURE_ENCODING.src_feature_list)
+
+-    train_filename = save_path / ('custom_infos_%s.pkl' % train_split)
+-    val_filename = save_path / ('custom_infos_%s.pkl' % val_split)
++    train_filename = save_path / ("custom_infos_%s.pkl" % train_split)
++    val_filename = save_path / ("custom_infos_%s.pkl" % val_split)
+
+-    print('------------------------Start to generate data infos------------------------')
++    print("------------------------Start to generate data infos------------------------")
+
+     dataset.set_split(train_split)
+     custom_infos_train = dataset.get_infos(
+         class_names, num_workers=workers, has_label=True, num_features=num_features
+     )
+-    with open(train_filename, 'wb') as f:
++    with open(train_filename, "wb") as f:
+         pickle.dump(custom_infos_train, f)
+-    print('Custom info train file is saved to %s' % train_filename)
++    print("Custom info train file is saved to %s" % train_filename)
+
+     dataset.set_split(val_split)
+     custom_infos_val = dataset.get_infos(
+         class_names, num_workers=workers, has_label=True, num_features=num_features
+     )
+-    with open(val_filename, 'wb') as f:
++    with open(val_filename, "wb") as f:
+         pickle.dump(custom_infos_val, f)
+-    print('Custom info train file is saved to %s' % val_filename)
++    print("Custom info train file is saved to %s" % val_filename)
+
+-    print('------------------------Start create groundtruth database for data augmentation------------------------')
++    print(
++        "------------------------Start create groundtruth database for data augmentation------------------------"
++    )
+     dataset.set_split(train_split)
+     dataset.create_groundtruth_database(train_filename, split=train_split)
+-    print('------------------------Data preparation done------------------------')
++    print("------------------------Data preparation done------------------------")
+
+
+-if __name__ == '__main__':
++if __name__ == "__main__":
+     import sys
+
+-    if sys.argv.__len__() > 1 and sys.argv[1] == 'create_custom_infos':
+-        import yaml
++    if sys.argv.__len__() > 1 and sys.argv[1] == "create_custom_infos":
+         from pathlib import Path
++
++        import yaml
+         from easydict import EasyDict
+
+         dataset_cfg = EasyDict(yaml.safe_load(open(sys.argv[2])))
+-        ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve()
++        ROOT_DIR = Path(dataset_cfg.DATA_PATH)
+         create_custom_infos(
+             dataset_cfg=dataset_cfg,
+-            class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
+-            data_path=ROOT_DIR / 'data' / 'custom',
+-            save_path=ROOT_DIR / 'data' / 'custom',
+-        )
++            class_names=[
++                "car",
++                "truck",
++                "bus",
++                "non_motor_vehicleslist",
++                "pedestrians",
++                "other_obstacles",
++            ],
++            data_path=ROOT_DIR,
++            save_path=ROOT_DIR,
++        )
+\ No newline at end of file
+diff --git a/pcdet/datasets/kitti/kitti_dataset.py b/pcdet/datasets/kitti/kitti_dataset.py
+index 411bd75..c8b856b 100644
+--- a/pcdet/datasets/kitti/kitti_dataset.py
++++ b/pcdet/datasets/kitti/kitti_dataset.py
+@@ -308,7 +308,10 @@ class KittiDataset(DatasetTemplate):
+                 return pred_dict
+
+             calib = batch_dict['calib'][batch_index]
+-            image_shape = batch_dict['image_shape'][batch_index].cpu().numpy()
++            try:
++                image_shape = batch_dict['image_shape'][batch_index].cpu().numpy()
++            except:
++                image_shape = batch_dict['image_shape'][batch_index]
+             pred_boxes_camera = box_utils.boxes3d_lidar_to_kitti_camera(pred_boxes, calib)
+             pred_boxes_img = box_utils.boxes3d_kitti_camera_to_imageboxes(
+                 pred_boxes_camera, calib, image_shape=image_shape
+diff --git a/pcdet/models/backbones_2d/base_bev_backbone.py b/pcdet/models/backbones_2d/base_bev_backbone.py
+index 4dc7dbb..3a3c843 100644
+--- a/pcdet/models/backbones_2d/base_bev_backbone.py
++++ b/pcdet/models/backbones_2d/base_bev_backbone.py
+@@ -78,14 +78,52 @@ class BaseBEVBackbone(nn.Module):
+
+         self.num_bev_features = c_in
+
+-    def forward(self, data_dict):
++    # def forward(self, data_dict):
++    #     """
++    #     Args:
++    #         data_dict:
++    #             spatial_features
++    #     Returns:
++    #     """
++    #     spatial_features = data_dict['spatial_features']
++    #     ups = []
++    #     ret_dict = {}
++    #     x = spatial_features
++    #     for i in range(len(self.blocks)):
++    #         x = self.blocks[i](x)
++    #         ## save features for debug
++    #         # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/blocks_0.npy", x.cpu().numpy())
++
++    #         stride = int(spatial_features.shape[2] / x.shape[2])
++    #         ret_dict['spatial_features_%dx' % stride] = x
++    #         if len(self.deblocks) > 0:
++    #             ups.append(self.deblocks[i](x))
++    #         else:
++    #             ups.append(x)
++
++    #     if len(ups) > 1:
++    #         x = torch.cat(ups, dim=1)
++    #     elif len(ups) == 1:
++    #         x = ups[0]
++
++    #     if len(self.deblocks) > len(self.blocks):
++    #         x = self.deblocks[-1](x)
++
++    #     data_dict['spatial_features_2d'] = x
++    #     ## save features for debug
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/spatial_features_2d.npy", x.cpu().numpy())
++
++    #     return data_dict
++
++    # export onnx
++    def forward(self, spatial_features):
+         """
+         Args:
+             data_dict:
+                 spatial_features
+         Returns:
+         """
+-        spatial_features = data_dict['spatial_features']
++        # spatial_features = data_dict['spatial_features']
+         ups = []
+         ret_dict = {}
+         x = spatial_features
+@@ -107,9 +145,10 @@ class BaseBEVBackbone(nn.Module):
+         if len(self.deblocks) > len(self.blocks):
+             x = self.deblocks[-1](x)
+
+-        data_dict['spatial_features_2d'] = x
++        # data_dict['spatial_features_2d'] = x
++        spatial_features_2d = x
+
+-        return data_dict
++        return spatial_features_2d
+
+
+ class BaseBEVBackboneV1(nn.Module):
+diff --git a/pcdet/models/backbones_2d/map_to_bev/pointpillar_scatter.py b/pcdet/models/backbones_2d/map_to_bev/pointpillar_scatter.py
+index c57cda8..5ab66e8 100644
+--- a/pcdet/models/backbones_2d/map_to_bev/pointpillar_scatter.py
++++ b/pcdet/models/backbones_2d/map_to_bev/pointpillar_scatter.py
+@@ -20,11 +20,14 @@ class PointPillarScatter(nn.Module):
+                 self.num_bev_features,
+                 self.nz * self.nx * self.ny,
+                 dtype=pillar_features.dtype,
+-                device=pillar_features.device)
++                device=pillar_features.device,
++            )
+
+             batch_mask = coords[:, 0] == batch_idx
+             this_coords = coords[batch_mask, :]
+             indices = this_coords[:, 1] + this_coords[:, 2] * self.nx + this_coords[:, 3]
++            # print('indices 1 dims is max: {}'.format(this_coords[:, 1].max()))
++            # print('indices 1 dims is min: {}'.format(this_coords[:, 1].min()))
+             indices = indices.type(torch.long)
+             pillars = pillar_features[batch_mask, :]
+             pillars = pillars.t()
+@@ -32,15 +35,21 @@ class PointPillarScatter(nn.Module):
+             batch_spatial_features.append(spatial_feature)
+
+         batch_spatial_features = torch.stack(batch_spatial_features, 0)
+-        batch_spatial_features = batch_spatial_features.view(batch_size, self.num_bev_features * self.nz, self.ny, self.nx)
++        batch_spatial_features = batch_spatial_features.view(
++            batch_size, self.num_bev_features * self.nz, self.ny, self.nx
++        )
+         batch_dict['spatial_features'] = batch_spatial_features
++
++        ## save features for debug
++        # import numpy as np
++        # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/spatial_features.npy", batch_spatial_features.cpu().numpy())
+         return batch_dict
+
+
+ class PointPillarScatter3d(nn.Module):
+     def __init__(self, model_cfg, grid_size, **kwargs):
+         super().__init__()
+-
++
+         self.model_cfg = model_cfg
+         self.nx, self.ny, self.nz = self.model_cfg.INPUT_SHAPE
+         self.num_bev_features = self.model_cfg.NUM_BEV_FEATURES
+@@ -48,7 +57,7 @@ class PointPillarScatter3d(nn.Module):
+
+     def forward(self, batch_dict, **kwargs):
+         pillar_features, coords = batch_dict['pillar_features'], batch_dict['voxel_coords']
+-
++
+         batch_spatial_features = []
+         batch_size = coords[:, 0].max().int().item() + 1
+         for batch_idx in range(batch_size):
+@@ -56,11 +65,16 @@ class PointPillarScatter3d(nn.Module):
+                 self.num_bev_features_before_compression,
+                 self.nz * self.nx * self.ny,
+                 dtype=pillar_features.dtype,
+-                device=pillar_features.device)
++                device=pillar_features.device,
++            )
+
+             batch_mask = coords[:, 0] == batch_idx
+             this_coords = coords[batch_mask, :]
+-            indices = this_coords[:, 1] * self.ny * self.nx + this_coords[:, 2] * self.nx + this_coords[:, 3]
++            indices = (
++                this_coords[:, 1] * self.ny * self.nx
++                + this_coords[:, 2] * self.nx
++                + this_coords[:, 3]
++            )
+             indices = indices.type(torch.long)
+             pillars = pillar_features[batch_mask, :]
+             pillars = pillars.t()
+@@ -68,6 +82,93 @@ class PointPillarScatter3d(nn.Module):
+             batch_spatial_features.append(spatial_feature)
+
+         batch_spatial_features = torch.stack(batch_spatial_features, 0)
+-        batch_spatial_features = batch_spatial_features.view(batch_size, self.num_bev_features_before_compression * self.nz, self.ny, self.nx)
++        batch_spatial_features = batch_spatial_features.view(
++            batch_size, self.num_bev_features_before_compression * self.nz, self.ny, self.nx
++        )
+         batch_dict['spatial_features'] = batch_spatial_features
+-        return batch_dict
+\ No newline at end of file
++        return batch_dict
++
++
++from torch.autograd import Function
++
++
++# 定义 map_roi_levels 反算金字塔层函数
++class PointPillarScatterFunction(Function):
++    @staticmethod
++    def forward(ctx, pillar_features, coords, mask, size_x, size_y, size_z, features):
++        ctx.size_x = size_x
++        ctx.size_y = size_y
++        ctx.size_z = size_z
++        ctx.features = features
++        ctx.mask = mask
++
++        mask = int(torch.sum(mask))
++        print("mask is:", mask)
++        coords = coords[:mask, :]
++        pillar_features = pillar_features[:mask, ...]
++        batch_spatial_features = []
++        batch_size = coords[:, 0].max().int().item() + 1
++        for batch_idx in range(batch_size):
++            spatial_feature = torch.zeros(
++                ctx.features,
++                ctx.size_x * ctx.size_y * ctx.size_z,
++                dtype=pillar_features.dtype,
++                device=pillar_features.device,
++            )
++
++            batch_mask = coords[:, 0] == batch_idx
++            this_coords = coords[batch_mask, :]
++            indices = (
++                this_coords[:, 1] + this_coords[:, 2] * ctx.size_x + this_coords[:, 3]
++            )  # x,y转index z + y*W + x
++            indices = indices.type(torch.long)
++            pillars = pillar_features[batch_mask, :]
++            pillars = pillars.t()  # 转置，C,index
++            spatial_feature[:, indices] = pillars
++            batch_spatial_features.append(spatial_feature)
++
++        batch_spatial_features = torch.stack(batch_spatial_features, 0)
++        batch_spatial_features = batch_spatial_features.view(
++            batch_size, ctx.features * ctx.size_z, ctx.size_y, ctx.size_x
++        )  # resize得到n,c,h,w的特征图
++        return batch_spatial_features
++
++    @staticmethod
++    def symbolic(g, *inputs):
++        return g.op(
++            'vacc::PointPillarScatterFunction',
++            inputs[0],
++            inputs[1],
++            inputs[2],
++            sizex_i=inputs[3],
++            sizey_i=inputs[4],
++            sizez_i=inputs[5],
++            features_i=inputs[6],
++        )
++
++
++ppscatter_function = PointPillarScatterFunction.apply
++
++
++# NOTE(lance)
++class PointPillarScatter2(nn.Module):
++    def __init__(self, model_cfg, grid_size, **kwargs):
++        super().__init__()
++
++        self.model_cfg = model_cfg
++        self.num_bev_features = self.model_cfg.NUM_BEV_FEATURES
++        self.nx, self.ny, self.nz = grid_size
++        assert self.nz == 1
++
++    def forward(self, batch_dict, **kwargs):
++        pillar_features, coords, mask = (
++            batch_dict['pillar_features'],
++            batch_dict['voxel_coords'],
++            batch_dict['mask'],
++        )
++        batch_spatial_features = ppscatter_function(
++            pillar_features, coords, mask, self.nx, self.ny, self.nz, self.num_bev_features
++        )
++        # [1,64,496,432]
++        batch_dict['spatial_features'] = batch_spatial_features
++        return batch_dict
+diff --git a/pcdet/models/backbones_3d/vfe/pillar_vfe.py b/pcdet/models/backbones_3d/vfe/pillar_vfe.py
+index a162a83..cf6f28f 100644
+--- a/pcdet/models/backbones_3d/vfe/pillar_vfe.py
++++ b/pcdet/models/backbones_3d/vfe/pillar_vfe.py
+@@ -6,13 +6,9 @@ from .vfe_template import VFETemplate
+
+
+ class PFNLayer(nn.Module):
+-    def __init__(self,
+-                 in_channels,
+-                 out_channels,
+-                 use_norm=True,
+-                 last_layer=False):
++    def __init__(self, in_channels, out_channels, use_norm=True, last_layer=False):
+         super().__init__()
+-
++
+         self.last_vfe = last_layer
+         self.use_norm = use_norm
+         if not self.last_vfe:
+@@ -30,8 +26,10 @@ class PFNLayer(nn.Module):
+         if inputs.shape[0] > self.part:
+             # nn.Linear performs randomly when batch size is too large
+             num_parts = inputs.shape[0] // self.part
+-            part_linear_out = [self.linear(inputs[num_part*self.part:(num_part+1)*self.part])
+-                               for num_part in range(num_parts+1)]
++            part_linear_out = [
++                self.linear(inputs[num_part * self.part : (num_part + 1) * self.part])
++                for num_part in range(num_parts + 1)
++            ]
+             x = torch.cat(part_linear_out, dim=0)
+         else:
+             x = self.linear(inputs)
+@@ -39,6 +37,9 @@ class PFNLayer(nn.Module):
+         x = self.norm(x.permute(0, 2, 1)).permute(0, 2, 1) if self.use_norm else x
+         torch.backends.cudnn.enabled = True
+         x = F.relu(x)
++        ## save features for debug
++        # import numpy as np
++        # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/Relu_output_0.npy", x.cpu().numpy().transpose(2,1,0))
+         x_max = torch.max(x, dim=1, keepdim=True)[0]
+
+         if self.last_vfe:
+@@ -69,7 +70,9 @@ class PillarVFE(VFETemplate):
+             in_filters = num_filters[i]
+             out_filters = num_filters[i + 1]
+             pfn_layers.append(
+-                PFNLayer(in_filters, out_filters, self.use_norm, last_layer=(i >= len(num_filters) - 2))
++                PFNLayer(
++                    in_filters, out_filters, self.use_norm, last_layer=(i >= len(num_filters) - 2)
++                )
+             )
+         self.pfn_layers = nn.ModuleList(pfn_layers)
+
+@@ -87,37 +90,158 @@ class PillarVFE(VFETemplate):
+         actual_num = torch.unsqueeze(actual_num, axis + 1)
+         max_num_shape = [1] * len(actual_num.shape)
+         max_num_shape[axis + 1] = -1
+-        max_num = torch.arange(max_num, dtype=torch.int, device=actual_num.device).view(max_num_shape)
++        max_num = torch.arange(max_num, dtype=torch.int, device=actual_num.device).view(
++            max_num_shape
++        )
+         paddings_indicator = actual_num.int() > max_num
+         return paddings_indicator
+
+-    def forward(self, batch_dict, **kwargs):
+-
+-        voxel_features, voxel_num_points, coords = batch_dict['voxels'], batch_dict['voxel_num_points'], batch_dict['voxel_coords']
+-        points_mean = voxel_features[:, :, :3].sum(dim=1, keepdim=True) / voxel_num_points.type_as(voxel_features).view(-1, 1, 1)
+-        f_cluster = voxel_features[:, :, :3] - points_mean
+-
+-        f_center = torch.zeros_like(voxel_features[:, :, :3])
+-        f_center[:, :, 0] = voxel_features[:, :, 0] - (coords[:, 3].to(voxel_features.dtype).unsqueeze(1) * self.voxel_x + self.x_offset)
+-        f_center[:, :, 1] = voxel_features[:, :, 1] - (coords[:, 2].to(voxel_features.dtype).unsqueeze(1) * self.voxel_y + self.y_offset)
+-        f_center[:, :, 2] = voxel_features[:, :, 2] - (coords[:, 1].to(voxel_features.dtype).unsqueeze(1) * self.voxel_z + self.z_offset)
+-
+-        if self.use_absolute_xyz:
+-            features = [voxel_features, f_cluster, f_center]
+-        else:
+-            features = [voxel_features[..., 3:], f_cluster, f_center]
++    # def forward(self, batch_dict, **kwargs):
++
++    #     voxel_features, voxel_num_points, coords = (
++    #         batch_dict['voxels'],
++    #         batch_dict['voxel_num_points'],
++    #         batch_dict['voxel_coords'],
++    #     )
++    #     points_mean = voxel_features[:, :, :3].sum(dim=1, keepdim=True) / voxel_num_points.type_as(
++    #         voxel_features
++    #     ).view(-1, 1, 1)
++    #     f_cluster = voxel_features[:, :, :3] - points_mean
++
++    #     f_center = torch.zeros_like(voxel_features[:, :, :3])
++    #     f_center[:, :, 0] = voxel_features[:, :, 0] - (
++    #         coords[:, 3].to(voxel_features.dtype).unsqueeze(1) * self.voxel_x + self.x_offset
++    #     )
++    #     f_center[:, :, 1] = voxel_features[:, :, 1] - (
++    #         coords[:, 2].to(voxel_features.dtype).unsqueeze(1) * self.voxel_y + self.y_offset
++    #     )
++    #     f_center[:, :, 2] = voxel_features[:, :, 2] - (
++    #         coords[:, 1].to(voxel_features.dtype).unsqueeze(1) * self.voxel_z + self.z_offset
++    #     )
++
++    #     if self.use_absolute_xyz:
++    #         features = [voxel_features, f_cluster, f_center]
++    #     else:
++    #         features = [voxel_features[..., 3:], f_cluster, f_center]
++
++    #     if self.with_distance:
++    #         points_dist = torch.norm(voxel_features[:, :, :3], 2, 2, keepdim=True)
++    #         features.append(points_dist)
++    #     features = torch.cat(features, dim=-1)
++
++    #     voxel_count = features.shape[1]
++    #     mask = self.get_paddings_indicator(voxel_num_points, voxel_count, axis=0)
++    #     mask = torch.unsqueeze(mask, -1).type_as(voxel_features)
++    #     features *= mask
++
++    #     # # save features for debug
++    #     # import os
++    #     # import numpy as np
++    #     # features_out = np.zeros((1, 10, 32, 32000)).astype(np.float32)
++    #     # tmp = features.cpu().numpy().transpose(2, 1, 0).astype(np.float32)
++    #     # tmp = np.expand_dims(tmp, axis=0)
++    #     # features_out[:,:,:,:6445] = tmp
++
++    #     # coords_out = np.zeros((3, 32000)).astype(np.int16)
++    #     # # selected_indices = [0, 2, 3]
++    #     # selected_indices = [3, 2, 1]
++    #     # array = coords.cpu().numpy().transpose(1, 0).astype(np.int16)
++    #     # new_array = array[selected_indices, :]
++    #     # coords_out[:, :6445] = new_array
++
++    #     # mask = np.zeros(32000)
++    #     # mask[:6445] = 1
++    #     # mask = mask.astype(np.int8)
++
++    #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/features.npy", tmp.astype("float16"))
++    #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/coords.npy", new_array)
++    #     # # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v2/mask.npy", mask[:6445].reshape(1,6445))
++
++    #     # np.savez(
++    #     #     './jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/data.npz',
++    #     #     **{
++    #     #         "voxels": features_out,
++    #     #         "voxel_coords": coords_out,
++    #     #         "mask": mask,
++    #     #     }
++    #     # )
++
++
++    #     for pfn in self.pfn_layers:
++    #         features = pfn(features)
++    #     features = features.squeeze()
++    #     batch_dict['pillar_features'] = features
++
++    #     ## save features for debug
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/pillar_features.npy", features.cpu().numpy())
++
++    #     return batch_dict
++
++    # export onnx
++    def forward(self, features, **kwargs):
++        for pfn in self.pfn_layers:
++            features = pfn(features)
++        features = features.squeeze()
++        pillar_features = features
++        return pillar_features
++
+
++# NOTE(lance)
++class PillarVFE2(VFETemplate):
++    def __init__(self, model_cfg, num_point_features, voxel_size, point_cloud_range, **kwargs):
++        super().__init__(model_cfg=model_cfg)
++
++        self.use_norm = self.model_cfg.USE_NORM
++        self.with_distance = self.model_cfg.WITH_DISTANCE
++        self.use_absolute_xyz = self.model_cfg.USE_ABSLOTE_XYZ
++        num_point_features += 6 if self.use_absolute_xyz else 3
+         if self.with_distance:
+-            points_dist = torch.norm(voxel_features[:, :, :3], 2, 2, keepdim=True)
+-            features.append(points_dist)
+-        features = torch.cat(features, dim=-1)
+-
+-        voxel_count = features.shape[1]
+-        mask = self.get_paddings_indicator(voxel_num_points, voxel_count, axis=0)
+-        mask = torch.unsqueeze(mask, -1).type_as(voxel_features)
+-        features *= mask
++            num_point_features += 1
++
++        self.num_filters = self.model_cfg.NUM_FILTERS
++        assert len(self.num_filters) > 0
++        num_filters = [num_point_features] + list(self.num_filters)
++
++        pfn_layers = []
++        for i in range(len(num_filters) - 1):
++            in_filters = num_filters[i]
++            out_filters = num_filters[i + 1]
++            pfn_layers.append(
++                PFNLayer(
++                    in_filters, out_filters, self.use_norm, last_layer=(i >= len(num_filters) - 2)
++                )
++            )
++        self.pfn_layers = nn.ModuleList(pfn_layers)
++
++        self.voxel_x = voxel_size[0]
++        self.voxel_y = voxel_size[1]
++        self.voxel_z = voxel_size[2]
++        self.x_offset = self.voxel_x / 2 + point_cloud_range[0]
++        self.y_offset = self.voxel_y / 2 + point_cloud_range[1]
++        self.z_offset = self.voxel_z / 2 + point_cloud_range[2]
++
++    def get_output_feature_dim(self):
++        return self.num_filters[-1]
++
++    def get_paddings_indicator(self, actual_num, max_num, axis=0):
++        actual_num = torch.unsqueeze(actual_num, axis + 1)
++        max_num_shape = [1] * len(actual_num.shape)
++        max_num_shape[axis + 1] = -1
++        max_num = torch.arange(max_num, dtype=torch.int, device=actual_num.device).view(
++            max_num_shape
++        )  # 得到体素真实点max
++        paddings_indicator = (
++            actual_num.int() > max_num
++        )  # 得到各个体素中每个像素的mask,若为True则为真实坐标，若为False，则为补齐坐标
++        return paddings_indicator  # [N,32]
++
++    def forward(self, batch_dict, **kwargs):
++
++        features = batch_dict['voxels']
++
+         for pfn in self.pfn_layers:
+             features = pfn(features)
+         features = features.squeeze()
+         batch_dict['pillar_features'] = features
++
+         return batch_dict
+diff --git a/pcdet/models/dense_heads/anchor_head_single.py b/pcdet/models/dense_heads/anchor_head_single.py
+index 83c62cc..3bd6fe3 100644
+--- a/pcdet/models/dense_heads/anchor_head_single.py
++++ b/pcdet/models/dense_heads/anchor_head_single.py
+@@ -5,29 +5,40 @@ from .anchor_head_template import AnchorHeadTemplate
+
+
+ class AnchorHeadSingle(AnchorHeadTemplate):
+-    def __init__(self, model_cfg, input_channels, num_class, class_names, grid_size, point_cloud_range,
+-                 predict_boxes_when_training=True, **kwargs):
++    def __init__(
++        self,
++        model_cfg,
++        input_channels,
++        num_class,
++        class_names,
++        grid_size,
++        point_cloud_range,
++        predict_boxes_when_training=True,
++        **kwargs
++    ):
+         super().__init__(
+-            model_cfg=model_cfg, num_class=num_class, class_names=class_names, grid_size=grid_size, point_cloud_range=point_cloud_range,
+-            predict_boxes_when_training=predict_boxes_when_training
++            model_cfg=model_cfg,
++            num_class=num_class,
++            class_names=class_names,
++            grid_size=grid_size,
++            point_cloud_range=point_cloud_range,
++            predict_boxes_when_training=predict_boxes_when_training,
+         )
+
+         self.num_anchors_per_location = sum(self.num_anchors_per_location)
+
+         self.conv_cls = nn.Conv2d(
+-            input_channels, self.num_anchors_per_location * self.num_class,
+-            kernel_size=1
++            input_channels, self.num_anchors_per_location * self.num_class, kernel_size=1
+         )
+         self.conv_box = nn.Conv2d(
+-            input_channels, self.num_anchors_per_location * self.box_coder.code_size,
+-            kernel_size=1
++            input_channels, self.num_anchors_per_location * self.box_coder.code_size, kernel_size=1
+         )
+
+         if self.model_cfg.get('USE_DIRECTION_CLASSIFIER', None) is not None:
+             self.conv_dir_cls = nn.Conv2d(
+                 input_channels,
+                 self.num_anchors_per_location * self.model_cfg.NUM_DIR_BINS,
+-                kernel_size=1
++                kernel_size=1,
+             )
+         else:
+             self.conv_dir_cls = None
+@@ -58,18 +69,43 @@ class AnchorHeadSingle(AnchorHeadTemplate):
+             dir_cls_preds = None
+
+         if self.training:
+-            targets_dict = self.assign_targets(
+-                gt_boxes=data_dict['gt_boxes']
+-            )
++            targets_dict = self.assign_targets(gt_boxes=data_dict['gt_boxes'])
+             self.forward_ret_dict.update(targets_dict)
+
+         if not self.training or self.predict_boxes_when_training:
+             batch_cls_preds, batch_box_preds = self.generate_predicted_boxes(
+                 batch_size=data_dict['batch_size'],
+-                cls_preds=cls_preds, box_preds=box_preds, dir_cls_preds=dir_cls_preds
++                cls_preds=cls_preds,
++                box_preds=box_preds,
++                dir_cls_preds=dir_cls_preds,
+             )
+             data_dict['batch_cls_preds'] = batch_cls_preds
+             data_dict['batch_box_preds'] = batch_box_preds
+             data_dict['cls_preds_normalized'] = False
+
+         return data_dict
++
++    # NOTE(lance)
++    def forward2(self, data_dict):
++        spatial_features_2d = data_dict['spatial_features_2d']
++
++        cls_preds = self.conv_cls(spatial_features_2d)
++        box_preds = self.conv_box(spatial_features_2d)
++
++        cls_preds = cls_preds.permute(0, 2, 3, 1).contiguous()  # [N, H, W, C]
++        box_preds = box_preds.permute(0, 2, 3, 1).contiguous()  # [N, H, W, C]
++
++        self.forward_ret_dict['cls_preds'] = cls_preds
++        self.forward_ret_dict['box_preds'] = box_preds
++
++        if self.conv_dir_cls is not None:
++            dir_cls_preds = self.conv_dir_cls(spatial_features_2d)
++            dir_cls_preds = dir_cls_preds.permute(0, 2, 3, 1).contiguous()
++            self.forward_ret_dict['dir_cls_preds'] = dir_cls_preds
++        else:
++            dir_cls_preds = None
++        # if output
++        data_dict['cls_preds'] = cls_preds
++        data_dict['box_preds'] = box_preds
++        data_dict['dir_cls_preds'] = dir_cls_preds
++        return data_dict
+diff --git a/pcdet/models/dense_heads/center_head.py b/pcdet/models/dense_heads/center_head.py
+index 38a6e35..e9d356d 100644
+--- a/pcdet/models/dense_heads/center_head.py
++++ b/pcdet/models/dense_heads/center_head.py
+@@ -295,6 +295,7 @@ class CenterHead(nn.Module):
+         return loss, tb_dict
+
+     def generate_predicted_boxes(self, batch_size, pred_dicts):
++        #print("++++++++++++++++++++++++++get in generate_predicted_boxes")
+         post_process_cfg = self.model_cfg.POST_PROCESSING
+         post_center_limit_range = torch.tensor(post_process_cfg.POST_CENTER_LIMIT_RANGE).cuda().float()
+
+@@ -382,35 +383,53 @@ class CenterHead(nn.Module):
+             roi_labels[bs_idx, :num_boxes] = pred_dicts[bs_idx]['pred_labels']
+         return rois, roi_scores, roi_labels
+
+-    def forward(self, data_dict):
+-        spatial_features_2d = data_dict['spatial_features_2d']
++    # def forward(self, data_dict):
++    #     spatial_features_2d = data_dict['spatial_features_2d']
++    #     x = self.shared_conv(spatial_features_2d)
++
++    #     pred_dicts = []
++    #     for head in self.heads_list:
++    #         pred_dicts.append(head(x))
++
++    #     if self.training:
++    #         target_dict = self.assign_targets(
++    #             data_dict['gt_boxes'], feature_map_size=spatial_features_2d.size()[2:],
++    #             feature_map_stride=data_dict.get('spatial_features_2d_strides', None)
++    #         )
++    #         self.forward_ret_dict['target_dicts'] = target_dict
++
++    #     self.forward_ret_dict['pred_dicts'] = pred_dicts
++
++    #     # # save features for debug
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/center.npy", pred_dicts[0]['center'].cpu().numpy().astype("float16"))
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/center_z.npy", pred_dicts[0]['center_z'].cpu().numpy().astype("float16"))
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/dim.npy", pred_dicts[0]['dim'].cpu().numpy().astype("float16"))
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/rot.npy", pred_dicts[0]['rot'].cpu().numpy().astype("float16"))
++    #     # np.save("./jgxue/work/object_detection3d/OpenPCDet/tools/center_point_zte_v4/hm.npy", pred_dicts[0]['hm'].cpu().numpy().astype("float16"))
++
++    #     if not self.training or self.predict_boxes_when_training:
++    #         pred_dicts = self.generate_predicted_boxes(
++    #             data_dict['batch_size'], pred_dicts
++    #         )
++
++    #         if self.predict_boxes_when_training:
++    #             rois, roi_scores, roi_labels = self.reorder_rois_for_refining(data_dict['batch_size'], pred_dicts)
++    #             data_dict['rois'] = rois
++    #             data_dict['roi_scores'] = roi_scores
++    #             data_dict['roi_labels'] = roi_labels
++    #             data_dict['has_class_labels'] = True
++    #         else:
++    #             data_dict['final_box_dicts'] = pred_dicts
++
++    #     return data_dict
++
++    # export onnx
++    def forward(self, spatial_features_2d):
++        # spatial_features_2d = data_dict['spatial_features_2d']
+         x = self.shared_conv(spatial_features_2d)
+
+         pred_dicts = []
+         for head in self.heads_list:
+             pred_dicts.append(head(x))
+-
+-        if self.training:
+-            target_dict = self.assign_targets(
+-                data_dict['gt_boxes'], feature_map_size=spatial_features_2d.size()[2:],
+-                feature_map_stride=data_dict.get('spatial_features_2d_strides', None)
+-            )
+-            self.forward_ret_dict['target_dicts'] = target_dict
+-
+-        self.forward_ret_dict['pred_dicts'] = pred_dicts
+-
+-        if not self.training or self.predict_boxes_when_training:
+-            pred_dicts = self.generate_predicted_boxes(
+-                data_dict['batch_size'], pred_dicts
+-            )
+-
+-            if self.predict_boxes_when_training:
+-                rois, roi_scores, roi_labels = self.reorder_rois_for_refining(data_dict['batch_size'], pred_dicts)
+-                data_dict['rois'] = rois
+-                data_dict['roi_scores'] = roi_scores
+-                data_dict['roi_labels'] = roi_labels
+-                data_dict['has_class_labels'] = True
+-            else:
+-                data_dict['final_box_dicts'] = pred_dicts
+-
+-        return data_dict
++
++        return pred_dicts[0]['center'], pred_dicts[0]['center_z'], pred_dicts[0]['dim'], pred_dicts[0]['rot'], pred_dicts[0]['hm']
+diff --git a/pcdet/models/detectors/centerpoint.py b/pcdet/models/detectors/centerpoint.py
+index a5bc011..ebc0566 100644
+--- a/pcdet/models/detectors/centerpoint.py
++++ b/pcdet/models/detectors/centerpoint.py
+@@ -6,20 +6,41 @@ class CenterPoint(Detector3DTemplate):
+         super().__init__(model_cfg=model_cfg, num_class=num_class, dataset=dataset)
+         self.module_list = self.build_networks()
+
+-    def forward(self, batch_dict):
+-        for cur_module in self.module_list:
+-            batch_dict = cur_module(batch_dict)
++    # def forward(self, batch_dict):
++    #     for cur_module in self.module_list:
++    #         batch_dict = cur_module(batch_dict)
+
+-        if self.training:
+-            loss, tb_dict, disp_dict = self.get_training_loss()
++    #     if self.training:
++    #         loss, tb_dict, disp_dict = self.get_training_loss()
+
+-            ret_dict = {
+-                'loss': loss
+-            }
+-            return ret_dict, tb_dict, disp_dict
++    #         ret_dict = {
++    #             'loss': loss
++    #         }
++    #         return ret_dict, tb_dict, disp_dict
++    #     else:
++    #         pred_dicts, recall_dicts = self.post_processing(batch_dict)
++    #         return pred_dicts, recall_dicts
++
++    # export onnx
++    def forward(self, spatial_features):
++        if self.model_cfg['EXPORT_FLAG'] == 0:
++            # export PillarVFE
++            cur_module = self.module_list[0]
++            out = cur_module(spatial_features)
++            return out
++        elif self.model_cfg['EXPORT_FLAG'] == 1:
++            # export BaseBEVBackbone_CenterHead
++            cur_module = self.module_list[2]
++            spatial_features_2d = cur_module(spatial_features)
++            cur_module = self.module_list[3]
++            out = cur_module(spatial_features_2d)
++            return out
+         else:
+-            pred_dicts, recall_dicts = self.post_processing(batch_dict)
+-            return pred_dicts, recall_dicts
++            print("export error")
++
++
++
++
+
+     def get_training_loss(self):
+         disp_dict = {}
+diff --git a/pcdet/models/detectors/detector3d_template.py b/pcdet/models/detectors/detector3d_template.py
+index 91e44bd..d8812de 100644
+--- a/pcdet/models/detectors/detector3d_template.py
++++ b/pcdet/models/detectors/detector3d_template.py
+@@ -364,7 +364,7 @@ class Detector3DTemplate(nn.Module):
+
+         logger.info('==> Loading parameters from checkpoint %s to %s' % (filename, 'CPU' if to_cpu else 'GPU'))
+         loc_type = torch.device('cpu') if to_cpu else None
+-        checkpoint = torch.load(filename, map_location=loc_type)
++        checkpoint = torch.load(filename, map_location=loc_type, weights_only=False)
+         model_state_disk = checkpoint['model_state']
+         if not pre_trained_path is None:
+             pretrain_checkpoint = torch.load(pre_trained_path, map_location=loc_type)
+diff --git a/pcdet/models/detectors/pointpillar.py b/pcdet/models/detectors/pointpillar.py
+index e21f826..0af151a 100644
+--- a/pcdet/models/detectors/pointpillar.py
++++ b/pcdet/models/detectors/pointpillar.py
+@@ -13,9 +13,7 @@ class PointPillar(Detector3DTemplate):
+         if self.training:
+             loss, tb_dict, disp_dict = self.get_training_loss()
+
+-            ret_dict = {
+-                'loss': loss
+-            }
++            ret_dict = {'loss': loss}
+             return ret_dict, tb_dict, disp_dict
+         else:
+             pred_dicts, recall_dicts = self.post_processing(batch_dict)
+@@ -25,10 +23,14 @@ class PointPillar(Detector3DTemplate):
+         disp_dict = {}
+
+         loss_rpn, tb_dict = self.dense_head.get_loss()
+-        tb_dict = {
+-            'loss_rpn': loss_rpn.item(),
+-            **tb_dict
+-        }
++        tb_dict = {'loss_rpn': loss_rpn.item(), **tb_dict}
+
+         loss = loss_rpn
+         return loss, tb_dict, disp_dict
++
++    # NOTE(lance)
++    def forward2(self, batch_dict):
++        # output
++        for cur_module in self.module_list[0:4]:
++            batch_dict = cur_module(batch_dict)
++        return batch_dict['cls_preds'], batch_dict['box_preds'], batch_dict['dir_cls_preds']
