@@ -1,0 +1,86 @@
+name: pointpillar_int8
+
+frontend:
+  checkpoint: /path/to/pointpillar_openpcdet.onnx
+  shape:
+    voxels:
+    - 16000
+    - 32
+    - 10
+    voxel_coords:
+    - 3
+    - 16000
+    mask:
+    - 1
+    - 16000
+  type: onnx
+  dtype: fp32
+
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    cluster_mode: 0
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    skip_conv_layers:
+    - 0
+
+graph:
+  extra_ops:
+    type: pointpillar_nms
+    params:
+      point_cloud_range:
+      - 0.0
+      - -39.68
+      - -3.0
+      - 69.12
+      - 39.68
+      - 1.0
+      voxel_size:
+      - 0.16
+      - 0.16
+      - 4.0
+      grid_stride:
+      - 2
+      - 2
+      - 2
+      num_classes: 3
+      nms_topk: 4096
+      post_nms: 500
+      confidence_thresh: 0.1
+      nms_thresh: 0.01
+      dir_offset: 0.78539
+      dir_limit_offset: 0.0
+      anchor_size:
+      - 3.9
+      - 1.6
+      - 1.56
+      - 0.8
+      - 0.6
+      - 1.73
+      - 1.76
+      - 0.6
+      - 1.73
+      anchor_rotations:
+      - 0.0
+      - 1.57
+      - 0.0
+      - 1.57
+      - 0.0
+      - 1.57
+      anchor_heights:
+      - -1.78
+      - -0.6
+      - -0.6
+
+dataset:
+  type: tvm
+  path: /path/to/fov_pointcloud_float32_npz
+  sampler:
+    get_data_num: 100
+
+workspace:
+  path: ./deploy_weights/
