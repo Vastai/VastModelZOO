@@ -6,19 +6,9 @@
 
 | 模型规格 |  最低硬件配置要求|
 | --- | --- |
-| Qwen3 30B系列（FP8）| 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
+| Qwen3 30B系列（FP8/Int4）| 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
 | Qwen3 235B系列（FP8）| 单台 VA16（4*128G）服务器|
 
-# 版本信息
-
-## 版本配套说明
-
-| 组件 |  版本|
-| --- | --- |
-| Driver | V3.3.0|
-| torch | 2.7.0+cpu|
-| vllm | 0.9.2+cpu|
-| vllm_vacc |AI3.1.1_GR_1031 (Preview Version)|
 
 ## 支持的模型
 
@@ -39,6 +29,8 @@
 - [Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8)
 
 - [Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8)
+
+- [Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4)
 
 模型下载步骤如下所示。
 
@@ -71,6 +63,8 @@ export PATH=$PATH:~/.local/bin
 
 - Qwen3-235B-A22B-Thinking-2507-FP8
 
+- Qwen3-30B-A3B-GPTQ-Int4
+
 模型文件较大,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
 
 
@@ -96,7 +90,7 @@ modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$M
 
 - 模型同时支持最大并发数为 4。
 
-- 单并发最大输入长度为 56K。
+- 最大输入长度为 56K，若TP为 16，则支持最大输入长度为 100K。
 
 - 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
 
@@ -108,24 +102,26 @@ modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$M
 
 ```bash
 docker run \
-    -e VACC_VISIBLE_DEVICES=0,1 \
+    -e VACC_VISIBLE_DEVICES=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
+    -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
     --privileged=true --shm-size=256g \
+    --name vllm_service \
     -v /path/to/model:/weights/ \
     -p 8000:8000 \
     --ipc=host \
-    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.1.1_GR_1031 \
-    vllm serve /weights/Qwen3-30B-A3B-FP8 \
+    harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.2_GR_1202 \
+    vllm serve /weights/Qwen3-235B-A22B-Instruct-2507-FP8 \
     --trust-remote-code \
-    --tensor-parallel-size 2 \
-    --max-model-len 65536 \
+    --tensor-parallel-size 16 \
+    --max-model-len 131072 \
     --enforce-eager \
-    --rope-scaling '{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}' \
     --host 0.0.0.0 \
     --port 8000 \
     --served-model-name Qwen3
 ```
 
 参数说明如下所示。
+- `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对Qwen3 235B系列模型测试100k输入时，需要设置该环境变量。
 
 - `--tensor-parallel-size`：张量并行数。
 
@@ -139,9 +135,9 @@ docker run \
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度，TP4 最大支持128k上下文，TP2 最大支持64k上下文
+- `--max-model-len`：模型最大上下文长度，TP4/TP16 最大支持128k上下文，TP2 最大支持64k上下文
 
-- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-235B-A22B-FP8 模型需要设置该参数。
+- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
 
 > 注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
@@ -152,10 +148,10 @@ docker run \
 
 ## vLLM 自带框架测试模型性能
 
-通过 vLLM 自带框架进行模型测试的指令如下所示，所在路径为容器（启动 vLLM 服务的容器）内的“/test/benchmark”目录下。
+通过 vLLM 自带框架进行模型测试的指令如下所示。
 
 ```shell
-python3 benchmark_serving.py \
+vllm bench serve \
     --host <IP> \
     --port <Port> \
     --model <model_path> \
@@ -206,23 +202,23 @@ python3 benchmark_serving.py \
 - `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
-本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型性能。
+本节以 Qwen3-235B-A22B-Instruct-2507-FP8 模型为例进行说明如何测试模型性能。
 
 **步骤 1.** 启动 vLLM 服务。
 
-**步骤 2.** 测试Qwen3-30B-A3B-FP8模型性能。
+**步骤 2.** 测试Qwen3-235B-A22B-Instruct-2507-FP8模型性能。
 
 ```shell
 docker exec -it  vllm_service bash
 cd /test/benchmark
 mkdir benchmark_result
 export OPENAI_API_KEY="token-abc123"
-python3 benchmark_serving.py \
+vllm bench serve \
     --host <IP> \
     --port 8000 \
-    --model /weights/Qwen3-30B-A3B-FP8 \
+    --model /weights/Qwen3-235B-A22B-Instruct-2507-FP8 \
     --dataset-name random \
-    --num-prompts 5 \
+    --num-prompts 3 \
     --random-input-len 128 \
     --ignore-eos \
     --random-output-len 1024 \
@@ -235,22 +231,19 @@ python3 benchmark_serving.py \
 其中，“vllm_service”为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；“host”为本机ip地址。
 
 
-本次测试使用“/test/benchmark/benchmark.sh”进行批量测试。
-
-
 ## 性能结果指标说明
 
-- Maximum req： 最大并发数。
+- Maximum request concurrency： 最大并发数。
 
-- Duration：请求测试耗时。
+- Benchmark duration (s)：请求测试耗时。
 
-- Successful req：请求总数。
+- Successful requests：请求总数。
 
-- input tokens：输入Token数量。
+- Total input tokens：输入Token数量。
 
-- generated tokens：输出Token数量。
+- Total generated tokens：输出Token数量。
 
-- Req throughput：每秒处理的请求数。
+- Request throughput：每秒处理的请求数。
 
 - Output token throughput：每秒输出Token数量。
 
@@ -260,10 +253,7 @@ python3 benchmark_serving.py \
 
 - Mean TPOT：模型生成每个输出 Token 所需的平均时间。
 
-- Decode Token throughput：Decode阶段每秒输出Token数量。
-
-- Per-req Decoding token throughput：Decode阶段平均每个用户每秒输出Token数量。
-
+- Mean ITL: token间延迟。
 
 
 # 测试模型精度

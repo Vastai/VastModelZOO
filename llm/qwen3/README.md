@@ -118,6 +118,8 @@
 [Qwen/Qwen3-235B-A22B-FP8](https://d6108366.hf-mirror.com/Qwen/Qwen3-235B-A22B-FP8)| MOE，GQA |  4*VA16，TP16 |
 [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8/)   | MOE，GQA，No thinking |  4*VA16，TP16  |
 [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8/)   | MOE，GQA，thinking |  4*VA16，TP16 |
+[Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4/)   | MOE，GQA |  VA1L/VA10L/VA16，TP2/4 |
+
 
 
 ### step.2 模型推理
