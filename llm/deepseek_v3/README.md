@@ -67,11 +67,17 @@ modelscope download --model deepseek-ai/$Model_Name --local_dir $Path/$Model_Nam
 
 ## 注意事项
 
-在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
+- 模型最大输入长度和最大上下文长度限制：
 
-- 模型最大上下文长度为 128K，输入最大长度为 100K，如果开启 MTP，模型最大上下文长度为 64K，输入最大长度为48K.	
+  - 非MTP(Multi-Token Prediction)模式：
 
-- 同时支持最大并发数为 4。
+    - TP32 PP2 最大输入长度为 100K，最大上下文长度为 128K。
+
+    - TP32 最大输入长度为 56K，最大上下文长度为 64K。
+    
+  - MTP模式：最大输入长度为 56K，最大上下文长度为 64K。	
+
+- 模型同时支持最大并发数为 4。
 
 - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理。 
 
@@ -104,9 +110,9 @@ docker run \
 
 参数说明如下所示。
 
-- `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对100k输入时，需要设置该参数。
+- `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对100k输入时，需要设置该环境变量。
 
-- `FUSE_ALL_DECODER_LAYERS="0"`禁用融合优化环境变量设置，仅针对100k输入时，需要设置该参数。
+- `FUSE_ALL_DECODER_LAYERS="0"`禁用融合优化环境变量设置，仅针对100k输入时，需要设置该环境变量。
 
 - `--tensor-parallel-size`：张量并行数, 针对 DeepSeek-V3/V3.1 系列模型仅支持TP32, 对应参数：“--tensor-parallel-size 32”
 
@@ -118,7 +124,7 @@ docker run \
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度。最大支持128K，若开启 MTP，模型最大上下文长度为 64K。
+- `--max-model-len`：模型最大上下文长度。最大支持128K；若开启 MTP，模型最大上下文长度为 64K。
 
 - `--speculative-config` : 是否开启MTP模式，只对 DeepSeek-V3/V3.1 系列模型生效，若开启MTP，则设置参数：--speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
 。100k输入不支持MTP模式。
