@@ -1,7 +1,6 @@
 
 # DeepSeek-R1 系列模型部署
 
-
 本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 DeepSeek-R1 系列模型，并测试模型的精度和性能。
 
 ## 硬件要求
@@ -21,6 +20,7 @@
 
 ## 模型下载
 1. 通过hf-mirror下载
+
 - 参考[hf-mirror](https://hf-mirror.com/)下载权重
   ```shell
   wget https://hf-mirror.com/hfd/hfd.sh
@@ -31,6 +31,7 @@
   ```
 
 2. 或通过modelscope下载
+
 - 参考[modelscope](https://modelscope.cn/docs/models/download)下载权重
   ```shell
   pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
@@ -39,6 +40,7 @@
   ```
 
 ## 注意事项
+
   | parallel | seq limit | mtp | tips|
   |:--- | :-- | :-- | :-- |
   | tp32-pp2 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
@@ -206,9 +208,7 @@
 
 ## 模型精度测试
 
-模型精度测试通过EvalScope进行评估，用户手册参考：[EvalScope](https://evalscope.readthedocs.io/zh-cn/latest/index.html)
-
-1. 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
+1. 通过EvalScope进行模型精度测试，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
 2. 启动 vLLM 模型服务
 3. 参考脚本：[precision_llm.py](../../docs/evalscope/precision_llm.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
 

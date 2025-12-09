@@ -24,6 +24,7 @@
 
 ## 模型下载
 1. 通过hf-mirror下载
+
 - 参考[hf-mirror](https://hf-mirror.com/)下载权重
   ```shell
   wget https://hf-mirror.com/hfd/hfd.sh
@@ -34,6 +35,7 @@
   ```
 
 2. 或通过modelscope下载
+
 - 参考[modelscope](https://modelscope.cn/docs/models/download)下载权重
   ```shell
   pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
@@ -108,7 +110,6 @@
 
 > 模型性能包含吞吐和推理时延，可通过 vLLM 服务加载模型，并使用 vLLM 自带框架进行性能测试。
 
-
 1. 参考vLLM文档测试模型性能：[benchmarking/cli](https://docs.vllm.ai/en/latest/benchmarking/cli/)
 
   ```shell
@@ -157,6 +158,7 @@
   - `--result-filename`：测试结果文件名称。
 
 2. 测试示例
+
 - 启动vLLM服务
 - 测试`DeepSeek-V3.1-Terminus`模型性能
 
@@ -210,9 +212,7 @@
 
 ## 模型精度测试
 
-模型精度测试通过EvalScope进行评估，用户手册参考：[EvalScope](https://evalscope.readthedocs.io/zh-cn/latest/index.html)
-
-1. 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
+1. 通过EvalScope进行模型精度测试，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
 2. 启动 vLLM 模型服务
 3. 参考脚本：[precision_llm.py](../../docs/evalscope/precision_llm.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
 
@@ -252,7 +252,6 @@
 
     - limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
-
 ## Open WebUI界面服务
 
 1. 启动 vLLM 服务。
@@ -277,6 +276,7 @@
       --restart always \
       harbor.vastaitech.com/ai_deliver/vast-webui:latest
   ```
+  
 - 上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:latest_arm`。
   - 其中，`OPENAI_API_BASE_URL`为 vLLM 服务地址，`DEFAULT_MODELS`为原始模型权重所在路径。请根据实际情况替换。
 - Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:18080)访问  Open WebUI。
@@ -311,10 +311,9 @@
   5.3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 
-![disable_ui.png](../../images/llm/deepseek_r1/disable_ui.png)
+  ![disable_ui.png](../../images/llm/deepseek_r1/disable_ui.png)
 
 6. 开启一个新对话进行简单体验。
-
 
 ![chat.png](../../images/llm/deepseek_r1/chat.png)
 
