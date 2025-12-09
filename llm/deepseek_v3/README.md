@@ -124,7 +124,15 @@ docker run \
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度。最大支持128K；若开启 MTP，模型最大上下文长度为 64K。
+- `--max-model-len`：模型最大上下文长度。
+
+  - 非 MTP 模式：
+
+    - TP32 PP2 模型最大上下文长度为 131072 。
+
+    - TP32 模型最大上下文长度为 65536。
+    
+  - MTP模式：模型最大上下文长度为 65536 。
 
 - `--speculative-config` : 是否开启MTP模式，只对 DeepSeek-V3/V3.1 系列模型生效，若开启MTP，则设置参数：--speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
 。100k输入不支持MTP模式。
