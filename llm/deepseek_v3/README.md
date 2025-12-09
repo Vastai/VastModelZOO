@@ -257,63 +257,58 @@
 
 1. 启动 vLLM 服务。
 2. 新打开一个终端拉取 Open WebUI 镜像。
-```shell
-docker pull harbor.vastaitech.com/ai_deliver/vast-webui:latest
-```
+
+  ```shell
+  docker pull harbor.vastaitech.com/ai_deliver/vast-webui:latest
+  ```
+
 3. 启动 Open WebUI 服务。
 
-```shell
-docker run -d \
-    -v vast-webui:/app/backend/data \
-    -e ENABLE_OLLAMA_API=False \
-    --network=host \
-    -e PORT=18080 \
-    -e OPENAI_API_BASE_URL="http://127.0.0.1:8000/v1" \
-    -e DEFAULT_MODELS="/weights/DeepSeek-V3-0324" \
-    -e DEFAULT_LOCALE="cn" \
-    --name vast-webui \
-    --restart always \
-    harbor.vastaitech.com/ai_deliver/vast-webui:latest
-```
+  ```shell
+  docker run -d \
+      -v vast-webui:/app/backend/data \
+      -e ENABLE_OLLAMA_API=False \
+      --network=host \
+      -e PORT=18080 \
+      -e OPENAI_API_BASE_URL="http://127.0.0.1:8000/v1" \
+      -e DEFAULT_MODELS="/weights/DeepSeek-V3-0324" \
+      -e DEFAULT_LOCALE="cn" \
+      --name vast-webui \
+      --restart always \
+      harbor.vastaitech.com/ai_deliver/vast-webui:latest
+  ```
 - 上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:latest_arm`。
   - 其中，`OPENAI_API_BASE_URL`为 vLLM 服务地址，`DEFAULT_MODELS`为原始模型权重所在路径。请根据实际情况替换。
 - Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:18080)访问  Open WebUI。
   - 其中，“HostIP” 为 Open WebUI 服务所在IP地址。
 
-
 4. 访问 Open WebUI 页面，并根据界面提示注册账号并登录。
 
 - 首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
-
 
 ![vastai_openwebui.png](../../images/llm/deepseek_r1/vastai_openwebui.png)
 
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
-
 5. 连接 vLLM 服务并添加DeepSeek-V3-0324模型。
-
 
 - 如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
 
+  5.1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
 
-5.1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
+  ![add_vllm.png](../../images/llm/deepseek_r1/add_vllm.png)
 
+  5.2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3-0324模型地址并保存。
 
-![add_vllm.png](../../images/llm/deepseek_r1/add_vllm.png)
+  -  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
 
-5.2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和DeepSeek-V3-0324模型地址并保存。
+  - 密钥：API密钥，需配置为“token-abc123”。
 
--  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
+  - 模型地址：原始模型权重文件所在路径。
 
-- 密钥：API密钥，需配置为“token-abc123”。
+  ![add_url_model.png](../../images/llm/deepseek_r1/add_url_model.png)
 
-- 模型地址：原始模型权重文件所在路径。
-
-
-![add_url_model.png](../../images/llm/deepseek_r1/add_url_model.png)
-
-5.3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
+  5.3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 
 ![disable_ui.png](../../images/llm/deepseek_r1/disable_ui.png)
