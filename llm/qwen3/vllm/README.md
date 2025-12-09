@@ -6,98 +6,61 @@
 
 | 模型规格 |  最低硬件配置要求|
 | --- | --- |
-| Qwen3 30B系列（FP8/Int4）| 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
-| Qwen3 235B系列（FP8）| 单台 VA16（4*128G）服务器|
+| Qwen3-30B系列（FP8/Int4）| 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
+| Qwen3-235B系列（FP8）| 单台 VA16（4*128G）服务器|
 
 
-## 支持的模型
+## 模型支持
 
-当前支持的模型如下所示：
+  |model | huggingface  | modelscope | parameter | dtype| arch |
+  | :--- | :--- | :-- | :-- | :-- | :-- |
+  |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
+  |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
+  |Qwen3-30B-A3B-Thinking-2507-FP8 | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
+  |Qwen3-Coder-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
+  |Qwen3-235B-A22B-FP8 | [Qwen/Qwen3-235B-A22B-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-FP8) | [Qwen/Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
+  |Qwen3-235B-A22B-Instruct-2507-FP8 | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
+  |Qwen3-235B-A22B-Thinking-2507-FP8 | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
+  |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 |LLM-MOE-GQA |
 
-- [Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8)
+## 模型下载
+1. 通过hf-mirror下载
+- 参考[hf-mirror](https://hf-mirror.com/)下载权重
+  ```shell
+  wget https://hf-mirror.com/hfd/hfd.sh
+  chmod a+x hfd.sh
+  export HF_ENDPOINT=https://hf-mirror.com
+  apt install aria2
+  ./hfd.sh Qwen/Qwen3-30B-A3B-FP8 -x 10 --local-dir Qwen3-30B-A3B-FP8
+  ```
 
-- [Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8)
+2. 或通过modelscope下载
+- 参考[modelscope](https://modelscope.cn/docs/models/download)下载权重
+  ```shell
+  pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
+  export PATH=$PATH:~/.local/bin
+  modelscope download --model Qwen/Qwen3-30B-A3B-FP8 --local_dir ./Qwen3-30B-A3B-FP8
+  ```
 
-- [Qwen3-30B-A3B-Thinking-2507-FP8](https://modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8)
-
-- [Qwen3-Coder-30B-A3B-Instruct-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8)
-
-- [Tongyi-DeepResearch-30B-A3B-FP8](https://www.modelscope.cn/models/iic/Tongyi-DeepResearch-30B-A3B)
-
-- [Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8)
-
-- [Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8)
-
-- [Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8)
-
-- [Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4)
-
-模型下载步骤如下所示。
-
-1. 安装 ModelScope。
-
-```shell
-pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
-export PATH=$PATH:~/.local/bin
-```
-
-2. 根据实际情况选择对应的模型下载。
-
-其中，“`$Path`”为模型保存路径，“`$Model_Name`”为模型名称，如下所示，请根据实际情况替换。
-
-`$Model_Name`：
-
-- Qwen3-30B-A3B-FP8
-
-- Qwen3-30B-A3B-Instruct-2507-FP8
-
-- Qwen3-30B-A3B-Thinking-2507-FP8
-
-- Qwen3-Coder-30B-A3B-Instruct-FP8
-
-- Tongyi-DeepResearch-30B-A3B-FP8
-
-- Qwen3-235B-A22B-FP8
-
-- Qwen3-235B-A22B-Instruct-2507-FP8
-
-- Qwen3-235B-A22B-Thinking-2507-FP8
-
-- Qwen3-30B-A3B-GPTQ-Int4
-
-模型文件较大,下载时请确保“`$Path`”所在的磁盘存储空间是否足够。
-
-
-下载过程中如果出现某个文件下载失败的情况，可等命令执行完成后重新执行该命令，继续下载未下载完成的文件。
-
-
-对于 Qwen3 系列模型（除Tongyi-DeepResearch-30B-A3B-FP8外）：
-```shell
-modelscope download --model Qwen/$Model_Name --local_dir $Path/$Model_Name
-```
-
-对于 Tongyi-DeepResearch-30B-A3B-FP8 模型：
-```shell
-modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$Model_Name
-```
-> 对于 Tongyi-DeepResearch-30B-A3B-FP8 模型，启动模型服务前需经过 VACC 量化，详细可参考[https://github.com/Vastai/VastModelZOO/tree/develop/llm/tongyi_deepresearch](https://github.com/Vastai/VastModelZOO/tree/develop/llm/tongyi_deepresearch)。
 
 ## 注意事项
 
-- 模型最大输入长度和最大上下文长度限制：
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Qwen3-30B-A3B-* | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-30B-A3B-* | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-235B-A22B-* | tp16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
-  - 如果模型为 Qwen3 30B 系列模型，TP 支持 2 或 4。如果 TP 为 2，最大输入长度为 56K，最大上下文长度为 64K。如果 TP为 4，最大输入长度为 56K，最大上下文长度为 128K。
-
-  - 如果模型为 Qwen3 235B 系列模型，TP仅支持 16，此时，最大输入长度为 100K，最大上下文长度为 128K。
-
-- 模型同时支持最大并发数为 4。
-
-- 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
 
 
-# 环境安装
+## 启动模型服务
 
-## 启动Qwen3服务
+1. 参考官方启动命令：[vllm](https://docs.vllm.ai/en/latest/cli/#bench)
 
 ```bash
 docker run \
@@ -116,42 +79,30 @@ docker run \
     --enforce-eager \
     --host 0.0.0.0 \
     --port 8000 \
-    --served-model-name Qwen3
+    --served-model-name Qwen3-235B-A22B-Instruct-2507-FP8
 ```
 
-参数说明如下所示。
-- `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对Qwen3 235B系列模型测试100k输入时，需要设置该环境变量。
+- 参数说明如下所示。
+  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对Qwen3 235B系列模型测试100k输入时，需要设置该环境变量。
 
-- `--tensor-parallel-size`：张量并行数。
+  - `--tensor-parallel-size`：张量并行数。
 
-   - 对于 Qwen3 30B 系列模型，仅支持设置为2 或 4。
-   
-   - 对于 Qwen3 235B系列模型，仅支持设置为 16。
+  - `--model`：原始模型权重所在路径。请根据实际情况替换。
 
-- `--model`：原始模型权重所在路径。请根据实际情况替换。
+  - `--port`：模型服务端口。
 
-- `--port`：模型服务端口。
+  - `--served-model-name`：模型名称。
 
-- `--served-model-name`：模型名称。
+  - `--max-model-len`：模型最大上下文长度。
 
-- `--max-model-len`：模型最大上下文长度。
+  - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
 
-  - Qwen3 30B 系列模型：如果 TP 为 2，模型最大上下文长度为 65536 ；如果 TP 为 4，模型最大上下文长度为 131072 。
-
-  - Qwen3 235B 系列模型：模型最大上下文长度为 131072 。
-
-- `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
-
-> 注意思考和非思考模式具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
+  > 思考和非思考模式，具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
 
-# 测试模型性能
+## 模型性能测试
 
 模型性能包含吞吐和推理时延，可通过 vLLM 服务加载模型，并使用 vLLM 自带框架进行性能测试。
-
-## vLLM 自带框架测试模型性能
-
-通过 vLLM 自带框架进行模型测试的指令如下所示。
 
 ```shell
 vllm bench serve \
@@ -172,66 +123,63 @@ vllm bench serve \
 ```
 
 
-其中，参数说明如下所示。
+- 其中，参数说明如下
+
+  - `--host`：vLLM 推理服务所在 IP 地址。
+
+  - `--port`：vLLM 推理服务端口。
+
+  - `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
+
+  - `--dataset-name`：数据集名称。
+
+  - `--num-prompts`：测试时使用的输入数据数量。
+
+  - `--random-input-len`：输入序列的长度。
+
+  - `--ignore-eos`：用于控制生成文本时是否忽略模型的 EOS（End-of-Sequence） Token，即结束标记，如 `<|endoftext|>` 或 `</s>`。
+
+  - `--random-output-len`： 输出序列的长度。
+
+  - `--max-concurrency`：最大请求并发数。
+
+  - `--served-model-name`：API 中使用的模型名称。
+  > 该参数设置应与模型服务启动脚本中`--served-model-name`参数一致。
+
+  - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
+
+  - `--result-dir`：测试结果保存目录。如果不设置，则保存至当前路径。
+
+  - `--result-filename`：测试结果文件名称。
+
+  - `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
-- `--host`：vLLM 推理服务所在 IP 地址。
+2. 测试示例
+- 启动vLLM服务
+- 测试`Qwen3-235B-A22B-Instruct-2507-FP8`模型性能
 
-- `--port`：vLLM 推理服务端口。
-
-- `--model`：原始模型权重文件所在路径。和 vLLM 推理服务启动时设置的模型路径一致。
-
-- `--dataset-name`：数据集名称。
-
-- `--num-prompts`：测试时使用的输入数据数量。
-
-- `--random-input-len`：输入序列的长度。
-
-- `--ignore-eos`：用于控制生成文本时是否忽略模型的 EOS（End-of-Sequence） Token，即结束标记，如 `<|endoftext|>` 或 `</s>`。
-
-- `--random-output-len`： 输出序列的长度。
-
-- `--max-concurrency`：最大请求并发数。
-
-- `--served-model-name`：API 中使用的模型名称。
-> 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致。
-
-- `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
-
-- `--result-dir`：测试结果保存目录。如果不设置，则保存至当前路径。
-
-- `--result-filename`：测试结果文件名称。
-
-- `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
-
-
-本节以 Qwen3-235B-A22B-Instruct-2507-FP8 模型为例进行说明如何测试模型性能。
-
-**步骤 1.** 启动 vLLM 服务。
-
-**步骤 2.** 测试Qwen3-235B-A22B-Instruct-2507-FP8模型性能。
-
-```shell
-docker exec -it  vllm_service bash
-cd /test/benchmark
-mkdir benchmark_result
-export OPENAI_API_KEY="token-abc123"
-vllm bench serve \
-    --host <IP> \
-    --port 8000 \
-    --model /weights/Qwen3-235B-A22B-Instruct-2507-FP8 \
-    --dataset-name random \
-    --num-prompts 3 \
-    --random-input-len 128 \
-    --ignore-eos \
-    --random-output-len 1024 \
-    --max-concurrency 1 \
-    --served-model-name Qwen3 \
-    --save-result \
-    --result-dir ./benchmark_result \
-    --result-filename result.json     
-```
-其中，“vllm_service”为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；“host”为本机ip地址。
+  ```shell
+  docker exec -it  vllm_service bash
+  cd /test/benchmark
+  mkdir benchmark_result
+  export OPENAI_API_KEY="token-abc123"
+  vllm bench serve \
+      --host <IP> \
+      --port 8000 \
+      --model /weights/Qwen3-235B-A22B-Instruct-2507-FP8 \
+      --dataset-name random \
+      --num-prompts 3 \
+      --random-input-len 128 \
+      --ignore-eos \
+      --random-output-len 1024 \
+      --max-concurrency 1 \
+      --served-model-name Qwen3-235B-A22B-Instruct-2507-FP8 \
+      --save-result \
+      --result-dir ./benchmark_result \
+      --result-filename result.json     
+  ```
+  - 其中，`vllm_service`为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；`host`为本机ip地址。
 
 
 ## 性能结果指标说明
@@ -259,71 +207,56 @@ vllm bench serve \
 - Mean ITL: token间延迟。
 
 
-# 测试模型精度
+## 模型精度测试
 
-模型精度测试通过 vLLM 服务加载模型，并使用 EvalScope 进行评估。EvalScope 说明可参考[EvalScope 用户手册](https://evalscope.readthedocs.io/zh-cn/latest/index.html)。
+模型精度测试通过EvalScope进行评估，用户手册参考：[EvalScope](https://evalscope.readthedocs.io/zh-cn/latest/index.html)
 
+1. 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
+2. 启动 vLLM 模型服务
+3. 参考脚本：[precision_llm.py](../../docs/evalscope/precision_llm.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
 
-本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何测试模型精度。
+  - 测评主要参数：
+    - model：模型名称。
+      - 该参数设置应与模型服务启动脚本中`--served-model-name`参数一致
 
-**步骤 1.** 启动 vLLM 服务。
+    - api_url：vLLM 服务地址。
 
-**步骤 2.** 安装EvalScope，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)。
+    - api_key：API 密钥。默认值：Empty。
 
-**步骤 3.** 配置测评数据集及采样参数等信息，执行脚本[precision_llm.py](../../../docs/evalscope/precision_llm.py)获取精度测评结果。
+    - datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
 
-测评主要参数如下所示：
+    - dataset_args：数据集参数
 
-- model：模型名称。
-  - 该参数设置应与模型服务启动脚本中“--served-model-name” 参数一致
+      - subset_list：评测数据子集列表，指定后将只使用子集数据。
 
-- api_url：vLLM 服务地址。
+    - eval_batch_size：评测批次大小。
 
-- api_key：API 密钥。默认值：Empty。
+    - generation_config：生成参数。
 
-- datasets：数据集名称。支持输入多个数据集，数据集将自动从modelscope下载。
+      - max_tokens：生成的最大Token数量。
 
-- dataset_args：数据集参数
+      - temperature：生成温度。
 
-  - subset_list：评测数据子集列表，指定后将只使用子集数据。
+      - top_p：生成top-p。
+        
+      - top_k：生成top-k。
 
-- eval_batch_size：评测批次大小。
+      - n： 生成序列数量。
 
-- generation_config：生成参数。
+    - stream：是否使用流式输出，默认值：false。
 
-  - max_tokens：生成的最大Token数量。
+    - timeout：请求超时时间。
 
-  - temperature：生成温度。
+    - limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
 
-  - top_p：生成top-p。
-    
-  - top_k：生成top-k。
+## Open WebUI界面服务
 
-  - n： 生成序列数量。
-
-- stream：是否使用流式输出，默认值：false。
-
-- timeout：请求超时时间。
-
-- limit：每个数据集最大评测数据量，不填写则默认为全部评测，可用于快速验证。支持int和float类型，int表示评测数据集的前N条数据，float表示评测数据集的前N%条数据。
-
-
-# 启动 Open WebUI 服务
-
-Open WebUI通过容器启动，本节以 Qwen3-30B-A3B-FP8 模型为例进行说明如何访问 Open WebUI。
-
-
-
-**操作步骤**
-
-**步骤 1.** 启动 vLLM 服务。
-
-**步骤 2.** 新打开一个终端拉取 Open WebUI 镜像。
+1. 启动 vLLM 服务。
+2. 新打开一个终端拉取 Open WebUI 镜像。
 ```shell
 docker pull harbor.vastaitech.com/ai_deliver/vast-webui:latest
 ```
-
-**步骤 3.** 启动 Open WebUI 服务。
+3. 启动 Open WebUI 服务。
 
 ```shell
 docker run -d \
@@ -338,41 +271,31 @@ docker run -d \
     --restart always \
     harbor.vastaitech.com/ai_deliver/vast-webui:latest
 ```
->上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:arm_latest`。
+- 上述指令默认在 x86 架构的 CPU 环境中执行。如果 CPU 是 ARM 架构，则`harbor.vastaitech.com/ai_deliver/vast-webui:latest`需替换为`harbor.vastaitech.com/ai_deliver/vast-webui:arm_latest`。
+  - 其中，`OPENAI_API_BASE_URL`为 vLLM 服务地址，`DEFAULT_MODELS`为原始模型权重所在路径。请根据实际情况替换。
+- Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:18080)访问  Open WebUI。
+  - 其中，“HostIP” 为 Open WebUI 服务所在IP地址。
 
 
-其中，`OPENAI_API_BASE_URL`为 vLLM 服务地址，`DEFAULT_MODELS`为原始模型权重所在路径。请根据实际情况替换。
+4. 访问 Open WebUI 页面，并根据界面提示注册账号并登录。
 
-
-Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:18080)访问  Open WebUI。
-
-其中，“HostIP” 为 Open WebUI 服务所在IP地址。
-
-
-
-
-**步骤 4.** 访问 Open WebUI 页面，并根据界面提示注册账号并登录。
-
-首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
+- 首次进入需设置管理员账号密码。设置完毕后，进入如下所示主页。
 
 
 ![vastai_openwebui.png](../../../images/llm/deepseek_r1/vastai_openwebui.png)
 
 > 如果瀚博已提供环境，则默认用户名为“admin@vastai.com”，默认密码为“admin123”。
 
+5.  连接 vLLM 服务并添加Qwen3-30B-A3B-FP8模型。
 
-**步骤 5.** 连接 vLLM 服务并添加Qwen3-30B-A3B-FP8模型。
-
-
-如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
+- 如果是普通用户，也可在“设置 > 外部连接”页签添加 vLLM服务和模型，但是添加后仅针对当前普通用户有效。
 
 
-1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
-
+5.1. 在“管理员面板 > 设置 > 外部连接”页签的“管理 Open API 连接”栏单击“+”。
 
 ![add_vllm.png](../../../images/llm/deepseek_r1/add_vllm.png)
 
-2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和Qwen3-30B-A3B-FP8模型地址并保存。
+5.2. 在“添加一个连接”页面配置 vLLM 服务地址、密钥和Qwen3-30B-A3B-FP8模型地址并保存。
 
 -  vLLM 服务地址格式：http://HostIP:Port/v1。其中，HostIP 为 vLLM 服务所在地址，Port 为 vLLM 服务端口。
 
@@ -380,21 +303,15 @@ Open WebUI 服务启动后，即可通过[http://HostIP:18080](http://HostIP:180
 
 - 模型地址：原始模型权重文件所在路径。
 
-
-
 ![add_url_model.png](../../../images/llm/deepseek_r1/add_url_model.png)
 
-3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
-
-
+5.3. 在“管理员面板 > 设置 > 界面”页签禁用下图红框中的功能以防止 Open WebUI 自动调用大模型执行红框中的功能。
 
 ![disable_ui.png](../../../images/llm/deepseek_r1/disable_ui.png)
 
-**步骤 6.** 开启一个新对话进行简单体验。
-
-
+6.开启一个新对话进行简单体验。
 
 ![chat.png](../../../images/llm/deepseek_r1/chat.png)
 
-本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
+- 本节仅简单说明如何使用 Open WebUI。详细使用说明可参考[https://openwebui-doc-zh.pages.dev/features/](https://openwebui-doc-zh.pages.dev/features/)。
 
