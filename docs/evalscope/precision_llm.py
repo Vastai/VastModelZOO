@@ -44,11 +44,3 @@ task_cfg = TaskConfig(
 )
 
 run_task(task_cfg=task_cfg)
-
-'''
-vastgenx serve --model ai300/Qwen2.5-7B-Instruct-int8-tp8-2048-4096 \
---port 9900 \
---llm_devices "[0,1,2,3,4,5,6,7]"
-
-python VastModelZOO/docs/vastgenx/evalscope/precision_llm.py
-'''

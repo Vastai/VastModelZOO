@@ -37,15 +37,3 @@ task_cfg_dict = TaskConfig(
 )
 
 run_task(task_cfg=task_cfg_dict)
-
-'''
-vastgenx serve --model ai300/qwen2_vl_7b_llm_28layer_2048_4096_tp4_int8 \
---vit_model ai300/qwen2_vl_7b_visual_32layer_5120_fp16 \
---port 9900 \
---llm_devices "[0,1,2,3]" \
---vit_devices "[4]" \
---min_pixels 78400 \
---max_pixels 921600
-
-python VastModelZOO/docs/vastgenx/evalscope/precision_vlm.py
-'''
