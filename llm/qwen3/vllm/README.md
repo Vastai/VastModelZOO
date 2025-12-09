@@ -84,16 +84,15 @@ modelscope download --model iic/Tongyi-DeepResearch-30B-A3B --local_dir $Path/$M
 
 ## 注意事项
 
-在当前硬件配置下，测试模型性能和精度时需注意以下限制条件：
+- 模型最大输入长度和最大上下文长度限制：
 
-- 如果 TP 为 2，模型最大上下文长度为 64K；如果TP 为 4或16，模型最大上下文长度为 128K。
+  - 如果模型为 Qwen3 30B 系列模型，TP 支持 2 或 4。如果 TP 为 2，最大输入长度为 56K，最大上下文长度为 64K。如果 TP为 4，最大输入长度为 56K，最大上下文长度为 128K。
+
+  - 如果模型为 Qwen3 235B 系列模型，TP仅支持 16，此时，最大输入长度为 100K，最大上下文长度为 128K。
 
 - 模型同时支持最大并发数为 4。
 
-- 最大输入长度为 56K，若TP为 16，则支持最大输入长度为 100K。
-
 - 对于超出上下文长度的请求，服务端会拦截不做处理，客户端需自行校验请求长度。
-
 
 
 # 环境安装
@@ -135,7 +134,11 @@ docker run \
 
 - `--served-model-name`：模型名称。
 
-- `--max-model-len`：模型最大上下文长度，TP4/TP16 最大支持128k上下文，TP2 最大支持64k上下文
+- `--max-model-len`：模型最大上下文长度。
+
+  - Qwen3 30B 系列模型：如果 TP 为 2，模型最大上下文长度为 65536 ；如果 TP 为 4，模型最大上下文长度为 131072 。
+
+  - Qwen3 235B 系列模型：模型最大上下文长度为 131072 。
 
 - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
 
