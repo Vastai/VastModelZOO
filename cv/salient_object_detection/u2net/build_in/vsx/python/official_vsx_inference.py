@@ -336,8 +336,6 @@ u2netp-int8-percentile-1_3_320_320-vacc
 
 """
 Supervisely_Person_Dataset
-http://192.168.20.139:8888/vastml/dataset/seg/human_seg/Supervisely_Person_Dataset/src/ds1/img/
-http://192.168.20.139:8888/vastml/dataset/seg/human_seg/Supervisely_Person_Dataset/mask/ds1/
 
 u2net_human_seg_1_3_320_320.onnx
 | methods   |   mae |   maxfmeasure |   avgfmeasure |   adpfmeasure |   maxprecision |   avgprecision |   maxrecall |   avgrecall |   maxem |   avgem |   adpem |    sm |   wfm |

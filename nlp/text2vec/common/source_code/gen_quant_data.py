@@ -27,7 +27,6 @@ sentence_batch = ['Hybrid retrieval leverages the strengths of various methods',
                   "在这个项目中，我们发布了BGE-M3，它是第一个具有多功能、多语言和多粒度特性的文本检索模型。多功能:可以同时执行三种检索功能：单向量检索、多向量检索和稀疏检索。多语言:支持100多种工作语言。多粒度:它能够处理不同粒度的输入，从短句子到长达8192个词汇的长文档。"
                   ]
 
-## 或基于数据集获取：http://192.168.20.139:8888/vastml/dataset/text2vec/jsonl/
 # en dataset
 dataset = datasets.load_dataset('json', data_files='vacc_deploy/mteb-sts12-sts_test.jsonl', split='train')
 sentence_batch= dataset['sentence1'][:100]
