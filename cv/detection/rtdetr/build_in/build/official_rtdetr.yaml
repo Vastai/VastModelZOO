@@ -1,4 +1,4 @@
-name: official_rtdetr_run_stream_fp16
+name: official_rtdetr_fp16
 
 frontend:
   checkpoint: /path/to/rtdetr_r18vd_dec3_6x_coco_from_paddle.onnx

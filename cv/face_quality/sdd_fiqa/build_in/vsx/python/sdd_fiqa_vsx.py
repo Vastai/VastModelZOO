@@ -366,7 +366,7 @@ def evaluate(embeddings, actual_issame, nrof_folds=10, distance_metric=0, subtra
 def set_config():
     parse = argparse.ArgumentParser(description="RUN WITH VSX")
     parse.add_argument("--image_dir",type=str,default="/path/to/lfw_mtcnnpy_160",help="image_dir img dir",)
-    parse.add_argument("--model_prefix_path",type=str,default="deploy_weights/sdd_fiqa_run_stream_fp16/mod",help="model info")
+    parse.add_argument("--model_prefix_path",type=str,default="deploy_weights/sdd_fiqa_fp16/mod",help="model info")
     parse.add_argument("--vdsp_params_info",type=str,default="../vacc_code/vdsp_params/tface-sdd_fiqa-vdsp_params.json",help="vdsp op info",)
     parse.add_argument("--device_id", type=int, default=0, help="device id")
     parse.add_argument("--batch", type=int, default=1, help="bacth size")

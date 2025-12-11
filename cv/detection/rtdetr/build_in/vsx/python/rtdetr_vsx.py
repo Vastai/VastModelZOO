@@ -28,7 +28,7 @@ def argument_parser():
     parser.add_argument(
         "-m",
         "--model_prefix_path",
-        default="deploy_weights/official_rtdetr_run_stream_fp16/mod",
+        default="deploy_weights/official_rtdetr_fp16/mod",
         help="model prefix of the model suite files",
     )
     parser.add_argument(

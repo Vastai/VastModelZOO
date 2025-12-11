@@ -1,4 +1,4 @@
-name: official_dbnet_run_stream_int8
+name: official_dbnet_int8
 
 frontend:
   checkpoint: path/to/dbnet_resnet18-640.onnx

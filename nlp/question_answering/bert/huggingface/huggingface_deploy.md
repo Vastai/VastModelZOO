@@ -17,7 +17,7 @@
    - [huggingface_bert_large_en_qa-384](./build_in/build/huggingface_bert_large_en_qa-384.yaml)
    - [huggingface_bert_base_en_qa-384](./build_in/build/huggingface_bert_base_en_qa-384.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -39,10 +39,10 @@
        --save_path npz_datalist.txt
    ```
 
-- runstream 运行
+- 推理 运行
   - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
 
-    运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
+    运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
 
     ```bash
     cd ../../common/sdk1.0
@@ -57,7 +57,7 @@
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
-    运行 [vsx_sc.py](../../common/vsx/python/vsx_qa.py) 脚本，获取 runstream 结果，示例：
+    运行 [vsx_sc.py](../../common/vsx/python/vsx_qa.py) 脚本，获取 推理 结果，示例：
 
     ```bash
     python ../../common/vsx/python/vsx_qa.py \

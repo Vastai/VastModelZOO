@@ -1,4 +1,4 @@
-name: text_model_run_stream_fp16
+name: text_model_fp16
 
 frontend:
   shape:

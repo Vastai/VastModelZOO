@@ -1,4 +1,4 @@
-name: official_gcpanet_run_stream_int8
+name: official_gcpanet_int8
 
 frontend:
   shape:

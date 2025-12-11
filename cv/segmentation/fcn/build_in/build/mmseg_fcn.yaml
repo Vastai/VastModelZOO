@@ -1,4 +1,4 @@
-name: mmseg_fcn_run_stream_int8
+name: mmseg_fcn_int8
 
 frontend:
   shape:

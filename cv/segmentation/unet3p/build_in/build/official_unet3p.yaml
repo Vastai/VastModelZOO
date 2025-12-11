@@ -1,4 +1,4 @@
-name: official_unet3p_run_stream_int8
+name: official_unet3p_int8
 
 frontend:
   shape:

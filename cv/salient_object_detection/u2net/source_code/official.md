@@ -38,9 +38,9 @@ commit: 53dc9da026650663fc8d8043f3681de76e91cfde
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --image_dir  /path/to/ECSSD/image \
-        --model_prefix_path deploy_weights/official_u2net_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_u2net_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-u2net-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
@@ -48,7 +48,7 @@ commit: 53dc9da026650663fc8d8043f3681de76e91cfde
 2. 基于[eval.py](../../common/eval/eval.py)，统计精度信息
    - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
    - 拷贝[config_dataset.json](../../common/eval/examples/config_dataset.json)到当前路径，修改配置文件中数据集路径
-   - 拷贝[config_method.json](../../common/eval/examples/config_method.json)到当前路径，修改path的值/path/to/runstream_output
+   - 拷贝[config_method.json](../../common/eval/examples/config_method.json)到当前路径，修改path的值/path/to/infer_output
    - 执行评估命令：
    ```
    python ../../common/eval/eval.py --dataset-json ./config_dataset.json --method-json ./config_method.json
@@ -71,14 +71,14 @@ commit: 53dc9da026650663fc8d8043f3681de76e91cfde
 
 2. 性能测试，配置vdsp参数[official-u2net-vdsp_params.json](../build_in/vdsp_params/official-u2net-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/official_u2net_run_stream_int8/mod \
+    vamp -m deploy_weights/official_u2net_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-u2net-vdsp_params.json \
     -i 1 p 1 -b 1
     ```
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_u2net_run_stream_int8/mod \
+    vamp -m deploy_weights/official_u2net_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-u2net-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \

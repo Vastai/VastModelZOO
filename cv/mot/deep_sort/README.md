@@ -67,7 +67,7 @@ python export.py
 1. 根据具体模型，修改编译配置
     - [official_deepsort.yaml](./build_in/build/official_deepsort.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -81,12 +81,12 @@ python export.py
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考：[vsx.py](./build_in/vsx/python/vsx.py)
     ```bash
     python ../build_in/vsx/python/vsx.py \
         --image_dir  /path/to/MOT17/test/MOT17-01-FRCNN/img1/  \
-        --model_prefix_path deploy_weights/official_deepsort_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_deepsort_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-deepsort-vdsp_params.json \
         --device 0
     ```
@@ -96,7 +96,7 @@ python export.py
 
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_deepsort_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-deepsort-vdsp_params.json -i 1 -b 1 -d 0 -p 1
+    vamp -m deploy_weights/official_deepsort_int8/mod --vdsp_params ../build_in/vdsp_params/official-deepsort-vdsp_params.json -i 1 -b 1 -d 0 -p 1
     ```
 
 ### Tips

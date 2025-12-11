@@ -1,4 +1,4 @@
-name: elic_gs_run_stream_fp16
+name: elic_gs_fp16
 
 frontend:
   shape:

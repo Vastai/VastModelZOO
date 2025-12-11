@@ -1,4 +1,4 @@
-name: decompress_gs_sim_run_stream_fp16
+name: decompress_gs_sim_fp16
 
 frontend:
   checkpoint: /path/to/decompress_gs_sim.onnx

@@ -18,7 +18,7 @@ commit: 88419ab18813f2c9193985e2d4d31d3d07abe839
 1. 根据具体模型，修改编译配置
     - [official_hrnet.yaml](../build_in/build/official_hrnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -31,15 +31,15 @@ commit: 88419ab18813f2c9193985e2d4d31d3d07abe839
     ```
    
 ### step.4 模型推理
-1. runstream
+
     - 参考：[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/cityscapes/leftImg8bit/val \
-        --model_prefix_path deploy_weights/official_hrnet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_hrnet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-hrnet_w48-vdsp_params.json \
         --mask_dir /path/to/cityscapes/gtFine/val \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --color_txt ../source_code/official/cityscapes_colors.txt \
         --device 0
     ```
@@ -56,13 +56,13 @@ commit: 88419ab18813f2c9193985e2d4d31d3d07abe839
 1. 性能测试
     - 配置vdsp参数[official-hrnet_w48-vdsp_params.json](../build_in/vdsp_params/official-hrnet_w48-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/official_hrnet_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_hrnet_fp16/mod \
     --vdsp_params ../build_in/vdsp_params/official-hrnet_w48-vdsp_params.json \
     -i 1 p 1 -b 1
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
@@ -74,7 +74,7 @@ commit: 88419ab18813f2c9193985e2d4d31d3d07abe839
 
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_hrnet_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_hrnet_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-hrnet_w48-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \

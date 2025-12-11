@@ -1,4 +1,4 @@
-name: vision_transformer_run_stream_fp16
+name: vision_transformer_fp16
 
 frontend:
   shape:

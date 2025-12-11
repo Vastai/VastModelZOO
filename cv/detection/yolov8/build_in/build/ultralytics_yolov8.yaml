@@ -1,4 +1,4 @@
-name: ultralytics_yolov8s_run_stream_int8
+name: ultralytics_yolov8s_int8
 
 frontend:
   checkpoint: /path/to/yolov8s-640.torchscript.pt

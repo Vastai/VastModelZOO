@@ -1,4 +1,4 @@
-name: yolov8s_seg_run_stream_int8
+name: yolov8s_seg_int8
 
 frontend:
   checkpoint: path/to/yolov8s-seg-640.torchscript.pt

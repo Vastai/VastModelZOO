@@ -188,7 +188,7 @@ parser.add_argument(
     help="img or dir  path",
 )
 parser.add_argument("--config_path", type = str, default = "../source_code/base_config.yaml", help = "config file")
-parser.add_argument("--model_weight_path", type = str, default = "deploy_weights/official_hih_run_stream_fp16/", help = "model info")
+parser.add_argument("--model_weight_path", type = str, default = "deploy_weights/official_hih_fp16/", help = "model info")
 parser.add_argument("--model_name", type = str, default = "mod", help = "model info")
 parser.add_argument(
     "--vdsp_params_info",

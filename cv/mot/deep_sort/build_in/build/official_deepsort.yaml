@@ -1,4 +1,4 @@
-name: official_deepsort_run_stream_int8
+name: official_deepsort_int8
 
 frontend:
   shape:

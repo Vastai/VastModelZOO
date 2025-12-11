@@ -1,4 +1,4 @@
-name: official_yolov10_run_stream_int8
+name: official_yolov10_int8
 
 frontend:
   checkpoint: /path/to/yolov10s-640.onnx

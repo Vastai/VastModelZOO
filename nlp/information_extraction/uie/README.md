@@ -82,7 +82,7 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
 1. 根据具体模型修改配置文件
     - [hustai_uie_base.yaml](./build_in/build/hustai_uie_base.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -93,7 +93,7 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
 
 ### step.4 模型推理
 - 根据具体模型修改执行参数路径
-- runstream推理示例，参考：[uie_vsx_infer.py](./build_in/vsx/python/uie_vsx_infer.py)
+- 推理示例，参考：[uie_vsx_infer.py](./build_in/vsx/python/uie_vsx_infer.py)
   ```bash
   export GLOG_minloglevel=1
   python3 build_in/vsx/python/uie_vsx_infer.py \
@@ -110,7 +110,7 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
   ```
 
 ### step.5 精度测试
-- runstream精度评估示例，参考：[uie_vsx_evaluate.py](./build_in/vsx/python/uie_vsx_evaluate.py)
+- 精度评估示例，参考：[uie_vsx_evaluate.py](./build_in/vsx/python/uie_vsx_evaluate.py)
 
   ```bash
   export GLOG_minloglevel=1
@@ -131,7 +131,7 @@ commit: 2eafcda44589144d2cb246b74e3bf2564ea6583f
   ```
 
 ### step.6 性能测试
-- runstream性能评估示例，参考：[uie_vsx_prof.py](./build_in/vsx/python/uie_vsx_prof.py)
+- 性能评估示例，参考：[uie_vsx_prof.py](./build_in/vsx/python/uie_vsx_prof.py)
 
   ```bash
   export GLOG_minloglevel=1

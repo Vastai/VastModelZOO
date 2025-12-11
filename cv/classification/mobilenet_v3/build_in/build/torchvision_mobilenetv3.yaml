@@ -1,4 +1,4 @@
-name: torch_mobilenetv3_run_stream_int8
+name: torch_mobilenetv3_int8
 
 frontend:
   shape:

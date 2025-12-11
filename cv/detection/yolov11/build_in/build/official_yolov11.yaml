@@ -1,4 +1,4 @@
-name: official_yolov11_run_stream_int8
+name: official_yolov11_int8
 
 frontend:
   checkpoint: /path/to/yolo11s.onnx

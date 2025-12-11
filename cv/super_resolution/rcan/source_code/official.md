@@ -30,7 +30,7 @@ commit: 3339ebc59519c3bb2b5719b87dd36515ec7f3ba7
 1. 根据具体模型，修改编译配置
     - [official_rcan.yaml](../build_in/build/official_rcan.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -45,15 +45,14 @@ commit: 3339ebc59519c3bb2b5719b87dd36515ec7f3ba7
 
 ### step.4 模型推理
 
-1. runstream
     - 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/DIV2K/DIV2K_valid_LR_bicubic/X2 \
-        --model_prefix_path deploy_weights/official_rcan_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_rcan_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-rcan-vdsp_params.json \
         --hr_image_dir /path/to/DIV2K/DIV2K_valid_HR \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -70,12 +69,12 @@ commit: 3339ebc59519c3bb2b5719b87dd36515ec7f3ba7
 1. 性能测试
     - 配置vdsp参数[official-rcan-vdsp_params.json](../build_in/vdsp_params/official-rcan-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_rcan_run_stream_int8/mod \
+    vamp -m deploy_weights/official_rcan_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-rcan-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,1080,1920]
     ```
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
     - 基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`：
     ```bash
     python ../../common/utils/image2npz.py \
@@ -86,7 +85,7 @@ commit: 3339ebc59519c3bb2b5719b87dd36515ec7f3ba7
 
     - 精度测试，vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_rcan_run_stream_int8/mod \
+    vamp -m deploy_weights/official_rcan_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-rcan-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,1080,1920] \
         --datalist npz_datalist.txt \

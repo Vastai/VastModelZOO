@@ -1,4 +1,4 @@
-name: official_hrnet_run_stream_int8
+name: official_hrnet_int8
 
 frontend:
   shape:

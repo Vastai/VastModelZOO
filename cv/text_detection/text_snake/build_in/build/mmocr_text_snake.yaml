@@ -1,4 +1,4 @@
-name: mmocr_text_snake_run_stream_int8
+name: mmocr_text_snake_int8
 
 frontend:
   shape:

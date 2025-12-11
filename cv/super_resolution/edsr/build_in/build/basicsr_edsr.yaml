@@ -1,4 +1,4 @@
-name: basicsr_edsr_run_stream_int8
+name: basicsr_edsr_int8
 
 frontend:
   shape:

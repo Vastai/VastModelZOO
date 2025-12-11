@@ -71,7 +71,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
 1. 根据具体模型，修改编译配置
     - [official_dinov2.yaml](./build_in/build/official_dinov2.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -83,13 +83,13 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考: [official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     - 获取对应的[elf文件](../../classification/common/elf/)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --dataset_root /path/to/roxford5k/jpg \
-        --model_prefix deploy_weights/official_dinov2_run_stream_fp16/mod \
+        --model_prefix deploy_weights/official_dinov2_fp16/mod \
         --norm_elf_file /path/to/elf/normalize \
         --space_to_depth_elf_file /path/to/elf/space_to_depth \
         --dataset_conf /path/to/roxford5k/gnd_roxford5k.pkl \
@@ -105,7 +105,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
 1. 性能测试
     - 配置vdsp参数[official-dinov2_vitl14_reg4-vdsp_params.json](./build_in/vdsp_params/official-dinov2_vitl14_reg4-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_dinov2_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_dinov2_fp16/mod \
     --vdsp_params ../build_in/vdsp_params/official-dinov2_vitl14_reg4-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,224,224]
     ```

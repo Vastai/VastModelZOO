@@ -84,7 +84,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 1. 根据具体模型修改配置文件
     - [huggingface](./huggingface/build_in/build/huggingface_bert_ner.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -107,10 +107,10 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
        --save_path npz_datalist.txt
    ```
 
-- runstream 运行
+- 推理 运行
   - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
 
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
+    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
 
     ```bash
     cd ../../common/sdk1.0
@@ -125,7 +125,7 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
-    运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 runstream 结果，示例：
+    运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 推理 结果，示例：
 
     ```bash
     python ../../common/vsx/python/vsx_ner.py \

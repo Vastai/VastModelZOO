@@ -243,7 +243,7 @@ def set_config():
     parser = argparse.ArgumentParser(description="RUN WITH VSX")
     parser.add_argument("--image_dir",type=str,default="/path/to/cityscapes/leftImg8bit/val",help="img dir",)
     parser.add_argument("--mask_dir",type=str,default="/path/to/cityscapes/gtFine/val",help="mask_dir",)
-    parser.add_argument("--model_prefix_path",type=str,default="deploy_weights/official_stdc_run_stream_fp16/mod",help="model info")
+    parser.add_argument("--model_prefix_path",type=str,default="deploy_weights/official_stdc_fp16/mod",help="model info")
     parser.add_argument("--vdsp_params_info",type=str,default="../vacc_code/vdsp_params/official-stdc1-vdsp_params.json",help="vdsp op info",)
     parser.add_argument("--device_id", type=int, default=0, help="device id")
     parser.add_argument("--batch", type=int, default=1, help="bacth size")

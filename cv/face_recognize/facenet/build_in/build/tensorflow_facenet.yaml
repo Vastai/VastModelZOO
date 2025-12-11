@@ -1,4 +1,4 @@
-name: tensorflow_facenet_run_stream_int8
+name: tensorflow_facenet_int8
 
 frontend:
   shape:

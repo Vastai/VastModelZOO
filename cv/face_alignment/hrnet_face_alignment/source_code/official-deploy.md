@@ -23,7 +23,7 @@
 1. 根据具体模型，修改编译配置
     - [official_hrnet.yaml](../build_in/build/official_hrnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -38,21 +38,21 @@
 
 ### step.4 模型推理
 
-1. runstream
+
     - 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
     ```bash
     python ../build_in/vsx/python/vsx_infer.py \
         --data_dir  /path/to/wflw/images \
         --npz_datalist  ./npz_datalist.txt \
-        --model_prefix_path deploy_weights/official_hrnet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_hrnet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
     - 精度测试，参考：[npz_decode.py](../build_in/npz_decode.py)
     ```
-    python ../build_in/npz_decode.py --result ./runstream_output --gt /path/to/wflw_meta.json --debug true
+    python ../build_in/npz_decode.py --result ./infer_output --gt /path/to/wflw_meta.json --debug true
     ```
 
     ```
@@ -71,11 +71,11 @@
 1. 性能测试
     配置[pytorch-hrnetv2-vdsp_params.json](../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_hrnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json -i 2 p 2 -b 2
+    vamp -m deploy_weights/official_hrnet_int8/mod --vdsp_params ../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json -i 2 p 2 -b 2
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，输入数据是经过预处理后的npz， 使用如下代码生成npz_datalist.txt
     
@@ -91,7 +91,7 @@
 
     - vamp推理获取npz结果
     ```bash
-    vamp -m deploy_weights/official_hrnet_run_stream_int8c/mod \
+    vamp -m deploy_weights/official_hrnet_int8c/mod \
         --vdsp_params ../build_in/vdsp_params/pytorch-hrnetv2-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \

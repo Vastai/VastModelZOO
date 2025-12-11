@@ -1,4 +1,4 @@
-name: keras_resnet50_run_stream_int8
+name: keras_resnet50_int8
 
 frontend:
   shape:

@@ -35,7 +35,7 @@ parse.add_argument(
     default= "/path/to/data/det_coco_val/",
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ultralytics_yolov8_pose_int8/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,

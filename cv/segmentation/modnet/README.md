@@ -88,7 +88,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 1. 根据具体模型修改配置文件
     - [official_modnet.yaml](./build_in/build/official_modnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -101,14 +101,14 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
+1. 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/PPM-100/image \
-        --model_prefix_path deploy_weights/official_modnet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_modnet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-modnet-vdsp_params.json \
         --gt_path /path/to/PPM-100/matte \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -123,7 +123,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 
 2. 性能测试，配置vdsp参数[official-modnet-vdsp_params.json](./build_in/vdsp_params/official-modnet-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_modnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_modnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-modnet-vdsp_params.json \
     -i 2 p 2 -b 1
     ```
@@ -132,7 +132,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_unetpp_run_stream_int8/mod \
+    vamp -m deploy_weights/official_unetpp_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-modnet-vdsp_params.json \
     -i 2 p 2 -b 1 \
     --datalist npz_datalist.txt \

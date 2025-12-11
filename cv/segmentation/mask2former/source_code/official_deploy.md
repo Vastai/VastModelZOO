@@ -106,7 +106,7 @@
     - [official_build.yaml](../build_in/build/official_build.yaml)
     - 注意当前只支持FP16
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -117,16 +117,16 @@
     cd workspace
     vamc compile ../build_in/build/official_build.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/mask2former_run_stream_fp16`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/mask2former_fp16`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
-1. 参考[vsx_inference.py](../build_in/vsx/vsx_inference.py)，实现vacc runstream推理，结果绘图
+1. 参考[vsx_inference.py](../build_in/vsx/vsx_inference.py)，实现vacc 结果绘图
 ```
 python ../build_in/vsx/vsx_inference.py \
-    --model_prefix_path ./deploy_weights/mask2former_run_stream_fp16/mod \
+    --model_prefix_path ./deploy_weights/mask2former_fp16/mod \
     --image_dir /path/to/coco/det_coco_val \
     --vdsp_params_info ../build_in/vdsp_params/mask2former-vdsp_params.json \
-    --save_dir runstream_output
+    --save_dir infer_output
 ```
 - 注意替换命令行中相关参数为实际路径
 

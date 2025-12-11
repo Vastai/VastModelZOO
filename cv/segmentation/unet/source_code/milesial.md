@@ -30,7 +30,7 @@
 1. 根据具体模型修改模型转换配置文件
     - [milesial_unet.yaml](../build_in/build/milesial_unet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -43,14 +43,14 @@
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[milesial_vsx.py](../build_in/vsx/python/milesial_vsx.py)，修改参数并运行如下脚本
+1. 参考：[milesial_vsx.py](../build_in/vsx/python/milesial_vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/milesial_vsx.py \
         --file_path  /path/to/carvana/imgs \
-        --model_prefix_path deploy_weights/milesial_unet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/milesial_unet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json \
         --gt_path /path/to/carvana/masks \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -65,7 +65,7 @@
 
 2. 性能测试，配置vdsp参数[milesial-unet_scale0.5-vdsp_params.json](../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/milesial_unet_run_stream_int8/mod \
+    vamp -m deploy_weights/milesial_unet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,512,512]
     ```
@@ -74,7 +74,7 @@
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/milesial_unet_run_stream_int8/mod \
+    vamp -m deploy_weights/milesial_unet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,512,512] \
     --datalist npz_datalist.txt \

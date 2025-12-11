@@ -407,7 +407,7 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     - [reranker_config_fp16.yaml](./build_in/build/reranker_config_fp16.yaml)
     - [reranker_config_int8.yaml](./build_in/build/reranker_config_int8.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -420,7 +420,7 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
     ```
 
 ### step.4 模型推理
-1. runstream推理：[demo.py](./build_in/vsx/demo.py)
+1. 推理：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，推理脚本内指定的文本对
 
     ```bash

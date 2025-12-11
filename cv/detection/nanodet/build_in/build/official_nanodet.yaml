@@ -1,4 +1,4 @@
-name: official_nanodet_run_stream_int8
+name: official_nanodet_int8
 
 frontend:
   checkpoint: /path/to/nanodet_plus_m-416.onnx

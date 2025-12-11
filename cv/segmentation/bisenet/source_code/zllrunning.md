@@ -42,7 +42,7 @@
 1. 根据具体模型修改模型转换配置文件
     - [zllrunning_config.yaml](../build_in/build/zllrunning_config.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -55,14 +55,14 @@
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，执行进行runstream推理及获得精度指标
+1. 参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，执行进行runstream推理及获得精度指标
     ```bash
     python ../build_in/vsx/zllrunning_vsx_inference.py \
         --image_dir /path/to/CelebAMask-HQ/bisegnet_test_img \
         --mask_dir /path/to/CelebAMask-HQ/bisegnet_test_mask \
-        --model_prefix_path deploy_weights/bisenet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/bisenet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json \
-        --save_dir ./runstream_output
+        --save_dir ./infer_output
     ```
     - 注意替换命令行中--image_dir和--mask_dir为实际路径
 

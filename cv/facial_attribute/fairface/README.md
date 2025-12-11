@@ -90,7 +90,7 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
 1. 根据具体模型，修改编译配置
     - [official_fairface.yaml](./build_in/build/official_fairface.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -103,20 +103,20 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/face/fairface/val/ \
-        --model_prefix_path deploy_weights/official_fairface_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_fairface_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json \
-        --save_file ./runstream_predict.csv \
+        --save_file ./infer_predict.csv \
         --device 0
     ```
 
     - 精度验证
     ```
-    python ../source_code/eval.py --val_label_path /path/to/fairface_label_val.csv --val_pred_path /path/to/runstream_predict.csv
+    python ../source_code/eval.py --val_label_path /path/to/fairface_label_val.csv --val_pred_path /path/to/infer_predict.csv
     ```
 
     <details><summary>点击查看int8精度</summary>
@@ -200,17 +200,17 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
 1. 性能测试
     - 参考配置文件[official-fairface_res34-vdsp_params.json](./build_in/vdsp_params/official-fairface_res34-vdsp_params.json )
     ```bash
-    vamp -m deploy_weights/official_fairface_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1
+    vamp -m deploy_weights/official_fairface_fp16/mod --vdsp_params ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
    - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，得到`npz_datalist.txt`文件列表
 
    - vamp推理获取npz结果，指定`--datalist`输入文件路径，推理结果以npz格式保存于`--path_output`文件夹内
         ```bash
-        vamp -m deploy_weights/official_fairface_run_stream_fp16/mod \
+        vamp -m deploy_weights/official_fairface_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-fairface_res34-vdsp_params.json -i 1 p 1 -b 1 -s [3,224,224] \
         --datalist /path/to/npz_datalist.txt --path_output ./outputs
         ```

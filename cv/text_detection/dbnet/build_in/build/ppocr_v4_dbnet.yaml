@@ -1,4 +1,4 @@
-name: ppocr_v4_dbnet_run_stream_int8
+name: ppocr_v4_dbnet_int8
 
 frontend:
   checkpoint: path/to/ch_PP-OCRv4_det/det_model.onnx

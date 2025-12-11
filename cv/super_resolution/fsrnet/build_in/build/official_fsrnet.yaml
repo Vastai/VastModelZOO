@@ -1,4 +1,4 @@
-name: official_fsrnet_run_stream_int8
+name: official_fsrnet_int8
 
 frontend:
   shape:

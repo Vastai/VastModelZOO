@@ -68,7 +68,7 @@ word_6.jpg result: ('180', 0.9999759)
 1. 根据具体模型修改配置文件
     -[ppocr_v4_cls.yaml](../build_in/build/ppocr_v4_cls.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
     
@@ -80,14 +80,14 @@ word_6.jpg result: ('180', 0.9999759)
     cd workspace
     vamc compile ../build_in/build/ppocr_v4_cls.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/ppocr_v4_cls_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/ppocr_v4_cls_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[cls_vsx.py](../build_in/vsx/python/ppocr_v4_cls_vsx.py)，进行vsx推理和eval评估
     ```bash
     python ../build_in/vsx/python/ppocr_v4_cls_vsx.py \
         --file_path ../build_in/data \
-        --model_prefix_path deploy_weights/ppocr_v4_cls_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/ppocr_v4_cls_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppocr-ch_PP_OCRv4_cls-vdsp_params.json \
         --output_file ppocrv4_cls_runstream_pred.txt
     ```
@@ -108,7 +108,7 @@ word_6.jpg result: ('180', 0.9999759)
     # 测试最大吞吐
     ```bash
     python3 ../build_in/vsx/python/ppocr_v4_cls_prof.py \
-        -m deploy_weights/ppocr_v4_cls_run_stream_int8/mod \
+        -m deploy_weights/ppocr_v4_cls_int8/mod \
         --vdsp_params ../build_in/vdsp_params/ppocr-ch_PP_OCRv4_cls-vdsp_params.json \
         --device_ids [0] \
         --batch_size 8 \
@@ -122,7 +122,7 @@ word_6.jpg result: ('180', 0.9999759)
     # 测试最小时延
     ```bash
     python3 ../build_in/vsx/python/ppocr_v4_cls_prof.py \
-    -m deploy_weights/ppocr_v4_cls_run_stream_int8/mod \
+    -m deploy_weights/ppocr_v4_cls_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-ch_PP_OCRv4_cls-vdsp_params.json \
     --device_ids [0] \
     --batch_size 1 \
