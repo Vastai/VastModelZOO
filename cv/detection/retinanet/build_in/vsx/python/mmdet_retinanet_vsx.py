@@ -41,7 +41,7 @@ parse.add_argument("--model_prefix_path", type=str,
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/mmdet-retinanet_r50_fpn_1x_coco-vdsp_params.json.json",
+    default="../build_in/vdsp_params/mmdet-retinanet_r50_fpn_1x_coco-vdsp_params.json.json",
     help="vdsp op info",
 )
 parse.add_argument(

@@ -167,7 +167,7 @@ XLM-RoBERTa 的改进
 2. 执行测试：
     ```bash
     vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max-mutil_input-vacc/bert_base_chinese_ner_256 \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \
         --processes 2

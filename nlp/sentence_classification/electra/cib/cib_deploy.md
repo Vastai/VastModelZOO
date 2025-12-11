@@ -84,7 +84,7 @@
 2. 执行性能测试：
     ```bash
    vamp -m deploy_weights/electra_cib_512/electra_cib_512 \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \

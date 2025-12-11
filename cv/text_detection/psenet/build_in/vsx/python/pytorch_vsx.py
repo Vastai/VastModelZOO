@@ -39,7 +39,7 @@ parse.add_argument("--model_prefix_path", type=str,
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/pytorch-psenet_r50_ic15_736-vdsp_params.json",
+    default="../build_in/vdsp_params/pytorch-psenet_r50_ic15_736-vdsp_params.json",
     help="vdsp op info",
 )
 parse.add_argument(

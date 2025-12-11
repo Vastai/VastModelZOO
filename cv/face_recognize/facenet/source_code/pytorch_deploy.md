@@ -6,6 +6,23 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 ```
 
 - 克隆仓库，将[export.py](./pytorch/export.py)移动至{facenet-pytorch}工程目录，转换获得onnx和torchscript权重
+    ```
+    conda create -n facenet python=3.10
+    conda activate facenet
+    # pip install facenet-pytorch
+    git clone https://github.com/timesler/facenet-pytorch.git facenet_pytorch
+    cd facenet_pytorch
+    python setup.py develop
+    pip install pandas onnx onnxsim
+    
+    # facenet-pytorch仓库将自动下载原始权重，如网络较慢，可手动下载
+    # wget https://gh-proxy.org/https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180402-114759-vggface2.pt
+    # wget https://gh-proxy.org/https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180408-102900-casia-webface.pt
+    # cp 20180402-114759-vggface2.pt ~/.cache/torch/checkpoints
+    # cp 20180408-102900-casia-webface.pt ~/.cache/torch/checkpoints
+    
+    python facenet_pytorch/export.py
+    ```
 
 
 ### step.2 准备数据集

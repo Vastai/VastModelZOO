@@ -41,6 +41,8 @@
     cd workspace
     vamc compile ../build_in/build/bubbliiiing_unet.yaml
     ```
+    
+> 注意，此处编译yaml内`frontend.shape`字段的输入节点名称需和前端模型输入名称保持一致
 
 ### step.4 模型推理
 1. 参考：[bubbliiiing_vsx.py](../build_in/vsx/python/bubbliiiing_vsx.py)，修改参数并运行如下脚本
@@ -74,7 +76,7 @@
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/unet_resnet50-int8-kl_divergence-3_256_256-vacc/unet_resnet50 \
+    vamp -m deploy_weights/bubbliiiing_unet_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256] \
     --datalist npz_datalist.txt \

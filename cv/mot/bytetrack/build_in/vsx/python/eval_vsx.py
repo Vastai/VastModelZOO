@@ -20,7 +20,7 @@ sys.path.append(_cur_file_path + os.sep + '../../..')
 from source_code.tracker.byte_tracker import BYTETracker
 from source_code.tracker.visualize import plot_tracking
 from source_code.tracker.timer import Timer
-from mot.bytetrack.vacc_code.vsx.python.detect_vsx import Detector
+from mot.bytetrack.build_in.vsx.python.detect_vsx import Detector
 
 import motmetrics as mm
 import argparse

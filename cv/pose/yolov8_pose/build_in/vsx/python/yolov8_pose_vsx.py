@@ -39,7 +39,7 @@ parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ultr
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/params_info/ultralytics-yolov8s_pose-vdsp_params.json", 
+    default="../build_in/params_info/ultralytics-yolov8s_pose-vdsp_params.json", 
     help="vdsp op info",
 )
 parse.add_argument(

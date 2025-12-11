@@ -100,7 +100,7 @@ if __name__ == "__main__":
     import sys
     _cur_file_path = os.path.split(os.path.realpath(__file__))[0]
     sys.path.append(_cur_file_path + os.sep + '../../')
-    colors = np.loadtxt("vacc_code/runmodel/cityscapes_colors.txt").astype('uint8')
+    colors = np.loadtxt("./source_code/cityscapes_colors.txt").astype('uint8')
 
     with open(args.input_npz_path, 'r') as f:
         file_lines = f.readlines()

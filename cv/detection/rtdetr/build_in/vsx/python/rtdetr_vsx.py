@@ -33,7 +33,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--vdsp_params_info",
-        default="../vacc_code/rtdetr_vdsp_params.json",
+        default="../build_in/rtdetr_vdsp_params.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(

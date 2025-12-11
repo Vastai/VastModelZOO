@@ -193,7 +193,7 @@ parser.add_argument("--model_name", type = str, default = "mod", help = "model i
 parser.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/official-hih_wflw_4stack-vdsp_params.json", 
+    default="../build_in/vdsp_params/official-hih_wflw_4stack-vdsp_params.json", 
     help="vdsp op info",
 )
 parser.add_argument("--device_id", type=int, default=0, help="device id")

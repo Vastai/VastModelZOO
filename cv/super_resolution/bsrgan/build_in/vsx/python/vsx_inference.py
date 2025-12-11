@@ -253,7 +253,7 @@ def set_config():
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="super_resolution/bsrgan/vacc_code/vdsp_params/official-bsrgan_x2-vdsp_params.json",
+        default="super_resolution/bsrgan/build_in/vdsp_params/official-bsrgan_x2-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")

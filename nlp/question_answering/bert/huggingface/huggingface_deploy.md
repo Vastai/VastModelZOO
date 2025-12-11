@@ -100,7 +100,7 @@
 
     ```bash
    vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \
@@ -111,7 +111,7 @@
 
     ```bash
     vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --hwconfig ../../common/vamp_info/bert_hw_config.bin \
         --batch_size 1 \
         --instance 6 \

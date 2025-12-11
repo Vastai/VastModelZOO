@@ -439,7 +439,7 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
 
     ```bash
     vamp -m vacc_deploy/bce-embedding-base_v1-512-fp16/mod \
-    --vdsp_params ../../common/vacc_code/vdsp_params/embedding-vdsp_params.json \
+    --vdsp_params ../../common/build_in/vdsp_params/embedding-vdsp_params.json \
     -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
     ```
 2. 精度测试：[demo.py](./build_in/vsx/demo.py)

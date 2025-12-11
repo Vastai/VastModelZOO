@@ -176,7 +176,7 @@ if __name__ == "__main__":
     parse.add_argument(
         "--vdsp_params_path",
         type=str,
-        default="detection/yolov4/vacc_code/vdsp_params/bubbliiiing-yolov4-vdsp_params.json",
+        default="detection/yolov4/build_in/vdsp_params/bubbliiiing-yolov4-vdsp_params.json",
         help="vdsp_params file path",
     )
     parse.add_argument(

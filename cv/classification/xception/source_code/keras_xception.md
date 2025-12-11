@@ -42,7 +42,11 @@
 
     - 精度评估
     ```
+<<<<<<< HEAD
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
+=======
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
+>>>>>>> origin/develop
     ```
 
     ```

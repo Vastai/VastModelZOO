@@ -33,7 +33,7 @@ parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/pyto
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/pytorch-fast_tiny_ctw_512_finetune_ic17mlt-vdsp_params.json", 
+    default="../build_in/vdsp_params/pytorch-fast_tiny_ctw_512_finetune_ic17mlt-vdsp_params.json", 
     help="vdsp op info",
 )
 parse.add_argument("--save_dir", type = str, default = "./output", help = "save_dir")

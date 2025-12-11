@@ -167,7 +167,7 @@
         Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.733
         Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
 
-        # vacc runmodel [1, 3, 640, 640]
+        # vacc [1, 3, 640, 640]
         Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
         Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
         Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.502

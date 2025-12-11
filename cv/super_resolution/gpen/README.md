@@ -123,7 +123,7 @@ GAN 模块旨在确保输入到 GAN 的潜在代码和噪声可以分别从 DNN 
         --model_prefix_path deploy_weights/official_gpen_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-gpen-vdsp_params.json \
         --hr_image_dir /path/to/CelebAMask-HQ/GPEN/hq \
-        --save_dir ./runstream_fp16_output \
+        --save_dir ./runstream_int8_output \
         --device 0
     ```
 

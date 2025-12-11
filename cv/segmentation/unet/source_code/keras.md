@@ -84,3 +84,10 @@
     --draw_dir npz_draw_result \
     --vamp_flag
    ```
+
+
+## Tips
+- 编译keras类型的模型，需安装对应依赖
+    ```bash
+    pip install keras==2.8.0 tensorflow==2.8.0
+    ```

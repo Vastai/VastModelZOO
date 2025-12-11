@@ -348,7 +348,7 @@ parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/off
 parser.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vsdp_params/official-centernet_res18-vdsp_params.json", 
+    default="../build_in/vsdp_params/official-centernet_res18-vdsp_params.json", 
     help="vdsp op info",
 )
 parser.add_argument(
