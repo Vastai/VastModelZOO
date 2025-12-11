@@ -1,4 +1,4 @@
-name: official_fairmot_run_stream_int8
+name: official_fairmot_int8
 
 frontend:
   shape:

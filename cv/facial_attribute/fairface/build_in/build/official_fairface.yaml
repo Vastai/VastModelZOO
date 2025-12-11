@@ -1,4 +1,4 @@
-name: official_fairface_run_stream_int8
+name: official_fairface_int8
 
 frontend:
   shape:

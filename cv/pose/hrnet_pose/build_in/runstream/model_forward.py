@@ -89,7 +89,7 @@ class FeatureExtract:
 
         self.input_dict[input_id] = device_ddr
         self.event_dict[input_id] = Event()
-        self.stream.run_stream_dynamic([device_ddr], (height, width), input_id)
+        self.stream.dynamic([device_ddr], (height, width), input_id)
         self.input_id += 1
 
         return input_id

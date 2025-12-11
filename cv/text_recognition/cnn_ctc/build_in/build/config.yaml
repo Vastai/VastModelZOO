@@ -7,7 +7,7 @@ frontend:
     - 1
     - 32
     - 100
-  checkpoint: ./workspace/weights/resnet_fc_without_reshape.onnx
+  checkpoint: /path/to/resnet_fc_without_reshape.onnx
 
 backend:
   type: tvm_vacc
@@ -21,7 +21,7 @@ backend:
 
 
 dataset:
-  path: ./workspace/weights/iii5k
+  path: /path/to/iii5k
   sampler:
     get_data_num: 100
   process_ops:

@@ -51,7 +51,7 @@ onnxsim==0.4.36
     - [elic_no_entropy_512_512.yaml](../build_in/build/elic_no_entropy_512_512.yaml)
     - [elic_no_entropy_1280_2048.yaml](../build_in/build/elic_no_entropy_1280_2048.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 执行转换
@@ -64,11 +64,11 @@ onnxsim==0.4.36
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 测试512x512模型
     ```bash
     python3 ../build_in/vsx/python/elic_no_entropy_inference.py  \
-        --model_prefix deploy_weights/elic_no_entropy_512_512_run_stream_fp16/mod \
+        --model_prefix deploy_weights/elic_no_entropy_512_512_fp16/mod \
         --vdsp_params  ../build_in/vdsp_params/elic_compress_gaha_rgbplanar.json \
         --device_id  0 \
         --dataset_path /path/to/datasets/Kodak-512/ \
@@ -84,7 +84,7 @@ onnxsim==0.4.36
     - 测试1280x2048模型
     ```bash
     python3 ../build_in/vsx/python/elic_no_entropy_inference.py  \
-        --model_prefix deploy_weights/elic/elic_no_entropy_1280_2048_run_stream_fp16/mod \
+        --model_prefix deploy_weights/elic/elic_no_entropy_1280_2048_fp16/mod \
         --vdsp_params  ../build_in/vdsp_params/elic_compress_gaha_rgbplanar.json \
         --device_id  0 \
         --dataset_path /path/to/datasets/Kodak_1280_2048/ \
@@ -102,7 +102,7 @@ onnxsim==0.4.36
     - 测试512x512模型最大吞吐和最小时延
     ```
     python ../build_in/vsx/python/elic_noentropy_prof.py \
-        --model_prefix deploy_weights/elic_no_entropy_512_512_run_stream_fp16/mod \
+        --model_prefix deploy_weights/elic_no_entropy_512_512_fp16/mod \
         --vdsp_params  ../build_in/vdsp_params/elic_no_entropy_gaha_512_512_rgbplanar.json \
         --instance 1 \
         --iterations 100 \
@@ -113,7 +113,7 @@ onnxsim==0.4.36
     - 测试1280x2048模型最大吞吐和最小时延
     ```
     python ../build_in/vsx/python/elic_noentropy_prof.py \
-        --model_prefix deploy_weights/elic_no_entropy_1280_2048_run_stream_fp16/mod \
+        --model_prefix deploy_weights/elic_no_entropy_1280_2048_fp16/mod \
         --vdsp_params  ../build_in/vdsp_params/elic_no_entropy_gaha_1024_2048_rgbplanar.json \
         --instance 1 \
         --iterations 10 \

@@ -29,7 +29,7 @@ parse.add_argument(
     default= "/path/to/ctw1500/test/text_images",
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/pytorch_fast_run_stream_fp16/mod", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/pytorch_fast_fp16/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,

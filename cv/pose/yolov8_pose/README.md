@@ -250,7 +250,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 1. 根据具体模型修改配置文件
     -[ultralytics_yolov8_pose.yaml](./build_in/build/ultralytics_yolov8_pose.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -262,24 +262,24 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     cd workspace
     vamc compile ../build_in/build/ultralytics_yolov8_pose.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/ultralytics_yolov8_pose_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/ultralytics_yolov8_pose_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](./build_in/vsx/python/yolov8_pose_vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/yolov8_pose_vsx.py \
         --file_path  /path/to/coco/det_coco_val \
-        --model_prefix_path deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/ultralytics_yolov8_pose_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json \
         --label_txt /path/to/coco.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
 
 2. [eval.py](./source_code/eval.py)，精度统计，指定gt路径和上步骤中的txt保存路径，即可获得精度指标
     ```
-    python ../source_code/eval.py --gt path/to/person_keypoints_val2017.json --pred runstream_output/predictions.json 
+    python ../source_code/eval.py --gt path/to/person_keypoints_val2017.json --pred infer_output/predictions.json 
     ```
     - 测试精度如下：
     ```
@@ -308,5 +308,5 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/ultralytics_yolov8_pose_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/ultralytics_yolov8_pose_int8/mod --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_pose-vdsp_params.json -i 2 p 2 -b 1
     ```

@@ -64,7 +64,7 @@
 1. 根据具体模型，修改编译配置
     - [official_rtdetr.yaml](../build_in/build/official_rtdetr.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -76,21 +76,21 @@
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考: [rtdetr_vsx.py](../build_in/vsx/python/rtdetr_vsx.py)
     ```bash
     python ../build_in/vsx/python/rtdetr_vsx.py \
         --file_path path/to/coco_val2017 \
-        --model_prefix_path deploy_weights/official_rtdetr_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_rtdetr_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/rtdetr-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
     - 精度统计，参考：[eval_map.py](../../common/eval/eval_map.py)
     ```bash
-        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
     
     ```
@@ -114,7 +114,7 @@
 ### step.5 性能测试
     ```bash
     python3 ../build_in/vsx/python/rtdetr_prof.py \
-        -m deploy_weights/official_rtdetr_run_stream_fp16/mod \
+        -m deploy_weights/official_rtdetr_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/rtdetr-vdsp_params.json  \
         --device_ids [0] \
         --batch_size 1 \
@@ -129,7 +129,7 @@
 ### Tips
 <details><summary>基于RT-DETR仓库实现精度评估</summary>
 
- > **可选步骤**，基于RT-DETR仓库实现精度评估；与前文基于runstream脚本形式评估精度效果一致
+ > **可选步骤**，基于RT-DETR仓库实现精度评估；
 
     - 基于RT-DETR仓库实现精度评估，修改库内代码，使用vacc模型替换原始模型，批量推理可获得mAP精度信息
         - 首先，引用git patch修改，[rtdetr_modify.patch](./official/rtdetr_modify.patch)

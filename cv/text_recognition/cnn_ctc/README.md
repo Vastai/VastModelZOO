@@ -71,7 +71,7 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
 1. 根据具体模型修改模型转换配置文件
     - [config.yaml](./build_in/build/config.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -84,9 +84,9 @@ CTC(Connectionist Temporal Classification)是一种避开输入与输出手动�
     ```
 
 ### step.4 模型推理
-**NOTE:** [sdk1.x sample](./build_in/runstream/run_vacl.py)
+**NOTE:** [sdk1.x sample](./build_in/infer/run_vacl.py)
 ```
-python ../build_in/runstream/run_vacl.py
+python ../build_in/infer/run_vacl.py
 ```
 
 ### step.5 性能精度测试

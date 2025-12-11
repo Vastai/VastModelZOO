@@ -1,4 +1,4 @@
-name: mmdet_retinanet_run_stream_int8
+name: mmdet_retinanet_int8
 
 frontend:
   checkpoint: /path/to/retinanet_r50_fpn_1x_coco.onnx

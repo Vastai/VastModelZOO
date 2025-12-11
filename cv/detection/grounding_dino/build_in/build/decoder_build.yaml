@@ -1,4 +1,4 @@
-name: decoder_build_run_stream_fp16
+name: decoder_build_fp16
 
 frontend:
   shape:

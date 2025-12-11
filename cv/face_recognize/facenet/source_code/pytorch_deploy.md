@@ -37,7 +37,7 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 1. 根据具体模型,修改编译配置文件
     - [config.yaml](../build_in/build/pytorch_facenet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -48,7 +48,7 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
     cd workspace
     vamc compile ../build_in/build/pytorch_facenet.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/pytorch_facenet_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/pytorch_facenet_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](../build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
@@ -56,10 +56,10 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
     # pip install scipy==1.9.1
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/lfw_mtcnnpy_160 \
-        --model_prefix_path deploy_weights/pytorch_facenet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/pytorch_facenet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/pytorch-facenet_vggface2-vdsp_params.json \
         --lfw_pairs /path/to/pairs.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
@@ -82,12 +82,12 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/pytorch_facenet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/pytorch-facenet_vggface2-vdsp_params.json -i 1 p 1 -b 1
+    vamp -m deploy_weights/pytorch_facenet_int8/mod --vdsp_params ../build_in/vdsp_params/pytorch-facenet_vggface2-vdsp_params.json -i 1 p 1 -b 1
     ```
 
 3. 精度测试，输出npz结果
     ```bash
-    vamp -m deploy_weights/pytorch_facenet_run_stream_int8/mod \
+    vamp -m deploy_weights/pytorch_facenet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/pytorch-facenet_vggface2-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \

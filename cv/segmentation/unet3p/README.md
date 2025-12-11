@@ -99,7 +99,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 1. 根据具体模型修改模型转换配置文件
     - [official_unet3p.yaml](./build_in/build/official_unet3p.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -112,14 +112,14 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
+1. 参考[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/AutoPortraitMatting/testing/images \
-        --model_prefix_path deploy_weights/official_unet3p_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_unet3p_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
         --gt_path /path/to/AutoPortraitMatting/testing/masks \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -134,7 +134,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 
 2. 性能测试，配置vdsp参数[avbuffer-unetpp-vdsp_params.json](./build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/official_unet3p_run_stream_int8/mod \
+    vamp -m deploy_weights/official_unet3p_int8/mod \
     --vdsp_params ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1
     ```
@@ -143,7 +143,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_unet3p_run_stream_int8/mod \
+    vamp -m deploy_weights/official_unet3p_int8/mod \
     --vdsp_params ../build_in/vdsp_params/avbuffer-unetpp-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \

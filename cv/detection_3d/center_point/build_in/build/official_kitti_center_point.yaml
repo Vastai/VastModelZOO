@@ -1,4 +1,4 @@
-name: official_kitti_centerpoint_run_stream_int8
+name: official_kitti_centerpoint_int8
 
 frontend:
   checkpoint: /path/to/kitti_centerpoint_pillar_1x.onnx

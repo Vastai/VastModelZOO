@@ -48,7 +48,7 @@ onnxsim==0.4.36
     - [elic_gs.yaml](../build_in/build/elic_gs.yaml)
     - [elic_hs_chunk.yaml](../build_in/build/elic_hs_chunk.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 执行转换
@@ -62,19 +62,19 @@ onnxsim==0.4.36
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 获取[tensorize_ext_op](../../common/elf/tensorize_ext_op)
     ```bash
     python3 ../build_in/vsx/python/elic_inference.py  \
-        --gaha_model_prefix  deploy_weighst/elic_gaha_run_stream_fp16/mod \
+        --gaha_model_prefix  deploy_weighst/elic_gaha_fp16/mod \
         --gaha_vdsp_params  ../build_in/vdsp_params/elic_compress_gaha_rgbplanar.json \
-        --hs_model_prefix  deploy_weighst/elic_hs_chunk_run_stream_fp16/mod \
-        --gs_model_prefix   deploy_weighst/elic_gs_run_stream_fp16/mod \
+        --hs_model_prefix  deploy_weighst/elic_hs_chunk_fp16/mod \
+        --gs_model_prefix   deploy_weighst/elic_gs_fp16/mod \
         --torch_model  /path/to/ELIC_0450_ft_3980_Plateau.pth.tar \
         --tensorize_elf_path ../../common/elf/tensorize_ext_op \
         --device_id  0 \
         --dataset_path /path/to/datasets/Kodak-512/ \
-        --dataset_output_path runstream_outputs
+        --dataset_output_path infer_outputs
     ```
 
     ```

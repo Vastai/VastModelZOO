@@ -28,7 +28,7 @@
 1. 根据具体模型，修改编译配置
     - [ultralytics_dynamic_yolov5.yaml](../build_in/build/ultralytics_dynamic_yolov5.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -42,23 +42,23 @@
     ```
 
 ### step.4 模型推理
-1. runstream推理：[yolov5_ultralytics_dynamic.py](../build_in/vsx/yolov5_ultralytics_dynamic.py)
+推理：[yolov5_ultralytics_dynamic.py](../build_in/vsx/yolov5_ultralytics_dynamic.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
     python ../build_in/vsx/yolov5_ultralytics_dynamic.py \
         --dataset_root path/to/coco_val2017 \
         --dataset_filelist path/to/coco_val2017 \
-        --module_info deploy_weights/ultralytics_yolov5s_dynamic_run_stream_int8/ultralytics_yolov5s_dynamic_run_stream_int8_module_info.json \
+        --module_info deploy_weights/ultralytics_yolov5s_dynamic_int8/ultralytics_yolov5s_dynamic_int8_module_info.json \
         --vdsp_params ../build_in/vdsp_params/yolo_div255_bgr888.json \
         --label_file ../../common/label/coco.txt \
-        --dataset_output_folder ./runstream_output \
+        --dataset_output_folder ./infer_output \
         --device 0
     ```
 
     - 精度评估，参考：[eval_map.py](../../common/eval/eval_map.py)
     ```bash
-    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
@@ -104,7 +104,7 @@
 1. 动态尺寸模型不能使用vamp工具测试性能，需要使用性能测试脚本进行测试，参考：[dynamic_yolo_prof.py](../build_in/vsx/dynamic_yolo_prof.py)
     ```bash
     python3 ../build_in/vsx/dynamic_yolo_prof.py \ 
-        -m ./deploy_weights/ultralytics_yolov5s_dynamic_run_stream_int8/ultralytics_yolov5s_dynamic_run_stream_int8_module_info.json \
+        -m ./deploy_weights/ultralytics_yolov5s_dynamic_int8/ultralytics_yolov5s_dynamic_int8_module_info.json \
         --vdsp_params ../build_in/vdsp_params/yolo_div255_bgr888.json \
         --max_input_shape "[1,3,640,640]" \
         --model_input_shape "[1,3,640,640]" \

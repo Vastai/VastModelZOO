@@ -1,4 +1,4 @@
-name: megvii_shufflenetv1_run_stream_int8
+name: megvii_shufflenetv1_int8
 
 frontend:
   shape:

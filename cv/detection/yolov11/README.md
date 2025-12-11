@@ -113,7 +113,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 1. 根据具体模型，修改编译配置
     - [official_yolov11.yaml](./build_in/build/official_yolov11.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`
 
@@ -126,22 +126,22 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考[yolov11_vsx.py](./build_in/vsx/python/yolov11_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/yolov11_vsx.py \
         --file_path path/to/coco_val2017 \
-        --model_prefix_path deploy_weights/official_yolov11_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_yolov11_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-yolov11s-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
     - 参考[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
-    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
@@ -186,7 +186,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
     {'bbox_mAP': 0.447, 'bbox_mAP_50': 0.617, 'bbox_mAP_75': 0.47, 'bbox_mAP_s': 0.248, 'bbox_mAP_m': 0.483, 'bbox_mAP_l': 0.616, 'bbox_mAP_copypaste': '0.437 0.617 0.470 0.248 0.483 0.616'}
 
 
-    # official_yolov11_run_stream_fp16
+    # official_yolov11_fp16
 
     Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.452
     Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.621
@@ -203,7 +203,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
     {'bbox_mAP': 0.452, 'bbox_mAP_50': 0.621, 'bbox_mAP_75': 0.485, 'bbox_mAP_s': 0.271, 'bbox_mAP_m': 0.499, 'bbox_mAP_l': 0.629, 'bbox_mAP_copypaste': '0.452 0.621 0.485 0.271 0.499 0.629'}
 
 
-    # official_yolov11_run_stream_int8-percentile
+    # official_yolov11_int8-percentile
 
     Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.446
     Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.616
@@ -227,11 +227,11 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 ### step.5 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m ./deploy_weights/official_yolov11_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-yolov11s-vdsp_params.json -i 1 -b 1 -d 0 -p 1
+    vamp -m ./deploy_weights/official_yolov11_fp16/mod --vdsp_params ../build_in/vdsp_params/official-yolov11s-vdsp_params.json -i 1 -b 1 -d 0 -p 1
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
@@ -243,7 +243,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 
     - vamp推理，获取npz结果输出
     ```bash
-    vamp -m deploy_weights/official_yolov11_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_yolov11_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-yolov11s-vdsp_params.json \
         -i 1 -b 1 -d 0 -p 1 \
         --datalist path/to/npz_datalist.txt \

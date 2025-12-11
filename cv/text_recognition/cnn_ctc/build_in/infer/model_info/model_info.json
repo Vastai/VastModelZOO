@@ -1,0 +1,7 @@
+{
+    "model_name": "resnet_fc",
+    "model_lib_path": "./workspace/VastDeploy/weights/resnet_fc_int8_percentile/resnet_fc.so",
+    "model_graph_path": "./workspace/VastDeploy/weights/resnet_fc_int8_percentile/resnet_fc.json",
+    "model_params_path": "./workspace/VastDeploy/weights/resnet_fc_int8_percentile/resnet_fc.params",
+    "hw_config_file": "./workspace/VastDeploy/example/run_stream/hw_conf.bin"
+}

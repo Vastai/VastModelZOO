@@ -189,7 +189,7 @@ def set_config():
     parse.add_argument(
         "--model_prefix_path",
         type=str,
-        default="./deploy_weights/official_isnet_run_stream_fp16/mod",
+        default="./deploy_weights/official_isnet_fp16/mod",
         help="model info")
     parse.add_argument(
         "--vdsp_params_info",

@@ -1,4 +1,4 @@
-name: milesial_unet_run_stream_int8
+name: milesial_unet_int8
 
 frontend:
   shape:

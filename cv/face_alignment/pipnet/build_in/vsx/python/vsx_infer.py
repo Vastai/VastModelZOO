@@ -182,8 +182,8 @@ class VSXInference:
 def parser_args():
     parse = argparse.ArgumentParser(description="RUN WITH VSX")
     parse.add_argument("--data_dir",type=str,default="/path/to/face/face_alignment/wflw/WFLW")
-    parse.add_argument("--model_prefix_path",type=str,default="deploy_weights/official_pipnet_run_stream_fp16/mod",help="model info")
-    parse.add_argument("--vdsp_params_info",type=str,default="../build_in/vdsp_params/official-pip_resnet18-vdsp_params.json",help="vdsp op info",)
+    parse.add_argument("--model_prefix_path",type=str,default="deploy_weights/official_pipnet_fp16/mod",help="model info")
+    parse.add_argument("--vdsp_params_info",type=str,default="../vacc_code/vdsp_params/official-pip_resnet18-vdsp_params.json",help="vdsp op info",)
     parse.add_argument("--device_id", type=int, default=0, help="device id")
     parse.add_argument("--batch", type=int, default=1, help="bacth size")
     parse.add_argument("--meanface_txt", type=str, default="../source_code/meanface.txt", help="meanface.txt")

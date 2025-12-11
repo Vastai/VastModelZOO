@@ -1,4 +1,4 @@
-name: official_pfld_run_stream_int8
+name: official_pfld_int8
 
 frontend:
   shape:

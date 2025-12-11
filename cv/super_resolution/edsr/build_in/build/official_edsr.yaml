@@ -1,4 +1,4 @@
-name: official_edsr_run_stream_int8
+name: official_edsr_int8
 
 frontend:
   shape:

@@ -248,7 +248,7 @@ def set_config():
     parse.add_argument(
         "--model_prefix_path",
         type=str,
-        default="deploy_weights/official_real_esrgan_run_stream_int8/mod",
+        default="deploy_weights/official_real_esrgan_int8/mod",
         help="model info")
     parse.add_argument(
         "--vdsp_params_info",

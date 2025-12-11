@@ -1,4 +1,4 @@
-name: apple_mobilevit_run_model_fp16
+name: apple_mobilevit_fp16
 
 frontend:
   shape:

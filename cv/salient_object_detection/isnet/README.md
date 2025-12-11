@@ -110,7 +110,7 @@ with torch.no_grad():
 1. 根据具体模型，修改编译配置
     - [official_isnet.yaml](./build_in/build/official_isnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -124,14 +124,14 @@ with torch.no_grad():
     ```
 
 ### step.4 模型推理
-1. runstream
+
     - 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --image_dir /path/to/sod/ECSSD/image  \
-        --model_prefix_path deploy_weights/official_isnet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_isnet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-isnet-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -165,13 +165,13 @@ with torch.no_grad():
 1. 性能测试
     - 配置vdsp参数[official-isnet-vdsp_params.json](./build_in/vdsp_params/official-isnet-vdsp_params.json)，执行
     ```
-    vamp -m deploy_weights/official_isnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_isnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-isnet-vdsp_params.json \
     -i 1 p 1 -b 1
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`：
     ```bash
@@ -183,7 +183,7 @@ with torch.no_grad():
 
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_isnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_isnet_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-isnet-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \

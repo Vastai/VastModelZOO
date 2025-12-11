@@ -1,4 +1,4 @@
-name: ultralytics_yolov8_pose_run_stream_int8
+name: ultralytics_yolov8_pose_int8
 
 frontend:
   shape:

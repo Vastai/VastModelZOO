@@ -1,4 +1,4 @@
-name: ppocr_v4_rec_run_stream_fp16
+name: ppocr_v4_rec_fp16
 
 frontend:
   shape:

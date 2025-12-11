@@ -29,7 +29,7 @@ parse.add_argument(
     default= "/path/to/ctw1500/test/text_image/",
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/mmocr_text_snake_run_stream_fp16/mod", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/mmocr_text_snake_fp16/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,

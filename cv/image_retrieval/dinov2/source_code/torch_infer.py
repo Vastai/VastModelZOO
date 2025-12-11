@@ -188,7 +188,7 @@ def _make_dinov2_model_name(arch_name: str, patch_size: int) -> str:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Image Retrieval on revisited Paris and Oxford')
-    parser.add_argument('--pretrained_weights', default='/path/to/official_dinov2_run_stream_fp16/dinov2_vitl14_reg4.onnx', type=str, help="Path to pretrained weights to evaluate.")
+    parser.add_argument('--pretrained_weights', default='/path/to/official_dinov2_fp16/dinov2_vitl14_reg4.onnx', type=str, help="Path to pretrained weights to evaluate.")
     parser.add_argument('--data_path', default='/path/to/image_retrieval/', type=str)
     parser.add_argument('--dataset', default='roxford5k', type=str, choices=['roxford5k', 'rparis6k'])
     parser.add_argument('--infer_type', default='onnx', type=str, choices=['torch', 'onnx'])

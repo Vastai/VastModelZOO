@@ -35,7 +35,7 @@ parse.add_argument(
     help="img or dir  path",
 )
 parse.add_argument("--model_prefix_path", type=str,
-                   default="deploy_weights/pytorch_psenet_run_stream_fp16/mod", help="model info")
+                   default="deploy_weights/pytorch_psenet_fp16/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,

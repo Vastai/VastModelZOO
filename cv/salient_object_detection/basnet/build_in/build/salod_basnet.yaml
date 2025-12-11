@@ -1,4 +1,4 @@
-name: salod_basnet_run_stream_int8
+name: salod_basnet_int8
 
 frontend:
   shape:

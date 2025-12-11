@@ -143,7 +143,7 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   | 
-
+| [PointPillars](./cv/detection3d/PointPillars/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   | 
 
 - segmentation
 
@@ -273,8 +273,8 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [BSANet](./cv/salient_object_detection/bsanet/README.md) | [official](https://github.com/xuebinqin/BASNet) | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
-| [BSANet](./cv/salient_object_detection/bsanet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
+| [BASNet](./cv/salient_object_detection/basnet/README.md) | [official](https://github.com/xuebinqin/BASNet) | <details> <summary>model name</summary><ul><li align="left">basnet</li></ul></details>  |   salient object detection   | Build_In |
+| [BASNet](./cv/salient_object_detection/basnet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">basnet</li></ul></details>  |   salient object detection   | Build_In |
 | [DHSNet](./cv/salient_object_detection/dhsnet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">dhsnet</li></ul></details>  |   salient object detection   | Build_In |
 | [EGNet](./cv/salient_object_detection/egnet/README.md) |   [salod](https://github.com/moothes/SALOD)   | <details> <summary>model name</summary><ul><li align="left">egnet</li></ul></details>  |   salient object detection   | Build_In |
 | [F3Net](./cv/salient_object_detection/f3net/README.md)  |  [official](https://github.com/weijun88/F3Net)  |  <details> <summary>model name</summary><ul><li align="left">f3net</li></ul></details>  |   salient object detection   | Build_In |
@@ -397,7 +397,7 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [bge]((./nlp/text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
+| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
 | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
 
 </details>

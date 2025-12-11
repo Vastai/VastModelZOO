@@ -1,4 +1,4 @@
-name: official_yolov12_run_stream_fp16
+name: official_yolov12_fp16
 
 frontend:
   checkpoint: /path/to/yolov12s-640.onnx

@@ -113,7 +113,7 @@ def get_argparse():
     parser.add_argument(
         '--result_npz',
         type=str,
-        default='runstream_output',
+        default='infer_output',
         help='specify the path of result',
     )
     parser.add_argument('--class_names',

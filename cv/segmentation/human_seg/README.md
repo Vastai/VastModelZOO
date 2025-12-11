@@ -84,7 +84,7 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
 1. 根据具体模型修改模型转换配置文件
     - [official_human_seg.yaml](./build_in/build/official_human_seg.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -97,14 +97,14 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
+1. 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/Supervisely_Person_Dataset/src/ \
-        --model_prefix_path deploy_weights/official_human_seg_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_human_seg_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/thuyngch-unet_resnet18-vdsp_params.json \
         --mask_dir /path/to/Supervisely_Person_Dataset/mask/ \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -120,7 +120,7 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
 1. 性能测试
     - 配置vdsp参数[thuyngch-deeplabv3plus_resnet18-vdsp_params.json](./build_in/vdsp_params/thuyngch-deeplabv3plus_resnet18-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_human_seg_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_human_seg_fp16/mod \
     --vdsp_params ../build_in/vdsp_params/thuyngch-deeplabv3plus_resnet18-vdsp_params.json \
     -i 2 p 2 -b 1
     ```
@@ -136,7 +136,7 @@ commit: b15baef04e7b628c01a4526de5e14f9524f18da6
     
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_human_seg_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_human_seg_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/thuyngch-deeplabv3plus_resnet18-vdsp_params.json \
         -i 2 p 2 -b 1 \
         --datalist npz_datalist.txt \

@@ -1,4 +1,4 @@
-name: pytorch_openpose_body_run_stream_int8
+name: pytorch_openpose_body_int8
 
 frontend:
   shape:
