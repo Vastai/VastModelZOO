@@ -80,7 +80,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--gaha_vdsp_params",
-        default=" ../vacc_code/vdsp_params/mlic_compress_gaha_rgbplanar.json",
+        default=" ../build_in/vdsp_params/mlic_compress_gaha_rgbplanar.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(

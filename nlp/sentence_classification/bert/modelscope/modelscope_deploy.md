@@ -27,9 +27,6 @@
 2. 模型编译
 
     ```bash
-    cd cspnet
-    mkdir workspace
-    cd workspace
     vamc build ./build_in/build/bert_modelscope.yaml
     ```
 
@@ -37,8 +34,8 @@
 > 基于vsx进行推理
 - 运行 [vsx_infer.py](./build_in/vsx/vsx_infer.py) 进行推理和精度评测
     ```
-    python ./build_in/vsx/vsx_infer.py --model_prefix bert_int32-fp16-none-1_256_1_256_1_256-vacc/mod \
-        --vdsp_json vdsp.json \
+    python ./build_in/vsx/vsx_infer.py --model_prefix bert/mod \
+        --vdsp_json ./build_in/vsx/vdsp_params.json \
         --data_dir npz_files \
         --label jd_label.txt
     ```

@@ -41,7 +41,7 @@ parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ppoc
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/ppocr-det_r50_vd_pse-vdsp_params.json", 
+    default="../build_in/vdsp_params/ppocr-det_r50_vd_pse-vdsp_params.json", 
     help="vdsp op info",
 )
 parse.add_argument(

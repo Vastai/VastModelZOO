@@ -211,7 +211,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 2. 执行测试：
     ```bash
    vamp -m deploy_weights/bert_ernie2_mrpc-int8-max-mutil_input-vacc/bert_base_mrpc \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
         --instance 6 \

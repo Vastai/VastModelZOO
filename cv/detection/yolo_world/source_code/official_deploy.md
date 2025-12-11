@@ -102,7 +102,6 @@
     - [image_build.yaml](../build_in/build/image_build.yaml)
     - [text_build.yaml](../build_in/build/text_build.yaml)
 
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - runstream推理，编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
@@ -199,7 +198,7 @@
 ### appending
 - `text`部分先经AutoTokenizer模型`openai/clip-vit-base-patch32`编码后，再`get_bert_preprocess`后，进入`text_backbone`inference；
     - 此模型在代码内自动下载，设置hf镜像，可加速下载：`export HF_ENDPOINT=https://hf-mirror.com`
-    - 也可手动下载权重`https://hf-mirror.com/openai/clip-vit-base-patch32/tree/main`，替换路径[runmodel.py#L111](../build_in/runmodel/runmodel.py#L111)
+    - 也可手动下载权重`https://hf-mirror.com/openai/clip-vit-base-patch32/tree/main`
 - 部分脚本涉及onnx模型输入输出节点的名称设置，和torch版本有关系
 
 

@@ -2,10 +2,10 @@
 
 
 ### step.2 获取数据集
-- [校准数据集](http://192.168.20.139:8888/vastml/dataset/cls/ImageNet/ILSVRC2012_img_calib/?download=zip)
-- [评估数据集](http://192.168.20.139:8888/vastml/dataset/cls/ImageNet/ILSVRC2012_img_val/?download=zip)
-- [label_list](http://192.168.20.139:8888/vastml/dataset/cls/ImageNet/imagenet.txt)
-- [label_dict](http://192.168.20.139:8888/vastml/dataset/cls/ImageNet/imagenet1000_clsid_to_human.txt)
+- [校准数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
+- [评估数据集](https://image-net.org/challenges/LSVRC/2012/index.php)
+- [label_list](../../common/label/imagenet.txt)
+- [label_dict](../../common/label/imagenet1000_clsid_to_human.txt)
 
 ### step.3 模型转换
 
@@ -42,7 +42,7 @@
 
     - 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmodel_output/result.txt
+    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
     ```
 
     ```

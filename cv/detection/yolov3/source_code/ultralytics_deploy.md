@@ -34,7 +34,7 @@
     python ../build_in/vsx/yolov3_vsx.py \
         --file_path path/to/det_coco_val \
         --model_prefix_path deploy_weights/ultralytics_yolov3_run_stream_int8/mod \
-        --vdsp_params_info ../vacc_code/vdsp_params/ultralytics-yolov3_tiny-vdsp_params.json \
+        --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov3_tiny-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
         --save_dir ./runstream_output \
         --device 0
@@ -89,7 +89,7 @@
 ### step.5 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/ultralytics_yolov3_run_stream_int8/mod  --vdsp_params ../vacc_code/vdsp_params/ultralytics-yolov3-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/ultralytics_yolov3_run_stream_int8/mod  --vdsp_params ../build_in/vdsp_params/ultralytics-yolov3-vdsp_params.json -i 2 p 2 -b 1
     ```
 
 2. 精度测试

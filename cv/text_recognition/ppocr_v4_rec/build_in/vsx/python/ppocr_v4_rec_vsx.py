@@ -42,7 +42,7 @@ parser.add_argument(
 
 parser.add_argument("--device_id", type=int, default=0, help="device id")
 parser.add_argument("--batch", type=int, default=1, help="bacth size")
-parser.add_argument("--label", type=str, default="../vacc_code/config/ocr_rec_dict.txt", help="decode label")
+parser.add_argument("--label", type=str, default="../build_in/config/ocr_rec_dict.txt", help="decode label")
 parser.add_argument("--output_file", type=str, default="cute80_runstream_pred.txt", help="save result")
 args = parser.parse_args()
 

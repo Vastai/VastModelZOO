@@ -30,11 +30,11 @@ parse.add_argument(
     default="./work/VSX/test_img/000000005060.jpg",  
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="./work/VSX/minio_models/int8/hand-int8-kl_divergence-3_368_368-vacc/hand", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="./hand-int8-kl_divergence-3_368_368-vacc/hand", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="./work/VSX/_GIT/algorithm_modelzoo/pose/openpose/vacc_code/vdsp_params/pytorch-hand-vdsp_params.json",
+    default="./pose/openpose/build_in/vdsp_params/pytorch-hand-vdsp_params.json",
     help="vdsp op info",
 )
 parse.add_argument(

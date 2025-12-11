@@ -101,10 +101,9 @@ class RunFeature:
     def __init__(self):
 
         self.model_name = "ic15_resnet18_train"
-        self.weights_dir = "/home/simplew/code/VastDeploy_latest/VastDeploy/weights/ic15_resnet18_train-vastml-onnx-int8-percentile-640_640-runmodel"
-        self.weights_dir = "/home/simplew/code/VastDeploy_latest/VastDeploy/weights/ic15_resnet18_train-vastml-onnx-int8-percentile-640_640-runmodel"
+        self.weights_dir = "./ic15_resnet18_train-vastml-onnx-int8-percentile-640_640"
         self.device = 0
-        self.hw_config_path = "/home/simplew/code/VastDeploy_latest/VastDeploy/example/hw_config.json"
+        self.hw_config_path = "./VastDeploy/example/hw_config.json"
         self.input_name = "input"
 
 
@@ -156,9 +155,9 @@ class RunFeature:
 
 def main():
     parser = argparse.ArgumentParser(description='Convert model to ONNX')
-    parser.add_argument('--exp', type=str, default='/home/simplew/code/model_check/DBNet/experiments/seg_detector/ic15_resnet18_deform_thre.yaml')
-    parser.add_argument('--resume', type=str, default='/home/simplew/code/model_check/DBNet/workspace/SegDetectorModel-seg_detector/resnet18/L1BalanceCELoss/model/final', help='Resume from checkpoint')
-    parser.add_argument('--output', type=str, default='/home/simplew/code/model_check/DBNet/ic15_resnet18_train.onnx', help='Output ONNX path')
+    parser.add_argument('--exp', type=str, default='./DBNet/experiments/seg_detector/ic15_resnet18_deform_thre.yaml')
+    parser.add_argument('--resume', type=str, default='./DBNet/workspace/SegDetectorModel-seg_detector/resnet18/L1BalanceCELoss/model/final', help='Resume from checkpoint')
+    parser.add_argument('--output', type=str, default='./DBNet/ic15_resnet18_train.onnx', help='Output ONNX path')
     parser.add_argument('--visualize', action='store_true',
                         help='visualize maps in tensorboard')
     parser.add_argument('--box_thresh', type=float, default=0.4,
@@ -288,7 +287,7 @@ class Demo:
         output = self.structure.representer.represent(batch, pred1, is_output_polygon=False) 
 
         vis_image = self.structure.visualizer.demo_visualize(image_path, output)
-        cv2.imwrite("/home/simplew/code/model_check/DBNet/demo_results/img_20000onnx.jpg", vis_image)
+        cv2.imwrite("./DBNet/demo_results/img_20000onnx.jpg", vis_image)
 
 
         ################VACC###############################
@@ -299,7 +298,7 @@ class Demo:
         output = self.structure.representer.represent(batch, feature_map1, is_output_polygon=False) 
 
         vis_image = self.structure.visualizer.demo_visualize(image_path, output)
-        cv2.imwrite("/home/simplew/code/model_check/DBNet/demo_results/img_20000vacc.jpg", vis_image)
+        cv2.imwrite("./DBNet/demo_results/img_20000vacc.jpg", vis_image)
         ######################################
 
 

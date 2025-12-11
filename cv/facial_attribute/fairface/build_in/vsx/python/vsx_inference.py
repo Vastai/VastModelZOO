@@ -269,7 +269,7 @@ def set_config():
     parse = argparse.ArgumentParser(description="RUN WITH VSX")
     parse.add_argument("--file_path",type=str,default="/path/to/fairface/val",help="img dir",)
     parse.add_argument("--model_prefix_path",type=str,default="deploy_weights/official_fairface_run_stream_fp16/mod",help="model info")
-    parse.add_argument("--vdsp_params_info",type=str,default="../vacc_code/vdsp_params/official-fairface_res34-vdsp_params.json",help="vdsp op info",)
+    parse.add_argument("--vdsp_params_info",type=str,default="../build_in/vdsp_params/official-fairface_res34-vdsp_params.json",help="vdsp op info",)
     parse.add_argument("--device_id", type=int, default=0, help="device id")
     parse.add_argument("--batch", type=int, default=1, help="bacth size")
     parse.add_argument("--save_file", type=str, default="vsx_predict.csv", help="save result")

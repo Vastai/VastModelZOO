@@ -18,7 +18,7 @@ from PIL import Image
 
 if __name__ == '__main__':
 
-    image_path = "./code/model_check/facenet_pytorch/data/test_images_aligned/angelina_jolie/1.png"
+    image_path = "./facenet_pytorch/data/test_images_aligned/angelina_jolie/1.png"
     image_size = (160, 160)
 
     mtcnn = MTCNN()
@@ -42,7 +42,8 @@ if __name__ == '__main__':
     img_cropped = mtcnn(img)
 
     #### convert onnx
-    output = "facenet_vggface2torch.onnx"
+    output = "facenet_vggface2_torch.onnx"
+    output = "facenet_casia-webface_torch.onnx"
 
     input_shape = (1, 3, 160, 160)
     input = torch.randn(*input_shape)
