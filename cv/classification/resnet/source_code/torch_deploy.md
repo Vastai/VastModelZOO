@@ -3,11 +3,11 @@
 
 ```bash
 python export_timm_torchvision_model.py \
-        --model_library timm \
-        --model_name resnet50 \
-        --save_dir output/ \
-        --pretrained_weights weights/resnet50.pth \
-        --convert_mode pt \
+    --model_library timm \
+    --model_name resnet50 \
+    --save_dir output/ \
+    --pretrained_weights weights/resnet50.pth \
+    --convert_mode pt \
 ```
 
 ### step.2 获取数据集
@@ -33,7 +33,8 @@ python export_timm_torchvision_model.py \
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../../common/vsx/classification.py)
+
+- 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -46,7 +47,7 @@ python export_timm_torchvision_model.py \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

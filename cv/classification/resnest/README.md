@@ -126,7 +126,8 @@ python ./source_code/official_export.py --model_name resnest50  --size 224
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../common/vsx/classification.py)
+
+- 参考：[classification.py](../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -139,7 +140,7 @@ python ./source_code/official_export.py --model_name resnest50  --size 224
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

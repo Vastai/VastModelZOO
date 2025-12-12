@@ -114,7 +114,7 @@ torch_out = torch.onnx._export(hand_estimation.model, inputs, 'hand.onnx', expor
 
 ### step.4 模型推理
 
-    - 参考[openpose_vsx.py](./build_in/vsx/python/openpose_vsx.py)生成预测的txt结果
+- 参考[openpose_vsx.py](./build_in/vsx/python/openpose_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/openpose_vsx.py \

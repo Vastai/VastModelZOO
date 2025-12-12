@@ -35,7 +35,7 @@ python export.py
 
 ### step.4 模型推理
 
-    - 参考[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
+- 参考[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --lr_image_dir  /path/to/DIV2K/DIV2K_valid_LR_bicubic/X4 \

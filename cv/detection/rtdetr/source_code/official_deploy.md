@@ -77,7 +77,7 @@
 
 ### step.4 模型推理
 
-    - 参考: [rtdetr_vsx.py](../build_in/vsx/python/rtdetr_vsx.py)
+- 参考: [rtdetr_vsx.py](../build_in/vsx/python/rtdetr_vsx.py)
     ```bash
     python ../build_in/vsx/python/rtdetr_vsx.py \
         --file_path path/to/coco_val2017 \
@@ -88,7 +88,7 @@
         --device 0
     ```
 
-    - 精度统计，参考：[eval_map.py](../../common/eval/eval_map.py)
+- 精度统计，参考：[eval_map.py](../../common/eval/eval_map.py)
     ```bash
         python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
@@ -112,73 +112,74 @@
     ```
 
 ### step.5 性能测试
-    ```bash
-    python3 ../build_in/vsx/python/rtdetr_prof.py \
-        -m deploy_weights/official_rtdetr_fp16/mod \
-        --vdsp_params ../build_in/vdsp_params/rtdetr-vdsp_params.json  \
-        --device_ids [0] \
-        --batch_size 1 \
-        --instance 1 \
-        --iterations 100 \
-        --shape "[3,640,640]" \
-        --percentiles "[50,90,95,99]" \
-        --input_host 1 \
-        --queue_size 1
-    ```
+- 参考：[rtdetr_prof.py](../build_in/vsx/python/rtdetr_prof.py)
+```bash
+python3 ../build_in/vsx/python/rtdetr_prof.py \
+    -m deploy_weights/official_rtdetr_fp16/mod \
+    --vdsp_params ../build_in/vdsp_params/rtdetr-vdsp_params.json  \
+    --device_ids [0] \
+    --batch_size 1 \
+    --instance 1 \
+    --iterations 100 \
+    --shape "[3,640,640]" \
+    --percentiles "[50,90,95,99]" \
+    --input_host 1 \
+    --queue_size 1
+```
 
 ### Tips
 <details><summary>基于RT-DETR仓库实现精度评估</summary>
 
- > **可选步骤**，基于RT-DETR仓库实现精度评估；
+> **可选步骤**，基于RT-DETR仓库实现精度评估；
 
-    - 基于RT-DETR仓库实现精度评估，修改库内代码，使用vacc模型替换原始模型，批量推理可获得mAP精度信息
-        - 首先，引用git patch修改，[rtdetr_modify.patch](./official/rtdetr_modify.patch)
-        ```bash
-        cd /path/to/RT-DETR
-        git apply detection/rtdetr/source_code/official/rtdetr_modify.patch
-        ```
-        - 手动修改源仓库配置中的数据集路径和标签路径：[coco_detection.yml#L25](https://github.com/lyuwenyu/RT-DETR/blob/main/rtdetr_pytorch/configs/dataset/coco_detection.yml#L25)
-        - 执行批量精度测试脚本
+- 基于RT-DETR仓库实现精度评估，修改库内代码，使用vacc模型替换原始模型，批量推理可获得mAP精度信息
+    - 首先，引用git patch修改，[rtdetr_modify.patch](./official/rtdetr_modify.patch)
+    ```bash
+    cd /path/to/RT-DETR
+    git apply detection/rtdetr/source_code/official/rtdetr_modify.patch
+    ```
+    - 手动修改源仓库配置中的数据集路径和标签路径：[coco_detection.yml#L25](https://github.com/lyuwenyu/RT-DETR/blob/main/rtdetr_pytorch/configs/dataset/coco_detection.yml#L25)
+    - 执行批量精度测试脚本
 
-        ```bash
-        cd /path/to/RT-DETR/rtdetr_pytorch
+    ```bash
+    cd /path/to/RT-DETR/rtdetr_pytorch
 
-        # run model
-        python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml --test-only --resume weights/rtdetr_r18vd_dec3_6x_coco_from_paddle.pth
+    # run model
+    python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml --test-only --resume weights/rtdetr_r18vd_dec3_6x_coco_from_paddle.pth
 
-        # run vacc
-        python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml --test-only -resume vacc_deploy/rtdetr-fp16-none-1_3_640_640-vacc/mod --vacc
-        ```
+    # run vacc
+    python tools/train.py -c configs/rtdetr/rtdetr_r18vd_6x_coco.yml --test-only -resume vacc_deploy/rtdetr-fp16-none-1_3_640_640-vacc/mod --vacc
+    ```
 
-        ```
-        # IoU metric: bbox
+    ```
+    # IoU metric: bbox
 
-        # torch [1, 3, 640, 640]
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
-        Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
-        Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.503
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.284
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.497
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.629
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.363
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.616
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.687
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.497
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.733
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
+    # torch [1, 3, 640, 640]
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.503
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.284
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.497
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.629
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.363
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.616
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.687
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.497
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.733
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
 
-        # vacc [1, 3, 640, 640]
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
-        Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
-        Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.502
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.282
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.497
-        Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.629
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.363
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.616
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.687
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.497
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.734
-        Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
-        ```
+    # vacc [1, 3, 640, 640]
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.464
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.637
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.502
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.282
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.497
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.629
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.363
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.616
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.687
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.497
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.734
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.858
+    ```
 </details>

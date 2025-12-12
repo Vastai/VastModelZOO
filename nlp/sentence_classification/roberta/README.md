@@ -119,7 +119,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
        --save_path npz_datalist.txt
    ```
 
--  运行
+- 运行
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 

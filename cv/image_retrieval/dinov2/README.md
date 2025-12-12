@@ -84,7 +84,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
 
 ### step.4 模型推理
 
-    - 参考: [official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
+- 参考: [official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     - 获取对应的[elf文件](../../classification/common/elf/)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
@@ -95,7 +95,7 @@ Roxford5k数据集包含通过搜索Flickr从特定牛津地标收集的5062张�
         --dataset_conf /path/to/roxford5k/gnd_roxford5k.pkl \
         --device 0
     ```
-    - 精度结果在打印信息最后，如下：
+- 精度结果在打印信息最后，如下：
     ```
     mAP M: 79.6, H: 58.18
     mP@k[ 1  5 10] M: [98.57 94.52 91.38], H: [92.86 80.05 70.05]

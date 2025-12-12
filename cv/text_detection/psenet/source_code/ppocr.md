@@ -42,7 +42,7 @@ paddle2onnx --model_dir models/detection/PSENet/inference --model_filename infer
 
 ### step.4 模型推理
 
-    - 参考：[ppocr_vsx.py](../build_in/vsx/python/ppocr_vsx.py)
+- 参考：[ppocr_vsx.py](../build_in/vsx/python/ppocr_vsx.py)
     ```bash
     python ../build_in/vsx/python/ppocr_vsx.py \
         --file_path  /path/to/ch4_test_images  \

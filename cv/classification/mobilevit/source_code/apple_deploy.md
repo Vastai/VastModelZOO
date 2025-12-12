@@ -47,7 +47,7 @@
     ```
 
 ### step.4 模型推理
-1. - 执行如下命令进行runstream推理, 参考[infer_mobilevit.py](../build_in/vsx/python/infer_mobilevit.py)
+1. - 执行如下命令进行推理, 参考[infer_mobilevit.py](../build_in/vsx/python/infer_mobilevit.py)
     ```
     python ../build_in/vsx/python/infer_mobilevit.py \
         -m deploy_weights/apple_mobilevit_fp16/mod \

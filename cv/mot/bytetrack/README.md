@@ -161,7 +161,7 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mix_mot20_
 
 ### step.4 模型推理
 
-    - 参考：[eval_vsx.py](./build_in/vsx/python/eval_vsx.py)
+- 参考：[eval_vsx.py](./build_in/vsx/python/eval_vsx.py)
     ```bash
     python ../build_in/vsx/python/eval_vsx.py \
         --model_prefix_path deploy_weights/official_bytetrack_int8/mod \

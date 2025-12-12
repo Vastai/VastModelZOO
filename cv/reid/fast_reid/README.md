@@ -141,7 +141,7 @@ datasets
 ### step.4 模型推理
 1. 需要注意运行该推理需要依赖fast-reid项目，因此需要将fast-reid项目放置source_code目录下
 
-2. runstream
+2. 推理
     - 参考[reid_vsx.py](./build_in/vsx/python/reid_vsx.py)生成预测的txt结果
 
     ```

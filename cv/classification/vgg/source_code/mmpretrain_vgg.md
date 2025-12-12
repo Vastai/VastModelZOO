@@ -4,9 +4,9 @@ mmcls框架参考 [mmclassification](https://github.com/open-mmlab/mmclassificat
 cd mmclassification
 
 python tools/deployment/pytorch2onnx.py \
-        --config configs/resnet/vgg13_b32x8_imagenet.py \
-        --checkpoint weights/vgg13.pth \
-        --output-file output/vgg13.onnx \
+    --config configs/resnet/vgg13_b32x8_imagenet.py \
+    --checkpoint weights/vgg13.pth \
+    --output-file output/vgg13.onnx \
 ```
 
 ### step.2 获取数据集
@@ -35,7 +35,7 @@ python tools/deployment/pytorch2onnx.py \
 
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --infer_mode sync \
@@ -48,13 +48,9 @@ python tools/deployment/pytorch2onnx.py \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
-<<<<<<< HEAD
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
-=======
-    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
->>>>>>> origin/develop
     ```
 
     ```
@@ -90,7 +86,7 @@ python tools/deployment/pytorch2onnx.py \
     python  ../../common/eval/vamp_npz_decode.py imagenet_npz.txt output imagenet_result.txt imagenet.txt
     ```
     
-    - 精度评估从，参卡：[eval_topk.py](../../common/eval/eval_topk.py)
+    - 精度评估,参考：[eval_topk.py](../../common/eval/eval_topk.py)
     ```bash
     python ../../common/eval/eval_topk.py imagenet_result.txt
     ```

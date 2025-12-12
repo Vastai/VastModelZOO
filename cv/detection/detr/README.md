@@ -54,6 +54,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 
 ## Build_In Deploy
+
 ### step.1 获取模型
 - code source
     ```bash
@@ -97,7 +98,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 ### step.4 模型推理
 
-    - 参考[vsx脚本](./build_in/vsx/python/infer_detr.py)
+- 参考[vsx脚本](./build_in/vsx/python/infer_detr.py)
     ```bash
     python3 ../build_in/vsx/python/infer_detr.py \
         --model_prefix deploy_weights/official_detr_fp16/mod \
@@ -109,9 +110,9 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
         --save_dir ./infer_output
     ```
 
-    - 参考：[eval_map.py](../common/eval/eval_map.py)，精度统计
+- 参考：[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
-        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
 
     ```

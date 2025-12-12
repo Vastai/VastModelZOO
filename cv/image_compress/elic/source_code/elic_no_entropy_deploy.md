@@ -65,7 +65,7 @@ onnxsim==0.4.36
 
 ### step.4 模型推理
 
-    - 测试512x512模型
+- 测试512x512模型
     ```bash
     python3 ../build_in/vsx/python/elic_no_entropy_inference.py  \
         --model_prefix deploy_weights/elic_no_entropy_512_512_fp16/mod \
@@ -81,7 +81,7 @@ onnxsim==0.4.36
     Ave bbp:0.843717660754919
     ```
 
-    - 测试1280x2048模型
+- 测试1280x2048模型
     ```bash
     python3 ../build_in/vsx/python/elic_no_entropy_inference.py  \
         --model_prefix deploy_weights/elic/elic_no_entropy_1280_2048_fp16/mod \

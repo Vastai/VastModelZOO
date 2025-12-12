@@ -21,12 +21,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
 1. 根据具体模型，修改编译配置
     - [ppcls_vgg.yaml](../build_in/build/ppcls_vgg.yaml)
     
-<<<<<<< HEAD
-
     > - 编译参数`backend.type: tvm_vacc`
-=======
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
->>>>>>> origin/develop
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -41,7 +36,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
 
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --infer_mode sync \
@@ -54,7 +49,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

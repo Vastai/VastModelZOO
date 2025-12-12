@@ -59,7 +59,7 @@ commit: 651835a1b9d38dbbdaf45750f56906be2364f01a
 
 ### step.4 模型推理
 
-    - 参考[vsx脚本](../build_in/vsx/python/basicsr_vsx_inference.py)
+- 参考[vsx脚本](../build_in/vsx/python/basicsr_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/basicsr_vsx_inference.py \
         --lr_image_dir  /path/to/DIV2K/DIV2K_valid_LR_bicubic/X2 \

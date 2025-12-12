@@ -72,7 +72,8 @@ onnxsim==0.4.36
 
 ### step.4 模型推理
 
-    - 获取[tensorize_ext_op](../../common/elf/tensorize_ext_op)
+- 获取[tensorize_ext_op](../../common/elf/tensorize_ext_op)，执行[elic_inference.py](../build_in/vsx/python/elic_inference.py)脚本，执行命令如下：
+
     ```bash
     python3 ../build_in/vsx/python/dynamic_elic_inference.py  \
         --gaha_model_info deploy_weights/elic_dynamic_gaha_fp16/elic_dynamic_gaha_fp16_module_info.json \

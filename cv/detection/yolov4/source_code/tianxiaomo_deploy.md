@@ -40,7 +40,8 @@ commit: a65d219f9066bae4e12003bd7cdc04531860c672
     ```
 
 ### step.4 模型推理
-推理：[tianxiaomo_yolov4_detector.py](../build_in/vsx/tianxiaomo_yolov4_detector.py)
+
+- 推理参考：[tianxiaomo_yolov4_detector.py](../build_in/vsx/tianxiaomo_yolov4_detector.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
@@ -53,7 +54,7 @@ commit: a65d219f9066bae4e12003bd7cdc04531860c672
         --device 0
     ```
 
-    - 精度评估，参考：[eval_map.py](../../common/eval/eval_map.py)
+- 精度评估，参考：[eval_map.py](../../common/eval/eval_map.py)
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```

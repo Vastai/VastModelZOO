@@ -79,7 +79,7 @@
 
 ### step.4 模型推理
 
-    - 参考： [grounding_dino_vsx.py](../build_in/vsx/python/grounding_dino_vsx.py)
+- 参考： [grounding_dino_vsx.py](../build_in/vsx/python/grounding_dino_vsx.py)
 
     ```
     mkdir -p ./grounding_dino_out
@@ -102,7 +102,7 @@
     ls /path/to/coco_val2017 | grep jpg > det_coco_val.txt
     ```
     
-    - 参考：
+- 精度测试参考：
     ```
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./grounding_dino_out
     ```

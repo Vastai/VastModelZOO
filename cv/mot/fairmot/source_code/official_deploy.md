@@ -43,8 +43,7 @@
 
 ### step.4 模型推理
 
-
-    - 参考：[fairmot_vsx.py](../build_in/vsx/python/fairmot_vsx.py)
+- 参考：[fairmot_vsx.py](../build_in/vsx/python/fairmot_vsx.py)
     ```bash
     python ../build_in/vsx/python/fairmot_vsx.py \
         --image_dir  /media/vastml/dataset/mot/MOT17/train  \

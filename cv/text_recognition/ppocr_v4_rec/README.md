@@ -138,7 +138,7 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
 
 ### step.4 模型推理
 
-    - 参考: [ppocr_v4_rec_vsx.py](./build_in/vsx/python/ppocr_v4_rec_vsx.py)
+- 参考: [ppocr_v4_rec_vsx.py](./build_in/vsx/python/ppocr_v4_rec_vsx.py)
     ```bash
     python ../build_in/vsx/python/ppocr_v4_rec_vsx.py \
         --file_path  path/to/CUTE80/img \
@@ -149,7 +149,7 @@ paddle2onnx --model_dir weights/ch_PP-OCRv4_rec_infer
         --device 0
     ```
 
-    - 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
+- 精度统计，参考：[ppocr_v4_rec_eval.py](./source_code/ppocr_v4_rec_eval.py),指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
     ```bash
     python ../source_code/ppocr_v4_rec_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_infer_pred.txt
     ```

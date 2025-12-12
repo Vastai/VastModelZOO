@@ -57,7 +57,8 @@
     ```
 
 ### step.5 模型推理
- - 参考：[infer_swin.py](../build_in/vsx/infer_swin.py)
+
+- 参考：[infer_swin.py](../build_in/vsx/infer_swin.py)
 
     准备测试前，需先准备数据集路径文件`ILSVRC2012_img_val_filelist.txt`，格式如下：
 
@@ -82,7 +83,7 @@
         --dataset_output_file result.txt
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py result.txt
     ```

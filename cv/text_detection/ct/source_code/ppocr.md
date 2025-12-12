@@ -42,7 +42,7 @@ paddle2onnx --model_dir ./models/detection/CT/inference --model_filename inferen
 
 ### step.4 模型推理
 
-    - 参考：[ct_vsx.py](../build_in/vsx/python/ct_vsx.py)
+- 参考：[ct_vsx.py](../build_in/vsx/python/ct_vsx.py)
     ```bash
     python ../build_in/vsx/python/ct_vsx.py \
         --file_path  /path/to/total_text_ppocr/test/rgb/  \

@@ -56,7 +56,7 @@ torch.onnx.export(generator, input_data, 'pfsrnet.onnx', input_names=["input"], 
 
 ### step.4 模型推理
 
-    - 参考[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
+- 参考[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/CelebA/Img/img_align_celeba \

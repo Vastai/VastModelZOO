@@ -43,7 +43,8 @@
     ```
 
 ### step.4 模型推理
-推理：[mmseg_vsx_inference.py](../build_in/vsx/mmseg_vsx_inference.py)
+
+- 推理参考：[mmseg_vsx_inference.py](../build_in/vsx/mmseg_vsx_inference.py)
     ```bash
     python ../build_in/vsx/mmseg_vsx_inference.py \
         --image_dir  /path/to/VOC2012/JPEGImages_val \

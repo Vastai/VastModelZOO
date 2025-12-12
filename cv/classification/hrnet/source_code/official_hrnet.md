@@ -32,7 +32,7 @@ python tools/export.py --cfg_file experiments/cls_hrnet_w64_sgd_lr5e-2_wd1e-4_bs
 
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --file_path path/to/ILSVRC2012_img_val \
@@ -44,7 +44,7 @@ python tools/export.py --cfg_file experiments/cls_hrnet_w64_sgd_lr5e-2_wd1e-4_bs
         --device 0
     ```
 
-    - 精度评估，参考[eval_topk.py](../../common/eval/eval_topk.py)
+- 精度评估，参考[eval_topk.py](../../common/eval/eval_topk.py)
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

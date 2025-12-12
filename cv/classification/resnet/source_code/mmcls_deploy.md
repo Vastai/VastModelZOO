@@ -4,9 +4,9 @@ mmcls框架参考 [mmclassification](https://github.com/open-mmlab/mmclassificat
 cd mmclassification
 
 python tools/deployment/pytorch2onnx.py \
-        --config configs/resnet/resnet50_b32x8_imagenet.py \
-        --checkpoint weights/resnet50.pth \
-        --output-file output/resnet50.onnx \
+    --config configs/resnet/resnet50_b32x8_imagenet.py \
+    --checkpoint weights/resnet50.pth \
+    --output-file output/resnet50.onnx \
 ```
 
 ### step.2 获取数据集
@@ -33,7 +33,8 @@ python tools/deployment/pytorch2onnx.py \
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../../common/vsx/classification.py)
+
+- 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -46,7 +47,7 @@ python tools/deployment/pytorch2onnx.py \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

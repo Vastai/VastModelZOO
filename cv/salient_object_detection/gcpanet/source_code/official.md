@@ -50,7 +50,7 @@ with torch.no_grad():
 
 ### step.4 模型推理
 
-    - 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
+- 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --image_dir  /path/to/sod/ECSSD/image  \
@@ -60,13 +60,13 @@ with torch.no_grad():
         --device 0
     ```
 
-    - 统计精度信息，基于[eval.py](../../common/eval/eval.py)
-        ```
-        python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/config_method.json
-        ```
-        - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
-        - 配置数据集路径：[config_dataset.json](../../common/eval/examples/config_dataset.json)
-        - 配置模型推理结果路径及图片格式：[config_method.json](../../common/eval/examples/config_method.json)
+- 统计精度信息，基于[eval.py](../../common/eval/eval.py)
+    ```
+    python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/config_method.json
+    ```
+    - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
+    - 配置数据集路径：[config_dataset.json](../../common/eval/examples/config_dataset.json)
+    - 配置模型推理结果路径及图片格式：[config_method.json](../../common/eval/examples/config_method.json)
 
     <details><summary>点击查看精度统计结果</summary>
 

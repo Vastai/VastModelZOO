@@ -55,7 +55,7 @@
     ```
 
 ### step.4 模型推理
-1. 参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，执行进行runstream推理及获得精度指标
+1. 参考[zllrunning_vsx_inference.py](../build_in/vsx/zllrunning_vsx_inference.py)，配置相关参数，进行推理及获得精度指标
     ```bash
     python ../build_in/vsx/zllrunning_vsx_inference.py \
         --image_dir /path/to/CelebAMask-HQ/bisegnet_test_img \
@@ -83,7 +83,7 @@
     -i 2 p 2 -b 1
     ```
 
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+> 可选步骤，和step.4的精度测试基本一致
 
 3. 精度测试，推理得到npz结果：
     ```bash

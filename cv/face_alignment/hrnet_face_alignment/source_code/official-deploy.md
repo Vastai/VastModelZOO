@@ -38,8 +38,7 @@
 
 ### step.4 模型推理
 
-
-    - 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
+- 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
     ```bash
     python ../build_in/vsx/python/vsx_infer.py \
         --data_dir  /path/to/wflw/images \
@@ -50,7 +49,7 @@
         --device 0
     ```
 
-    - 精度测试，参考：[npz_decode.py](../build_in/npz_decode.py)
+- 精度测试，参考：[npz_decode.py](../build_in/npz_decode.py)
     ```
     python ../build_in/npz_decode.py --result ./infer_output --gt /path/to/wflw_meta.json --debug true
     ```
