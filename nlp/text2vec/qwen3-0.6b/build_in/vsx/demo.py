@@ -231,7 +231,12 @@ class Reranker(Embedding):
         )
 
         return torch_engine
-
+    def _select_max_seq_len(self, max_input_seq_len) -> int:
+        if self.max_seqlen >= max_input_seq_len:
+            return self.max_seqlen
+        raise ValueError(
+            f"Input sequence length {max_input_seq_len} exceeds maximum supported length {self.max_seqlen}"
+        )
     def process_inputs(self, pairs, prefix_tokens, suffix_tokens, tokenizer):
         inputs = tokenizer(
             pairs, padding=False, truncation='longest_first',
@@ -241,7 +246,14 @@ class Reranker(Embedding):
         for i, ele in enumerate(inputs['input_ids']):
             inputs['input_ids'][i] = prefix_tokens + ele + suffix_tokens
             input_ids_len_arr.append(len(inputs["input_ids"][i]))
-        inputs = tokenizer.pad(inputs, padding="max_length", return_tensors="np", max_length=self.max_seqlen)
+        max_input_seq_len = max(input_ids_len_arr)
+        max_seqlen = 0
+        try:
+            max_seqlen = self._select_max_seq_len(max_input_seq_len)
+        except ValueError as e:
+            logger.error(str(e))
+            raise e
+        inputs = tokenizer.pad(inputs, padding="max_length", return_tensors="np", max_length=max_seqlen)
 
         return inputs, input_ids_len_arr
 
