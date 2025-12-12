@@ -102,7 +102,8 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../common/vsx/classification.py)
+
+- 参考：[classification.py](../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -115,7 +116,7 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../common/eval/eval_topk.py ./runmstream_output/result.txt
     ```

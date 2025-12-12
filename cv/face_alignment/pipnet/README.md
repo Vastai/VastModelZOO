@@ -119,8 +119,7 @@ CED-AUC: Cumulative Error Distribution – Area Under Curve， 累计误差分�
 
 ### step.4 模型推理
 
-
-    - 参考：[vsx_infer.py](./build_in/vsx/python/vsx_infer.py)
+- 参考：[vsx_infer.py](./build_in/vsx/python/vsx_infer.py)
     ```bash
     python ../build_in/vsx/python/vsx_infer.py \
         --data_dir  /path/to/face/face_alignment/wflw/WFLW \

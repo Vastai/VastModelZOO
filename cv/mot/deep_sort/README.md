@@ -82,7 +82,7 @@ python export.py
 
 ### step.4 模型推理
 
-    - 参考：[vsx.py](./build_in/vsx/python/vsx.py)
+- 参考：[vsx.py](./build_in/vsx/python/vsx.py)
     ```bash
     python ../build_in/vsx/python/vsx.py \
         --image_dir  /path/to/MOT17/test/MOT17-01-FRCNN/img1/  \

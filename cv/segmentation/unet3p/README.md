@@ -139,7 +139,7 @@ UNet3P使用自定义的encode-decode卷积网络作为特征提取backbone。UN
     -i 1 p 1 -b 1
     ```
 
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+> 可选步骤，和step.4的精度测试基本一致
 
 3. 精度测试，推理得到npz结果：
     ```bash

@@ -104,7 +104,8 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../common/vsx/classification.py)
+
+- 参考：[classification.py](../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --file_path path/to/ILSVRC2012_img_val \
@@ -116,7 +117,7 @@ python ../common/utils/export_timm_torchvision_model.py --model_library timm  --
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./runmstream_output/mod.txt
     ```

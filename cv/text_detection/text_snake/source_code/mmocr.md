@@ -58,7 +58,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
 
 ### step.4 模型推理
 
-    - 参考：[text_snake_vsx.py](../build_in/vsx/python/text_snake_vsx.py)
+- 参考：[text_snake_vsx.py](../build_in/vsx/python/text_snake_vsx.py)
     ```bash
     python ../build_in/vsx/python/text_snake_vsx.py \
         --file_path  /path/to/ctw1500/test/text_image/  \
@@ -68,7 +68,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
         --device 0
     ```
 
-    - 参考[script.py](../source_code/eval/script.py)，对上述结果压缩后进行预测
+- 参考[script.py](../source_code/eval/script.py)，对上述结果压缩后进行预测
     ```
     cd infer_output
     zip -r vsx_pred.zip *

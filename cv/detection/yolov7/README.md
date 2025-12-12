@@ -118,7 +118,8 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 ### step.4 模型推理
-推理：[detection.py](../common/vsx/detection.py)
+
+- 推理参考：[detection.py](../common/vsx/detection.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
@@ -131,7 +132,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
         --device 0
     ```
 
-    - 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
+- 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```

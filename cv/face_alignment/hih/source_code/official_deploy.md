@@ -63,8 +63,7 @@
 
 ### step.4 模型推理
 
-
-    - 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
+- 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
     ```bash
     python ../build_in/vsx/python/vsx_infer.py \
         --file_path  /path/to/face_alignment/wflw/WFLW  \

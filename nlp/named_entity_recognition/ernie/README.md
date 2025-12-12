@@ -477,12 +477,11 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
     >
     > 如果仅测试模型性能可不设置 `datalist`、`path_output` 参数
 
-    ```bash
 
 3. 精度评估
 
     基于[people_daily_eval.py](../common/eval/people_daily_eval.py)，解析npz结果，并评估结果， 可参考 step.5
-        ```bash
+    ```bash
     python ../../common/eval/people_daily_eval.py \
        --result_dir ./vamp_bert_out \
        --label_path /path/to/people_daily/instance_Peoples_Daily.txt

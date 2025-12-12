@@ -102,12 +102,7 @@
     - [image_build.yaml](../build_in/build/image_build.yaml)
     - [text_build.yaml](../build_in/build/text_build.yaml)
 
-<<<<<<< HEAD
-    > - runmodel推理，编译参数`backend.type: tvm_runmodel`
     > - 编译参数`backend.type: tvm_vacc`
-=======
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
->>>>>>> origin/develop
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -121,7 +116,7 @@
 
 ### step.4 模型推理
 
-    - 参考： [yolo_world_vsx.py](../build_in/vsx/python/yolo_world_vsx.py)
+- 参考： [yolo_world_vsx.py](../build_in/vsx/python/yolo_world_vsx.py)
 
     ```
     python3 ../build_in/vsx/python/yolo_world_vsx.py \
@@ -146,7 +141,7 @@
     ls /path/to/coco_val2017 | grep jpg > det_coco_val.txt
     ```
 
-    - 参考：[eval_lvis.py](../source_code/eval_lvis.py)，进行精度统计
+- 参考：[eval_lvis.py](../source_code/eval_lvis.py)，进行精度统计
     ```bash
     python3 ../source_code/eval_lvis.py  \
         --path_res yoloworld_dataset_result.json \

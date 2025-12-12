@@ -81,7 +81,7 @@ python demo.py
 
 ### step.4 模型推理
 
-    - 参考：[sdd_fiqa_vsx.py](./build_in/vsx/python/sdd_fiqa_vsx.py)
+- 参考：[sdd_fiqa_vsx.py](./build_in/vsx/python/sdd_fiqa_vsx.py)
     ```bash
     python ../build_in/vsx/python/sdd_fiqa_vsx.py \
         --image_dir  /path/to/ms1m/ms1m_example/ \

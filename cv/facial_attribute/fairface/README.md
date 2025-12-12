@@ -104,7 +104,7 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
 
 ### step.4 模型推理
 
-    - 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
+- 参考：[vsx_inference.py](./build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --file_path  /path/to/face/fairface/val/ \
@@ -114,7 +114,7 @@ age, 9 classes: [0-2, 3-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70+]
         --device 0
     ```
 
-    - 精度验证
+- 精度验证
     ```
     python ../source_code/eval.py --val_label_path /path/to/fairface_label_val.csv --val_pred_path /path/to/infer_predict.csv
     ```

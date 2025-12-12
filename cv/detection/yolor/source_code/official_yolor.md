@@ -32,8 +32,7 @@ python models/export.py --weights weights/yolor-w6.pt --img-size 640 640
 
 ### step.4 模型推理
 
-
-    - 参考：[detection.py](../../common/vsx/python/detection.py)
+- 参考：[detection.py](../../common/vsx/python/detection.py)
     ```bash
     python ../../common/vsx/python/detection.py \
         --file_path path/to/coco_val2017 \
@@ -44,7 +43,7 @@ python models/export.py --weights weights/yolor-w6.pt --img-size 640 640
         --device 0
     ```
 
-    - 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
+- 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt infer_output
     ```

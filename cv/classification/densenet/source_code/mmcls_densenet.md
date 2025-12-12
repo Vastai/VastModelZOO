@@ -34,7 +34,7 @@ python tools/deployment/pytorch2onnx.py \
     ```
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --infer_mode sync \

@@ -118,7 +118,7 @@ output = np.clip(output * 255, 0, 255)
 
 ### step.4 模型推理
 
-    - 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
+- 参考：[official_vsx_inference.py](./build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ./build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/lol/eval15/low/ \

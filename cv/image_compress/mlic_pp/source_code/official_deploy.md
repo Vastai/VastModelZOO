@@ -51,7 +51,7 @@
 
 ### step.4 模型推理
 
-    - 参考: [mlic_inference.py](../build_in/vsx/python/mlic_inference.py)
+- 参考: [mlic_inference.py](../build_in/vsx/python/mlic_inference.py)
     ```bash
     python3 ../build_in/vsx/python/mlic_inference.py  \
         --gaha_model_prefix  deploy_weights/compress_ga_ha_sim_512_768_fp16/mod \

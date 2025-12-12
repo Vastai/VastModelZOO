@@ -32,7 +32,7 @@ commit: 88419ab18813f2c9193985e2d4d31d3d07abe839
    
 ### step.4 模型推理
 
-    - 参考：[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
+- 参考：[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/cityscapes/leftImg8bit/val \

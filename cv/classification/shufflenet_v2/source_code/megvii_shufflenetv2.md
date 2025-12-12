@@ -32,7 +32,7 @@ python export_onnx.py --modelsize 0.5x
 
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --file_path path/to/ILSVRC2012_img_val \
@@ -46,11 +46,7 @@ python export_onnx.py --modelsize 0.5x
 
     - 精度评估
     ```
-<<<<<<< HEAD
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
-=======
-    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
->>>>>>> origin/develop
     ```
 
     ```

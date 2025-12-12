@@ -34,7 +34,7 @@ commit: 33683d54bb0c7617e584546257f1bdd73630aa41
 
 ### step.4 模型推理
 
-    - 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
+- 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --lr_image_dir  /path/to/UIE/UIEBD/test/image \

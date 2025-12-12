@@ -57,7 +57,7 @@ torch.onnx.export(net, input_data, 'fsrnet.onnx', input_names=["input"], output_
 
 ### step.4 模型推理
 
-    - 参考[vsx_inference](../build_in/vsx/python/vsx_inference.py)
+- 参考[vsx_inference](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --lr_image_dir  /path/to/CelebAMask-HQ/test_img \

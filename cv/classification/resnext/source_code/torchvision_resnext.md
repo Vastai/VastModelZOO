@@ -1,11 +1,11 @@
 ### step.1 获取模型
 ```bash
 python ../../common/utils/export_timm_torchvision_model.py \
-        --model_library timm \
-        --model_name resnext50_32x4d \
-        --save_dir output/ \
-        --pretrained_weights weights/resnext50_32x4d.pth \
-        --convert_mode pt \
+    --model_library timm \
+    --model_name resnext50_32x4d \
+    --save_dir output/ \
+    --pretrained_weights weights/resnext50_32x4d.pth \
+    --convert_mode pt \
 ```
 
 ### step.2 准备数据集
@@ -18,11 +18,7 @@ python ../../common/utils/export_timm_torchvision_model.py \
 1. 根据具体模型，修改编译配置
     - [torchvision_resnext.yaml](../build_in/build/torchvision_resnext.yaml)
     
-<<<<<<< HEAD
     > - 编译参数`backend.type: tvm_vacc`
-=======
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
->>>>>>> origin/develop
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -36,7 +32,8 @@ python ../../common/utils/export_timm_torchvision_model.py \
     ```
 
 ### step.4 模型推理
- - 参考：[classification.py](../../common/vsx/classification.py)
+
+- 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -49,7 +46,7 @@ python ../../common/utils/export_timm_torchvision_model.py \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```

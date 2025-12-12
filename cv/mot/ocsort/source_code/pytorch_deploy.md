@@ -38,8 +38,7 @@ python tools/export_onnx.py --input input -f exps/example/mot/yolox_x_mot17_abla
 
 ### step.4 模型推理
 
-
-    - 参考：[ocsort_vsx.py](../build_in/vsx/python/ocsort_vsx.py)
+- 参考：[ocsort_vsx.py](../build_in/vsx/python/ocsort_vsx.py)
     ```bash
     python ../build_in/vsx/python/ocsort_vsx.py \
         --model_prefix_path deploy_weights/pytorch_ocsort_int8/mod \

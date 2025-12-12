@@ -60,7 +60,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
 
 ### step.4 模型推理
 
-    - 参考：[fcenet_vsx.py](../build_in/vsx/python/fcenet_vsx.py)
+- 参考：[fcenet_vsx.py](../build_in/vsx/python/fcenet_vsx.py)
     ```bash
     python ../build_in/vsx/python/fcenet_vsx.py \
         --file_path  /path/to/ch4_test_images  \

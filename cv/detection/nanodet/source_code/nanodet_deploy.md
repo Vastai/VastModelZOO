@@ -75,9 +75,7 @@ python tools/export_onnx.py --cfg_path config/nanodet-plus-m-1.5x_416.yml --mode
 
 ### step.4 模型推理
 
-
-
-    - 参考[nanodet_vsx.py](../build_in/vsx/python/nanodet_vsx.py)生成预测的txt结果
+- 参考[nanodet_vsx.py](../build_in/vsx/python/nanodet_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/nanodet_vsx.py \
@@ -89,7 +87,7 @@ python tools/export_onnx.py --cfg_path config/nanodet-plus-m-1.5x_416.yml --mode
         --device 0
     ```
 
-    - 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
+- 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt infer_output
     ```
@@ -142,7 +140,7 @@ python tools/export_onnx.py --cfg_path config/nanodet-plus-m-1.5x_416.yml --mode
 2. 精度测试
     > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
-    - 数据准本，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
+    - 数据准备，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
     python ../../common/utils/image2npz.py --dataset_path path/to/coco_val2017 --target_path  path/to/coco_val2017_npz  --text_path npz_datalist.txt
     ```

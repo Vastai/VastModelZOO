@@ -94,7 +94,7 @@ torch.onnx.export(network, input_data, 'SPARNetHD-Attn3D.onnx', input_names=["in
 
 ### step.4 模型推理
 
-    - 参考[vsx脚本](../build_in/vsx/official_vsx_inference.py)
+- 参考[vsx脚本](../build_in/vsx/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/official_vsx_inference.py \
         --lr_image_dir  /path/to/code/model_check/SR/face/Face-SPARNet/datasets/test_dirs/Helen_test_DIC/LR \

@@ -37,7 +37,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
 
 ### step.4 模型推理
 
- - 参考：[classification.py](../../common/vsx/python/classification.py)
+- 参考：[classification.py](../../common/vsx/python/classification.py)
     ```bash
     python ../../common/vsx/python/classification.py \
         --infer_mode sync \
@@ -50,13 +50,9 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
-<<<<<<< HEAD
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
-=======
-    python ../../common/eval/eval_topk.py ./runstream_output/result.txt
->>>>>>> origin/develop
     ```
 
     ```

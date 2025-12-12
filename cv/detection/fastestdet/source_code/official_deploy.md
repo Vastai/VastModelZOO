@@ -61,9 +61,7 @@ class DetectHead(nn.Module):
 
 ### step.4 模型推理
 
-
-
-    - 参考[fastestdet_vsx.py](../build_in/vsx/python/fastestdet_vsx.py)生成预测的txt结果
+- 参考[fastestdet_vsx.py](../build_in/vsx/python/fastestdet_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/fastestdet_vsx.py \
@@ -75,7 +73,7 @@ class DetectHead(nn.Module):
         --device 0
     ```
 
-    - 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
+- 参考[eval_map.py](../../common/eval/eval_map.py)，精度统计
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```

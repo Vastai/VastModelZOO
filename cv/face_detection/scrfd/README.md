@@ -113,7 +113,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 
 ### step.4 模型推理
 
-    - 参考：[scrfd_vsx.py](./build_in/vsx/python/scrfd_vsx.py)
+- 参考：[scrfd_vsx.py](./build_in/vsx/python/scrfd_vsx.py)
     ```bash
     python ../build_in/vsx/python/scrfd_vsx.py \
         --file_path  /path/to/widerface/val/images \
@@ -123,7 +123,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
         --device 0
     ```
 
-    - 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
+- 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
     ```
     cd ../../common/eval/
     python3 setup.py build_ext --inplace

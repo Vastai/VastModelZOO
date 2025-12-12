@@ -128,7 +128,7 @@ Efficient ASPP (e-ASPP)，DeepLab提出的ASPP已被证明可以显著提升语�
     -i 2 p 2 -b 1
     ```
 
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+> 可选步骤，和step.4的精度测试基本一致
 
 3. 精度测试，推理得到npz结果：
     ```bash

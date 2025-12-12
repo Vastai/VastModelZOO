@@ -49,7 +49,7 @@ onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
 
 ### step.4 模型推理
 
-    - 参考：[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
+- 参考：[vsx_inference.py](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --image_dir  /path/to/dsb2018_256_val/images \

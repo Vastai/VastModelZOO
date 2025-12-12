@@ -34,7 +34,7 @@ python scripts/export.py
 
 ### step.4 模型推理
 
-    - 参考: [official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
+- 参考: [official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
@@ -45,7 +45,7 @@ python scripts/export.py
         --save_dir ./infer_output \
         --device 0
     ```
-    - 精度结果在打印信息最后，如下：
+- 精度结果在打印信息最后，如下：
     ```
     # fp16
     mean psnr: 20.595832061408863, mean ssim: 0.5732575982239713

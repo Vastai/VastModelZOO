@@ -31,7 +31,7 @@
     ```
 
 ### step.4 模型推理
-1. - 执行如下命令进行vsx推理， 参考[infer_vit.py](../build_in/vsx/infer_vit.py)
+- 执行如下命令进行vsx推理， 参考[infer_vit.py](../build_in/vsx/infer_vit.py)
     ```bash
     python3 ../build_in/vsx/infer_vit.py \
         -m deploy_weights/vision_transformer_fp16/mod \
@@ -44,7 +44,7 @@
         --dataset_output_file infer_result.txt
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py infer_result.txt
     ```

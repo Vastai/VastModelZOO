@@ -47,11 +47,7 @@
 
 ### step.4 模型推理
 
-> `engine.type: vacc`
-> 
-> **vsx**形式
-
-1. 可以利用[脚本](../build_in/vsx/python/mlcommons_retinanet_vsx.py)生成预测的txt结果
+1. 利用[脚本](../build_in/vsx/python/mlcommons_retinanet_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/mlcommons_retinanet_vsx.py \

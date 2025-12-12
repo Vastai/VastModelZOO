@@ -127,7 +127,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 
 ### step.4 模型推理
 
-    - 参考[yolov11_vsx.py](./build_in/vsx/python/yolov11_vsx.py)生成预测的txt结果
+- 参考[yolov11_vsx.py](./build_in/vsx/python/yolov11_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/yolov11_vsx.py \
@@ -139,7 +139,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
         --device 0
     ```
 
-    - 参考[eval_map.py](../common/eval/eval_map.py)，精度统计
+- 参考[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```

@@ -45,7 +45,7 @@ commit: 7ab105474ab226ab74a346b0648d2e2baab67d79
 
 ### step.4 模型推理
 
-    - 参考：[fast_vsx.py](../build_in/vsx/python/fast_vsx.py)
+- 参考：[fast_vsx.py](../build_in/vsx/python/fast_vsx.py)
     ```bash
     python ../build_in/vsx/python/fast_vsx.py \
         --file_path  /path/to/ctw1500/test/text_images  \
@@ -55,7 +55,7 @@ commit: 7ab105474ab226ab74a346b0648d2e2baab67d79
         --device 0
     ```
 
-    - 参考[eval.py](../source_code/eval/script.py)，对上述结果压缩后进行预测
+- 参考[eval.py](../source_code/eval/script.py)，对上述结果压缩后进行预测
     ```bash
     cd ./infer_output
     zip -r vsx_pred.zip *
