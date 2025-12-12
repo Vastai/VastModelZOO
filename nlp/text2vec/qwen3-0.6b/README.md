@@ -202,7 +202,7 @@ Qwen3系列采用`多阶段`训练策略：
 
 ### step.5 性能精度测试
 1. 性能测试
-    - 参考[vsx脚本 performace.py](./build_in/vsx/performace.py)，修改参数并运行如下脚本
+    - 参考推理脚本：[performace.py](./build_in/vsx/performace.py)，修改参数并运行如下脚本
 
     ```bash
     #测试最大吞吐
@@ -228,7 +228,7 @@ Qwen3系列采用`多阶段`训练策略：
         --queue_size 0
     ```
 
-2. 精度测试：参考[demo.py](./build_in/vsx/demo.py)
+2. 精度测试：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，指定`--eval_mode`参数为True，进行精度评估
 
     ```bash
@@ -256,3 +256,5 @@ Qwen3系列采用`多阶段`训练策略：
         --batch_size 1 \
         --device_id 0
     ```
+## Tips
+- 目前仅支持fp16精度，后续会支持int8精度

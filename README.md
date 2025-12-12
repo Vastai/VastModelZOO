@@ -381,7 +381,7 @@
 
 - Text2Vec
 
-- 以下是Embedding模型
+- Embedding模型
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
@@ -394,7 +394,7 @@
 | [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | Embedding model  |  Build_In |
 | [Qwen3-Embedding-0.6B](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li></ul></details> | Embedding model  |  Build_In |
 
-- 以下是Reranker模型
+- Reranker模型
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
