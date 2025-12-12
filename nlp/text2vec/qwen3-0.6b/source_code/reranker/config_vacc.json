@@ -31,13 +31,5 @@
     "use_cache": true,
     "use_sliding_window": false,
     "vocab_size": 151669,
-    "rank_num": 1,
-    "iter_num": 0,
-    "model_name": "qwen",
-    "align_qkv": 0,
-    "input_seq_len": 512,
-    "split_dtype": "torch.float32",
-    "args_dtype": "fp32",
-    "insert_slice": 0,
     "_attn_implementation": "eager"
 }

@@ -4,8 +4,8 @@
     ],
     "auto_map": {
         "AutoConfig": "configuration_qwen2_vacc.Qwen2Config",
-         "AutoModel": "modeling_qwen2_vacc.Qwen2ForCausalLM", 
-         "AutoModelForCausalLM": "modeling_qwen2.Qwen2ForCausalLM"
+        "AutoModel": "modeling_qwen2_vacc.Qwen2ForCausalLM", 
+        "AutoModelForCausalLM": "modeling_qwen2_vacc.Qwen2ForCausalLM"
     },
     "attention_bias": false,
     "attention_dropout": 0.0,
@@ -32,13 +32,5 @@
     "use_cache": false,
     "use_sliding_window": false,
     "vocab_size": 151669,
-    "rank_num": 1,
-    "iter_num": 0,
-    "model_name": "qwen",
-    "align_qkv": 0,
-    "input_seq_len": 512,
-    "split_dtype": "torch.float32",
-    "args_dtype": "fp32",
-    "insert_slice": 0,
     "_attn_implementation": "eager"
 }

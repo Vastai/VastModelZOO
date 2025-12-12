@@ -106,6 +106,7 @@ Qwen3系列采用`多阶段`训练策略：
 
 - Embedding
     - 为在瀚博软件栈部署`Qwen3`系列模型，在官方源码的基础上，需要对`modeling_qwen2.py`做一些修改，其中左图为修改的代码
+
     - [modeling_qwen2_vacc.py](./source_code/embedding/modeling_qwen2_vacc.py)
         - 修改相关依赖的导入方式
         ![](../../../images/nlp/qwen3-0.6b/Snipaste_1.png)
@@ -115,21 +116,17 @@ Qwen3系列采用`多阶段`训练策略：
         ![](../../../images/nlp/qwen3-0.6b/Snipaste_3.png)
         ![](../../../images/nlp/qwen3-0.6b/Snipaste_4.png)
         
-
     - [configuration_qwen2_vacc.py](./source_code/embedding/configuration_qwen2_vacc.py)
         - 修改对于相关依赖的导入方式
         ![](../../../images/nlp/qwen3-0.6b/Snipaste_5.png)
 
-    - [quantization_vacc.py](./source_code/embedding/quantization_vacc.py)
-        - Qwen2ForCausalLM添加quantize方法，支持per_channel int8量化
-        ![](../../../images/nlp/qwen3-0.6b/Snipaste_6.png)
-
     - [config_vacc.json](./source_code/embedding/config_vacc.json)
-        - 添加auto_map、_rank_num、iter_num、model_name、align_qkv、input_seq_len、split_dtype、args_dtype、insert_slice选项
+        - 添加auto_map选项
         - 修改use_cache为false
         - 添加_attn_implementation选项，并将其只配置为eager；
         
-        ![](../../../images/nlp/qwen3-0.6b/Snipaste_7.png)
+        ![](../../../images/nlp/qwen3-0.6b/Snipaste_6.png)
+    
     - 将以上修改后文件，放置于原始权重目录下
 
 - Reranker
@@ -141,15 +138,14 @@ Qwen3系列采用`多阶段`训练策略：
 
     - [config_vacc.json](./source_code/reranker/config_vacc.json)
         
-        - 添加auto_map、_rank_num、iter_num、model_name、align_qkv、input_seq_len、split_dtype、args_dtype、insert_slice选项
-        - 修改eos_token_id、max_position_embeddings选项
+        - 添加auto_map选项
         - 添加_attn_implementation选项，并将其只配置为eager；
-        ![](../../../images/nlp/qwen3-0.6b/Snipaste_8.png)
+        ![](../../../images/nlp/qwen3-0.6b/Snipaste_7.png)
+    
     - [configuration_qwen2_vacc.py](./source_code/embedding/configuration_qwen2_vacc.py)
         - 同Embedding模型
-    - [quantization_vacc.py](./source_code/embedding/quantization_vacc.py)
-        - 同Embedding模型
-
+    
+    - 将以上修改后文件，放置于原始权重目录下
 
 ### step.2 数据集
 1. 精度评估数据集：
@@ -166,6 +162,8 @@ Qwen3系列采用`多阶段`训练策略：
 
     > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
+
+    > - 配置文件中的input_ids需根据需求进行修改，例如：编译512尺寸的模型，则为input_ids: [[512],[]]；编译1024尺寸的模型，则为input_ids: [[1024],[]]
 
 2. 模型编译
     ```bash

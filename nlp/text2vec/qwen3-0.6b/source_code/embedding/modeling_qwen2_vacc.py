@@ -2118,11 +2118,6 @@ class Qwen2ForCausalLM(Qwen2PreTrainedModel):
             )
         return reordered_past
 
-    def quantize(self, weight_bit_width: int):
-        from .quantization_vacc import quantize
-        quantize(self, weight_bit_width)
-        return self
-
 @add_start_docstrings(
     """
     The Qwen2 Model transformer with a sequence classification head on top (linear layer).

@@ -6,7 +6,6 @@ frontend:
   type: huggingface
   model_kwargs:
     model_arch: vacc
-  dtype: fp32
 backend:
   type: tvm_vacc
   dtype: fp16
@@ -14,7 +13,5 @@ backend:
     data_type: 0
     gather_data_vccl_dsp_enable: true
     stream_mode: true
-  merge_params: true
-  remove_params: false
 workspace:
   path: ./vacc_deploy
