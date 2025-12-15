@@ -203,3 +203,5 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
 - VACC在不同测试任务中，需要分别配置build yaml内的对应参数，分别进行build模型
 - `precision mode：--confidence_threshold 0.001 --nms_threshold 0.65`
 - `performance mode：--confidence_threshold 0.25 --nms_threshold 0.45`
+
+- yolov12含有Attention模块，GQA计算时，由于硬件限制seqlen需要是128的倍数；即输入分辨率需设置为128的倍数

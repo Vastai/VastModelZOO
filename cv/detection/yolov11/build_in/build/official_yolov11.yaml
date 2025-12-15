@@ -9,7 +9,7 @@ frontend:
 
 graph:
   extra_ops:
-    type: yolov8_nms
+    type: yolov11_nms
     params:
       num_classes: 80
       nms_threshold: 0.65
