@@ -272,7 +272,6 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 - VACC在不同测试任务中，需要分别配置build yaml内的对应参数，分别进行build模型
 - `precision mode：--confidence_threshold 0.001 --nms_threshold 0.65`
 - `performance mode：--confidence_threshold 0.25 --nms_threshold 0.45`
-- 使用yolov8-nms后处理算子
 - 不同参数量模型，在量化参数上存在差异：
 ```
 quantize:
