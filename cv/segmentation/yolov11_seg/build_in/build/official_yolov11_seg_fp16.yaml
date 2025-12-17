@@ -1,0 +1,32 @@
+name: yolo11n_seg_fp16
+
+frontend:
+  checkpoint: /path/to/yolo11n_seg.torchscript.pt
+  shape:
+    images: [1, 3, 640, 640]
+  type: pytorch
+  dtype: fp32
+
+graph:
+  extra_ops:
+    type: yolov11_nms
+    params:
+      seg_enable: true
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      strides:
+      - 8
+      - 16
+      - 32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 3
+    cluster_mode: 0
+  
+workspace:
+  path: ./deploy_weights/
+
