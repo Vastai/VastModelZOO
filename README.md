@@ -169,7 +169,7 @@
 | [Unet3P](./cv/segmentation/unet3p/README.md) |   [pytorch](https://github.com/avBuffer/UNet3plus_pth)    |  <details> <summary>model name</summary><ul><li align="left">unet3p</li><li align="left">unet3p_deepsupervision</li></ul></details>   |     segmentation     | Build_In |
 | [UnetPP](./cv/segmentation/unetpp/README.md) |   [pytorch](https://github.com/Andy-zhujunwen/UNET-ZOO)   | <details> <summary>model name</summary><ul><li align="left">unetpp</li></ul></details>  |     segmentation     | Build_In |
 | [Yolov8-seg](./cv/segmentation/yolov8_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov8n-seg</li><li align="left">yolov8s-seg</li><li align="left">yolov8m-seg</li><li align="left">yolov8l-seg</li><li align="left">yolov8x-seg</li></ul></details>     |    instance segmentation | Build_In |
-
+| [Yolov11-seg](./cv/segmentation/yolov11_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov11n-seg</li><li align="left">yolov11s-seg</li><li align="left">yolov11m-seg</li><li align="left">yolov11l-seg</li><li align="left">yolov11x-seg</li></ul></details>     |    instance segmentation | Build_In |
 
 - face alignment
 
