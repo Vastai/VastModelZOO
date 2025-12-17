@@ -161,7 +161,81 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
         --gt /path/to/instances_val2017.json \
         --output_path ./yolov11_seg_out
    ```
+    <details><summary>点击查看精度测试结果</summary>
 
+    ```
+    # fp16
+    Evaluate annotation type *bbox*
+    DONE (t=25.34s).
+    Accumulating evaluation results...
+    DONE (t=4.26s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.380
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.533
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.412
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.181
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.419
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.551
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.305
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.491
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.521
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.278
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.577
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.701
+    Running per image evaluation...
+    Evaluate annotation type *segm*
+    DONE (t=29.60s).
+    Accumulating evaluation results...
+    DONE (t=4.16s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.309
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.500
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.324
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.115
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.343
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.479
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.260
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.401
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.419
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.182
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.474
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.617
+    
+    # int8
+    Evaluate annotation type *bbox*
+    DONE (t=23.87s).
+    Accumulating evaluation results...
+    DONE (t=4.19s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.366
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.517
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.397
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.166
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.405
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.532
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.297
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.478
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.508
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.259
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.567
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.688
+    Running per image evaluation...
+    Evaluate annotation type *segm*
+    DONE (t=27.81s).
+    Accumulating evaluation results...
+    DONE (t=4.08s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.298
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.484
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.311
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.108
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.331
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.463
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.253
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.390
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.409
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.170
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.463
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.604
+    ```
+
+    </details>
 ### step.5 性能测试
 
 使用[yolov11_seg_prof.py](./build_in/vsx/python/yolov11_seg_prof.py)脚本来测试性能， 命令如下
@@ -169,7 +243,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 - 测试最大吞吐
 ```bash
 python3 ../build_in/vsx/python/yolov11_seg_prof.py \
-    -m ./deploy_weights/yolov8s_seg_int8/mod \
+    -m ./deploy_weights/yolo11n_seg_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
     --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
     --device_ids [0] \
@@ -182,7 +256,7 @@ python3 ../build_in/vsx/python/yolov11_seg_prof.py \
 - 测试最小延迟
 ```bash
 python3 ../build_in/vsx/python/yolov11_seg_prof.py \
-    -m ./deploy_weights/yolov8s_seg_int8/mod \
+    -m ./deploy_weights/yolo11n_seg_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
     --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
     --device_ids [0] \
