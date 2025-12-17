@@ -1,4 +1,3 @@
-
 # ==============================================================================
 #
 # Copyright (C) 2025 VastaiTech Technologies Inc.  All rights reserved.
@@ -7,14 +6,12 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
 import numpy as np
 import time
 import queue
 import threading
 import concurrent.futures
 from easydict import EasyDict as edict
-import numpy as np
 import vaststreamx as vsx
 import ctypes
 from typing import Union, List
@@ -37,6 +34,19 @@ def imagetype_to_vsxformat(imagetype):
     else:
         assert False, f"Unrecognize image type {imagetype}"
 
+def cv_rgb_image_to_vastai(image_cv, device_id):
+    assert len(image_cv.shape) >= 2
+    h = image_cv.shape[0]
+    w = image_cv.shape[1]
+    if len(image_cv.shape) == 3:
+        return vsx.create_image(
+            image_cv, vsx.ImageFormat.BGR_INTERLEAVE, w, h, device_id
+        )
+    elif len(image_cv.shape) == 2:
+        return vsx.create_image(image_cv, vsx.ImageFormat.GRAY, w, h, device_id)
+    else:
+        raise Exception("unsupported ndarray shape", image_cv.shape)
+    
 class ModelBase:
     def __init__(
         self,
@@ -137,7 +147,6 @@ class ModelCV(ModelBase):
     def process_impl(self, input):
         outputs = self.stream_.run_sync(input)
         return [[vsx.as_numpy(o) for o in out] for out in outputs]
-        # return [vsx.as_numpy(out[0]) for out in outputs]
 
 
 class CustomOpBase:
