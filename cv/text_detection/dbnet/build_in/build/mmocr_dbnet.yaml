@@ -1,4 +1,4 @@
-name: mmocr_dbnet_run_stream_int8
+name: mmocr_dbnet_int8
 
 frontend:
   checkpoint: path/to/dbnet_resnet18_fpnc_1200e_icdar2015.onnx

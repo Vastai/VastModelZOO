@@ -21,7 +21,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
 1. 根据具体模型，修改编译配置
     - [ppcls_mobilenetv2.yaml](../build_in/build/ppcls_mobilenetv2.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -35,8 +35,8 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考：[classification.py](../../common/vsx/classification.py)
+
+- 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -44,14 +44,14 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
         --model_prefix_path deploy_weights/ppcls_mobilenetv2_run_model_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppcls-mobilenet_v2-vdsp_params.json \
         --label_txt path/to/imagenet.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --save_result_txt result.txt \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
+    python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```
 
     ```
@@ -70,7 +70,7 @@ paddle2onnx  --model_dir /path/to/paddle_model/ \
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
     
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash

@@ -19,7 +19,7 @@ paddle2onnx  --model_dir /path/to/cspnet_paddle_model/ \
 1. 根据具体模型，修改编译配置
     - [ppcls_cspnet.yaml](../build_in/build/ppcls_cspnet.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -33,23 +33,22 @@ paddle2onnx  --model_dir /path/to/cspnet_paddle_model/ \
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考：[classification.py](../../common/vsx/classification.py)
+- 参考：[classification.py](../../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
         --file_path path/to/ILSVRC2012_img_val \
-        --model_prefix_path deploy_weights/ppcls_cspnet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/ppcls_cspnet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json \
         --label_txt path/to/imagenet.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --save_result_txt result.txt \
         --device 0
     ```
 
-    - 精度评估
+- 精度评估
     ```
-    python ../../common/eval/eval_topk.py ./runmstream_output/result.txt
+    python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```
 
     ```
@@ -64,11 +63,11 @@ paddle2onnx  --model_dir /path/to/cspnet_paddle_model/ \
 1. 性能测试
     - 配置[ppcls-cspdarknet53-vdsp_params.json](../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json)
     ```
-    vamp -m deploy_weights/ppcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json  -i 8 -p 1 -b 2
+    vamp -m deploy_weights/ppcls_cspnet_int8/mod --vdsp_params ../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json  -i 8 -p 1 -b 2
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，生成推理数据`npz`以及对应的`dataset.txt`
     ```bash
@@ -77,7 +76,7 @@ paddle2onnx  --model_dir /path/to/cspnet_paddle_model/ \
 
     - vamp推理获取npz文件
     ```bash
-    ./vamp -m deploy_weights/ppcls_cspnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,256,256] --datalist imagenet_npz.txt --path_output output
+    ./vamp -m deploy_weights/ppcls_cspnet_int8/mod --vdsp_params ../build_in/vdsp_params/ppcls-cspdarknet53-vdsp_params.json  -i 8 -p 1 -b 22 -s [3,256,256] --datalist imagenet_npz.txt --path_output output
     ```
 
     - 解析npz文件用于精度评估，参考：[vamp_npz_decode.py](../../common/eval/vamp_npz_decode.py)

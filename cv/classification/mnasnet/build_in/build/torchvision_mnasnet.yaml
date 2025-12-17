@@ -1,4 +1,4 @@
-name: torchvision_mnasnet_run_stream_int8
+name: torchvision_mnasnet_int8
 
 frontend:
   shape:

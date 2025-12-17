@@ -1,4 +1,4 @@
-name: ppcls_xception_run_stream_int8
+name: ppcls_xception_int8
 
 frontend:
   shape:

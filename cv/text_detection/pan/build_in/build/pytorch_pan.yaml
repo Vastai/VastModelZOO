@@ -1,4 +1,4 @@
-name: pytorch_pan_run_stream_int8
+name: pytorch_pan_int8
 
 frontend:
   shape:

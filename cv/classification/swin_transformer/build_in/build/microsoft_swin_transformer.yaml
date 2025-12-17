@@ -1,4 +1,4 @@
-name: microsoft_swin_transformer_run_stream_fp16
+name: microsoft_swin_transformer_fp16
 
 frontend:
   shape:

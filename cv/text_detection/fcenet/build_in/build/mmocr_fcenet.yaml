@@ -1,4 +1,4 @@
-name: mmocr_fcenet_run_stream_int8
+name: mmocr_fcenet_int8
 
 frontend:
   shape:

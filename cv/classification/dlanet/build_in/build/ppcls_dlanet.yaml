@@ -1,4 +1,4 @@
-name: ppcls_dlanet_run_stream_int8
+name: ppcls_dlanet_int8
 
 frontend:
   shape:

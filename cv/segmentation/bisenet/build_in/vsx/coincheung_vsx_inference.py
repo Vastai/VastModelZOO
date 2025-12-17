@@ -248,7 +248,7 @@ def set_config():
         help="img dir",
     )
     parse.add_argument(
-    "--label_txt", type=str, default="segmentation/bisenet/vacc_code/runmodel/cityscapes_colors.txt", help="label txt")
+    "--label_txt", type=str, default="segmentation/bisenet/source_code/cityscapes_colors.txt", help="label txt")
     parse.add_argument(
         "--mask_dir",
         type=str,
@@ -263,7 +263,7 @@ def set_config():
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="segmentation/bisenet/vacc_code/vdsp_params/coincheung-bisenetv1-vdsp_params.json",
+        default="segmentation/bisenet/build_in/vdsp_params/coincheung-bisenetv1-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")

@@ -99,7 +99,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 1. 根据具体模型，修改编译配置
     - [official_scrfd.yaml](./build_in/build/official_scrfd.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -112,23 +112,23 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
     vamc compile ../build_in/build/official_scrfd.yaml
 
 ### step.4 模型推理
-1. runstream
-    - 参考：[scrfd_vsx.py](./build_in/vsx/python/scrfd_vsx.py)
+
+- 参考：[scrfd_vsx.py](./build_in/vsx/python/scrfd_vsx.py)
     ```bash
     python ../build_in/vsx/python/scrfd_vsx.py \
         --file_path  /path/to/widerface/val/images \
-        --model_prefix_path deploy_weights/official_scrfd_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_scrfd_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
-    - 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
+- 参考：[evaluation.py](../common/eval/evaluation.py)，精度统计
     ```
     cd ../../common/eval/
     python3 setup.py build_ext --inplace
     cd ../../scrfd/workspace/
-    python ../../common/eval/evaluation.py -p runstream_output/ -g ../../common/eval/ground_truth
+    python ../../common/eval/evaluation.py -p infer_output/ -g ../../common/eval/ground_truth
     ```
 
     ```
@@ -151,7 +151,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 1. 性能测试
     - 配置[insightface-scrfd_500m-vdsp_params.json](./build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json)
     ```
-    vamp -m deploy_weights/official_scrfd_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 1 -p 1 -b 1 -s [3,640,640]
+    vamp -m deploy_weights/official_scrfd_int8/mod --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  -i 1 -p 1 -b 1 -s [3,640,640]
     ```
 
 2. 精度测试
@@ -166,7 +166,7 @@ python tools/scrfd2onnx.py configs/scrfd/scrfd_500m.py weights/scrfd_500m.pth --
 
     - vamp推理获取npz文件
     ```bash
-    vamp -m deploy_weights/official_scrfd_run_stream_int8/mod \
+    vamp -m deploy_weights/official_scrfd_int8/mod \
         --vdsp_params ../build_in/vdsp_params/insightface-scrfd_500m-vdsp_params.json  \
         -i 1 -p 1 -b 1 -s [3,640,640] \
         --datalist widerface_npz_list.txt \

@@ -1,4 +1,4 @@
-name: ppcls_hrnet_run_stream_int8
+name: ppcls_hrnet_int8
 
 frontend:
   shape:

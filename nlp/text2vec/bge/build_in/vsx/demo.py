@@ -312,8 +312,7 @@ if __name__ == "__main__":
     parser.add_argument('--eval_engine', type=str, default='vacc', choices=["torch", "onnx", "vacc"], help="eval vacc model or torch moedl")
     parser.add_argument('--eval_dataset', type=str, default='jsonl/mteb-sts12-sts_test.jsonl', 
                         help="embedding task 'mteb-sts12-sts_test.jsonl' for english, 'c-mteb-bq_test.jsonl' for chinese, " 
-                        "rerank task using 'zyznull-msmarco-passage-ranking_dev.jsonl, "
-                        "download form: http://192.168.20.139:8888/vastml/dataset/text2vec/jsonl/")
+                        "rerank task using 'zyznull-msmarco-passage-ranking_dev.jsonl")
     parser.add_argument('--seqlen', type=int, default=512, help="model seqlen")
 
     args = parser.parse_args()

@@ -45,7 +45,7 @@ paddle2onnx --model_dir weights/det_r50_vd_db_v2.0_train_inference \
 1. 根据具体模型修改配置文件
     - [ppocr_dbnet.yaml](../build_in/build/ppocr_dbnet.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -57,14 +57,14 @@ paddle2onnx --model_dir weights/det_r50_vd_db_v2.0_train_inference \
     cd workspace
     vamc compile ../build_in/build/ppocr_dbnet.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/ppocr_dbnet_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/ppocr_dbnet_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[dbnet_vsx.py](../build_in/vsx/python/dbnet_vsx.py)，进行vsx推理和eval评估
     ```bash
     python ../build_in/vsx/python/dbnet_vsx.py \
         --file_path path/to/icdar2015/Challenge4/ch4_test_images \
-        --model_prefix_path deploy_weights/ppocr_dbnet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/ppocr_dbnet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppocr-dbnet_resnet50_vd-vdsp_params.json \
         --label_txt /path/to/icdar2015/Challenge4/test_icdar2015_label.txt
     ```
@@ -85,12 +85,12 @@ paddle2onnx --model_dir weights/det_r50_vd_db_v2.0_train_inference \
 
 2. 性能测试，配置vdsp参数[ppocr-dbnet_resnet50_vd-vdsp_params.json](../build_in/vdsp_params/ppocr-dbnet_resnet50_vd-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/ppocr_dbnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ppocr-dbnet_resnet50_vd-vdsp_params.json -i 1 p 1 -b 1 -s [3,736,1280]
+    vamp -m deploy_weights/ppocr_dbnet_int8/mod --vdsp_params ../build_in/vdsp_params/ppocr-dbnet_resnet50_vd-vdsp_params.json -i 1 p 1 -b 1 -s [3,736,1280]
     ```
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/ppocr_dbnet_run_stream_int8/mod \
+    vamp -m deploy_weights/ppocr_dbnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-dbnet_resnet50_vd-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,736,1280] \
     --datalist npz_datalist.txt \

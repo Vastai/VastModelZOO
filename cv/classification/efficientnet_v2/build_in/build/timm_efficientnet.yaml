@@ -1,4 +1,4 @@
-name: timm_efficientnetv2_run_stream_int8
+name: timm_efficientnetv2_int8
 
 frontend:
   shape:

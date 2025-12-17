@@ -1,4 +1,4 @@
-name: official_stdc_run_stream_int8
+name: official_stdc_int8
 
 frontend:
   shape:

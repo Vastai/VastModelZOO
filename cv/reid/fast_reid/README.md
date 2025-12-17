@@ -126,7 +126,7 @@ datasets
 1. 根据具体模型，修改编译配置
     - [official_fast_reid.yaml](./build_in/build/official_fast_reid.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -141,12 +141,12 @@ datasets
 ### step.4 模型推理
 1. 需要注意运行该推理需要依赖fast-reid项目，因此需要将fast-reid项目放置source_code目录下
 
-2. runstream
+2. 推理
     - 参考[reid_vsx.py](./build_in/vsx/python/reid_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/reid_vsx.py \
-        --model_prefix_path deploy_weights/official_fast_reid_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_fast_reid_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
         --config-file ../source_code/fast-reid/configs/Market1501/bagtricks_R50.yml \
         --device 0
@@ -161,13 +161,13 @@ datasets
 ### step.5 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_fast_reid_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_fast_reid_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
         -i 1 p 1 -b 1
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，参考：[image2npz.py](../common/image2npz.py)
     ```bash
@@ -176,7 +176,7 @@ datasets
 
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_fast_reid_run_stream_fp16/mod \
+    vamp -m deploy_weights/official_fast_reid_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-market_bot_R50_ibn-vdsp_params.json \
         --datalist datalist.txt \
         --path_output npz_output

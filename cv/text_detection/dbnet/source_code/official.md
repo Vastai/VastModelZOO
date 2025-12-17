@@ -20,7 +20,7 @@ commit: e5a12f5c2f0c2b4a345b5b8392307ef73481d5f6
 1. 根据具体模型修改配置文件
     -[official_dbnet.yaml](../build_in/build/official_dbnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -32,14 +32,14 @@ commit: e5a12f5c2f0c2b4a345b5b8392307ef73481d5f6
     cd workspace
     vamc compile ../build_in/build/official_dbnet.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/official_dbnet_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/official_dbnet_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[dbnet_vsx.py](../build_in/vsx/python/dbnet_vsx.py)，执行下面命令
     ```bash
     python ../build_in/vsx/python/dbnet_vsx.py \
         --file_path path/to/icdar2015/Challenge4/ch4_test_images \
-        --model_prefix_path deploy_weights/official_dbnet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_dbnet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-dbnet_resnet18-vdsp_params.json \
         --label_txt path/to/icdar2015/Challenge4/test_icdar2015_label.txt
     ```
@@ -60,12 +60,12 @@ commit: e5a12f5c2f0c2b4a345b5b8392307ef73481d5f6
 
 2. 性能测试，配置vdsp参数[official-dbnet_resnet18-vdsp_params.json](../build_in/vdsp_params/official-dbnet_resnet18-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/official_dbnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-dbnet_resnet18-vdsp_params.json -i 1 p 1 -b 1 -s [3,640,640]
+    vamp -m deploy_weights/official_dbnet_int8/mod --vdsp_params ../build_in/vdsp_params/official-dbnet_resnet18-vdsp_params.json -i 1 p 1 -b 1 -s [3,640,640]
     ```
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_dbnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_dbnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-dbnet_resnet18-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,640,640] \
     --datalist npz_datalist.txt \

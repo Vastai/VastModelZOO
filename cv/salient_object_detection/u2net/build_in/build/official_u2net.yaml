@@ -1,4 +1,4 @@
-name: official_u2net_run_stream_int8
+name: official_u2net_int8
 
 frontend:
   shape:

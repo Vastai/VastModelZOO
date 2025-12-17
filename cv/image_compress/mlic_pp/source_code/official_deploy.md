@@ -36,7 +36,7 @@
     - [compress_hs_sim.yaml](../build_in/build/compress_hs_sim.yaml)
     - [decompress_gs_sim.yaml](../build_in/build/decompress_gs_sim.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 执行转换
@@ -50,14 +50,14 @@
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考: [mlic_inference.py](../build_in/vsx/python/mlic_inference.py)
+
+- 参考: [mlic_inference.py](../build_in/vsx/python/mlic_inference.py)
     ```bash
     python3 ../build_in/vsx/python/mlic_inference.py  \
-        --gaha_model_prefix  deploy_weights/compress_ga_ha_sim_512_768_run_stream_fp16/mod \
+        --gaha_model_prefix  deploy_weights/compress_ga_ha_sim_512_768_fp16/mod \
         --gaha_vdsp_params  ../build_in/vdsp_params/mlic_compress_gaha_rgbplanar.json \
-        --hs_model_prefix  deploy_weights/compress_hs_sim_run_stream_fp16/mod \
-        --gs_model_prefix   deploy_weights/decompress_gs_sim_run_stream_fp16/mod \
+        --hs_model_prefix  deploy_weights/compress_hs_sim_fp16/mod \
+        --gs_model_prefix   deploy_weights/decompress_gs_sim_fp16/mod \
         --torch_model  /path/to/mlicpp_mse_q5_2960000.pth.tar \
         --device_id  0 \
         --dataset_path /path/to/kodak \

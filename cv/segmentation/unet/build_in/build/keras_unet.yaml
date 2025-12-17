@@ -1,4 +1,4 @@
-name: keras_unet_run_stream_int8
+name: keras_unet_int8
 
 frontend:
   shape:

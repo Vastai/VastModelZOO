@@ -85,7 +85,7 @@
 
    - [customer_center_point.yaml](../build_in/build/customer_center_point.yaml)
    - 由于硬件的限制，当前只支持int8量化模型，不支持fp16量化模型
-   - 转换后将在当前目录下生成`deploy_weights/centerpoint_run_stream_int8`文件夹，其中包含转换后的模型文件
+   - 转换后将在当前目录下生成`deploy_weights/centerpoint_int8`文件夹，其中包含转换后的模型文件
 
    ```bash
    cd center_point
@@ -102,7 +102,7 @@
 
    ```bash
    python3  ../build_in/vsx/center_point_runstream.py \
-       -m "[/path/to/centerpoint_run_stream_int8/mod]" \
+       -m "[/path/to/centerpoint_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
        --voxel_size [0.32,0.32,4.2] \
@@ -112,7 +112,7 @@
        --normalize_enabled 1 \
        --max_points_num 12000000 \
        --dataset_root  /path/to/workspace/points \
-       --dataset_output_folder runstream_output
+       --dataset_output_folder infer_output
    ```
 
 2. 精度评估
@@ -125,7 +125,7 @@
      ```bash
      python ../source_code/eval.py \
          --dataset_yaml ../source_code/config/model_centerpoint_pp_stride222_dataset.yaml \
-         --result_npz ./runstream_output/ \
+         --result_npz ./infer_output/ \
          --class_names car,truck,bus,non_motor_vehicleslist,pedestrians
      ```
 
@@ -257,7 +257,7 @@
 
    ```bash
    python3 ../build_in/vsx/center_point_prof.py \
-       -m "[/path/to/centerpoint_run_stream_int8/mod]" \
+       -m "[/path/to/centerpoint_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
        --max_points_num 2000000 \
@@ -280,7 +280,7 @@
 
    ```bash
    python3 ../build_in/vsx/center_point_prof.py \
-       -m "[/path/to/centerpoint_run_stream_int8/mod]" \
+       -m "[/path/to/centerpoint_int8/mod]" \
        --elf_file /opt/vastai/vaststream/lib/op/ext_op/pointpillar_ext_op \
        --max_voxel_num [32000] \
        --max_points_num 2000000 \

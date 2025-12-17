@@ -30,11 +30,11 @@ parse.add_argument(
     default="./work/VSX/output/",  
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="./work/VSX/minio_models/fp16/bert_base_zh_ner_256-fp16-none-mutil_input-vacc/bert_base_zh_ner_256", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="./bert_base_zh_ner_256-fp16-none-mutil_input-vacc/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="./work/VSX/_GIT/algorithm_modelzoo/text_recognition/crnn/vacc_code/vdsp_params/ppocr-resnet34_vd-vdsp_params.json",
+    default="./text_recognition/crnn/build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json",
     help="vdsp op info",
 )
 parse.add_argument(

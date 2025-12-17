@@ -30,7 +30,7 @@
 1. 根据具体模型修改模型转换配置文件
     - [bubbliiiing_unet.yaml](../build_in/build/bubbliiiing_unet.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -41,16 +41,18 @@
     cd workspace
     vamc compile ../build_in/build/bubbliiiing_unet.yaml
     ```
+    
+> 注意，此处编译yaml内`frontend.shape`字段的输入节点名称需和前端模型输入名称保持一致
 
 ### step.4 模型推理
-1. runstream推理，参考：[bubbliiiing_vsx.py](../build_in/vsx/python/bubbliiiing_vsx.py)，修改参数并运行如下脚本
+1. 参考：[bubbliiiing_vsx.py](../build_in/vsx/python/bubbliiiing_vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/bubbliiiing_vsx.py \
         --file_path  /path/to/VOC2012/JPEGImages_val \
-        --model_prefix_path deploy_weights/bubbliiiing_unet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/bubbliiiing_unet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
         --gt_path /path/to/SegmentationClass \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
@@ -65,16 +67,16 @@
 
 2. 性能测试，配置vdsp参数[bubbliiiing-unet_resnet50-vdsp_params.json](../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/bubbliiiing_unet_run_stream_int8/mod \
+    vamp -m deploy_weights/bubbliiiing_unet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256]
     ```
     
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+> 可选步骤，和step.4的精度测试基本一致
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/unet_resnet50-int8-kl_divergence-3_256_256-vacc/unet_resnet50 \
+    vamp -m deploy_weights/bubbliiiing_unet_run_stream_int8/mod \
     --vdsp_params ../build_in/vdsp_params/bubbliiiing-unet_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,256,256] \
     --datalist npz_datalist.txt \

@@ -1,4 +1,4 @@
-name: timm_resnext_run_stream_int8
+name: timm_resnext_int8
 
 frontend:
   shape:

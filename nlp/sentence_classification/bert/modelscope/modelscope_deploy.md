@@ -20,16 +20,13 @@
 1. 根据具体模型修改配置文件
     - [bert_modelscope.yaml](./build_in/build/bert_modelscope.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
 2. 模型编译
 
     ```bash
-    cd cspnet
-    mkdir workspace
-    cd workspace
     vamc build ./build_in/build/bert_modelscope.yaml
     ```
 
@@ -37,8 +34,8 @@
 > 基于vsx进行推理
 - 运行 [vsx_infer.py](./build_in/vsx/vsx_infer.py) 进行推理和精度评测
     ```
-    python ./build_in/vsx/vsx_infer.py --model_prefix bert_int32-fp16-none-1_256_1_256_1_256-vacc/mod \
-        --vdsp_json vdsp.json \
+    python ./build_in/vsx/vsx_infer.py --model_prefix bert/mod \
+        --vdsp_json ./build_in/vsx/vdsp_params.json \
         --data_dir npz_files \
         --label jd_label.txt
     ```

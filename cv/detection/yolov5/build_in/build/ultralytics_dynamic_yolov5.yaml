@@ -1,4 +1,4 @@
-name: ultralytics_yolov5s_dynamic_run_stream_int8
+name: ultralytics_yolov5s_dynamic_int8
 
 frontend:
   checkpoint: /path/to/yolov5s-dynamic.onnx

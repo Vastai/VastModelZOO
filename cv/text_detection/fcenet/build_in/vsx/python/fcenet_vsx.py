@@ -37,11 +37,11 @@ parse.add_argument(
     help="img or dir  path",
 )
 parse.add_argument("--model_prefix_path", type=str,
-                   default="deploy_weights/mmocr_fcenet_run_stream_fp16/mod", help="model info")
+                   default="deploy_weights/mmocr_fcenet_fp16/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/mmocr-fcenet_resnet50_oclip_fpn_1500e_icdar2015-vdsp_params.json",
+    default="../build_in/vdsp_params/mmocr-fcenet_resnet50_oclip_fpn_1500e_icdar2015-vdsp_params.json",
     help="vdsp op info",
 )
 parse.add_argument(

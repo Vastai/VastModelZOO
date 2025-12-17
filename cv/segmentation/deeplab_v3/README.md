@@ -134,7 +134,7 @@ DeepLab_v3+的主要改进：
 1. 根据具体模型修改模型转换配置文件
     - [official_deeplab_v3.yaml](./build_in/build/official_deeplab_v3.yaml)
         
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -148,18 +148,18 @@ DeepLab_v3+的主要改进：
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考[vsx_inference.py](./build_in/vsx/vsx_inference.py)，修改参数并运行如下脚本
+1. 参考[vsx_inference.py](./build_in/vsx/vsx_inference.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/vsx_inference.py \
         --file_path  /path/to/VOCdevkit/VOC2012/JPEGImages_val \
-        --model_prefix_path deploy_weights/official_deeplab_v3_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_deeplab_v3_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
         --gt_path /path/to/VOCdevkit/VOC2012/SegmentationClass \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     ```
-    # official_deeplab_v3_run_stream_int8 精度参考
+    # official_deeplab_v3_int8 精度参考
     validation pixAcc: 93.896, mIoU: 73.926
     ```
 
@@ -175,16 +175,16 @@ DeepLab_v3+的主要改进：
 
 2. 性能测试，配置vdsp参数[vainf-deeplab_v3_mobilenet-vdsp_params.json](./build_in/vdsp_params/vainf-deeplab_v3_mobilenet-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/official_deeplab_v3_run_stream_int8/mod \
+    vamp -m deploy_weights/official_deeplab_v3_int8/mod \
     --vdsp_params ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,513,513]
  
 
-> 可选步骤，和step.4内使用runstream脚本方式的精度测试基本一致
+> 可选步骤，和step.4的精度测试基本一致
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_deeplab_v3_run_stream_int8 \
+    vamp -m deploy_weights/official_deeplab_v3_int8 \
     --vdsp_params ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,513,513] \
     --datalist npz_datalist.txt \

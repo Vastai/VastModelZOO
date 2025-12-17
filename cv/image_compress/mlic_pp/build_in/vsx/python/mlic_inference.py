@@ -70,7 +70,7 @@ def argument_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--gaha_model_prefix",
-        default="deploy_weights/compress_ga_ha_sim_512_768_run_stream_fp16/mod",
+        default="deploy_weights/compress_ga_ha_sim_512_768_fp16/mod",
         help="ga_ha model prefix of the model suite files",
     )
     parser.add_argument(
@@ -80,12 +80,12 @@ def argument_parser():
     )
     parser.add_argument(
         "--gaha_vdsp_params",
-        default=" ../vacc_code/vdsp_params/mlic_compress_gaha_rgbplanar.json",
+        default=" ../build_in/vdsp_params/mlic_compress_gaha_rgbplanar.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(
         "--hs_model_prefix",
-        default="deploy_weights/compress_hs_sim_run_stream_fp16/mod",
+        default="deploy_weights/compress_hs_sim_fp16/mod",
         help="h_s model prefix of the model suite files",
     )
     parser.add_argument(
@@ -95,7 +95,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--gs_model_prefix",
-        default="deploy_weights/decompress_gs_sim_run_stream_fp16/mod",
+        default="deploy_weights/decompress_gs_sim_fp16/mod",
         help="g_s model prefix of the model suite files",
     )
     parser.add_argument(

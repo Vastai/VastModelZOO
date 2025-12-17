@@ -1,4 +1,4 @@
-name: ultralytics_yolov3_run_stream_int8
+name: ultralytics_yolov3_int8
 
 frontend:
   checkpoint: /path/to/yolov3-416.onnx

@@ -1,4 +1,4 @@
-name: ppocr_dbnet_run_stream_int8
+name: ppocr_dbnet_int8
 
 frontend:
   checkpoint: path/to/dbnet_resnet50_vd/dbnet_resnet50_vd.onnx

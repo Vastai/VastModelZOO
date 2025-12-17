@@ -26,7 +26,7 @@ def argument_parser():
     parser.add_argument(
         "-m",
         "--model_prefix",
-        default="./build_model_2layer_work/gemma2b_iter0_2048_fp16",
+        default="./build_model_2layer_work/mod",
         help="model prefix of the model suite files (default: %(default)s)",
     )
     parser.add_argument(
@@ -36,7 +36,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--vdsp_params",
-        default="information_extraction/uie/vacc_code/vdsp_params/hustai-uie_base-vdsp_params.json",
+        default="information_extraction/uie/build_in/vdsp_params/hustai-uie_base-vdsp_params.json",
         help="vdsp preprocess parameter file (default: %(default)s)",
     )
     parser.add_argument(

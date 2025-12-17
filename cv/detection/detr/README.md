@@ -54,6 +54,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 
 ## Build_In Deploy
+
 ### step.1 获取模型
 - code source
     ```bash
@@ -83,7 +84,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     - [official_detr.yaml](./build_in/build/official_detr.yaml)
     - 注意该模型仅支持fp16精度
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -96,22 +97,22 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考[vsx脚本](./build_in/vsx/python/infer_detr.py)
+
+- 参考[vsx脚本](./build_in/vsx/python/infer_detr.py)
     ```bash
     python3 ../build_in/vsx/python/infer_detr.py \
-        --model_prefix deploy_weights/official_detr_run_stream_fp16/mod \
+        --model_prefix deploy_weights/official_detr_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-detr-vdsp_params.json  \
         --device_id 0  \
         --threshold 0.01 \
         --label_file ../../common/label/coco_91.txt \
         --file_path /path/to/coco_val2017 \
-        --save_dir ./runstream_output
+        --save_dir ./infer_output
     ```
 
-    - 参考：[eval_map.py](../common/eval/eval_map.py)，精度统计
+- 参考：[eval_map.py](../common/eval/eval_map.py)，精度统计
     ```bash
-        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
 
     ```
@@ -136,7 +137,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 1. 参考[infer_detr_prof.py](./build_in/vsx/python/infer_detr_prof.py)进行性能测试
     ```bash
     python3 ../build_in/vsx/python/infer_detr_prof.py \
-        -m deploy_weights/official_detr_run_stream_fp16/mod \
+        -m deploy_weights/official_detr_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/official-detr-vdsp_params.json  \
         --device_ids [0] \
         --batch_size 1 \

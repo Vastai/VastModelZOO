@@ -33,7 +33,7 @@
 
 1. 根据具体模型修改模型转换配置文件[mlcommons_config.yaml](../build_in/build/mlcommons_retinanet.yaml)：
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -47,11 +47,7 @@
 
 ### step.4 模型推理
 
-> `engine.type: vacc`
-> 
-> **vsx**形式
-
-1. 可以利用[脚本](../build_in/vsx/python/mlcommons_retinanet_vsx.py)生成预测的txt结果
+1. 利用[脚本](../build_in/vsx/python/mlcommons_retinanet_vsx.py)生成预测的txt结果
 
     ```
     python ../build_in/vsx/python/mlcommons_retinanet_vsx.py \

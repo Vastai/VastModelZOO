@@ -91,7 +91,7 @@ python tools/deployment/pytorch2onnx.py \
 1. 根据具体模型修改模型转换配置文件
     - [mmpose_hrnetpose.yaml](./build_in/build/mmpose_hrnetpose.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 

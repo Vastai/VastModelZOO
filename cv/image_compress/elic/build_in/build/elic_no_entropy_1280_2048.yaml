@@ -1,4 +1,4 @@
-name: elic_no_entropy_1280_2048_run_stream_fp16
+name: elic_no_entropy_1280_2048_fp16
 
 frontend:
   shape:

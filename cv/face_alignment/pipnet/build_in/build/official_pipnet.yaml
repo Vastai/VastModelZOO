@@ -1,4 +1,4 @@
-name: official_pipnet_run_stream_int8
+name: official_pipnet_int8
 
 frontend:
   shape:

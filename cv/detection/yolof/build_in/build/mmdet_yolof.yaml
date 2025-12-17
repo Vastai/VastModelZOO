@@ -1,4 +1,4 @@
-name: mmdet_yolof_run_stream_int8
+name: mmdet_yolof_int8
 
 frontend:
   checkpoint: /path/to/yolof.onnx

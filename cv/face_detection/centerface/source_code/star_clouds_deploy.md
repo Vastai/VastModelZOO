@@ -19,7 +19,7 @@ commit: b82ec0c
 1. 根据具体模型修改配置文件
     - [pytorch_centerface.yaml](../build_in/build/pytorch_centerface.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -37,9 +37,9 @@ commit: b82ec0c
     ```bash
     python ../build_in/vsx/python/vsx.py \
         --file_path  /path/to/widerface/val/ \
-        --model_prefix_path deploy_weights/pytorch_centerface_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/pytorch_centerface_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
@@ -53,7 +53,7 @@ commit: b82ec0c
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/pytorch_centerface_run_stream_fp16/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/pytorch_centerface_fp16/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1
     ```
 
 ## Tips

@@ -102,7 +102,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 1. 根据具体模型,修改模型转换配置文件
     - [yolov8_seg.yaml](./build_in/build/yolov8_seg.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -116,13 +116,13 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[yolov8_seg_vsx.py](./build_in/vsx/python/yolov8_seg_vsx.py)
+1. 参考：[yolov8_seg_vsx.py](./build_in/vsx/python/yolov8_seg_vsx.py)
     - 依赖自定义算子：[yolov8_seg_post_proc](./build_in/vsx/python/yolov8_seg_post_proc)
 
     ```bash
     python ../build_in/vsx/python/yolov8_seg_vsx.py \
         --file_path  path/to/coco/det_coco_val \
-        --model_prefix_path deploy_weights/yolov8s_seg_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/yolov8s_seg_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
         --vdsp_custom_op ../build_in/vsx/python/yolov8_seg_post_proc  \
         --label_txt path/to/coco/coco.txt \
@@ -142,7 +142,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 ```bash
 python3 ../build_in/vsx/python/yolov8_seg_prof.py \
-    -m deploy_weights/yolov8s_seg_run_stream_int8/mod \
+    -m deploy_weights/yolov8s_seg_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
     --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
     --device_ids [0] \

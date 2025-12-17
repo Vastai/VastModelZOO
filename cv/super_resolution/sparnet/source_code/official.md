@@ -80,7 +80,7 @@ torch.onnx.export(network, input_data, 'SPARNetHD-Attn3D.onnx', input_names=["in
 1. 根据具体模型修改配置文件
     - [config.yaml](../build_in/build/config.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -93,16 +93,15 @@ torch.onnx.export(network, input_data, 'SPARNetHD-Attn3D.onnx', input_names=["in
    ```
 
 ### step.4 模型推理
-1. runstream
 
-    - 参考[vsx脚本](../build_in/vsx/official_vsx_inference.py)
+- 参考[vsx脚本](../build_in/vsx/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/official_vsx_inference.py \
         --lr_image_dir  /path/to/code/model_check/SR/face/Face-SPARNet/datasets/test_dirs/Helen_test_DIC/LR \
         --model_prefix_path deploy_weights/sparnet_light_attn3d/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-sparnet_light_attn3d-vdsp_params.json \
         --hr_image_dir /path/to//code/model_check/SR/face/Face-SPARNet/datasets/test_dirs/Helen_test_DIC/HR \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 

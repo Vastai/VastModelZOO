@@ -1,4 +1,4 @@
-name: mlcommons_retinanet_run_stream_int8
+name: mlcommons_retinanet_int8
 
 frontend:
   checkpoint: /path/to/retinanet_resnext50_32x4d_fpn-1_3_800_800.onnx

@@ -146,7 +146,7 @@ Qwen2-VL 采用了一种混合训练机制，结合了图像和视频数据，�
     huggingface-hub==0.23.2
     ```
 
-- input_ids转为embedding部分，需要使用从预训练模型获取的embedding权重：[embed_tokens.bin](http://192.168.20.139:8888/vastml/modelzoo/vlm/Qwen/debug_file/embed_tokens.bin)
+- input_ids转为embedding部分，需要使用从预训练模型获取的embedding权重
     ```python
     import torch
     import numpy as np

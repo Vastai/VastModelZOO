@@ -1,4 +1,4 @@
-name: tianxiaomo_yolov4_e2e_run_stream_int8
+name: tianxiaomo_yolov4_e2e_int8
 
 frontend:
   checkpoint: /path/to/yolov4-416.onnx

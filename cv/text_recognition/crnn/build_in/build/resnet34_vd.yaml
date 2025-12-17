@@ -1,4 +1,4 @@
-name: crnn_resnet34_vd_run_stream_int8
+name: crnn_resnet34_vd_int8
 
 frontend:
   shape:

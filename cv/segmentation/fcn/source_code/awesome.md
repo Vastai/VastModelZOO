@@ -41,7 +41,7 @@
 1. 根据具体模型修改模型转换配置文件
     - [awesome_fcn.yaml](../build_in/build/awesome_fcn.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -55,15 +55,15 @@
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考
-    - 参考：[awesome_vsx_inference.py](../build_in/vsx/awesome_vsx_inference.py)
+
+- 参考：[awesome_vsx_inference.py](../build_in/vsx/awesome_vsx_inference.py)
     ```bash
     python ../build_in/vsx/awesome_vsx_inference.py \
         --image_dir  /path/to/VOC2012/JPEGImages_val \
-        --model_prefix_path deploy_weights/awesome_fcn_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/awesome_fcn_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/awesome-fcn8s_vgg16-vdsp_params.json \
         --mask_dir /path/to/SegmentationClass \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --color_txt ../source_code/awesome/voc2012_colors.txt \
         --device 0
     ```
@@ -80,14 +80,14 @@
 1. 性能测试
     - 配置vdsp参数[awesome-fcn8s_vgg16-vdsp_params.json](../build_in/vdsp_params/awesome-fcn8s_vgg16-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/awesome_fcn_run_stream_fp16/mod \
+    vamp -m deploy_weights/awesome_fcn_fp16/mod \
     --vdsp_params ../build_in/vdsp_params/awesome-fcn8s_vgg16-vdsp_params.json \
     -i 2 p 2 -b 1 -s [3,320,320]
     ```
 
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
     
     - 数据准备，基于[image2npz.py](../build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`，注意只转换`VOC2012/ImageSets/Segmentation/val.txt`对应的验证集图像（配置相应路径）：
     ```bash
@@ -99,7 +99,7 @@
 
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/awesome_fcn_run_stream_fp16/mod \
+    vamp -m deploy_weights/awesome_fcn_fp16/mod \
     --vdsp_params ../build_in/vdsp_params/awesome-fcn8s_vgg16-vdsp_params.json \
     -i 2 p 2 -b 1 -s [3,320,320] \
     --datalist npz_datalist.txt \
