@@ -100,7 +100,7 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
 
 ### step.4 模型推理
 
-- 参考：[classification.py](../common/vsx/classification.py)
+1. vsx推理：[classification.py](../common/vsx/classification.py)
     ```bash
     python ../../common/vsx/classification.py \
         --infer_mode sync \
@@ -113,28 +113,33 @@ ImageNet数据是CV领域非常出名的数据集，ISLVRC竞赛使用的数据�
         --device 0
     ```
 
-- 精度评估
+### step.5 精度性能
+
+- 精度评估：[eval_topk.py](../common/eval/eval_topk.py)
     ```
     python ../../common/eval/eval_topk.py ./infer_output/result.txt
     ```
-    <details><summary>点击查看精度测试结果</summary>
+
+    <details><summary>精度信息</summary>
 
     ```
-    # fp16
+    # official_yolov11n_cls 256
+
+    ## fp16
     top1_rate: 70.8 top5_rate: 89.874
 
-    # int8
+    ## int8
     top1_rate: 68.792 top5_rate: 88.708
     ```
-
     </details>
 
-### step.5 性能测试
-
-- 配置[ultralytics-yolov11n_cls-vdsp_params.json](./build_in/vdsp_params/ultralytics-yolov11n_cls-vdsp_params.json)
+- 性能评估
+    - 配置VDSP参数：[ultralytics-yolov11n_cls-vdsp_params.json](./build_in/vdsp_params/ultralytics-yolov11n_cls-vdsp_params.json)
 
     ```bash
-    vamp -m ./deploy_weights/official_yolov11n_cls_fp16/mod --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_cls-vdsp_params.json  -i 8 -p 1 -b 2 -s [3,256,256]
+    vamp -m ./deploy_weights/official_yolov11n_cls_fp16/mod \
+    --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_cls-vdsp_params.json \
+    -i 8 -p 1 -b 2 -s [3,256,256]
     ```
 
 ### Tips
