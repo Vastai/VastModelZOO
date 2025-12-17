@@ -105,6 +105,7 @@
 | [Wide ResNet](./cv/classification/wide_resnet/README.md) |   [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   | <details> <summary>model name</summary><ul><li align="left">wide_resnet50_2</li><li align="left">wide_resnet101_2</li></ul></details> |    classification    |   Build_In   |
 | [Wide ResNet](./cv/classification/wide_resnet/README.md) |    [torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)    | <details> <summary>model name</summary><ul><li align="left">wide_resnet50_2</li><li align="left">wide_resnet101_2</li></ul></details> |    classification    |   Build_In   |
 |    [Xception](./cv/classification/xception/README.md)    |   [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.3/docs/zh_CN/models/Inception.md)   |   <details> <summary>model name</summary><ul><li align="left">xception41</li><li align="left">xception41_deeplab</li><li align="left">xception65</li><li align="left">xception65_deeplab</li><li align="left">xception71</li></ul></details>    |    classification    |   Build_In   |
+| [Yolov11-cls](./cv/classification/yolov11_cls/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov11n-cls</li><li align="left">yolov11s-cls</li><li align="left">yolov11m-cls</li><li align="left">yolov11l-cls</li><li align="left">yolov11x-cls</li></ul></details>     |    classification | Build_In |
 
 - object detection
 

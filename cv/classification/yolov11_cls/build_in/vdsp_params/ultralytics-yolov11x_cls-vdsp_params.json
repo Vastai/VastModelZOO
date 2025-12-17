@@ -1,0 +1,25 @@
+{
+    "OpType": "FUSION_OP_RGB_RESIZE_CVTCOLOR_CROP_NORM_TENSOR",
+    "OpConfig": {
+        "IimageFormat": "RGB_PLANAR",
+        "OimageWidth": 256,
+        "OimageHeight": 256,
+        "CropX": 16,
+        "CropY": 16,
+        "ResizeType": "BILINEAR_PILLOW",
+        "ResizeWidth": 288,
+        "ResizeHeight": 288,
+        "Mean": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Std": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "NormaType": "DIV255_MINUSMEAN_DIVSTD",
+        "ColorCvtCode": "NO_CHANGE"
+    }
+}
