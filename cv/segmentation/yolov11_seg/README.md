@@ -108,7 +108,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 
-### step.2 准备数据集
+### step.2 数据集准备
 - [校准数据集](http://images.cocodataset.org/zips/val2017.zip)
 - [评估数据集](http://images.cocodataset.org/zips/val2017.zip)
 - [gt: instances_val2017.json](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
@@ -135,7 +135,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
 ### step.4 模型推理
-1. 参考：[yolov11_seg_vsx.py](./build_in/vsx/python/yolov11_seg_vsx.py)
+1. vsx推理：[yolov11_seg_vsx.py](./build_in/vsx/python/yolov11_seg_vsx.py)
     - 依赖自定义算子：[yolov8_seg_post_proc](./build_in/vsx/python/yolov8_seg_post_proc)
 
     ```bash
@@ -155,16 +155,20 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
         --dataset_output_folder ./yolov11_seg_out
     ```
 
-2. 精度统计：[yolov11_seg_eval.py](./build_in/vsx/python/yolov11_seg_eval.py)，指定`instances_val2017.json`标签文件和上步骤中获取的推理结果路径，即可获得mAP评估指标
+### step.5 精度性能
+1. 精度统计：[yolov11_seg_eval.py](./build_in/vsx/python/yolov11_seg_eval.py)
+   > 指定`instances_val2017.json`标签文件和上步骤中获取的推理结果路径，即可获得mAP评估指标
    ```bash
     python3 ../build_in/vsx/python/yolov11_seg_eval.py \
         --gt /path/to/instances_val2017.json \
         --output_path ./yolov11_seg_out
    ```
-    <details><summary>点击查看精度测试结果</summary>
+    <details><summary>查看精度信息</summary>
 
     ```
-    # fp16
+    # yolo11n_seg_640_0.01
+
+    ## fp16
     Evaluate annotation type *bbox*
     DONE (t=25.34s).
     Accumulating evaluation results...
@@ -182,6 +186,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.577
     Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.701
     Running per image evaluation...
+
     Evaluate annotation type *segm*
     DONE (t=29.60s).
     Accumulating evaluation results...
@@ -199,7 +204,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.474
     Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.617
     
-    # int8
+    ## int8
     Evaluate annotation type *bbox*
     DONE (t=23.87s).
     Accumulating evaluation results...
@@ -217,6 +222,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.567
     Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.688
     Running per image evaluation...
+
     Evaluate annotation type *segm*
     DONE (t=27.81s).
     Accumulating evaluation results...
@@ -236,36 +242,39 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     ```
 
     </details>
-### step.5 性能测试
 
-使用[yolov11_seg_prof.py](./build_in/vsx/python/yolov11_seg_prof.py)脚本来测试性能， 命令如下
+2. 性能统计
 
-- 测试最大吞吐
-```bash
-python3 ../build_in/vsx/python/yolov11_seg_prof.py \
-    -m ./deploy_weights/yolo11n_seg_int8/mod \
-    --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
-    --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
-    --device_ids [0] \
-    --shape "[3,640,640]" \
-    --batch_size 1 \
-    --instance 1 \
-    --iterations 600 \
-    --queue_size 1
-```
-- 测试最小延迟
-```bash
-python3 ../build_in/vsx/python/yolov11_seg_prof.py \
-    -m ./deploy_weights/yolo11n_seg_int8/mod \
-    --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
-    --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
-    --device_ids [0] \
-    --shape "[3,640,640]" \
-    --batch_size 1 \
-    --instance 1 \
-    --iterations 600 \
-    --queue_size 0
-```
+- 测试性能：[yolov11_seg_prof.py](./build_in/vsx/python/yolov11_seg_prof.py)
+
+    - 测试最大吞吐
+        ```bash
+        python3 ../build_in/vsx/python/yolov11_seg_prof.py \
+            -m ./deploy_weights/yolo11n_seg_int8/mod \
+            --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
+            --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
+            --device_ids [0] \
+            --shape "[3,640,640]" \
+            --batch_size 1 \
+            --instance 1 \
+            --iterations 600 \
+            --queue_size 1
+        ```
+
+    - 测试最小延迟
+        ```bash
+        python3 ../build_in/vsx/python/yolov11_seg_prof.py \
+            -m ./deploy_weights/yolo11n_seg_int8/mod \
+            --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \
+            --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
+            --device_ids [0] \
+            --shape "[3,640,640]" \
+            --batch_size 1 \
+            --instance 1 \
+            --iterations 600 \
+            --queue_size 0
+        ```
+
 ### Tips
 - 使用yolov8_seg_post_proc后处理算子
 - 不同参数量模型，在量化参数上存在差异：
