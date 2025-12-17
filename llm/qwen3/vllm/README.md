@@ -1,4 +1,4 @@
-# 概述 
+# 概述
 
 本文档旨在指导用户如何基于 vLLM 和 Open WebUI 在瀚博硬件设备上部署 Qwen3 系列模型，以及测试模型的精度和性能。
 
@@ -14,6 +14,8 @@
 
   |model | huggingface  | modelscope | parameter | dtype| arch |
   | :--- | :--- | :-- | :-- | :-- | :-- |
+  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 |LLM-MOE-GQA |
+  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 |LLM-MOE-GQA |
   |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 |LLM-MOE-GQA |
   |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
   |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
@@ -39,11 +41,15 @@
 
 - 参考[modelscope](https://modelscope.cn/docs/models/download)下载权重
   ```shell
-  pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple 
+  pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple
   export PATH=$PATH:~/.local/bin
   modelscope download --model Qwen/Qwen3-30B-A3B-FP8 --local_dir ./Qwen3-30B-A3B-FP8
   ```
 
+## 模型量化
+
+- 当前仅支持`Qwen3-30B-A3B`的`GPTQ-int4`量化
+- 量化过程及脚本请参考[Qwen3-30B-A3B GPTQ](./quant/README.md)
 
 ## 注意事项
 
@@ -180,7 +186,7 @@ vllm bench serve \
       --served-model-name Qwen3-235B-A22B-Instruct-2507-FP8 \
       --save-result \
       --result-dir ./benchmark_result \
-      --result-filename result.json     
+      --result-filename result.json
   ```
   - 其中，`vllm_service`为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；`host`为本机ip地址。
 
@@ -239,7 +245,7 @@ vllm bench serve \
       - temperature：生成温度。
 
       - top_p：生成top-p。
-        
+
       - top_k：生成top-k。
 
       - n： 生成序列数量。

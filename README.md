@@ -142,8 +142,8 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   | 
-| [PointPillars](./cv/detection3d/PointPillars/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   | 
+| [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   |
+| [PointPillars](./cv/detection3d/PointPillars/README.md)  |   [OpenPCDet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   |
 
 - segmentation
 
@@ -446,7 +446,7 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [Qwen2.5](./llm/qwen2/README.md) | [huggingface](https://hf-mirror.com/Qwen)| <details> <summary>model name</summary><ul><li align="left">Qwen2.5-7B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-14B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-32B-Instruct-GPTQ-Int4</li></ul></details> | large language model | vLLM |
-| [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-30B-A3B-GPTQ-Int4 </li></ul> </details>   | large language model |   vLLM   |
+| [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-30B-A3B-GPTQ-Int4 </li><li align="left">Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 </li><li align="left">Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 </li></ul> </details>   | large language model |   vLLM   |
 | [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li><li align="left">DeepSeek-V3.1-Terminus</li></ul></details>   | large language model |   vLLM   |
 | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
 
