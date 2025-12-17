@@ -169,7 +169,7 @@
 | [Unet3P](./cv/segmentation/unet3p/README.md) |   [pytorch](https://github.com/avBuffer/UNet3plus_pth)    |  <details> <summary>model name</summary><ul><li align="left">unet3p</li><li align="left">unet3p_deepsupervision</li></ul></details>   |     segmentation     | Build_In |
 | [UnetPP](./cv/segmentation/unetpp/README.md) |   [pytorch](https://github.com/Andy-zhujunwen/UNET-ZOO)   | <details> <summary>model name</summary><ul><li align="left">unetpp</li></ul></details>  |     segmentation     | Build_In |
 | [Yolov8-seg](./cv/segmentation/yolov8_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov8n-seg</li><li align="left">yolov8s-seg</li><li align="left">yolov8m-seg</li><li align="left">yolov8l-seg</li><li align="left">yolov8x-seg</li></ul></details>     |    instance segmentation | Build_In |
-
+| [Yolov11-seg](./cv/segmentation/yolov11_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov11n-seg</li><li align="left">yolov11s-seg</li><li align="left">yolov11m-seg</li><li align="left">yolov11l-seg</li><li align="left">yolov11x-seg</li></ul></details>     |    instance segmentation | Build_In |
 
 - face alignment
 
@@ -381,26 +381,26 @@
 
 - Text2Vec
 
-- Embedding模型
+    - Embedding
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [acge](./nlp/text2vec/acge/README.md) | [huggingface](https://huggingface.co/aspire/acge_text_embedding) |  <details> <summary>model name</summary><ul><li align="left">acge_text_embedding</li></ul></details> | Embedding model  |  Build_In |
-| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | Embedding model  |  Build_In |
-| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
-| [e5](./nlp/text2vec/e5/README.md)| [huggingface](https://huggingface.co/collections/intfloat/multilingual-e5-text-embeddings-67b2b8bb9bff40dec9fb3534) |  <details> <summary>model name</summary><ul><li align="left">multilingual-e5-small</li><li align="left">multilingual-e5-base</li><li align="left">multilingual-e5-large</li><li align="left">multilingual-e5-large-instruct</li></ul></details> | Embedding model  |  Build_In |
-| [gte](./nlp/text2vec/gte/README.md) | [huggingface](https://huggingface.co/thenlper) |  <details> <summary>model name</summary><ul><li align="left">gte-small</li><li align="left">gte-base</li><li align="left">gte-large</li></ul></details> | Embedding model  |  Build_In |
-| [m3e](./nlp/text2vec/m3e/README.md)| [huggingface](https://huggingface.co/moka-ai) |  <details> <summary>model name</summary><ul><li align="left">m3e-small</li><li align="left">m3e-base</li><li align="left">m3e-large</li></ul></details> | Embedding model  |  Build_In |
-| [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | Embedding model  |  Build_In |
-| [Qwen3-Embedding-0.6B](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li></ul></details> | Embedding model  |  Build_In |
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [acge](./nlp/text2vec/acge/README.md) | [huggingface](https://huggingface.co/aspire/acge_text_embedding) |  <details> <summary>model name</summary><ul><li align="left">acge_text_embedding</li></ul></details> | Embedding model  |  Build_In |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | Embedding model  |  Build_In |
+    | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
+    | [e5](./nlp/text2vec/e5/README.md)| [huggingface](https://huggingface.co/collections/intfloat/multilingual-e5-text-embeddings-67b2b8bb9bff40dec9fb3534) |  <details> <summary>model name</summary><ul><li align="left">multilingual-e5-small</li><li align="left">multilingual-e5-base</li><li align="left">multilingual-e5-large</li><li align="left">multilingual-e5-large-instruct</li></ul></details> | Embedding model  |  Build_In |
+    | [gte](./nlp/text2vec/gte/README.md) | [huggingface](https://huggingface.co/thenlper) |  <details> <summary>model name</summary><ul><li align="left">gte-small</li><li align="left">gte-base</li><li align="left">gte-large</li></ul></details> | Embedding model  |  Build_In |
+    | [m3e](./nlp/text2vec/m3e/README.md)| [huggingface](https://huggingface.co/moka-ai) |  <details> <summary>model name</summary><ul><li align="left">m3e-small</li><li align="left">m3e-base</li><li align="left">m3e-large</li></ul></details> | Embedding model  |  Build_In |
+    | [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | Embedding model  |  Build_In |
+    | [Qwen3-Embedding-0.6B](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li></ul></details> | Embedding model  |  Build_In |
 
-- Reranker模型
+    - Reranker
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
-| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
-| [Qwen3-Reranker-0.6B](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Reranker-0.6B</li></ul></details> | Reranker model  |  Build_In |
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
+    | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
+    | [Qwen3-Reranker-0.6B](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Reranker-0.6B</li></ul></details> | Reranker model  |  Build_In |
 
 </details>
 
