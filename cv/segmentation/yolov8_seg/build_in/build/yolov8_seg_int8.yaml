@@ -1,7 +1,7 @@
 name: yolov8s_seg_int8
 
 frontend:
-  checkpoint: path/to/yolov8s-seg-640.torchscript.pt
+  checkpoint: /path/to/yolov8s-seg-640.torchscript.pt
   shape:
     images: [1, 3, 640, 640]
   type: pytorch
@@ -22,7 +22,7 @@ graph:
 
 dataset:
   type: tvm
-  path: path/to/coco/det_coco_calib/
+  path: /path/to/coco/det_coco_calib/
   sampler:
     suffix: jpg
     get_data_num: 50
