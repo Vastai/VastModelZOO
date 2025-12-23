@@ -256,5 +256,9 @@ Qwen3系列采用`多阶段`训练策略：
         --batch_size 1 \
         --device_id 0
     ```
+
+## vLLM Deploy
+- 参考：[vllm/README.md](./vllm/README.md)
+
 ## Tips
 - 目前仅支持fp16精度，后续会支持int8精度

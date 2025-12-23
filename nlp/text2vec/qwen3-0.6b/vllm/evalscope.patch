@@ -1,0 +1,292 @@
+diff --git a/evalscope/backend/rag_eval/cmteb/task_template.py b/evalscope/backend/rag_eval/cmteb/task_template.py
+index 01260291..d9a8c387 100644
+--- a/evalscope/backend/rag_eval/cmteb/task_template.py
++++ b/evalscope/backend/rag_eval/cmteb/task_template.py
+@@ -42,14 +42,36 @@ def one_stage_eval(
+ ) -> None:
+     # load model
+     model = EmbeddingModel.load(**model_args)
++    print("model=", model)
+     custom_dataset_path = eval_args.pop('dataset_path', None)
+     # load task first to update instructions
+     tasks = cmteb.TaskBase.get_tasks(task_names=eval_args['tasks'], dataset_path=custom_dataset_path)
+-    evaluation = mteb.MTEB(tasks=tasks)
+-
+-    eval_args['encode_kwargs'] = model_args.get('encode_kwargs', {})
+-    # run evaluation
+-    results = evaluation.run(model, **eval_args)
++    
++    if model_args.get('is_cross_encoder', False):
++        previous_results = model_args['model_kwargs']['previous_results']
++        for i in range(len(tasks)):
++            print(f'Running evaluation for {tasks[i]}...')
++            print(f'Previous results: {previous_results[i]}')
++            evaluation = mteb.MTEB(tasks=[tasks[i]])
++            results = evaluation.run(
++                model,
++                top_k=eval_args['top_k'],
++                save_predictions=True,
++                output_folder=eval_args['output_folder'],
++                previous_results=previous_results[i],
++                overwrite_results=True,
++                hub=eval_args['hub'],
++                limits=eval_args['limits'],
++                encode_kwargs=model_args.get('encode_kwargs', {}),
++            )
++            model.task_names.pop(0)
++
++    else:
++        evaluation = mteb.MTEB(tasks=tasks)
++        eval_args['encode_kwargs'] = model_args.get('encode_kwargs', {})
++        
++        # run evaluation
++        results = evaluation.run(model, save_predictions=True, **eval_args)
+ 
+     # save and log results
+     show_results(eval_args['output_folder'], model, results)
+diff --git a/evalscope/backend/rag_eval/cmteb/tasks/STS.py b/evalscope/backend/rag_eval/cmteb/tasks/STS.py
+index 1afcfdb2..6f4bb721 100644
+--- a/evalscope/backend/rag_eval/cmteb/tasks/STS.py
++++ b/evalscope/backend/rag_eval/cmteb/tasks/STS.py
+@@ -322,3 +322,9 @@ class QBQTC(AbsTaskSTS):
+             'avg_character_length': None
+         },
+     )
++    @property
++    def metadata_dict(self) -> dict[str, str]:
++        metadata_dict = super().metadata_dict
++        metadata_dict['min_score'] = 0
++        metadata_dict['max_score'] = 1
++        return metadata_dict
+diff --git a/evalscope/backend/rag_eval/utils/embedding.py b/evalscope/backend/rag_eval/utils/embedding.py
+index 52613f37..485bf345 100644
+--- a/evalscope/backend/rag_eval/utils/embedding.py
++++ b/evalscope/backend/rag_eval/utils/embedding.py
+@@ -14,6 +14,10 @@ from evalscope.backend.rag_eval.utils.tools import download_model
+ from evalscope.constants import HubType
+ from evalscope.utils.argument_utils import get_supported_params
+ from evalscope.utils.logger import get_logger
++import mteb
++import json
++import requests
++
+ 
+ logger = get_logger()
+ 
+@@ -43,6 +47,41 @@ class BaseModel(Embeddings):
+         self.prompts = prompts if prompts else {}
+         self.revision = revision
+         self.framework = ['PyTorch']
++        self.instruction_dict = dict()
++        if self.model_kwargs['instruction_dict_path'] is not None:
++            instruction_dict_path =  self.model_kwargs['instruction_dict_path']
++            with open(instruction_dict_path) as f:
++                    self.instruction_dict = json.load(f)
++        self.instruction_template = self.model_kwargs.get('instruction_template', None)
++
++    def get_instruction(self, task_name, prompt_type):
++        sym_task = False
++        instruction = None
++        print("task_name=", task_name)
++        if task_name in self.instruction_dict:
++            instruction = self.instruction_dict[task_name]
++            print("instruction from dict=", instruction)
++            if isinstance(instruction, dict):
++                instruction = instruction.get(prompt_type, "")
++                print("instruction =", instruction)
++                sym_task = True
++        task_type = mteb.get_tasks(tasks=[task_name])[0].metadata.type
++        if 'Retrieval' in task_type and not sym_task and prompt_type != 'query':
++            return ""
++        if task_type in ["STS", "PairClassification"]:
++            return "Retrieve semantically similar text"
++        if task_type in "Bitext Mining":
++            return "Retrieve parallel sentences"
++        if 'Retrieval' in task_type and prompt_type == 'query' and instruction is None:
++            instruction = "Retrieval relevant passage for the given query."
++        return instruction
++        
++    def format_instruction(self, instruction, prompt_type):
++        if instruction is not None and len(instruction.strip()) > 0:
++            instruction = self.instruction_template.format(instruction)
++            return instruction
++        return ""
++    
+ 
+     @property
+     def mteb_model_meta(self):
+@@ -153,40 +192,78 @@ class SentenceTransformerModel(BaseModel):
+ 
+ class CrossEncoderModel(BaseModel):
+ 
+-    def __init__(self, model_name_or_path: str, **kwargs):
+-        super().__init__(model_name_or_path, **kwargs)
++    # def __init__(self, model_name_or_path: str, **kwargs):
++    #     super().__init__(model_name_or_path, **kwargs)
++    def __init__(self, **kwargs):
++        self.model_name = kwargs.get('model_name')
++        super().__init__(model_name_or_path=self.model_name, **kwargs)
+ 
+         self.framework = ['Sentence Transformers', 'PyTorch']
+ 
+-        self.model = CrossEncoder(
+-            self.model_name_or_path,
+-            trust_remote_code=True,
+-            max_length=self.max_seq_length,
+-            automodel_args=self.model_kwargs,
+-        )
+-        self.tokenizer = self.model.tokenizer
+-        # set pad token
+-        if self.tokenizer.pad_token is None:
+-            self.tokenizer.pad_token = self.tokenizer.eos_token
+-        if ('pad_token_id' not in self.model.config) or (self.model.config.pad_token_id is None):
+-            self.model.config.update({'pad_token_id': self.tokenizer.eos_token_id})
+-
+-        self.supported_encode_params = get_supported_params(self.model.predict)
++        # self.model = CrossEncoder(
++        #     self.model_name_or_path,
++        #     trust_remote_code=True,
++        #     max_length=self.max_seq_length,
++        #     automodel_args=self.model_kwargs,
++        # )
++        # self.tokenizer = self.model.tokenizer
++        # # set pad token
++        # if self.tokenizer.pad_token is None:
++        #     self.tokenizer.pad_token = self.tokenizer.eos_token
++        # if ('pad_token_id' not in self.model.config) or (self.model.config.pad_token_id is None):
++        #     self.model.config.update({'pad_token_id': self.tokenizer.eos_token_id})
++
++        # self.supported_encode_params = get_supported_params(self.model.predict)
++        self.url = kwargs.get('api_base')
++        self.task_names = kwargs["model_kwargs"].get('task_name')
++        print("task_names: ", self.task_names)
++        self.prefix = '<|im_start|>system\nJudge whether the Document meets the requirements based on the Query and the Instruct provided. Note that the answer can only be "yes" or "no".<|im_end|>\n<|im_start|>user\n'
++        self.suffix = "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
++
++        self.query_template = "{prefix}<Instruct>: {instruction}\n<Query>: {query}\n"
++        self.document_template = "<Document>: {doc}{suffix}"
++
++    def send_post_request(self, url, payload, headers=None):
++        try:
++            response = requests.post(url, json=payload, headers=headers)
++            response.raise_for_status()
++            return response.json()
++        except requests.RequestException as e:
++            return {"error": str(e)}
+ 
+     def predict(self, sentences: List[List[str]], **kwargs) -> Tensor:
+-        for key in list(kwargs.keys()):
+-            if key not in self.supported_encode_params:
+-                kwargs.pop(key)
+-        self.encode_kwargs.update(kwargs)
+-
+-        if len(sentences[0]) == 2:  # Note: For mteb retrieval task
+-            processed_sentences = []
+-            for query, docs in sentences:
+-                processed_sentences.append((self.prompt + query, docs))
+-            sentences = processed_sentences
+-        embeddings = self.model.predict(sentences, **self.encode_kwargs)
+-        assert isinstance(embeddings, Tensor)
+-        return embeddings
++        # for key in list(kwargs.keys()):
++        #     if key not in self.supported_encode_params:
++        #         kwargs.pop(key)
++        # self.encode_kwargs.update(kwargs)
++
++        # if len(sentences[0]) == 2:  # Note: For mteb retrieval task
++        #     processed_sentences = []
++        #     for query, docs in sentences:
++        #         processed_sentences.append((self.prompt + query, docs))
++        #     sentences = processed_sentences
++        # embeddings = self.model.predict(sentences, **self.encode_kwargs)
++        # assert isinstance(embeddings, Tensor)
++        # return embeddings
++        relevance_scores = []
++        print("sentences: ",sentences)
++        task_name = self.task_names[0]
++        instruction = self.get_instruction(task_name, 'query')
++        print('instruction===', instruction)
++        for item in sentences:
++            query = self.query_template.format(prefix=self.prefix, instruction=instruction, query=item[0])
++            docs = self.document_template.format(doc=item[1], suffix=self.suffix)
++            
++            payload = {"model": self.model_name, "query": query, "documents": [docs]}
++
++            response = self.send_post_request(self.url, payload)
++            if 'results' in response:
++                for item in response['results']:
++                    relevance_scores.append(item['relevance_score'])
++            else:
++                print("response: ",response)
++        print("relevance_scores: ",relevance_scores)
++        return relevance_scores
+ 
+ 
+ class APIEmbeddingModel(BaseModel):
+@@ -198,7 +275,7 @@ class APIEmbeddingModel(BaseModel):
+         self.dimensions = kwargs.get('dimensions')
+         self.check_embedding_ctx_length = kwargs.get('check_embedding_ctx_length', False)
+         self.framework = ['API']
+-
++        self.instruction_template = kwargs["model_kwargs"].get('instruction_template', None)
+         self.model = OpenAIEmbeddings(
+             model=self.model_name,
+             openai_api_base=self.openai_api_base,
+@@ -225,8 +302,14 @@ class APIEmbeddingModel(BaseModel):
+         prompt = None
+         prompt_type = extra_params.pop('prompt_type', '')
+         task_name = extra_params.pop('task_name', '')
+-        if prompt_type and prompt_type == PromptType.query:
+-            prompt = self.get_prompt(task_name)
++        # if prompt_type and prompt_type == PromptType.query:
++        #     prompt = self.get_prompt(task_name)
++
++        print('prompt_type===', prompt_type)
++        instruction = self.get_instruction(task_name, prompt_type)
++        if self.instruction_template:
++            instruction = self.format_instruction(instruction, prompt_type)
++        logger.info(f"Using instruction: '{instruction}' for task: '{task_name}'")
+ 
+         if isinstance(texts, str):
+             texts = [texts]
+@@ -234,8 +317,12 @@ class APIEmbeddingModel(BaseModel):
+         embeddings: List[List[float]] = []
+         for i in tqdm(range(0, len(texts), self.batch_size)):
+             # set prompt if provided
+-            if prompt is not None:
+-                batch_texts = [prompt + text for text in texts[i:i + self.batch_size]]
++            # if prompt is not None:
++            #     batch_texts = [prompt + text for text in texts[i:i + self.batch_size]]
++            # else:
++            #     batch_texts = texts[i:i + self.batch_size]
++            if instruction is not None:
++                batch_texts = [instruction + text for text in texts[i:i + self.batch_size]]
+             else:
+                 batch_texts = texts[i:i + self.batch_size]
+             response = self.model.embed_documents(batch_texts, chunk_size=self.batch_size)
+@@ -254,7 +341,7 @@ class EmbeddingModel:
+         revision: Optional[str] = 'master',
+         **kwargs,
+     ):
+-        if kwargs.get('model_name'):
++        if kwargs.get('model_name') and is_cross_encoder==False:
+             # If model_name is provided, use OpenAIEmbeddings
+             return APIEmbeddingModel(**kwargs)
+ 
+@@ -265,10 +352,13 @@ class EmbeddingModel:
+         # Return different model instances based on whether it is a cross-encoder and pooling mode
+         if is_cross_encoder:
+             return CrossEncoderModel(
+-                model_name_or_path,
+-                revision=revision,
+-                **kwargs,
++                **kwargs
+             )
++            # return CrossEncoderModel(
++            #     model_name_or_path,
++            #     revision=revision,
++            #     **kwargs,
++            # )
+         else:
+             return SentenceTransformerModel(
+                 model_name_or_path,
