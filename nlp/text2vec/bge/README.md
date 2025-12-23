@@ -336,6 +336,8 @@ M3-Embedding统一了嵌入模型的三种常见检索功能，即密集检索�
         --seqlen 512
     ```
 
+## vLLM Deploy
+- 参考：[vllm/README.md](./vllm/README.md)
 
 ### Tips
 - reranker模型，不需要指定`output_layout`编译参数
