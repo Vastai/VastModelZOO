@@ -98,7 +98,7 @@
 
   - `--hf_overrides`：在加载模型时动态修改模型配置，`Qwen3-Reranker-0.6B`模型需要设置`--hf_overrides`参数。
 
-  - `harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1`：vllm_vacc镜像地址，请根据实际情况替换。
+  - `harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1`：vllm_vacc镜像地址，请根据实际情况替换, 具体版本可从首页[依赖软件](../../../../README.md)中获取。
 
 
 ## 模型精度测试
