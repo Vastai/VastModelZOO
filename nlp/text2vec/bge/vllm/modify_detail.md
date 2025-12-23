@@ -1,6 +1,6 @@
-## Evalscope修改细节
+# Evalscope修改细节
 
-### 以下1-6修改，可通过git-patch一次更新
+## 以下1-6修改，可通过git-patch一次更新
 
 - 参考：[evalscope.patch](./evalscope.patch)
 
@@ -20,7 +20,10 @@
     #安装RAGEval评测后端
     pip install '.[rag]'
     ```
-### modify.1 修改one_stage_eval函数实现
+## modify.1 修改one_stage_eval函数实现
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/evalscope/backend/rag_eval/cmteb/task_template.py#L39](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/cmteb/task_template.py#L39)的one_stage_eval函数，修改内容如下：
     - 新增cross_encoder模型的运行实现
     - 增加save_predictions=True参数，实现把评估结果保存到指定目录
@@ -65,8 +68,13 @@
         # save and log results
         show_results(eval_args['output_folder'], model, results)
     ```
+</details>
 
-### modify.2 修改STS任务的QBQTC函数实现
+## modify.2 修改STS任务的QBQTC函数实现
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/evalscope/backend/rag_eval/cmteb/tasks/STS.py#L297](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/cmteb/tasks/STS.py#L297)的QBQTC函数，修改内容如下：
     - 新增metadata_dict属性，用于保存QBQTC任务的min_score和max_score
     ```python
@@ -105,7 +113,13 @@
             metadata_dict['max_score'] = 1
             return metadata_dict
     ```
-### modify.3 修改BaseModel类实现
+</details>
+
+## modify.3 修改BaseModel类实现
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/backend/rag_eval/utils/embedding.py#L21](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/utils/embedding.py#L21)的BaseModel类，修改内容如下：
     - 新增instruction_template属性，用于指定instruction_template
     - 新增instruction_dict属性，用于保存instruction_dict
@@ -173,7 +187,13 @@
             return instruction
         return ""
     ```
-### modify.4 修改CrossEncoderModel类的实现
+</details>
+
+## modify.4 修改CrossEncoderModel类的实现
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/backend/rag_eval/utils/embedding.py#L154](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/utils/embedding.py#L154)的CrossEncoderModel类，修改内容如下：
 
     - 修改初始化函数
@@ -256,8 +276,13 @@
         print("relevance_scores: ",relevance_scores)
         return relevance_scores
     ```
+</details>
 
-### modify.5 修改APIEmbeddingModel类的encode函数实现
+## modify.5 修改APIEmbeddingModel类的encode函数实现
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/backend/rag_eval/utils/embedding.py#L192](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/utils/embedding.py#L192)的APIEmbeddingModel类的encode函数，修改内容如下：
 
     - 利用get_instruction函数，获取instruction
@@ -304,7 +329,13 @@
             embeddings.extend(response)
         return torch.tensor(embeddings)
     ```
-### modify.6 修改EmbeddingModel类的load函数实现
+</details>
+
+## modify.6 修改EmbeddingModel类的load函数实现
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
 - **修改**[evalscope/backend/rag_eval/utils/embedding.py#L246](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/utils/embedding.py#L246)的EmbeddingModel类的load函数，修改内容如下：
 
     - 增加is_cross_encoder==False的判断，如果model_name是提供的且is_cross_encoder==False，则使用OpenAIEmbeddings
@@ -347,3 +378,4 @@
                 **kwargs,
             )
     ```
+</details>
