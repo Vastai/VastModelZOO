@@ -80,6 +80,8 @@
   - `--port`：模型服务端口。
 
   - `--served-model-name`：模型名称。
+  
+  - `harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1`：vllm_vacc镜像地址，请根据实际情况替换。
 
 
 ## 模型精度测试
