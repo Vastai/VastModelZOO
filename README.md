@@ -22,6 +22,126 @@
 
 - 版本号：[VVI-25.11](https://developer.vastaitech.com/downloads/delivery-center?version_uid=484479150992789504)
 
+
+## 快速安装
+
+获取部署软件包后安装流程如下。详细安装及使用说明可参考对应组件的文档。
+
+> 其中，xxx表示版本相关信息，请根据实际情况替换。 
+
+<details><summary><b>步骤 1.</b> 安装驱动</summary>
+
+1. 查询是否安装加速卡
+
+    ```shell
+    lspci -d:0100 |wc -l
+    ```
+
+2. 查询是否安装驱动
+
+    ```shell
+    lsmod | grep -i vastai_pci
+    ```
+
+3. 查询驱动版本
+
+    ```shell
+    cat /dev/vastai0_version | grep "Driver"
+    ```
+
+4. 安装驱动
+
+- 部署LLM/VLM模型
+
+    ```shell
+    sudo ./vastai_driver_install_xxx.run install --setkoparam "dpm=1"
+    ```
+
+- 部署非LLM/VLM模型
+
+    ```shell   
+    sudo ./vastai_driver_install_xxx.run install
+    ```
+
+</details>
+
+<details><summary><b>步骤 2.</b> 设置加速卡参数</summary>
+
+1. 查询加速卡信息
+
+    ```shell
+    sudo vasmi list
+    ```
+
+2. (可选) 开启 DPM
+
+    > 仅针对LLM/VLM模型需要开启 DPM
+
+    ```shell
+    sudo vasmi setconﬁg dpm=enable -d all
+    ```
+
+3. 根据业务情况设置加速卡Bbox模式
+
+    ```shell
+    sudo vasmi setcardmode <Card Mode> -d <Device ID> -y
+    ```
+
+    > Card Mode可根据 `sudo vasmi setcardmode --help` 查询获取
+
+4. 使能日志记录等监控功能
+
+    ```shell
+    nohup sudo valogger &
+    ```
+
+</details>
+
+<details><summary><b>步骤 3.</b> 部署模型运行环境（ARM/X86）</summary>
+
+- Build_In 后端模型运行环境部署
+
+  1. 安装 VastStream
+
+        ```shell
+        sudo ./ai-xxx.bin
+        ```
+
+  2. 安装 VAMC
+        ```shell
+        pip install vamc-xxx.whl
+        ```
+
+  3. 安装 VastStreamX
+  
+     - Python：`pip install vaststreamx-xxx.whl`
+     - C++：`sudo ./vaststreamx-xxx.bin`
+  
+  4. 安装 VastGenX（仅LLM/VLM）
+        ```shell
+        pip install vastgenx-xxx.whl
+        ```
+
+  5. 安装 VastGenServer（仅Text2vec）
+        ```shell
+        pip install vastgenserver-xxx.whl
+        ```
+
+- vLLM 后端模型运行环境部署
+
+  1. 安装 torch_vacc
+        ```shell
+        pip install torch_vacc-xxx.whl
+        ```
+
+  2. 安装 vLLM_vacc
+        ```shell
+        pip install vllm_vacc-xxx.whl
+        ```
+
+> 若 VLM 模型为 vLLM+Build_In 的混合部署方案，需安装 Build_In 后端模型运行环境部署中的1、2、3、4 和 vLLM 后端模型环境部署中的1、2
+
+
 ## 模型列表
 
 <details><summary>CV Models</summary>
