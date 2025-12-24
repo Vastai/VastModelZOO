@@ -214,8 +214,7 @@ vllm bench serve \
 
   - `--random-mm-limit-mm-per-prompt`：每个请求所附项目的每个模态硬上限，例如`{"image": 3, "video": 0}`。每个请求的采样项目计数被限制为这些限制的总和。当一个模态达到其上限时，其桶被排除在外，概率被重新归一化。
 
-  - `--random-mm-bucket-config`：bucket配置是一个字典，将多模态项目采样配置映射到概率。目前允许两种模式：图像和视频。bucket键是（height，width，num_frames）的元组，值是对特定项进行采样的概率。例如：{(256, 256, 1): 0.5, (720, 1280, 1): 0.4, (720, 1280, 16): 0.10}，第一项：分辨率为256x256 w.p. 0.5的图像
-，第二项：分辨率720x1280 w.p. 0.4的图像，第三项：分辨率为720x1280和16帧w.p. 0.1的视频。
+  - `--random-mm-bucket-config`：bucket配置是一个字典，将多模态项目采样配置映射到概率。目前允许两种模式：图像和视频。bucket键是（height，width，num_frames）的元组，值是对特定项进行采样的概率。例如：`{(256, 256, 1): 0.5, (720, 1280, 1): 0.4, (720, 1280, 16): 0.10}`，第一项：分辨率为256x256 w.p. 0.5的图像，第二项：分辨率720x1280 w.p. 0.4的图像，第三项：分辨率为720x1280和16帧w.p. 0.1的视频。
 
   - `--request-rate`：每秒请求数。如果这是inf，则请求将在时间0发送；否则，我们使用泊松过程或伽玛分布来合成请求到达时间。
 
@@ -226,7 +225,7 @@ vllm bench serve \
   - `--max-concurrency`：最大请求并发数。
 
   - `--served-model-name`：API 中使用的模型名称。
-  > 该参数设置应与模型服务启动脚本中`--served-model-name`参数一致。
+    > 该参数设置应与模型服务启动脚本中`--served-model-name`参数一致。
 
   - `--save-result`：是否保存测试结果。如果设置该参数，则测试保存至`--result-dir` 和 `--result-filename` 指定的路径。
 
@@ -298,6 +297,7 @@ vllm bench serve \
 1. 通过EvalScope进行模型精度测试，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
 2. 启动 vLLM 模型服务
 3. 参考脚本：[precision_vlm_qwen3_vl.py](./vllm/precision_vlm_qwen3_vl.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
+    > 生成采样参数，参考Qwen3-VL官方：[Qwen3-VL](https://github.com/QwenLM/Qwen3-VL/blob/main/README.md#instruct-models)
 
   - 测评主要参数：
     - model：模型名称。
