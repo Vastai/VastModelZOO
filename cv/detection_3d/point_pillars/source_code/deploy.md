@@ -218,7 +218,7 @@
 
 5. 执行onnx模型导出
     
-    ckpt下载[pointpillar_7728.pth](https://drive.google.com/file/d/1wMxWTpU1qUoY3DsCH31WJmvJxcjFXKlm/view)
+    - ckpt下载[pointpillar_7728.pth](https://drive.google.com/file/d/1wMxWTpU1qUoY3DsCH31WJmvJxcjFXKlm/view)
 
    ```bash
     mv ./onnx_utils/export.py  /path/to/OpenPCDet/tools/ && cd /path/to/OpenPCDet/tools/
@@ -287,10 +287,10 @@
    │   │   │── kitti_infos_val.pkl
    ```
 
-4. 在kitty数据集官方benchmark数据结果的跑测中，是只用了前向数据的。在OpenPCDet官方工程中对Kitty数据的filter处理在 `pcdet/datasets/kitti_dataset.py`。本次数据预处理主要是从原始数据中提取并处理视野(Field of View, FOV)内的点云数据。参考[get_fov_data.py](../../common/kitti_eval/get_fov_data.py)
+4. 在kitty数据集官方benchmark数据结果的跑测中，是只用了前向数据的。在OpenPCDet官方工程中对Kitty数据的filter处理在 `pcdet/datasets/kitti_dataset.py`。本次数据预处理主要是从原始数据中提取并处理视野(Field of View, FOV)内的点云数据。参考：[get_fov_data.py](../../common/kitti_eval/preprocess/get_fov_data.py)
 
    ```bash
-   cd ../../common/kitti_eval/
+   cd ../../common/kitti_eval/preprocess
    python get_fov_data.py \
    --dataset_yaml /path/to/OpenPCDet/tools/cfgs/dataset_configs/kitti_dataset.yaml \
    --data_path /path/to/OpenPCDet/data/kitti
@@ -307,10 +307,10 @@
    ```
 
 5. 校准数据集数据处理
-   将点云数据体素化并保存为 `npz`文件,参考[pre_process.py](../../common/kitti_eval/pre_process.py)
+   将点云数据体素化并保存为 `npz`文件,参考：[pre_process.py](../../common/kitti_eval/preprocess/pre_process.py)
 
    ```bash
-   cd ../../common/kitti_eval/
+   cd ../../common/kitti_eval/preprocess
    python pre_process.py \
    --kitti_data /path/to/fov_pointcloud_float32 \
    --save_path /path/to/fov_pointcloud_float32_npz 
@@ -344,7 +344,7 @@
 
 ## step.5 模型推理&评估
 
-1. 参考[pointpillar_infer.py](../build_in/vsx/pointpillar_infer.py)生成推理的txt结果
+1. 参考：[pointpillar_infer.py](../build_in/vsx/pointpillar_infer.py)，生成推理的txt结果
     ```bash
     python3  ../build_in/vsx/pointpillar_infer.py \
         -m "[/path/to/pointpillar_int8/mod]" \
@@ -363,15 +363,15 @@
     - 注意替换命令行中/path/to为实际路径
 
 2. 精度评估
-    - 使用[evaluation.py](../../common/kitti_eval/eval/evaluation.py)脚本进行精度评估
+    - 参考：[evaluation.py](../../common/kitti_eval/evaluation.py)，进行精度评估
         - 精度评估命令为：
         ```
-        python ../../common/kitti_eval/eval/evaluation.py --out_dir infer_output
+        python ../../common/kitti_eval/evaluation.py --out_dir infer_output
         ```
         
 ## step.6 模型推理性能评估
 1. 测试最大吞吐
-    - 参考[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最大吞吐
+    - 参考：[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最大吞吐
     ```bash
     python3 ../build_in/vsx/pointpillar_prof.py \
         -m "[/path/to/pointpillar_int8/mod]" \
@@ -393,7 +393,7 @@
     ```
 
 2. 测试最小时延
-    - 参考[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最小时延
+    - 参考：[pointpillar_prof.py](../build_in/vsx/pointpillar_prof.py)，测试最小时延
     ```bash
     python3 ../build_in/vsx/pointpillar_prof.py \
         -m "[/path/to/pointpillar_int8/mod]" \

@@ -144,7 +144,7 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [openpcdet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   |
-| [PointPillars](./cv/detection3d/PointPillars/README.md)  |   [openpcdet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   |
+| [PointPillars](./cv/detection_3d/point_pillars/README.md)  |   [openpcdet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   |
 
 - segmentation
 
