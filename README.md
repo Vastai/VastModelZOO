@@ -493,6 +493,9 @@
     | [SigLip](./vlm/siglip/README.md)   |    [google](https://github.com/google-research/big_vision)  |    <details> <summary>model name</summary><ul><li align="left">siglip</li></ul></details>  | vision-language model  |  Build_In  |
 
 - vLLM
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :------: |
+    | [MinerU2.5](./vlm/mineru2_5/README.md)   |    [huggingface](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B)  |    <details> <summary>model name</summary><ul><li align="left">MinerU2.5-2509-1.2B</li></ul></details>  |  vision-language model  |  vLLM   |
 
 </details>
 
