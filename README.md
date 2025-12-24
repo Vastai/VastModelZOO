@@ -400,11 +400,12 @@
 
         |  model |    codebase    |  model list |    model type | runtime |
         | :------: | :------: | :------: | :------: | :-----: |
-        | [bge](./nlp/text2vec/bge/vllm/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | Embedding model  | VLLM |
+        | [Qwen3-Embedding-0.6B](./nlp/text2vec/qwen3-0.6b/vllm/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li></ul></details> | Embedding model  | VLLM |
+
 
     - Reranker
         - Build_In
-
+        
         |  model |    codebase    |  model list |    model type | runtime |
         | :------: | :------: | :------: | :------: | :-----: |
         | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
@@ -415,8 +416,7 @@
 
         |  model |    codebase    |  model list |    model type | runtime |
         | :------: | :------: | :------: | :------: | :-----: | 
-        | [bge](./nlp/text2vec/bge/vllm/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  VLLM |
-
+        | [Qwen3-Reranker-0.6B](./nlp/text2vec/qwen3-0.6b/vllm/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Reranker-0.6B</li></ul></details> | Reranker model  | VLLM |
 </details>
 
 
