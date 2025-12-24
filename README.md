@@ -457,9 +457,9 @@
 
     > 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习而来
 
-    |  model |    codebase    |  model list |    model type | runtime | priority |
-    | :------: | :------: | :------: | :------: | :-----: | :------: |
-    |[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |LLM | vLLM | p1 |
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    |[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |large language model | vLLM |
 
 </details>
 
@@ -482,6 +482,7 @@
     |  model |    codebase    |  model list |    model type | runtime |
     | :------: | :------: | :------: | :------: | :------: |
     | [MinerU2.5](./vlm/mineru2_5/README.md)   |    [huggingface](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B)  |    <details> <summary>model name</summary><ul><li align="left">MinerU2.5-2509-1.2B</li></ul></details>  |  vision-language model  |  vLLM   |
+    | [Qwen3-VL-30B-A3B](./vlm/qwen3_vl/README.md)   |    [huggingface](https://hf-mirror.com/collections/Qwen/qwen3-vl)  |    <details> <summary>model name</summary><ul><li align="left">Qwen3-VL-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-VL-30B-A3B-Thinking-FP8</li></ul></details>  |  vision-language model  |  vLLM   |
 
 </details>
 
