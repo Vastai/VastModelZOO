@@ -591,7 +591,7 @@
     | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-r1)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
     | [DeepSeek-V3.1](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-v31)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li><li align="left">DeepSeek-V3.1-Terminus</li></ul></details>   | large language model |   vLLM   |
 
-    > 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习而来
+    > 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习等后训练而来
 
     |  model |    codebase    |  model list |    model type | runtime |
     | :------: | :------: | :------: | :------: | :-----: |
@@ -606,13 +606,21 @@
     |  model |    codebase    |  model list |    model type | runtime |
     | :------: | :------: | :------: | :------: | :------: |
     | [CLIP](./vlm/clip/README.md)   |    [openai](https://github.com/openai/CLIP/tree/main)  |    <details> <summary>model name</summary><ul><li align="left">clip</li></ul></details>  |  vision-language model  |  Build_In   |
+    | [SigLip](./vlm/siglip/README.md)   |    [google](https://github.com/google-research/big_vision)  |    <details> <summary>model name</summary><ul><li align="left">siglip</li></ul></details>  | vision-language model  |  Build_In  |
+    | [Qwen2-VL](./vlm/qwen2_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen2-vl-66cee7455501d7126940800d) |  <details> <summary>model name</summary><ul><li align="left">Qwen2-VL-2B-Instruct</li><li align="left">Qwen2-VL-7B-Instruct</li></ul></details> | vision-language model  |  Build_In |
+    | [Qwen2.5-VL](./vlm/qwen2_5_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen25-vl-6795ffac22b334a837c0f9a5) |  <details> <summary>model name</summary><ul><li align="left">Qwen2.5-VL-3B-Instruct</li><li align="left">Qwen2.5-VL-7B-Instruct</li><li align="left">Qwen2.5-VL-32B-Instruct</li></ul></details> | vision-language model  |  Build_In |
+
+
+    > 以下模型为Domain-VLM专业领域模型（文档解析等），一般基于General-VLM模型为基座+专业领域数据集微调+强化学习等后训练而来
+
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :------: |
     | [Logics_Parsing](./vlm/logics_parsing/README.md) | [huggingface](https://hf-mirror.com/Logics-MLLM/Logics-Parsing)| <details> <summary>model name</summary><ul><li align="left">Logics-Parsing</li></ul></details> | vision-language model  |  Build_In |
     | [OCRFlux](./vlm/ocrflux/README.md) | [huggingface](https://hf-mirror.com/ChatDOC/OCRFlux-3B)| <details> <summary>model name</summary><ul><li align="left">OCRFlux-3B</li></ul></details> | vision-language model  |  Build_In |
     | [olmOCR2](./vlm/olmocr2/README.md) | [huggingface](https://hf-mirror.com/allenai/olmOCR-2-7B-1025)| <details> <summary>model name</summary><ul><li align="left">olmOCR-2-7B-1025</li></ul></details> | vision-language model  |  Build_In |
-    | [Qwen2-VL](./vlm/qwen2_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen2-vl-66cee7455501d7126940800d) |  <details> <summary>model name</summary><ul><li align="left">Qwen2-VL-2B-Instruct</li><li align="left">Qwen2-VL-7B-Instruct</li></ul></details> | vision-language model  |  Build_In |
-    | [Qwen2.5-VL](./vlm/qwen2_5_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen25-vl-6795ffac22b334a837c0f9a5) |  <details> <summary>model name</summary><ul><li align="left">Qwen2.5-VL-3B-Instruct</li><li align="left">Qwen2.5-VL-7B-Instruct</li><li align="left">Qwen2.5-VL-32B-Instruct</li></ul></details> | vision-language model  |  Build_In |
     | [RolmOCR](./vlm/rolmocr/README.md) | [huggingface](https://hf-mirror.com/reducto/RolmOCR)| <details> <summary>model name</summary><ul><li align="left">RolmOCR</li></ul></details> | vision-language model  |  Build_In |
-    | [SigLip](./vlm/siglip/README.md)   |    [google](https://github.com/google-research/big_vision)  |    <details> <summary>model name</summary><ul><li align="left">siglip</li></ul></details>  | vision-language model  |  Build_In  |
+
+
 
 - vLLM
     |  model |    codebase    |  model list |    model type | runtime |
