@@ -57,6 +57,7 @@ task_cfg = TaskConfig(
         'repetition_penalty': 1.0,  # 重复惩罚系数
         'presence_penalty': 1.5,  # 新内容惩罚系数
         'n': 1,  # 每个请求产生的回复数量
+        'seed': 42
     },
     
     ## Thinking
@@ -79,8 +80,10 @@ task_cfg = TaskConfig(
         'generation_config': {
             'temperature': 0.7,
             'top_p': 0.8,
+            'seed': 42
         },
     },
+    seed=42,
     # limit=10,        # 设置为100条数据进行测试
     stream=True,       # 是否使用流式请求，推荐设置为True防止请求超时
     timeout=6000000,
@@ -95,7 +98,6 @@ run_task(task_cfg=task_cfg)
 '''
 sudo docker run -it \
       -e VACC_VISIBLE_DEVICES=0,1,2,3 \
-      -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       --privileged=true --shm-size=256g \
       --name vllm_service \
       -v /FS03/weights:/weights \
