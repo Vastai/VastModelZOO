@@ -135,7 +135,6 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
   ```bash
   docker run \
       -e VACC_VISIBLE_DEVICES=0,1,2,3 \
-      -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       --privileged=true --shm-size=256g \
       --name vllm_service \
       -v /path/to/model:/weights/ \
