@@ -69,6 +69,7 @@ task_cfg = TaskConfig(
     #     'repetition_penalty': 1.0,  # 重复惩罚系数
     #     'presence_penalty': 0.0,  # 新内容惩罚系数
     #     'n': 1,  # 每个请求产生的回复数量
+    #     'seed': 42
     # },
     
     judge_worker_num=4,
