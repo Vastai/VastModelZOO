@@ -1,12 +1,8 @@
 diff --git a/evalscope/backend/rag_eval/cmteb/task_template.py b/evalscope/backend/rag_eval/cmteb/task_template.py
-index 01260291..d9a8c387 100644
+index 01260291..72215ba2 100644
 --- a/evalscope/backend/rag_eval/cmteb/task_template.py
 +++ b/evalscope/backend/rag_eval/cmteb/task_template.py
-@@ -42,14 +42,36 @@ def one_stage_eval(
- ) -> None:
-     # load model
-     model = EmbeddingModel.load(**model_args)
-+    print("model=", model)
+@@ -45,11 +45,32 @@ def one_stage_eval(
      custom_dataset_path = eval_args.pop('dataset_path', None)
      # load task first to update instructions
      tasks = cmteb.TaskBase.get_tasks(task_names=eval_args['tasks'], dataset_path=custom_dataset_path)
@@ -17,7 +13,7 @@ index 01260291..d9a8c387 100644
 -    results = evaluation.run(model, **eval_args)
 +    
 +    if model_args.get('is_cross_encoder', False):
-+        previous_results = model_args['model_kwargs']['previous_results']
++        previous_results = model_args['model_kwargs']['embed_results']
 +        for i in range(len(tasks)):
 +            print(f'Running evaluation for {tasks[i]}...')
 +            print(f'Previous results: {previous_results[i]}')
@@ -59,7 +55,7 @@ index 1afcfdb2..6f4bb721 100644
 +        metadata_dict['max_score'] = 1
 +        return metadata_dict
 diff --git a/evalscope/backend/rag_eval/utils/embedding.py b/evalscope/backend/rag_eval/utils/embedding.py
-index 52613f37..485bf345 100644
+index 52613f37..84531fea 100644
 --- a/evalscope/backend/rag_eval/utils/embedding.py
 +++ b/evalscope/backend/rag_eval/utils/embedding.py
 @@ -14,6 +14,10 @@ from evalscope.backend.rag_eval.utils.tools import download_model
@@ -73,7 +69,7 @@ index 52613f37..485bf345 100644
  
  logger = get_logger()
  
-@@ -43,6 +47,41 @@ class BaseModel(Embeddings):
+@@ -43,6 +47,38 @@ class BaseModel(Embeddings):
          self.prompts = prompts if prompts else {}
          self.revision = revision
          self.framework = ['PyTorch']
@@ -87,13 +83,10 @@ index 52613f37..485bf345 100644
 +    def get_instruction(self, task_name, prompt_type):
 +        sym_task = False
 +        instruction = None
-+        print("task_name=", task_name)
 +        if task_name in self.instruction_dict:
 +            instruction = self.instruction_dict[task_name]
-+            print("instruction from dict=", instruction)
 +            if isinstance(instruction, dict):
 +                instruction = instruction.get(prompt_type, "")
-+                print("instruction =", instruction)
 +                sym_task = True
 +        task_type = mteb.get_tasks(tasks=[task_name])[0].metadata.type
 +        if 'Retrieval' in task_type and not sym_task and prompt_type != 'query':
@@ -115,7 +108,7 @@ index 52613f37..485bf345 100644
  
      @property
      def mteb_model_meta(self):
-@@ -153,40 +192,78 @@ class SentenceTransformerModel(BaseModel):
+@@ -153,40 +189,77 @@ class SentenceTransformerModel(BaseModel):
  
  class CrossEncoderModel(BaseModel):
  
@@ -159,7 +152,7 @@ index 52613f37..485bf345 100644
 +        # self.supported_encode_params = get_supported_params(self.model.predict)
 +        self.url = kwargs.get('api_base')
 +        self.task_names = kwargs["model_kwargs"].get('task_name')
-+        print("task_names: ", self.task_names)
++
 +        self.prefix = '<|im_start|>system\nJudge whether the Document meets the requirements based on the Query and the Instruct provided. Note that the answer can only be "yes" or "no".<|im_end|>\n<|im_start|>user\n'
 +        self.suffix = "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
 +
@@ -202,10 +195,9 @@ index 52613f37..485bf345 100644
 +        # assert isinstance(embeddings, Tensor)
 +        # return embeddings
 +        relevance_scores = []
-+        print("sentences: ",sentences)
 +        task_name = self.task_names[0]
 +        instruction = self.get_instruction(task_name, 'query')
-+        print('instruction===', instruction)
++
 +        for item in sentences:
 +            query = self.query_template.format(prefix=self.prefix, instruction=instruction, query=item[0])
 +            docs = self.document_template.format(doc=item[1], suffix=self.suffix)
@@ -223,7 +215,7 @@ index 52613f37..485bf345 100644
  
  
  class APIEmbeddingModel(BaseModel):
-@@ -198,7 +275,7 @@ class APIEmbeddingModel(BaseModel):
+@@ -198,7 +271,7 @@ class APIEmbeddingModel(BaseModel):
          self.dimensions = kwargs.get('dimensions')
          self.check_embedding_ctx_length = kwargs.get('check_embedding_ctx_length', False)
          self.framework = ['API']
@@ -232,7 +224,7 @@ index 52613f37..485bf345 100644
          self.model = OpenAIEmbeddings(
              model=self.model_name,
              openai_api_base=self.openai_api_base,
-@@ -225,8 +302,14 @@ class APIEmbeddingModel(BaseModel):
+@@ -225,8 +298,13 @@ class APIEmbeddingModel(BaseModel):
          prompt = None
          prompt_type = extra_params.pop('prompt_type', '')
          task_name = extra_params.pop('task_name', '')
@@ -241,7 +233,6 @@ index 52613f37..485bf345 100644
 +        # if prompt_type and prompt_type == PromptType.query:
 +        #     prompt = self.get_prompt(task_name)
 +
-+        print('prompt_type===', prompt_type)
 +        instruction = self.get_instruction(task_name, prompt_type)
 +        if self.instruction_template:
 +            instruction = self.format_instruction(instruction, prompt_type)
@@ -249,7 +240,7 @@ index 52613f37..485bf345 100644
  
          if isinstance(texts, str):
              texts = [texts]
-@@ -234,8 +317,12 @@ class APIEmbeddingModel(BaseModel):
+@@ -234,8 +312,12 @@ class APIEmbeddingModel(BaseModel):
          embeddings: List[List[float]] = []
          for i in tqdm(range(0, len(texts), self.batch_size)):
              # set prompt if provided
@@ -264,7 +255,7 @@ index 52613f37..485bf345 100644
              else:
                  batch_texts = texts[i:i + self.batch_size]
              response = self.model.embed_documents(batch_texts, chunk_size=self.batch_size)
-@@ -254,7 +341,7 @@ class EmbeddingModel:
+@@ -254,21 +336,24 @@ class EmbeddingModel:
          revision: Optional[str] = 'master',
          **kwargs,
      ):
@@ -273,7 +264,12 @@ index 52613f37..485bf345 100644
              # If model_name is provided, use OpenAIEmbeddings
              return APIEmbeddingModel(**kwargs)
  
-@@ -265,10 +352,13 @@ class EmbeddingModel:
+         # If model path does not exist and hub is 'modelscope', download the model
+-        if not os.path.exists(model_name_or_path) and hub == HubType.MODELSCOPE:
+-            model_name_or_path = download_model(model_name_or_path, revision)
++        # if not os.path.exists(model_name_or_path) and hub == HubType.MODELSCOPE:
++        #     model_name_or_path = download_model(model_name_or_path, revision)
+ 
          # Return different model instances based on whether it is a cross-encoder and pooling mode
          if is_cross_encoder:
              return CrossEncoderModel(

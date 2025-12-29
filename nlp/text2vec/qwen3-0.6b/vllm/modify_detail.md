@@ -34,13 +34,12 @@
     ) -> None:
         # load model
         model = EmbeddingModel.load(**model_args)
-        print("model=", model)
         custom_dataset_path = eval_args.pop('dataset_path', None)
         # load task first to update instructions
         tasks = cmteb.TaskBase.get_tasks(task_names=eval_args['tasks'], dataset_path=custom_dataset_path)
         
         if model_args.get('is_cross_encoder', False):
-            previous_results = model_args['model_kwargs']['previous_results']
+            previous_results = model_args['model_kwargs']['embed_results']
             for i in range(len(tasks)):
                 print(f'Running evaluation for {tasks[i]}...')
                 print(f'Previous results: {previous_results[i]}')
@@ -162,13 +161,10 @@
     def get_instruction(self, task_name, prompt_type):
         sym_task = False
         instruction = None
-        print("task_name=", task_name)
         if task_name in self.instruction_dict:
             instruction = self.instruction_dict[task_name]
-            print("instruction from dict=", instruction)
             if isinstance(instruction, dict):
                 instruction = instruction.get(prompt_type, "")
-                print("instruction =", instruction)
                 sym_task = True
         task_type = mteb.get_tasks(tasks=[task_name])[0].metadata.type
         if 'Retrieval' in task_type and not sym_task and prompt_type != 'query':
@@ -227,7 +223,7 @@
         # self.supported_encode_params = get_supported_params(self.model.predict)
         self.url = kwargs.get('api_base')
         self.task_names = kwargs["model_kwargs"].get('task_name')
-        print("task_names: ", self.task_names)
+
         self.prefix = '<|im_start|>system\nJudge whether the Document meets the requirements based on the Query and the Instruct provided. Note that the answer can only be "yes" or "no".<|im_end|>\n<|im_start|>user\n'
         self.suffix = "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
 
@@ -257,10 +253,9 @@
         # assert isinstance(embeddings, Tensor)
         # return embeddings
         relevance_scores = []
-        print("sentences: ",sentences)
         task_name = self.task_names[0]
         instruction = self.get_instruction(task_name, 'query')
-        print('instruction===', instruction)
+
         for item in sentences:
             query = self.query_template.format(prefix=self.prefix, instruction=instruction, query=item[0])
             docs = self.document_template.format(doc=item[1], suffix=self.suffix)
@@ -305,7 +300,6 @@
         # if prompt_type and prompt_type == PromptType.query:
         #     prompt = self.get_prompt(task_name)
 
-        print('prompt_type===', prompt_type)
         instruction = self.get_instruction(task_name, prompt_type)
         if self.instruction_template:
             instruction = self.format_instruction(instruction, prompt_type)
@@ -358,8 +352,8 @@
             return APIEmbeddingModel(**kwargs)
 
         # If model path does not exist and hub is 'modelscope', download the model
-        if not os.path.exists(model_name_or_path) and hub == HubType.MODELSCOPE:
-            model_name_or_path = download_model(model_name_or_path, revision)
+        # if not os.path.exists(model_name_or_path) and hub == HubType.MODELSCOPE:
+        #     model_name_or_path = download_model(model_name_or_path, revision)
 
         # Return different model instances based on whether it is a cross-encoder and pooling mode
         if is_cross_encoder:

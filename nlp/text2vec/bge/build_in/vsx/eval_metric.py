@@ -30,8 +30,8 @@ class STSEvaluator():
     ):
         super().__init__(**kwargs)
 
-        self.embeddings1 = embeddings1
-        self.embeddings2 = embeddings2
+        self.embeddings1 = np.nan_to_num(embeddings1, nan=0.0)
+        self.embeddings2 = np.nan_to_num(embeddings2, nan=0.0) 
         self.gold_scores = gold_scores
         self.min_score=min_score
         self.max_score=max_score

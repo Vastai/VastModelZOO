@@ -120,6 +120,7 @@
         --batch_size 1 \
         --device_id 0
     ```
+    > - **Note**: 运行的推理的环境中需注意numpy版本需要为1.xx版本
 
 ## step.5 性能精度测试
 1. 性能测试
