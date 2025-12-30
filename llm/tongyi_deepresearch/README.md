@@ -13,9 +13,10 @@
 
   |model | huggingface  | modelscope | parameter | dtype| arch |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Tongyi-DeepResearch-30B-A3B-FP8* | [Alibaba-NLP/Tongyi-DeepResearch-30B-A3B](https://hf-mirror.com/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B) | [iic/Tongyi-DeepResearch-30B-A3B](https://www.modelscope.cn/models/iic/Tongyi-DeepResearch-30B-A3B) | 30B-A3B | FP8* |LLM-MOE-GQA |
+  |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 |LLM-MOE-GQA |
 
-> `Alibaba-NLP/Tongyi-DeepResearch-30B-A3B`原始权重为BF16格式，暂未提供FP8格式；可按照下述流程量化至FP8格式，以支持VLLM_VACC
+> - `Alibaba-NLP/Tongyi-DeepResearch-30B-A3B`原始权重为BF16格式，暂未提供FP8权重
+> - `lancew/Tongyi-DeepResearch-30B-A3B-FP8`为按照下述流程量化至FP8格式，以支持VLLM_VACC
 
 ## 模型下载
 
@@ -59,8 +60,8 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-30B-A3B-* | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-30B-A3B-* | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 > - max-input-len: 最大输入长度
 > - max-model-len: 最大上下文长度
