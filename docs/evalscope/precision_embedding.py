@@ -33,8 +33,6 @@ task_cfg = TaskConfig(
         'eval': {
             'tasks': [
                 "ArguAna",
-                "FiQA2018",
-                "AskUbuntuDupQuestions",
                 "MindSmallReranking"
             ],
             'output_folder': 'results_retrieval_reranking_env2',

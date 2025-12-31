@@ -9,6 +9,8 @@
 | Model Type       | Models               | Size | Layers | Sequence Length | Embedding Dimension | MRL Support | Instruction Aware |
 |------------------|----------------------|------|--------|-----------------|---------------------|-------------|----------------|
 | Text Embedding   | [Qwen3-Embedding-0.6B](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) | 0.6B | 28     | 32K             | 1024                | Yes         | Yes            |
+| Text Embedding   | [Qwen3-Embedding-4B](https://huggingface.co/Qwen/Qwen3-Embedding-4B) | 4B | 36     | 32K             | 2560                | Yes         | Yes            |
+| Text Embedding   | [Qwen3-Embedding-8B](https://huggingface.co/Qwen/Qwen3-Embedding-8B) | 8B | 36     | 32K             | 4096                | Yes         | Yes            |
     
 
 - ReRanker
@@ -16,6 +18,8 @@
 | Model Type       | Models               | Size | Layers | Sequence Length | Embedding Dimension | MRL Support | Instruction Aware |
 |------------------|----------------------|------|--------|-----------------|---------------------|-------------|----------------|
 | Text Reranking   | [Qwen3-Reranker-0.6B](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) | 0.6B | 28     | 32K             | -                   | -           | Yes            |
+| Text Reranking   | [Qwen3-Reranker-4B](https://huggingface.co/Qwen/Qwen3-Reranker-4B) | 4B | 36     | 32K             | -                   | -           | Yes            |
+| Text Reranking   | [Qwen3-Reranker-8B](https://huggingface.co/Qwen/Qwen3-Reranker-8B) | 8B | 36     | 32K             | -                   | -           | Yes            |
 
 > **Note**:
 > - `MRL Support` 表示嵌入模型是否支持自定义最终嵌入的维度。 
