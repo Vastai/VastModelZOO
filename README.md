@@ -20,7 +20,7 @@
 
 基于瀚博半导体的硬件产品使用`VastModelZOO`前，需联系销售代表获取部署软件包。
 
-- 版本号：[VVI-25.11](https://developer.vastaitech.com/downloads/delivery-center?version_uid=484479150992789504)
+- 访问[瀚博开发者中心](https://developer.vastaitech.com/downloads/vvi?version_uid=)，获取最新`VVI`软件包
 
 
 ## 快速安装
@@ -587,7 +587,7 @@
     |  model |    codebase    |  model list |    model type | runtime |
     | :------: | :------: | :------: | :------: | :-----: |
     | [Qwen2.5](./llm/qwen2/README.md) | [huggingface](https://huggingface.co/collections/Qwen/qwen25)| <details> <summary>model name</summary><ul><li align="left">Qwen2.5-7B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-14B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-32B-Instruct-GPTQ-Int4</li></ul></details> | large language model | vLLM |
-    | [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen3)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-30B-A3B-GPTQ-Int4 </li><li align="left">Qwen3-235B-A22B-FP8 </li><li align="left">Qwen3-235B-A22B-Instruct-2507-FP8 </li><li align="left">Qwen3-235B-A22B-Thinking-2507-FP8 </li></ul> </details>   | large language model |   vLLM   |
+    | [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen3)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-30B-A3B-GPTQ-Int4</li><li align="left">Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 </li><li align="left">Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 </li><li align="left">Qwen3-235B-A22B-FP8 </li><li align="left">Qwen3-235B-A22B-Instruct-2507-FP8 </li><li align="left">Qwen3-235B-A22B-Thinking-2507-FP8 </li></ul> </details>   | large language model |   vLLM   |
     | [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-v3)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li></ul></details>   | large language model |   vLLM   |
     | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-r1)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
     | [DeepSeek-V3.1](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-v31)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li><li align="left">DeepSeek-V3.1-Terminus</li></ul></details>   | large language model |   vLLM   |
