@@ -28,12 +28,12 @@ def argument_parser():
     parser.add_argument(
         "-m",
         "--model_prefix_path",
-        default="deploy_weights/official_rtdetr_run_stream_fp16/mod",
+        default="deploy_weights/official_rtdetr_fp16/mod",
         help="model prefix of the model suite files",
     )
     parser.add_argument(
         "--vdsp_params_info",
-        default="../vacc_code/rtdetr_vdsp_params.json",
+        default="../build_in/rtdetr_vdsp_params.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(

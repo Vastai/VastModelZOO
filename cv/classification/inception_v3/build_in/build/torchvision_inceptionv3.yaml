@@ -1,4 +1,4 @@
-name: torchvision_inceptionv3_run_stream_int8
+name: torchvision_inceptionv3_int8
 
 frontend:
   shape:

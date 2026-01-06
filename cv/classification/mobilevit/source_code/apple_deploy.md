@@ -34,7 +34,7 @@
 1. 根据具体模型修改配置文件
     - [mobilevit_apple.yaml](../build_in/build/mobilevit_apple.yaml)：
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -47,22 +47,21 @@
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 执行如下命令进行runstream推理, 参考[infer_mobilevit.py](../build_in/vsx/python/infer_mobilevit.py)
+1. - 执行如下命令进行推理, 参考[infer_mobilevit.py](../build_in/vsx/python/infer_mobilevit.py)
     ```
     python ../build_in/vsx/python/infer_mobilevit.py \
-        -m deploy_weights/apple_mobilevit_run_stream_fp16/mod \
+        -m deploy_weights/apple_mobilevit_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/apple-mobilevit_b-vdsp_params.json \
         --device_id 0 \
         --label_file imagenet.txt \
         --dataset_filelist ILSVRC2012_img_val_filelist.txt \
         --dataset_root /path/to/cls/ImageNet \
-        --dataset_output_file runstream_result.txt
+        --dataset_output_file result.txt
     ```
 
     - 基于上一步vsx推理的结果，进行精度评估，参考[eval_topk.py](../../common/eval/eval_topk.py)
     ```
-    python ../../common/eval/eval_topk.py runstream_result.txt
+    python ../../common/eval/eval_topk.py result.txt
     ```
 
     ```
@@ -74,7 +73,7 @@
 1. 使用[infer_mobilevit_prof.py](../build_in/vsx/python/infer_mobilevit_prof.py)进行benchmark
     ```bash
     python3 ../build_in/vsx/python/infer_mobilevit_prof.py \
-        -m deploy_weights/apple_mobilevit_run_stream_fp16/mod \
+        -m deploy_weights/apple_mobilevit_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/apple-mobilevit_b-vdsp_params.json \
         --device_ids [0] \
         --batch_size 1 \

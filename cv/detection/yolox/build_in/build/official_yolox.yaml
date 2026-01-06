@@ -1,4 +1,4 @@
-name: official_yolovx_run_stream_int8
+name: official_yolovx_int8
 
 frontend:
   checkpoint: /path/to/yolox_s-640.onnx

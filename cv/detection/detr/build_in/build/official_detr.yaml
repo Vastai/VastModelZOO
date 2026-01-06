@@ -1,4 +1,4 @@
-name: official_detr_run_stream_fp16
+name: official_detr_fp16
 
 frontend:
   checkpoint: /path/to/detr_res50.onnx

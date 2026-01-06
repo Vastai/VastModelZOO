@@ -248,12 +248,12 @@ def set_config():
     parse.add_argument(
         "--model_prefix_path",
         type=str,
-        default="deploy_weights/official_real_esrgan_run_stream_int8/mod",
+        default="deploy_weights/official_real_esrgan_int8/mod",
         help="model info")
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="../vacc_code/vdsp_params/official-real_esrnet_x4plus-vdsp_params.json",
+        default="../build_in/vdsp_params/official-real_esrnet_x4plus-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")

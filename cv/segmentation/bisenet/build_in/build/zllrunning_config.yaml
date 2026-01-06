@@ -1,4 +1,4 @@
-name: bisenet_run_stream_int8
+name: bisenet_int8
 
 frontend:
   checkpoint: ./torchscript/bisenet-512.torchscript.pt

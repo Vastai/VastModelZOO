@@ -1,4 +1,4 @@
-name: text_encoder_build_run_stream_fp16
+name: text_encoder_build_fp16
 
 frontend:
   shape:

@@ -73,7 +73,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--imgmod_vdsp_params",
-        default="../vacc_code/vdsp_params/yolo_world_1280_1280_bgr888.json",
+        default="../build_in/vdsp_params/yolo_world_1280_1280_bgr888.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(
@@ -88,7 +88,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--txtmod_vdsp_params",
-        default="../vacc_code/vdsp_params/clip_txt_vdsp.json",
+        default="../build_in/vdsp_params/clip_txt_vdsp.json",
         help="text model vdsp preprocess parameter file",
     )
     parser.add_argument(

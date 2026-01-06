@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     # 最终的text模型
     # model = onnx.load('yolo_world_v2_l_obj365v1_goldg_pretrain_1280ft-9babe3f6_text-sim_sub.onnx')
-    model = onnx.load('./deploy_weights/text_build_run_stream_fp16/yolo_world_clip_backbone.onnx')
+    model = onnx.load('./deploy_weights/text_build_fp16/yolo_world_clip_backbone.onnx')
 
     # extract node data
     names_dict = {"clip_text_dict": "baseModel.backbone.text_model.model.text_model.embeddings.token_embedding.weight",

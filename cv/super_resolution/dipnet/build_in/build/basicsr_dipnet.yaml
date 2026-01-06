@@ -1,4 +1,4 @@
-name: basicsr_dipnet_run_stream_int8
+name: basicsr_dipnet_int8
 
 frontend:
   shape:

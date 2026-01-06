@@ -1,4 +1,4 @@
-name: compress_hs_sim_run_stream_fp16
+name: compress_hs_sim_fp16
 
 frontend:
   checkpoint: /path/to/compress_hs_sim.onnx

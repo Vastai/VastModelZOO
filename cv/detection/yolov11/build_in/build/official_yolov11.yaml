@@ -1,4 +1,4 @@
-name: official_yolov11_run_stream_int8
+name: official_yolov11_int8
 
 frontend:
   checkpoint: /path/to/yolo11s.onnx
@@ -9,7 +9,7 @@ frontend:
 
 graph:
   extra_ops:
-    type: yolov8_nms
+    type: yolov11_nms
     params:
       num_classes: 80
       nms_threshold: 0.65

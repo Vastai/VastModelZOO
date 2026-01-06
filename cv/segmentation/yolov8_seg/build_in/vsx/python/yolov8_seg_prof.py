@@ -6,10 +6,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-
-import os
-import sys
-
 from yolov8_seg import Yolov8Segmenter
 from yolov8_seg import ModelProfiler
 from easydict import EasyDict as edict
@@ -32,7 +28,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--vdsp_params",
-        default="./data/configs/yolov8seg_bgr888.json",
+        default="/path/to/ultralytics-yolov8s_seg-vdsp_params.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(

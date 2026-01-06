@@ -20,7 +20,7 @@ sys.path.append(_cur_file_path + os.sep + '../../..')
 from source_code.tracker.byte_tracker import BYTETracker
 from source_code.tracker.visualize import plot_tracking
 from source_code.tracker.timer import Timer
-from mot.bytetrack.vacc_code.vsx.python.detect_vsx import Detector
+from mot.bytetrack.build_in.vsx.python.detect_vsx import Detector
 
 import motmetrics as mm
 import argparse
@@ -35,7 +35,7 @@ def make_parser():
     parser.add_argument("--path",default="/path/to/datasets/mot/MOT17/train/", help="path to test images")
 
     # detect args
-    parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_bytetrack_run_stream_int8/mod", help="model info")
+    parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_bytetrack_int8/mod", help="model info")
     parser.add_argument("--vdsp_params_info",type=str,default="../vacc_code/vdsp_params/official-bytetrack_tiny_mot17-vdsp_params.json", help="vdsp op info",)
     parser.add_argument("--device_id", type=int, default=0, help="device id")
     parser.add_argument("--batch", type=int, default=1, help="bacth size")

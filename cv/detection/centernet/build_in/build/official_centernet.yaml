@@ -1,4 +1,4 @@
-name: official_centernet_run_stream_int8
+name: official_centernet_int8
 
 frontend:
   checkpoint: /path/to/centernet_res18-512.onnx

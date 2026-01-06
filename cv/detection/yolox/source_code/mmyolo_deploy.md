@@ -36,7 +36,7 @@ python ./projects/easydeploy/tools/export.py \
 1. 根据具体模型修改模型转换配置文件
     - [mmyolo_yolox.yaml](../build_in/build/mmyolo_yolox.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`
 
@@ -48,7 +48,7 @@ python ./projects/easydeploy/tools/export.py \
     cd workspace
     vamc compile ../build_in/build/mmyolo_yolox.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/mmyolo_yolovx_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/mmyolo_yolovx_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 可以利用[脚本](../build_in/vsx/python/mmyolo_yolox_runstream.py)生成预测的txt结果
@@ -56,17 +56,17 @@ python ./projects/easydeploy/tools/export.py \
     ```
     python ../build_in/vsx/python/mmyolo_yolox_runstream.py \
         --file_path path/to/coco_val2017 \
-        --model_prefix_path deploy_weights/mmyolo_yolox_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/mmyolo_yolox_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path和--label_txt为实际路径
 
 2. [eval_map.py](../../common/eval/eval_map.py)，精度统计，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
     ```bash
-        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+        python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
     - 测试精度数据如下：
     ```
@@ -90,12 +90,12 @@ python ./projects/easydeploy/tools/export.py \
 ### step.6 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/mmyolo_yolox_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/mmyolo_yolox_int8/mod --vdsp_params ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json -i 2 p 2 -b 1
     ```
 
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
@@ -107,7 +107,7 @@ python ./projects/easydeploy/tools/export.py \
 
     - vamp推理，获取npz结果输出
     ```bash
-    vamp -m deploy_weights/mmyolo_yolox_run_stream_int8/mod \
+    vamp -m deploy_weights/mmyolo_yolox_int8/mod \
         --vdsp_params ./build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json \
         -i 2 p 2 -b 1 \
         --datalist path/to/npz_datalist.txt \

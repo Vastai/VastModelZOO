@@ -1,4 +1,4 @@
-name: official_isnet_run_stream_int8
+name: official_isnet_int8
 
 frontend:
   shape:

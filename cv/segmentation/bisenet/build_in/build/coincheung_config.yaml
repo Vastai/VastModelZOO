@@ -1,4 +1,4 @@
-name: coincheung_run_stream_int8
+name: coincheung_int8
 
 frontend:
   checkpoint: ./torchscript/bisenetv1-736_960.torchscript.pt

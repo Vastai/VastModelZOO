@@ -1,0 +1,101 @@
+name: official_kitti_centerpoint_int8
+
+frontend:
+  checkpoint: /path/to/kitti_centerpoint_pillar_1x.onnx
+  shape:
+    input:
+    - 32000
+    - 32
+    - 10
+    voxel_coords_xyz:
+    - 3
+    - 32000
+    mask:
+    - 1
+    - 32000
+  type: onnx
+  dtype: fp32
+
+dataset:
+  type: tvm
+  path: /path/to/kitti_qdata
+  sampler:
+    suffix: npz
+    get_data_num: 30
+
+graph:
+  extra_ops:
+    type: centerpoint_nms
+    params:
+      score_thresh: 0.1
+      nms_thresh: 0.7
+      feature_map_stride: 1
+      nms_post_max: 500
+      nms_pre_max: 4096
+      max_obj_per_sample: 500
+      voxel_size:
+      - 0.32
+      - 0.32
+      - 6
+      post_center_limit_range:
+      - 0
+      - -39.68
+      - -3
+      - 69.12
+      - 39.68
+      - 1
+      point_cloud_range:
+      - 0
+      - -39.68
+      - -3
+      - 69.12
+      - 39.68
+      - 1
+
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    enable_float_to_half: true
+    stream_mode: false
+    data_type: 2
+  quantize:
+    skip_conv_layers:
+    - 0
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+    - 31
+    quantize_per_channel: true
+    calibrate_mode: percentile
+  merge_params: true
+  remove_params: false
+
+workspace:
+  path: ./deploy_weights

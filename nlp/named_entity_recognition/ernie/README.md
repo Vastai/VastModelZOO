@@ -146,7 +146,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
    - [huggingface_ernie3.0_medium_zh_ner-256](./huggingface/build_in/build/huggingface_ernie3.0_medium_zh_ner-256.yaml)
    - [huggingface_ernie3.0_xbase_zh_ner-256](./huggingface/build_in/build/huggingface_ernie3.0_xbase_zh_ner-256.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -184,10 +184,10 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 
 
 
-- runstream 运行
+- 推理 运行
   - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
 
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 runstream 结果，示例：
+    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
 
     ```bash
     cd ../sdk1.0
@@ -202,7 +202,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
-    运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 runstream 结果，示例：
+    运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 推理 结果，示例：
 
     ```bash
 
@@ -429,7 +429,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
     ```bash
     export VSX_DISABLE_DEEPBIND=1
     vamp -m deploy_weights/ernie2_base_chinese_ner_256-int8-max-mutil_input-vacc/ernie2_base_chinese_ner_256 \
-        --vdsp_params ../../common/vamp_info/bert_vdsp.yaml \
+        --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \
         --processes 2
@@ -477,12 +477,11 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
     >
     > 如果仅测试模型性能可不设置 `datalist`、`path_output` 参数
 
-    ```bash
 
 3. 精度评估
 
     基于[people_daily_eval.py](../common/eval/people_daily_eval.py)，解析npz结果，并评估结果， 可参考 step.5
-        ```bash
+    ```bash
     python ../../common/eval/people_daily_eval.py \
        --result_dir ./vamp_bert_out \
        --label_path /path/to/people_daily/instance_Peoples_Daily.txt

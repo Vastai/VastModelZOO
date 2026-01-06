@@ -27,7 +27,7 @@ paddle2onnx --model_dir ./models/detection/EAST/inference --model_filename infer
 1. 根据具体模型修改配置文件
     - [ppocr_east.yaml](../build_in/build/ppocr_east.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -45,7 +45,7 @@ paddle2onnx --model_dir ./models/detection/EAST/inference --model_filename infer
     ```bash
     python ../build_in/vsx/python/east_vsx.py \
         --file_path path/to/icdar2015/Challenge4/ch4_test_images \
-        --model_prefix_path deploy_weights/ppocr_east_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/ppocr_east_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppocr-det_mv3_east-vdsp_params.json \
         --label_txt /path/to/icdar2015/Challenge4/test_icdar2015_label.txt
     ```
@@ -67,7 +67,7 @@ paddle2onnx --model_dir ./models/detection/EAST/inference --model_filename infer
 
 2. 性能测试，配置vdsp参数[ppocr-det_r50_vd_east-vdsp_params.json](../build_in/vdsp_params/ppocr-det_r50_vd_east-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/ppocr_east_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/ppocr-det_r50_vd_east-vdsp_params.json -i 1 p 1 -b 1 -s 3,704,1280
+    vamp -m deploy_weights/ppocr_east_int8/mod --vdsp_params ../build_in/vdsp_params/ppocr-det_r50_vd_east-vdsp_params.json -i 1 p 1 -b 1 -s 3,704,1280
     ```
 
 3. 精度测试，推理得到npz结果：

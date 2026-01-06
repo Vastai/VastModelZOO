@@ -242,7 +242,7 @@ def set_config():
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="segmentation/bisenet/vacc_code/vdsp_params/zllrunning-bisenet-vdsp_params.json",
+        default="segmentation/bisenet/build_in/vdsp_params/zllrunning-bisenet-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")

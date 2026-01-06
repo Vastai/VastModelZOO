@@ -100,9 +100,10 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
 ### step.3 模型转换
 1. 根据具体模型,修改模型转换配置文件
-    - [yolov8_seg.yaml](./build_in/build/yolov8_seg.yaml)
+    - [yolov8_seg_fp16.yaml](./build_in/build/yolov8_seg_fp16.yaml)
+    - [yolov8_seg_int8.yaml](./build_in/build/yolov8_seg_int8.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -112,43 +113,145 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     cd yolov8_seg
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/yolov8_seg.yaml
+    vamc compile ../build_in/build/yolov8_seg_fp16.yaml
+    vamc compile ../build_in/build/yolov8_seg_int8.yaml
     ```
 
 ### step.4 模型推理
-1. runstream推理，参考：[yolov8_seg_vsx.py](./build_in/vsx/python/yolov8_seg_vsx.py)
+
+1. 参考：[yolov8_seg_vsx.py](./build_in/vsx/python/yolov8_seg_vsx.py)
     - 依赖自定义算子：[yolov8_seg_post_proc](./build_in/vsx/python/yolov8_seg_post_proc)
 
     ```bash
-    python ../build_in/vsx/python/yolov8_seg_vsx.py \
-        --file_path  path/to/coco/det_coco_val \
-        --model_prefix_path deploy_weights/yolov8s_seg_run_stream_int8/mod \
-        --vdsp_params_info ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
-        --vdsp_custom_op ../build_in/vsx/python/yolov8_seg_post_proc  \
-        --label_txt path/to/coco/coco.txt \
-        --save_dir ./output --device 0
+    #先获取测试数据集的txt文件列表
+    python3 ../build_in/vsx/python/get_filelist.py --input_dir /path/to/det_coco_val --output_file ./det_coco_val_filelist.txt
+
+    #推理
+    python3 ../build_in/vsx/python/yolov8_seg_vsx.py \
+        -m ./deploy_weights/yolov8s_seg_fp16/mod \
+        --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
+        --device_id 0 \
+        --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
+        --threshold 0.01 \
+        --label_file /path/to/coco.txt \
+        --dataset_filelist  /path/to/det_coco_val_filelist.txt \
+        --dataset_root /path/to/det_coco_val/ \
+        --dataset_output_folder ./yolov8_seg_out
     ```
 
-2. 精度统计：[eval.py](./build_in/vsx/python/eval.py)，指定`instances_val2017.json`标签文件和上步骤中的txt保存路径，即可获得mAP评估指标
+2. 精度统计：[yolov8_seg_eval.py](./build_in/vsx/python/yolov8_seg_eval.py)，指定`instances_val2017.json`标签文件和上步骤中获取的推理结果路径，即可获得mAP评估指标
    ```bash
-    python ../build_in/vsx/python/eval.py \
-        --gt path/to/instances_val2017.json \
-        --pred ./predictions.json
+    python3 ../build_in/vsx/python/yolov8_seg_eval.py \
+        --gt /path/to/instances_val2017.json \
+        --output_path ./yolov8_seg_out
    ```
+    <details><summary>查看精度信息</summary>
+
+    ```
+    # yolov8s_seg_640_0.01
+
+    ## fp16
+    Evaluate annotation type *bbox*
+    DONE (t=22.59s).
+    Accumulating evaluation results...
+    DONE (t=4.04s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.437
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.598
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.474
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.237
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.484
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.601
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.342
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.544
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.572
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.344
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.631
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.737
+    Running per image evaluation...
+    Evaluate annotation type *segm*
+    DONE (t=25.68s).
+    Accumulating evaluation results...
+    DONE (t=3.99s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.352
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.563
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.371
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.150
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.393
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.527
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.290
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.444
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.461
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.227
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.519
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.654
+    
+    ## int8
+    Evaluate annotation type *bbox*
+    DONE (t=23.30s).
+    Accumulating evaluation results...
+    DONE (t=4.11s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.423
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.584
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.460
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.228
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.470
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.578
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.334
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.535
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.562
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.329
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.623
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.729
+    Running per image evaluation...
+    Evaluate annotation type *segm*
+    DONE (t=26.73s).
+    Accumulating evaluation results...
+    DONE (t=4.09s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.342
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.550
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.359
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.146
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.385
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.506
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.282
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.435
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.452
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.218
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.513
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.643
+    ```
+
+    </details>
+
 
 ### step.5 性能测试
 
 使用[yolov8_seg_prof.py](./build_in/vsx/python/yolov8_seg_prof.py)脚本来测试性能， 命令如下
 
+- 测试最大吞吐
 ```bash
 python3 ../build_in/vsx/python/yolov8_seg_prof.py \
-    -m deploy_weights/yolov8s_seg_run_stream_int8/mod \
+    -m deploy_weights/yolov8s_seg_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
     --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
     --device_ids [0] \
     --shape "[3,640,640]" \
     --batch_size 1 \
-    --instance 6 \
+    --instance 1 \
     --iterations 600 \
     --queue_size 1
+```
+
+- 测试最小延迟
+```bash
+python3 ../build_in/vsx/python/yolov8_seg_prof.py \
+    -m deploy_weights/yolov8s_seg_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/ultralytics-yolov8s_seg-vdsp_params.json \
+    --elf_file ../build_in/vsx/python/yolov8_seg_post_proc \
+    --device_ids [0] \
+    --shape "[3,640,640]" \
+    --batch_size 1 \
+    --instance 1 \
+    --iterations 600 \
+    --queue_size 0
 ```

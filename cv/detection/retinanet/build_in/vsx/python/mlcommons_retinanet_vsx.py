@@ -265,7 +265,7 @@ def set_config():
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="vacc_deploy/vacc_code/vdsp_params/mlcommons-resnext50_32x4d_fpn-vdsp_params.json",
+        default="vacc_deploy/build_in/vdsp_params/mlcommons-resnext50_32x4d_fpn-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument(

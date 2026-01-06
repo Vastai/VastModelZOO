@@ -98,7 +98,7 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
 1. 根据具体模型,修改编译配置文件
     - [official_retinaface.yaml](./build_in/build/official_retinaface.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -109,16 +109,16 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
     cd workspace
     vamc compile ../build_in/build/official_retinaface.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/official_retinaface_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/official_retinaface_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](./build_in/vsx/python/vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/vsx.py \
         --file_path  /path/to/widerface/val/ \
-        --model_prefix_path deploy_weights/official_retinaface_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_retinaface_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
@@ -131,7 +131,7 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
     ```
     - 然后切换到之前的workspace目录进行精度验证
     ```bash
-    python ../../common/eval/evaluation.py -p runstream_output/ -g ../../common/eval/ground_truth
+    python ../../common/eval/evaluation.py -p infer_output/ -g ../../common/eval/ground_truth
     ```
     - 测试精度如下：
     ```
@@ -151,12 +151,12 @@ python export.py --model_name Resnet50/mobilenet0.25 --weight_path /path/to/Resn
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/official_retinaface_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/official_retinaface_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1
     ```
 
 3. npz结果输出
     ```bash
-    vamp -m deploy_weights/official_retinaface_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1 --datalist widerface_npz_list.txt --path_output result
+    vamp -m deploy_weights/official_retinaface_int8/mod --vdsp_params ../build_in/vdsp_params/official-retinaface_resnet50-vdsp_params.json -i 2 p 2 -b 1 --datalist widerface_npz_list.txt --path_output result
     ```
 
 4. [npz_decode.py](../common/utils/npz_decode.py)，解析vamp输出的npz文件，进行绘图和保存txt结果

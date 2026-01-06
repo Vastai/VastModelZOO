@@ -1,4 +1,4 @@
-name: elic_dynamic_gaha_run_stream_fp16
+name: elic_dynamic_gaha_fp16
 
 frontend:
   shape:

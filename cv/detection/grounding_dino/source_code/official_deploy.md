@@ -64,7 +64,7 @@
     - [decoder_build.yaml](../build_in/build/decoder_build.yaml)
     > - 注意当前模型，build_in只支持fp16精度
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 3. 模型编译
@@ -78,17 +78,17 @@
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考： [grounding_dino_vsx.py](../build_in/vsx/python/grounding_dino_vsx.py)
+
+- 参考： [grounding_dino_vsx.py](../build_in/vsx/python/grounding_dino_vsx.py)
 
     ```
     mkdir -p ./grounding_dino_out
     python3 ../build_in/vsx/python/grounding_dino_vsx.py \
-        --txtmod_prefix deploy_weights/text_encoder_build_run_stream_fp16/mod \
+        --txtmod_prefix deploy_weights/text_encoder_build_fp16/mod \
         --txtmod_vdsp_params  ../build_in/vdsp_params/text_encoder-vdsp_params.json \
-        --imgmod_prefix deploy_weights/image_encoder_build_run_stream_fp16/mod \
+        --imgmod_prefix deploy_weights/image_encoder_build_fp16/mod \
         --imgmod_vdsp_params ../build_in/vdsp_params/image_encoder-vdsp_params.json \
-        --decmod_prefix deploy_weights/decoder_build_run_stream_fp16/mod \
+        --decmod_prefix deploy_weights/decoder_build_fp16/mod \
         --tokenizer_path /path/to/bert-base-uncased \
         --label_file ../../common/label/coco.txt \
         --device_id  0 \
@@ -102,7 +102,7 @@
     ls /path/to/coco_val2017 | grep jpg > det_coco_val.txt
     ```
     
-    - 参考：
+- 精度测试参考：
     ```
     python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./grounding_dino_out
     ```
@@ -128,7 +128,7 @@
 1. 参考：[grounding_dino_text_enc_prof.py](../build_in/vsx/python/grounding_dino_text_enc_prof.py)测试text_encoder性能
     ```
     python3 ../build_in/vsx/python/grounding_dino_text_enc_prof.py \
-        -m deploy_weights/text_encoder_build_run_stream_fp16/mod \
+        -m deploy_weights/text_encoder_build_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/text_encoder-vdsp_params.json \
         --tokenizer_path /path/to/bert-base-uncased \
         --device_ids [0] \
@@ -143,7 +143,7 @@
 2. 参考：[grounding_dino_image_enc_prof.py](../build_in/vsx/python/grounding_dino_image_enc_prof.py)测试image_encoder性能
     ```
     python3 ../build_in/vsx/python/grounding_dino_image_enc_prof.py \
-        -m deploy_weights/image_encoder_build_run_stream_fp16/mod \
+        -m deploy_weights/image_encoder_build_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/image_encoder-vdsp_params.json \
         --device_ids [0] \
         --batch_size 1 \

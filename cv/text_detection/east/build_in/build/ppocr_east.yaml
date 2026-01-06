@@ -1,4 +1,4 @@
-name: ppocr_east_run_stream_int8
+name: ppocr_east_int8
 
 frontend:
   checkpoint: /path/to//det_mv3_east.onnx

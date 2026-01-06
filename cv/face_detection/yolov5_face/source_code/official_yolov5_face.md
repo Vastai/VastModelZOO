@@ -22,7 +22,7 @@ def forward(self, x):
 1. 根据具体模型修改配置文件
     - [official_yolov5_face.yaml](../build_in/build/official_yolov5_face.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -39,9 +39,9 @@ def forward(self, x):
     ```bash
     python ../build_in/vsx/python/vsx.py \
         --file_path  /path/to/widerface/val/images \
-        --model_prefix_path deploy_weights/official_yolov5_face_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_yolov5_face_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/pytorch-yolov5s_face-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
@@ -54,7 +54,7 @@ def forward(self, x):
     ```
     - 然后切换到之前的workspace目录进行精度验证
     ```bash
-    python ../../common/eval/evaluation.py -p runstream_output/ -g ../../common/eval/ground_truth
+    python ../../common/eval/evaluation.py -p infer_output/ -g ../../common/eval/ground_truth
     ```
     - 测试精度如下：
     ```
@@ -75,12 +75,12 @@ def forward(self, x):
 
 2. 性能测试
     ```bash
-    vamp -m deploy_weights/official_yolov5_face_run_stream_int8/mod  --vdsp_params ../build_in/vdsp_params/pytorch-yolov5s_face-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/official_yolov5_face_int8/mod  --vdsp_params ../build_in/vdsp_params/pytorch-yolov5s_face-vdsp_params.json -i 2 p 2 -b 1
     ```
 
 3. 精度测试
    ```bash
-    vamp -m deploy_weights/official_yolov5_face_run_stream_int8/mod  --vdsp_params ../build_in/vdsp_params/pytorch-yolov5s_face-vdsp_params.json -i 2 p 2 -b 1 --datalist widerface_npz_list.txt --path_output vamp_result
+    vamp -m deploy_weights/official_yolov5_face_int8/mod  --vdsp_params ../build_in/vdsp_params/pytorch-yolov5s_face-vdsp_params.json -i 2 p 2 -b 1 --datalist widerface_npz_list.txt --path_output vamp_result
     ```
 
 4. 解析输出结果用于精度评估

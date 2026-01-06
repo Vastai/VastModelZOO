@@ -44,7 +44,7 @@
 1. 根据具体模型，修改编译配置
     - [microsoft_swin_transformer.yaml](../build_in/build/microsoft_swin_transformer.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
 
 2. 模型编译
@@ -57,8 +57,8 @@
     ```
 
 ### step.5 模型推理
-1. runstream
-    - 参考：[infer_swin.py](../build_in/vsx/infer_swin.py)
+
+- 参考：[infer_swin.py](../build_in/vsx/infer_swin.py)
 
     准备测试前，需先准备数据集路径文件`ILSVRC2012_img_val_filelist.txt`，格式如下：
 
@@ -74,7 +74,7 @@
 
     ```bash
     python ../build_in/vsx/infer_swin.py \
-        -m deploy_weights/microsoft_swin_transformer_run_stream_fp16/mod \
+        -m deploy_weights/microsoft_swin_transformer_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/microsoft-swin_b-vdsp_params.json \
         --device_id 0 \
         --label_file /path/to/imagenet.txt \
@@ -83,7 +83,7 @@
         --dataset_output_file result.txt
     ```
 
-    - 精度评估
+- 精度评估
     ```
     python ../../common/eval/eval_topk.py result.txt
     ```
@@ -98,7 +98,7 @@
 1. 使用[infer_swin_prof.py](../build_in/vsx/infer_swin_prof.py)进行benchmark
     ```bash
     python3 ../build_in/vsx/infer_swin_prof.py \
-        -m deploy_weights/microsoft_swin_transformer_run_stream_fp16/mod \
+        -m deploy_weights/microsoft_swin_transformer_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/microsoft-swin_b-vdsp_params.json \
         --device_ids [0] \
         --batch_size 1 \

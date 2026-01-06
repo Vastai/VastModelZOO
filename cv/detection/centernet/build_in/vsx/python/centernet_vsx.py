@@ -344,11 +344,11 @@ parser.add_argument(
     default= "/path/to/det_coco_val/",
     help="img or dir  path",
 )
-parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_centernet_run_stream_int8/mod", help="model info")
+parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_centernet_int8/mod", help="model info")
 parser.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vsdp_params/official-centernet_res18-vdsp_params.json", 
+    default="../build_in/vsdp_params/official-centernet_res18-vdsp_params.json", 
     help="vdsp op info",
 )
 parser.add_argument(

@@ -1,4 +1,4 @@
-name: keras_mobilenetv1_run_stream_int8
+name: keras_mobilenetv1_int8
 
 frontend:
   shape:

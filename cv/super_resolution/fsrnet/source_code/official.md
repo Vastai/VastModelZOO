@@ -43,7 +43,7 @@ torch.onnx.export(net, input_data, 'fsrnet.onnx', input_names=["input"], output_
 1. 根据具体模型，修改编译配置
     - [official_fsrnet.yaml](../build_in/build/official_fsrnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -56,15 +56,15 @@ torch.onnx.export(net, input_data, 'fsrnet.onnx', input_names=["input"], output_
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考[vsx_inference](../build_in/vsx/python/vsx_inference.py)
+
+- 参考[vsx_inference](../build_in/vsx/python/vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/vsx_inference.py \
         --lr_image_dir  /path/to/CelebAMask-HQ/test_img \
-        --model_prefix_path deploy_weights/official_fsrnet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_fsrnet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-fsrnet-vdsp_params.json \
         --hr_image_dir /path/to/CelebAMask-HQ/test_img \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
     
@@ -84,13 +84,13 @@ torch.onnx.export(net, input_data, 'fsrnet.onnx', input_names=["input"], output_
 1. 性能测试
     - 配置vdsp参数[official-fsrnet-vdsp_params.json](../build_in/vdsp_params/official-fsrnet-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_fsrnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_fsrnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/official-fsrnet-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,128,128]
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`（注意，HR图像采用渐进式下采样至LR图像）：
     ```bash
@@ -102,7 +102,7 @@ torch.onnx.export(net, input_data, 'fsrnet.onnx', input_names=["input"], output_
     
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_fsrnet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_fsrnet_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-fsrnet-vdsp_params.json \
         -i 1 p 1 -b 1 -s [3,128,128] \
         --datalist npz_datalist.txt \

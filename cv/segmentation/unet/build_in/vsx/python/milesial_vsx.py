@@ -210,12 +210,12 @@ def set_config():
     parse.add_argument(
         "--model_prefix_path",
         type=str,
-        default="deploy_weights/milesial_unet_run_stream_int8/mod",
+        default="deploy_weights/milesial_unet_int8/mod",
         help="model info")
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="../vacc_code/vdsp_params/milesial-unet_scale0.5-vdsp_params.json",
+        default="../build_in/vdsp_params/milesial-unet_scale0.5-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")

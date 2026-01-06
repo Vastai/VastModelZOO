@@ -75,7 +75,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--imgmod_vdsp_params",
-        default="../vacc_code/vdsp_params/image_encoder-vdsp_params.json",
+        default="../build_in/vdsp_params/image_encoder-vdsp_params.json",
         help="vdsp preprocess parameter file",
     )
     parser.add_argument(
@@ -85,7 +85,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--txtmod_vdsp_params",
-        default="../vacc_code/vdsp_params/text_encoder-vdsp_params.json",
+        default="../build_in/vdsp_params/text_encoder-vdsp_params.json",
         help="text model vdsp preprocess parameter file",
     )
     parser.add_argument(

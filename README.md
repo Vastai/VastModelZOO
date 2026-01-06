@@ -9,7 +9,7 @@
 
 ---
 
-`VastModelZOO`是瀚博半导体维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博训推芯片上的部署、训练示例。
+`VastModelZOO`是瀚博半导体`VastAI`维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博训推芯片上的部署、训练示例。
 
 `VastModelZOO`旨在基于瀚博半导体的硬件产品和软件SDK，展示最佳的编程实践，以达成模型的快速移植和最优性能。
 
@@ -20,7 +20,128 @@
 
 基于瀚博半导体的硬件产品使用`VastModelZOO`前，需联系销售代表获取部署软件包。
 
-- 版本号：[VVI-25.11](https://developer.vastaitech.com/downloads/delivery-center?version_uid=484479150992789504)
+- 访问[瀚博开发者中心](https://developer.vastaitech.com/downloads/vvi?version_uid=)，获取最新`VVI`软件包
+
+
+## 快速安装
+
+获取部署软件包后安装流程如下。详细安装及使用说明可参考对应组件的文档。
+
+> 其中，xxx表示版本相关信息，请根据实际情况替换。 
+
+<details><summary><b>步骤 1.</b> 安装驱动</summary>
+
+1. 查询是否安装加速卡
+
+    ```shell
+    lspci -d:0100 |wc -l
+    ```
+
+2. 查询是否安装驱动
+
+    ```shell
+    lsmod | grep -i vastai_pci
+    ```
+
+3. 查询驱动版本
+
+    ```shell
+    cat /dev/vastai0_version | grep "Driver"
+    ```
+
+4. 安装驱动
+
+- 部署LLM/VLM模型
+
+    ```shell
+    sudo ./vastai_driver_install_xxx.run install --setkoparam "dpm=1"
+    ```
+
+- 部署非LLM/VLM模型
+
+    ```shell   
+    sudo ./vastai_driver_install_xxx.run install
+    ```
+
+</details>
+
+<details><summary><b>步骤 2.</b> 设置加速卡参数</summary>
+
+1. 查询加速卡信息
+
+    ```shell
+    sudo vasmi list
+    ```
+
+2. (可选) 开启 DPM
+
+    > 仅针对LLM/VLM模型需要开启 DPM
+
+    ```shell
+    sudo vasmi setconﬁg dpm=enable -d all
+    ```
+
+3. 根据业务情况设置加速卡Bbox模式
+
+    ```shell
+    sudo vasmi setcardmode <Card Mode> -d <Device ID> -y
+    ```
+
+    > Card Mode可根据 `sudo vasmi setcardmode --help` 查询获取
+
+4. 使能日志记录等监控功能
+
+    ```shell
+    nohup sudo valogger &
+    ```
+
+</details>
+
+<details><summary><b>步骤 3.</b> 部署模型运行环境（ARM/X86）</summary>
+
+- Build_In 后端模型运行环境部署
+
+  1. 安装 VastStream
+
+        ```shell
+        sudo ./ai-xxx.bin
+        ```
+
+  2. 安装 VAMC
+        ```shell
+        pip install vamc-xxx.whl
+        ```
+
+  3. 安装 VastStreamX
+  
+     - Python：`pip install vaststreamx-xxx.whl`
+     - C++：`sudo ./vaststreamx-xxx.bin`
+  
+  4. 安装 VastGenX（仅LLM/VLM）
+        ```shell
+        pip install vastgenx-xxx.whl
+        ```
+
+  5. 安装 VastGenServer（仅Text2vec）
+        ```shell
+        pip install vastgenserver-xxx.whl
+        ```
+
+- vLLM 后端模型运行环境部署
+
+  1. 安装 torch_vacc
+        ```shell
+        pip install torch_vacc-xxx.whl
+        ```
+
+  2. 安装 vLLM_vacc
+        ```shell
+        pip install vllm_vacc-xxx.whl
+        ```
+
+> 若 VLM 模型为 vLLM+Build_In 的混合部署方案，需安装 Build_In 后端模型运行环境部署中的1、2、3、4 和 vLLM 后端模型环境部署中的1、2
+
+</details>
 
 ## 模型列表
 
@@ -105,6 +226,7 @@
 | [Wide ResNet](./cv/classification/wide_resnet/README.md) |   [timm](https://github.com/rwightman/pytorch-image-models/blob/v0.6.5/timm/models/resnet.py)   | <details> <summary>model name</summary><ul><li align="left">wide_resnet50_2</li><li align="left">wide_resnet101_2</li></ul></details> |    classification    |   Build_In   |
 | [Wide ResNet](./cv/classification/wide_resnet/README.md) |    [torchvision](https://github.com/pytorch/vision/blob/v0.9.0/torchvision/models/resnet.py)    | <details> <summary>model name</summary><ul><li align="left">wide_resnet50_2</li><li align="left">wide_resnet101_2</li></ul></details> |    classification    |   Build_In   |
 |    [Xception](./cv/classification/xception/README.md)    |   [ppcls](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.3/docs/zh_CN/models/Inception.md)   |   <details> <summary>model name</summary><ul><li align="left">xception41</li><li align="left">xception41_deeplab</li><li align="left">xception65</li><li align="left">xception65_deeplab</li><li align="left">xception71</li></ul></details>    |    classification    |   Build_In   |
+| [Yolov11-cls](./cv/classification/yolov11_cls/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov11n-cls</li><li align="left">yolov11s-cls</li><li align="left">yolov11m-cls</li><li align="left">yolov11l-cls</li><li align="left">yolov11x-cls</li></ul></details>     |    classification | Build_In |
 
 - object detection
 
@@ -120,24 +242,30 @@
 | [RetinaNet](./cv/detection/retinanet/README.md)   |  [mmdet](https://github.com/open-mmlab/mmdetection/tree/v3.1.0)  | <details> <summary>model name</summary><ul><li align="left">retinanet_r18_fpn_1x_coco</li><li align="left">retinanet_r18_fpn_1x8_1x_coco</li><li align="left">retinanet_r50_fpn_1x_coco</li><li align="left">retinanet_r50_fpn_2x_coco</li><li align="left">retinanet_r50_fpn_fp16_1x_coco</li><li align="left">retinanet_r50_caffe_fpn_1x_coco</li><li align="left">retinanet_r101_fpn_1x_coco</li><li align="left">retinanet_r101_fpn_2x_coco</li><li align="left">retinanet_r101_caffe_fpn_1x_coco</li><li align="left">retinanet_x101_32x4d_fpn_1x_coco</li><li align="left">retinanet_x101_32x4d_fpn_2x_coco</li><li align="left">retinanet_x101_64x4d_fpn_1x_coco</li><li align="left">retinanet_x101_64x4d_fpn_2x_coco</li><li align="left">retinanet_r50_fpn_mstrain_3x_coco</li><li align="left">retinanet_r101_caffe_fpn_mstrain_3x_coco</li><li align="left">retinanet_r101_fpn_mstrain_3x_coco</li><li align="left">retinanet_x101_64x4d_fpn_mstrain_3x_coco</li></ul></details> |   object detection   | Build_In |
 | [RT-DETR](./cv/detection/rtdetr/README.md)  |   [official](https://github.com/lyuwenyu/RT-DETR)   | <details> <summary>model name</summary><ul><li align="left">rtdetr_r18vd</li></ul></details> |   object detection   | Build_In |
 | [YOLO-World](./cv/detection/yolo_world/README.md)  |   [official](https://github.com/AILab-CVC/YOLO-World)   | <details> <summary>model name</summary><ul><li align="left">yolo_world_v2_l</li></ul></details> |   object detection   | Build_In |
-| [YOLOF](./cv/detection/yolof/README.md)   |  [mmdet](https://github.com/open-mmlab/mmdetection/tree/main/configs/yolof)  | <details> <summary>model name</summary><ul><li align="left">yolof</li></ul></details> |   object detection   | Build_In |
+| [YOLOF](./cv/detection/yolof/README.md)   |  [mmdetection](https://github.com/open-mmlab/mmdetection/tree/main/configs/yolof)  | <details> <summary>model name</summary><ul><li align="left">yolof</li></ul></details> |   object detection   | Build_In |
 | [YoloFastV2](./cv/detection/yolofastv2/README.md) | [official](https://github.com/dog-qiuqiu/Yolo-FastestV2)  |   <details> <summary>model name</summary><ul><li align="left">yolofastv2</li></ul></details>    |   object detection   | Build_In |
 | [YOLOR](./cv/detection/yolor/README.md)    |    [official](https://github.com/WongKinYiu/yolor/tree/paper) |   <details> <summary>model name</summary><ul><li align="left">yolor_d6</li><li align="left">yolor_e6</li><li align="left">yolor_w6</li><li align="left">yolor_p6</li></ul></details>    |   object detection   |   Build_In   |
-|  [Yolov3](./cv/detection/yolov3/README.md)   |  [pytorch(u)](https://github.com/ultralytics/yolov3/tree/v9.5.0)  | <details> <summary>model name</summary><ul><li align="left">yolov3</li><li align="left">yolov3-spp</li><li align="left">yolov3-tiny</li></ul></details> |   object detection   |   Buid_In    |
+|  [Yolov3](./cv/detection/yolov3/README.md)   |  [ultralytics](https://github.com/ultralytics/yolov3/tree/v9.5.0)  | <details> <summary>model name</summary><ul><li align="left">yolov3</li><li align="left">yolov3-spp</li><li align="left">yolov3-tiny</li></ul></details> |   object detection   |   Buid_In    |
 |  [Yolov4](./cv/detection/yolov4/README.md)   | [darknet](https://github.com/AlexeyAB/darknet)  |  <details> <summary>model name</summary><ul><li align="left">yolov4</li><li align="left">yolov4_tiny</li><li align="left">yolov4_csp</li><li align="left">yolov4_csp_swish</li><li align="left">yolov4_csp_x_swish</li><li align="left">yolov4x_mish</li></ul></details>  |   object detection   |  Buid_In    |
 |  [Yolov4](./cv/detection/yolov4/README.md)   | [bubbliiiing](https://github.com/bubbliiiing/yolov4-pytorch)    |    <details> <summary>model name</summary><ul><li align="left">yolov4</li><li align="left">yolov4_tiny</li></ul></details>    |   object detection   |  Buid_In   |
 |  [Yolov4](./cv/detection/yolov4/README.md)   | [tianxiaomo](https://github.com/Tianxiaomo/pytorch-YOLOv4) | <details> <summary>model name</summary><ul><li align="left">yolov4</li></ul></details>  |   object detection   |   Buid_In    |
-| [Yolov5](./cv/detection/yolov5/README.md)  |  [pytorch(u)](https://github.com/ultralytics/yolov5/tree/v6.1)   | <details> <summary>model name</summary><ul><li align="left">yolov5n</li><li align="left">yolov5s</li><li align="left">yolov5m</li><li align="left">yolov5l</li><li align="left">yolov5x</li><li align="left">yolov5n6</li><li align="left">yolov5s6</li><li align="left">yolov5m6</li><li align="left">yolov5l6</li><li align="left">yolov5x6</li></ul></details> |   object detection   |   Build_In  |
+| [Yolov5](./cv/detection/yolov5/README.md)  |  [ultralytics](https://github.com/ultralytics/yolov5/tree/v6.1)   | <details> <summary>model name</summary><ul><li align="left">yolov5n</li><li align="left">yolov5s</li><li align="left">yolov5m</li><li align="left">yolov5l</li><li align="left">yolov5x</li><li align="left">yolov5n6</li><li align="left">yolov5s6</li><li align="left">yolov5m6</li><li align="left">yolov5l6</li><li align="left">yolov5x6</li></ul></details> |   object detection   |   Build_In  |
 | [Yolov5](./cv/detection/yolov5/README.md)  |  [mmyolo](https://github.com/open-mmlab/mmyolo/tree/v0.1.3/configs/yolov5)   | <details> <summary>model name</summary><ul><li align="left">yolov5n</li><li align="left">yolov5s</li><li align="left">yolov5m</li><li align="left">yolov5l</li><li align="left">yolov5n6</li><li align="left">yolov5s6</li><li align="left">yolov5m6</li><li align="left">yolov5l6</li></ul></details>  |   object detection   |  Build_In   |
-| [yolov6](./cv/detection/yolov6/README.md) | [yolov6](https://github.com/meituan/YOLOv6) |  <details> <summary>model name</summary><ul><li align="left">YOLOv6-n</li><li align="left">YOLOv6-tiny</li><li align="left">YOLOv6-s</li></details> |  object detection   |  Build_In |
-| [yolov7](./cv/detection/yolov7/README.md) | [yolov7](https://github.com/WongKinYiu/yolov7) |  <details> <summary>model name</summary><ul><li align="left">YOLOv7</li><li align="left">YOLOv7x</li><li align="left">YOLOv7-w6</li><li align="left">YOLOv7-e6</li><li align="left">YOLOv7-d6</li><li align="left">YOLOv7-e6e</li></ul></details> |  object detection   |  Build_In |
-| [yolov8](./cv/detection/yolov8/README.md) | [yolov8](https://github.com/ultralytics/ultralytics) |  <details> <summary>model name</summary><ul><li align="left">YOLOv8n</li><li align="left">YOLOv8s</li><li align="left">YOLOv8m</li><li align="left">YOLOv8b</li><li align="left">YOLOv8l</li><li align="left">YOLOv8x</li></ul></details> |  object detection   |  Build_In |
-| [yolov10](./cv/detection/yolov10/README.md) | [yolov10](https://github.com/THU-MIG/yolov10.git) |  <details> <summary>model name</summary><ul><li align="left">YOLOv10-N</li><li align="left">YOLOv10-S</li><li align="left">YOLOv10-M</li><li align="left">YOLOv10-B</li><li align="left">YOLOv10-L</li><li align="left">YOLOv10-X</li></ul></details> |  object detection   |  Build_In |
-|  [Yolov11](./cv/detection/yolov11/README.md)   | [official](https://github.com/ultralytics/ultralytics) |    <details> <summary>model name</summary><ul><li align="left">yolo11n</li><li align="left">yolo11s</li><li align="left">yolo11m</li><li align="left">yolo11l</li><li align="left">yolo11x</li></ul></details>    |   object detection   |   Build_In   |
-|  [Yolov12](./cv/detection/yolov12/README.md)   | [official](https://github.com/sunsmarterjie/yolov12.git) |    <details> <summary>model name</summary><ul><li align="left">yolov12n</li><li align="left">yolov12s</li><li align="left">yolov12m</li><li align="left">yolov12l</li><li align="left">yolov12x</li></ul></details>    |   object detection   |   Build_In   |
-|   [Yolox](./cv/detection/yolox/README.md)    | [official](https://github.com/Megvii-BaseDetection/YOLOX) |   <details> <summary>model name</summary><ul><li align="left">yolox_s</li><li align="left">yolox_m</li><li align="left">yolox_l</li><li align="left">yolox_x</li><li align="left">yolox_darknet</li><li align="left">yolox_tiny</li><li align="left">yolox_nano</li></ul></details>   |   object detection   |   Build_In   |
+| [yolov6](./cv/detection/yolov6/README.md) | [meituan](https://github.com/meituan/YOLOv6) |  <details> <summary>model name</summary><ul><li align="left">YOLOv6-n</li><li align="left">YOLOv6-tiny</li><li align="left">YOLOv6-s</li></details> |  object detection   |  Build_In |
+| [yolov7](./cv/detection/yolov7/README.md) | [wongkinyiu](https://github.com/WongKinYiu/yolov7) |  <details> <summary>model name</summary><ul><li align="left">YOLOv7</li><li align="left">YOLOv7x</li><li align="left">YOLOv7-w6</li><li align="left">YOLOv7-e6</li><li align="left">YOLOv7-d6</li><li align="left">YOLOv7-e6e</li></ul></details> |  object detection   |  Build_In |
+| [yolov8](./cv/detection/yolov8/README.md) | [ultralytics](https://github.com/ultralytics/ultralytics) |  <details> <summary>model name</summary><ul><li align="left">YOLOv8n</li><li align="left">YOLOv8s</li><li align="left">YOLOv8m</li><li align="left">YOLOv8b</li><li align="left">YOLOv8l</li><li align="left">YOLOv8x</li></ul></details> |  object detection   |  Build_In |
+| [yolov10](./cv/detection/yolov10/README.md) | [thu-mig](https://github.com/THU-MIG/yolov10.git) |  <details> <summary>model name</summary><ul><li align="left">YOLOv10-N</li><li align="left">YOLOv10-S</li><li align="left">YOLOv10-M</li><li align="left">YOLOv10-B</li><li align="left">YOLOv10-L</li><li align="left">YOLOv10-X</li></ul></details> |  object detection   |  Build_In |
+|  [Yolov11](./cv/detection/yolov11/README.md)   | [ultralytics](https://github.com/ultralytics/ultralytics) |    <details> <summary>model name</summary><ul><li align="left">yolo11n</li><li align="left">yolo11s</li><li align="left">yolo11m</li><li align="left">yolo11l</li><li align="left">yolo11x</li></ul></details>    |   object detection   |   Build_In   |
+|  [Yolov12](./cv/detection/yolov12/README.md)   | [sunsmarterjie](https://github.com/sunsmarterjie/yolov12.git) |    <details> <summary>model name</summary><ul><li align="left">yolov12n</li><li align="left">yolov12s</li><li align="left">yolov12m</li><li align="left">yolov12l</li><li align="left">yolov12x</li></ul></details>    |   object detection   |   Build_In   |
+|   [Yolox](./cv/detection/yolox/README.md)    | [megvii](https://github.com/Megvii-BaseDetection/YOLOX) |   <details> <summary>model name</summary><ul><li align="left">yolox_s</li><li align="left">yolox_m</li><li align="left">yolox_l</li><li align="left">yolox_x</li><li align="left">yolox_darknet</li><li align="left">yolox_tiny</li><li align="left">yolox_nano</li></ul></details>   |   object detection   |   Build_In   |
 |   [Yolox](./cv/detection/yolox/README.md)    |    [mmyolo](https://github.com/open-mmlab/mmyolo/blob/main/configs/yolox/README.md)     |    <details> <summary>model name</summary><ul><li align="left">yolox_s</li><li align="left">yolox_tiny</li></ul></details>    |   object detection   | Build_In |
 
+- detection3d
+
+|  model |    codebase    |  model list |    model type | runtime |
+| :------: | :------: | :------: | :------: | :-----: |
+| [CenterPoint](./cv/detection_3d/center_point/README.md)  |   [openpcdet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">custom_centerpoint</li><li align="left">official_centerpoint</li></ul></details>   |     detection3d |   Build_In   |
+| [PointPillars](./cv/detection_3d/point_pillars/README.md)  |   [openpcdet](https://github.com/open-mmlab/OpenPCDet)    |  <details> <summary>model name</summary><ul><li align="left">PointPillars</li></ul></details>   |     detection3d |   Build_In   |
 
 - segmentation
 
@@ -163,7 +291,7 @@
 | [Unet3P](./cv/segmentation/unet3p/README.md) |   [pytorch](https://github.com/avBuffer/UNet3plus_pth)    |  <details> <summary>model name</summary><ul><li align="left">unet3p</li><li align="left">unet3p_deepsupervision</li></ul></details>   |     segmentation     | Build_In |
 | [UnetPP](./cv/segmentation/unetpp/README.md) |   [pytorch](https://github.com/Andy-zhujunwen/UNET-ZOO)   | <details> <summary>model name</summary><ul><li align="left">unetpp</li></ul></details>  |     segmentation     | Build_In |
 | [Yolov8-seg](./cv/segmentation/yolov8_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov8n-seg</li><li align="left">yolov8s-seg</li><li align="left">yolov8m-seg</li><li align="left">yolov8l-seg</li><li align="left">yolov8x-seg</li></ul></details>     |    instance segmentation | Build_In |
-
+| [Yolov11-seg](./cv/segmentation/yolov11_seg/README.md)   |  [ultralytics](https://github.com/ultralytics/ultralytics/tree/main)  |     <details> <summary>model name</summary><ul><li align="left">yolov11n-seg</li><li align="left">yolov11s-seg</li><li align="left">yolov11m-seg</li><li align="left">yolov11l-seg</li><li align="left">yolov11x-seg</li></ul></details>     |    instance segmentation | Build_In |
 
 - face alignment
 
@@ -267,8 +395,8 @@
 
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
-| [BSANet](./cv/salient_object_detection/bsanet/README.md) | [official](https://github.com/xuebinqin/BASNet) | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
-| [BSANet](./cv/salient_object_detection/bsanet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">bsanet</li></ul></details>  |   salient object detection   | Build_In |
+| [BASNet](./cv/salient_object_detection/basnet/README.md) | [official](https://github.com/xuebinqin/BASNet) | <details> <summary>model name</summary><ul><li align="left">basnet</li></ul></details>  |   salient object detection   | Build_In |
+| [BASNet](./cv/salient_object_detection/basnet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">basnet</li></ul></details>  |   salient object detection   | Build_In |
 | [DHSNet](./cv/salient_object_detection/dhsnet/README.md) |   [salod](https://github.com/moothes/SALOD/tree/master)   | <details> <summary>model name</summary><ul><li align="left">dhsnet</li></ul></details>  |   salient object detection   | Build_In |
 | [EGNet](./cv/salient_object_detection/egnet/README.md) |   [salod](https://github.com/moothes/SALOD)   | <details> <summary>model name</summary><ul><li align="left">egnet</li></ul></details>  |   salient object detection   | Build_In |
 | [F3Net](./cv/salient_object_detection/f3net/README.md)  |  [official](https://github.com/weijun88/F3Net)  |  <details> <summary>model name</summary><ul><li align="left">f3net</li></ul></details>  |   salient object detection   | Build_In |
@@ -345,9 +473,8 @@
 |  model |    codebase    |  model list |    model type | runtime |
 | :------: | :------: | :------: | :------: | :-----: |
 | [BERT](./nlp/named_entity_recognition/bert/README.md)   |  [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py) |  <details> <summary>model name</summary><ul><li align="left">bert_base_zh_ner-256</li></ul></details>  | named entity recognition |   Build_In   |
-| [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh-256</li></ul></details>  | named entity recognition |   Build_In   |
+| [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh-256</li><li align="left">roberta_wwm_ext_base_zh</li></ul></details>  | named entity recognition |   Build_In   |
 | [ERNIE](./nlp/named_entity_recognition/ernie/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/ernie/modeling_ernie.py)    |  <details> <summary>model name</summary><ul><li align="left">ernie1.0_base_zh</li><li align="left">ernie2.0_base_en</li><li align="left">ernie2.0_large_en</li><li align="left">ernie3.0_base_zh</li><li align="left">ernie3.0_medium_zh</li><li align="left">ernie3.0_xbase_zh </li></ul></details>  | named entity recognition |   Build_In   |
-| [RoBERTa](./nlp/named_entity_recognition/roberta/README.md)     | [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py)  |  <details> <summary>model name</summary><ul><li align="left">roberta_wwm_ext_base_zh</li></ul></details>  |  named entity recognition |   Build_In   |
 | [XLMRoBERTa](./nlp/named_entity_recognition/xlmroberta/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/xlm_roberta/modeling_xlm_roberta.py)    |  <details> <summary>model name</summary><ul><li align="left">xlmroberta_base_zh_ner</li></ul></details>  | named entity recognition |   Build_In  |
 
 
@@ -373,96 +500,134 @@
 | [XLMRoBERTa](./nlp/sentence_classification/xlmroberta/README.md)  |   [huggingface](https://github.com/huggingface/transformers/blob/main/src/transformers/models/xlm_roberta/modeling_xlm_roberta.py)    |  <details> <summary>model name</summary><ul><li align="left">xlmroberta_base_en_cls</li></ul></details>  |  sentence classification |   Build_In   |
 
 
-- Text2Vec
 
-- 以下是Embedding模型
+- Embedding
+    - Build_In
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [acge](./nlp/text2vec/acge/README.md) | [huggingface](https://huggingface.co/aspire/acge_text_embedding) |  <details> <summary>model name</summary><ul><li align="left">acge_text_embedding</li></ul></details> | Embedding model  |  Build_In |
-| [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | Embedding model  |  Build_In |
-| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | Embedding model  |  Build_In |
-| [e5](./nlp/text2vec/e5/README.md)| [huggingface](https://huggingface.co/collections/intfloat/multilingual-e5-text-embeddings-67b2b8bb9bff40dec9fb3534) |  <details> <summary>model name</summary><ul><li align="left">multilingual-e5-small</li><li align="left">multilingual-e5-base</li><li align="left">multilingual-e5-large</li><li align="left">multilingual-e5-large-instruct</li></ul></details> | Embedding model  |  Build_In |
-| [gte](./nlp/text2vec/gte/README.md) | [huggingface](https://huggingface.co/thenlper) |  <details> <summary>model name</summary><ul><li align="left">gte-small</li><li align="left">gte-base</li><li align="left">gte-large</li></ul></details> | Embedding model  |  Build_In |
-| [m3e](./nlp/text2vec/m3e/README.md)| [huggingface](https://huggingface.co/moka-ai) |  <details> <summary>model name</summary><ul><li align="left">m3e-small</li><li align="left">m3e-base</li><li align="left">m3e-large</li></ul></details> | Embedding model  |  Build_In |
-| [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | Embedding model  |  Build_In |
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [acge](./nlp/text2vec/acge/README.md) | [huggingface](https://huggingface.co/aspire/acge_text_embedding) |  <details> <summary>model name</summary><ul><li align="left">acge_text_embedding</li></ul></details> | embedding model  |  Build_In |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | embedding model  |  Build_In |
+    | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-embedding-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-embedding-base_v1</li></ul></details> | embedding model  |  Build_In |
+    | [e5](./nlp/text2vec/e5/README.md)| [huggingface](https://huggingface.co/collections/intfloat/multilingual-e5-text-embeddings-67b2b8bb9bff40dec9fb3534) |  <details> <summary>model name</summary><ul><li align="left">multilingual-e5-small</li><li align="left">multilingual-e5-base</li><li align="left">multilingual-e5-large</li><li align="left">multilingual-e5-large-instruct</li></ul></details> | embedding model  |  Build_In |
+    | [gte](./nlp/text2vec/gte/README.md) | [huggingface](https://huggingface.co/thenlper) |  <details> <summary>model name</summary><ul><li align="left">gte-small</li><li align="left">gte-base</li><li align="left">gte-large</li></ul></details> | embedding model  |  Build_In |
+    | [m3e](./nlp/text2vec/m3e/README.md)| [huggingface](https://huggingface.co/moka-ai) |  <details> <summary>model name</summary><ul><li align="left">m3e-small</li><li align="left">m3e-base</li><li align="left">m3e-large</li></ul></details> | embedding model  |  Build_In |
+    | [text2vec](./nlp/text2vec/text2vec/README.md) | [huggingface](https://huggingface.co/GanymedeNil/text2vec-large-chinese) |  <details> <summary>model name</summary><ul><li align="left">text2vec-base-chinese</li><li align="left">text2vec-base-multilingual</li><li align="left">text2vec-large-chinese</li></ul></details> | embedding model  |  Build_In |
+    | [Qwen3-Embedding](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li></ul></details> | embedding model  |  Build_In |
 
-- 以下是Reranker模型
+    - vLLM
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [bge]((./nlp/text2vec/bge/README.md)) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | Reranker model  |  Build_In |
-| [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | Reranker model  |  Build_In |
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/collections/BAAI/bge-66797a74476eb1f085c7446d) |  <details> <summary>model name</summary><ul><li align="left">bge-m3</li><li align="left">bge-small-en-v1.5</li><li align="left">bge-base-en-v1.5</li><li align="left">bge-large-en-v1.5</li></ul></details> | embedding model  | vLLM |
+    | [Qwen3-Embedding](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Embedding-0.6B</li><li align="left">Qwen3-Embedding-4B</li><li align="left">Qwen3-Embedding-8B</li></ul></details> | embedding model  | vLLM |
 
+
+- Reranker
+    - Build_In
+    
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | reranker model  |  Build_In |
+    | [bce](./nlp/text2vec/bce/README.md) | [huggingface](https://huggingface.co/maidalun1020/bce-reranker-base_v1) |  <details> <summary>model name</summary><ul><li align="left">bce-reranker-base_v1</li></ul></details> | reranker model  |  Build_In |
+    | [Qwen3-Reranker](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Reranker-0.6B</li></ul></details> | reranker model  |  Build_In |
+
+    - vLLM
+
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [bge](./nlp/text2vec/bge/README.md) | [huggingface](https://huggingface.co/BAAI/) |  <details> <summary>model name</summary><ul><li align="left">bge-reranker-base</li><li align="left">bge-reranker-large</li><li align="left">bge-reranker-v2-m3</li></ul></details> | reranker model  |  vLLM |
+    | [Qwen3-Reranker](./nlp/text2vec/qwen3-0.6b/README.md) | [huggingface](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B) |  <details> <summary>model name</summary><ul><li align="left">Qwen3-Reranker-0.6B</li><li align="left">Qwen3-Reranker-4B</li><li align="left">Qwen3-Reranker-8B</li></ul></details> | reranker model  | vLLM |
+    
+    
 </details>
 
 
 <details><summary>LLM Models</summary>
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [Aquila2](./llm/aquila/README.md) |   [huggingface](https://huggingface.co/collections/BAAI/aquila-6698657124de09d10cd7a83f/)    |   <details> <summary>model name</summary><ul><li align="left">Aquila2-7B</li><li align="left">Aquila2-34B</li></ul></details>   | large language model |   Build_In  |
-| [BaiChuan2](./llm/baichuan2/README.md) |   [huggingface](https://huggingface.co/baichuan-inc)    |   <details> <summary>model name</summary><ul><li align="left">Baichuan2-7B-Base</li><li align="left">Baichuan2-7B-Chat</li><li align="left">Baichuan2-13B-Base</li><li align="left">Baichuan2-13B-Chat</li></ul></details>   | large language model |   Build_In   |
-| [ChatGLM2](./llm/chatglm2/README.md) |   [huggingface](https://huggingface.co/THUDM/chatglm2-6b)    |   <details> <summary>model name</summary><ul><li align="left">chatglm2-6b</li></ul></details>   | large language model |   Build_In   |
-| [ChatGLM3](./llm/chatglm3/README.md) |   [huggingface](https://huggingface.co/THUDM/chatglm2-6b)    |   <details> <summary>model name</summary><ul><li align="left">chatglm3-6b-base</li><li align="left">chatglm3-6b</li></ul></details>   | large language model |   Build_In   |
-| [ChatGLM4](./llm/chatglm4/README.md) |   [huggingface](https://huggingface.co/THUDM/chatglm2-6b)    |   <details> <summary>model name</summary><ul><li align="left">glm-4-9b-hf</li><li align="left">glm-4-9b-chat-hf</li></ul></details>   | large language model |   Build_In   |
-| [DeepSeek-R1-Distill](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1-Distill-Qwen-1.5B</li><li align="left">DeepSeek-R1-Distill-Qwen-7B</li><li align="left">DeepSeek-R1-Distill-Qwen-14B</li><li align="left">DeepSeek-R1-Distill-Qwen-32B</li><li align="left">DeepSeek-R1-Distill-Llama-8B</li><li align="left">DeepSeek-R1-Distill-Llama-70B</li></ul></details>   | large language model |   Build_In   |
-| [Falcon](./lllm/falcon/README.md) |   [huggingface](https://huggingface.co/tiiuae/)    |   <details> <summary>model name</summary><ul><li align="left">falcon-7b</li></ul></details>   | large language model |   Build_In   |
-| [Gemma](./llm/gemma/README.md) |   [huggingface](https://huggingface.co/collections/google/gemma-release-65d5efbccdbb8c4202ec078b)    |   <details> <summary>model name</summary><ul><li align="left">gemma-2b</li><li align="left">gemma-2b-it</li><li align="left">gemma-7b</li><li align="left">gemma-7b-it</li></ul></details>   | large language model |   Build_In   |
-| [Gemma-1.1](./llm/gemma/README.md) |   [huggingface](https://huggingface.co/collections/google/gemma-release-65d5efbccdbb8c4202ec078b)    |   <details> <summary>model name</summary><ul><li align="left">gemma-1.1-2b-it</li><li align="left">gemma-1.1-7b-it</li></ul></details>   | large language model |   Build_In   |
-| [Internlm2](./llm/internlm2/README.md) |   [huggingface](https://huggingface.co/internlm)    |   <details> <summary>model name</summary><ul><li align="left">internlm2-1_8b</li><li align="left">internlm2-chat-1_8b</li><li align="left">internlm2-7b</li><li align="left">internlm2-chat-7b</li><li align="left">internlm2-20b</li><li align="left">internlm2-chat-20b</li></ul></details>   | large language model |   Build_In   |
-| [Internlm2_5](./llm/internlm2_5/README.md) |   [huggingface](https://huggingface.co/internlm)    |   <details> <summary>model name</summary><ul><li align="left">internlm2_5-1_8b</li><li align="left">internlm2_5-1_8b-chat</li><li align="left">internlm2_5-7b</li><li align="left">internlm2_5-7b-chat</li><li align="left">internlm2_5-20b</li><li align="left">internlm2_5-20b-chat</li></ul></details>   | large language model |   Build_In   |
-| [Internlm3](./llm/internlm3/README.md) |   [huggingface](https://huggingface.co/internlm)    |   <details> <summary>model name</summary><ul><li align="left">internlm3-8b-instruct</li></ul></details>   | large language model |  Build_In   |
-| [LLaMA](./llm/llama/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">meta-llama-33b</li></ul></details>   | large language model |   Build_In   |
-| [LLaMA-2](./llm/llama2/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">Llama-2-7b-hf</li><li align="left">Llama-2-7b-chat-hf</li><li align="left">Llama-2-13b-hf</li><li align="left">Llama-2-13b-chat-hf</li><li align="left">Llama-2-70b-hf</li><li align="left">Llama-2-70b-chat-hf</li></ul></details>   | large language model |   Build_In   |
-| [LLaMA-3](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">Meta-Llama-3-8B</li><li align="left">Meta-Llama-3-8B-Instruct</li><li align="left">Meta-Llama-3-70B</li><li align="left">Meta-Llama-3-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
-| [LLaMA-3.1](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">Meta-Llama-3.1-8B</li><li align="left">Meta-Llama-3.1-8B-Instruct</li><li align="left">Meta-Llama-3.1-70B</li><li align="left">Meta-Llama-3.1-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
-| [LLaMA-3.2](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">Llama-3.2-1B</li><li align="left">Llama-3.2-1B-Instruct</li><li align="left">Llama-3.2-3B</li><li align="left">Llama-3.2-3B-Instruct</li></details>   | large language model |   Build_In   |
-| [LLaMA-3.3](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/meta-llama)    |   <details> <summary>model name</summary><ul><li align="left">Llama-3.3-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
-| [Mistral](./llm/mistral/README.md) |   [huggingface](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)    |   <details> <summary>model name</summary><ul><li align="left">Mistral-7B-Instruct-v0.2</li><li align="left">Ministral-8B-Instruct-2410-HF</li></ul></details>   | large language model |   Build_In   |
-| [Mobillama](./llm/mobillama/README.md) |   [huggingface](https://huggingface.co/collections/MBZUAI/mobillama-65dd4182d588c91e8230332e)    |   <details> <summary>model name</summary><ul><li align="left">MobiLlama-05B</li><li align="left">MobiLlama-05B-Chat</li><li align="left">MobiLlama-1B</li><li align="left">MobiLlama-1B-Chat</li></ul></details>   | large language model |   Build_In   |
-| [OpenBuddy](./llm/openbuddy/README.md) |   [huggingface](https://huggingface.co/collections/OpenBuddy/our-selected-models-65369270912eef259074d3dc)    |   <details> <summary>model name</summary><ul><li align="left">openbuddy-mistral2-7b-v20.3-32k</li><li align="left">openbuddy-qwen1.5-14b-v21.1-32k</li><li align="left">openbuddy-deepseek-67b-v18.1-4k</li></ul></details>   | large language model |   Build_In   |
-| [Phi-3](./lllm/phi/README.md) |   [huggingface](https://hf-mirror.com/microsoft/Phi-3-mini-4k-instruct)    |   <details> <summary>model name</summary><ul><li align="left">Phi-3-mini-4k-instruct</li></ul></details>   | large language model |   Build_In   |
-| [Qwen1.5](./llm/qwen1.5/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen1.5-0.5B</li><li align="left">Qwen1.5-0.5B-Chat</li><li align="left">Qwen1.5-1.8B</li><li align="left">Qwen1.5-1.8B-Chat</li><li align="left">Qwen1.5-4B</li><li align="left">Qwen1.5-4B-Chat</li><li align="left">Qwen1.5-7B</li><li align="left">Qwen1.5-7B-Chat</li><li align="left">Qwen1.5-14B</li><li align="left">Qwen1.5-14B-Chat</li><li align="left">Qwen1.5-32B</li><li align="left">Qwen1.5-32B-Chat</li><li align="left">Qwen1.5-72B</li><li align="left">Qwen1.5-72B-Chat</li><li align="left">Qwen1.5-110B-Chat</li></ul></details>   | large language model |   Build_In   |
-| [Qwen2](./llm/qwen2/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen2-0.5B</li><li align="left">Qwen2-0.5B-Instruct</li><li align="left">Qwen2-1.5B</li><li align="left">Qwen2-1.5B-Instruct</li><li align="left">Qwen2-7B</li><li align="left">Qwen2-7B-Instruct</li><li align="left">Qwen2-72B</li><li align="left">Qwen2-72B-Instruct</li></ul></details>   | large language model |   Build_In   |
-| [Qwen2.5](./llm/qwen2/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen2.5-0.5B</li><li align="left">Qwen2.5-0.5B-Instruct</li><li align="left">Qwen2.5-1.5B</li><li align="left">Qwen2.5-1.5B-Instruct</li><li align="left">Qwen2.5-3B</li><li align="left">Qwen2.5-3B-Instruct</li><li align="left">Qwen2.5-7B</li><li align="left">Qwen2.5-7B-Instruct</li><li align="left">Qwen2.5-14B</li><li align="left">Qwen2.5-14B-Instruct</li><li align="left">Qwen2.5-32B</li><li align="left">Qwen2.5-32B-Instruct</li><li align="left">Qwen2.5-72B</li><li align="left">Qwen2.5-72B-Instruct</li></ul></details>   | large language model |   Build_In   |
-| [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-0.6B</li><li align="left">Qwen3-1.7B</li><li align="left">Qwen3-4B</li><li align="left">Qwen3-8B</li><li align= "left" > Qwen3-4B-Instruct-2507 </li><li align= "left" > Qwen3-4B-Thinking-2507 </li></ul> </details>   | large language model |   Build_In   |
-| [QWQ](./llm/qwq/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">QwQ-32B-Preview</li><li align="left">QwQ-32B</li></ul></details>   | large language model |   Build_In   |
-| [Skywork-OR1](./llm/skywork_or1/README.md) |   [huggingface](https://hf-mirror.com/collections/Skywork/skywork-or1-67fa1bcb41b436ef2def76b9)    |   <details> <summary>model name</summary><ul><li align="left">Skywork-OR1-Math-7B</li><li align="left">Skywork-OR1-7B-Preview</li><li align="left">Skywork-OR1-32B-Preview</li></ul></details>   | large language model |  Build_In  |
-| [Stablelm](./llm/stablelm/README.md) |   [huggingface](https://huggingface.co/stabilityai)    |   <details> <summary>model name</summary><ul><li align="left">12b</li></ul></details>   | large language model |  Build_In |
-| [Tigerbot](./llm/tigerbot/README.md) |   [huggingface](https://huggingface.co/TigerResearch)    |   <details> <summary>model name</summary><ul><li align="left">tigerbot-7b</li><li align="left">tigerbot-13b</li></ul></details>   | large language model |   Build_In   |
-| [wizardlm](./llm/wizardlm/README.md) |   [huggingface](https://hf-mirror.com/dreamgen/WizardLM-2-7B)    |   <details> <summary>model name</summary><ul><li align="left">WizardLM-2-7B</li></ul></details>   | large language model |   Build_In   |
-| [Yi](./llm/yi/README.md) |   [huggingface](https://huggingface.co/01-ai)    |   <details> <summary>model name</summary><ul><li align="left">yi-6b</li><li align="left">yi-9b</li><li align="left">yi-34b</li></ul></details>   | large language model |   Build_In   |
+- Build_In
 
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [Aquila2](./llm/aquila/README.md) |   [huggingface](https://huggingface.co/collections/BAAI/aquila-6698657124de09d10cd7a83f/)    |   <details> <summary>model name</summary><ul><li align="left">Aquila2-7B</li><li align="left">Aquila2-34B</li></ul></details>   | large language model |   Build_In  |
+    | [BaiChuan2](./llm/baichuan2/README.md) |   [huggingface](https://huggingface.co/baichuan-inc)    |   <details> <summary>model name</summary><ul><li align="left">Baichuan2-7B-Base</li><li align="left">Baichuan2-7B-Chat</li><li align="left">Baichuan2-13B-Base</li><li align="left">Baichuan2-13B-Chat</li></ul></details>   | large language model |   Build_In   |
+    | [ChatGLM2](./llm/chatglm2/README.md) |   [huggingface](https://huggingface.co/THUDM/chatglm2-6b)    |   <details> <summary>model name</summary><ul><li align="left">chatglm2-6b</li></ul></details>   | large language model |   Build_In   |
+    | [ChatGLM3](./llm/chatglm3/README.md) |   [huggingface](https://huggingface.co/zai-org/chatglm3-6b)    |   <details> <summary>model name</summary><ul><li align="left">chatglm3-6b-base</li><li align="left">chatglm3-6b</li></ul></details>   | large language model |   Build_In   |
+    | [ChatGLM4](./llm/chatglm4/README.md) |   [huggingface](https://huggingface.co/collections/zai-org/glm-4)    |   <details> <summary>model name</summary><ul><li align="left">glm-4-9b-hf</li><li align="left">glm-4-9b-chat-hf</li></ul></details>   | large language model |   Build_In   |
+    | [DeepSeek-R1-Distill](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-r1)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1-Distill-Qwen-1.5B</li><li align="left">DeepSeek-R1-Distill-Qwen-7B</li><li align="left">DeepSeek-R1-Distill-Qwen-14B</li><li align="left">DeepSeek-R1-Distill-Qwen-32B</li><li align="left">DeepSeek-R1-Distill-Llama-8B</li><li align="left">DeepSeek-R1-Distill-Llama-70B</li></ul></details>   | large language model |   Build_In   |
+    | [Falcon](./llm/falcon/README.md) |   [huggingface](https://huggingface.co/tiiuae/falcon-7b-instruct)    |   <details> <summary>model name</summary><ul><li align="left">falcon-7b-instruct</li></ul></details>   | large language model |   Build_In   |
+    | [Gemma](./llm/gemma/README.md) |   [huggingface](https://huggingface.co/collections/google/gemma-release-65d5efbccdbb8c4202ec078b)    |   <details> <summary>model name</summary><ul><li align="left">gemma-2b</li><li align="left">gemma-2b-it</li><li align="left">gemma-7b</li><li align="left">gemma-7b-it</li></ul></details>   | large language model |   Build_In   |
+    | [Gemma-1.1](./llm/gemma/README.md) |   [huggingface](https://huggingface.co/collections/google/gemma-release-65d5efbccdbb8c4202ec078b)    |   <details> <summary>model name</summary><ul><li align="left">gemma-1.1-2b-it</li><li align="left">gemma-1.1-7b-it</li></ul></details>   | large language model |   Build_In   |
+    | [Internlm2](./llm/internlm2/README.md) |   [huggingface](https://huggingface.co/collections/internlm/internlm2)    |   <details> <summary>model name</summary><ul><li align="left">internlm2-1_8b</li><li align="left">internlm2-chat-1_8b</li><li align="left">internlm2-7b</li><li align="left">internlm2-chat-7b</li><li align="left">internlm2-20b</li><li align="left">internlm2-chat-20b</li></ul></details>   | large language model |   Build_In   |
+    | [Internlm2_5](./llm/internlm2_5/README.md) |   [huggingface](https://huggingface.co/collections/internlm/internlm25)    |   <details> <summary>model name</summary><ul><li align="left">internlm2_5-1_8b</li><li align="left">internlm2_5-1_8b-chat</li><li align="left">internlm2_5-7b</li><li align="left">internlm2_5-7b-chat</li><li align="left">internlm2_5-20b</li><li align="left">internlm2_5-20b-chat</li></ul></details>   | large language model |   Build_In   |
+    | [Internlm3](./llm/internlm3/README.md) |   [huggingface](https://huggingface.co/collections/internlm/internlm3)    |   <details> <summary>model name</summary><ul><li align="left">internlm3-8b-instruct</li></ul></details>   | large language model |  Build_In   |
+    | [LLaMA](./llm/llama/README.md) |   [huggingface](https://huggingface.co/alexl83/LLaMA-33B-HF)    |   <details> <summary>model name</summary><ul><li align="left">LLaMA-33B-HF</li></ul></details>   | large language model |   Build_In   |
+    | [LLaMA-2](./llm/llama2/README.md) |   [huggingface](https://huggingface.co/collections/meta-llama/llama-2-family)    |   <details> <summary>model name</summary><ul><li align="left">Llama-2-7b-hf</li><li align="left">Llama-2-7b-chat-hf</li><li align="left">Llama-2-13b-hf</li><li align="left">Llama-2-13b-chat-hf</li><li align="left">Llama-2-70b-hf</li><li align="left">Llama-2-70b-chat-hf</li></ul></details>   | large language model |   Build_In   |
+    | [LLaMA-3](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/collections/meta-llama/meta-llama-3)    |   <details> <summary>model name</summary><ul><li align="left">Meta-Llama-3-8B</li><li align="left">Meta-Llama-3-8B-Instruct</li><li align="left">Meta-Llama-3-70B</li><li align="left">Meta-Llama-3-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
+    | [LLaMA-3.1](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/collections/meta-llama/llama-31)    |   <details> <summary>model name</summary><ul><li align="left">Meta-Llama-3.1-8B</li><li align="left">Meta-Llama-3.1-8B-Instruct</li><li align="left">Meta-Llama-3.1-70B</li><li align="left">Meta-Llama-3.1-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
+    | [LLaMA-3.2](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/collections/meta-llama/llama-32)    |   <details> <summary>model name</summary><ul><li align="left">Llama-3.2-1B</li><li align="left">Llama-3.2-1B-Instruct</li><li align="left">Llama-3.2-3B</li><li align="left">Llama-3.2-3B-Instruct</li></details>   | large language model |   Build_In   |
+    | [LLaMA-3.3](./llm/llama3/README.md) |   [huggingface](https://huggingface.co/collections/meta-llama/llama-33)    |   <details> <summary>model name</summary><ul><li align="left">Llama-3.3-70B-Instruct</li></ul></details>   | large language model |   Build_In   |
+    | [Mistral](./llm/mistral/README.md) |   [huggingface](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)    |   <details> <summary>model name</summary><ul><li align="left">Mistral-7B-Instruct-v0.2</li><li align="left">Ministral-8B-Instruct-2410-HF</li></ul></details>   | large language model |   Build_In   |
+    | [Mobillama](./llm/mobillama/README.md) |   [huggingface](https://huggingface.co/collections/MBZUAI/mobillama-65dd4182d588c91e8230332e)    |   <details> <summary>model name</summary><ul><li align="left">MobiLlama-05B</li><li align="left">MobiLlama-05B-Chat</li><li align="left">MobiLlama-1B</li><li align="left">MobiLlama-1B-Chat</li></ul></details>   | large language model |   Build_In   |
+    | [OpenBuddy](./llm/openbuddy/README.md) |   [huggingface](https://huggingface.co/collections/OpenBuddy/our-selected-models-65369270912eef259074d3dc)    |   <details> <summary>model name</summary><ul><li align="left">openbuddy-mistral2-7b-v20.3-32k</li><li align="left">openbuddy-qwen1.5-14b-v21.1-32k</li><li align="left">openbuddy-deepseek-67b-v18.1-4k</li></ul></details>   | large language model |   Build_In   |
+    | [Phi-3](./lllm/phi/README.md) |   [huggingface](https://hf-mirror.com/microsoft/Phi-3-mini-4k-instruct)    |   <details> <summary>model name</summary><ul><li align="left">Phi-3-mini-4k-instruct</li></ul></details>   | large language model |   Build_In   |
+    | [Qwen1.5](./llm/qwen1.5/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen15)    |   <details> <summary>model name</summary><ul><li align="left">Qwen1.5-0.5B</li><li align="left">Qwen1.5-0.5B-Chat</li><li align="left">Qwen1.5-1.8B</li><li align="left">Qwen1.5-1.8B-Chat</li><li align="left">Qwen1.5-4B</li><li align="left">Qwen1.5-4B-Chat</li><li align="left">Qwen1.5-7B</li><li align="left">Qwen1.5-7B-Chat</li><li align="left">Qwen1.5-14B</li><li align="left">Qwen1.5-14B-Chat</li><li align="left">Qwen1.5-32B</li><li align="left">Qwen1.5-32B-Chat</li><li align="left">Qwen1.5-72B</li><li align="left">Qwen1.5-72B-Chat</li><li align="left">Qwen1.5-110B-Chat</li></ul></details>   | large language model |   Build_In   |
+    | [Qwen2](./llm/qwen2/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen2)    |   <details> <summary>model name</summary><ul><li align="left">Qwen2-0.5B</li><li align="left">Qwen2-0.5B-Instruct</li><li align="left">Qwen2-1.5B</li><li align="left">Qwen2-1.5B-Instruct</li><li align="left">Qwen2-7B</li><li align="left">Qwen2-7B-Instruct</li><li align="left">Qwen2-72B</li><li align="left">Qwen2-72B-Instruct</li></ul></details>   | large language model |   Build_In   |
+    | [Qwen2.5](./llm/qwen2/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen25)    |   <details> <summary>model name</summary><ul><li align="left">Qwen2.5-0.5B</li><li align="left">Qwen2.5-0.5B-Instruct</li><li align="left">Qwen2.5-1.5B</li><li align="left">Qwen2.5-1.5B-Instruct</li><li align="left">Qwen2.5-3B</li><li align="left">Qwen2.5-3B-Instruct</li><li align="left">Qwen2.5-7B</li><li align="left">Qwen2.5-7B-Instruct</li><li align="left">Qwen2.5-14B</li><li align="left">Qwen2.5-14B-Instruct</li><li align="left">Qwen2.5-32B</li><li align="left">Qwen2.5-32B-Instruct</li><li align="left">Qwen2.5-72B</li><li align="left">Qwen2.5-72B-Instruct</li></ul></details>   | large language model |   Build_In   |
+    | [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen3)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-0.6B</li><li align="left">Qwen3-1.7B</li><li align="left">Qwen3-4B</li><li align="left">Qwen3-8B</li><li align= "left" > Qwen3-4B-Instruct-2507 </li><li align= "left" > Qwen3-4B-Thinking-2507 </li></ul> </details>   | large language model |   Build_In   |
+    | [QWQ](./llm/qwq/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwq)    |   <details> <summary>model name</summary><ul><li align="left">QwQ-32B-Preview</li><li align="left">QwQ-32B</li></ul></details>   | large language model |   Build_In   |
+    | [Skywork-OR1](./llm/skywork_or1/README.md) |   [huggingface](https://hf-mirror.com/collections/Skywork/skywork-or1-67fa1bcb41b436ef2def76b9)    |   <details> <summary>model name</summary><ul><li align="left">Skywork-OR1-Math-7B</li><li align="left">Skywork-OR1-7B-Preview</li><li align="left">Skywork-OR1-32B-Preview</li></ul></details>   | large language model |  Build_In  |
+    | [Stablelm](./llm/stablelm/README.md) |   [huggingface](https://huggingface.co/stabilityai)    |   <details> <summary>model name</summary><ul><li align="left">12b</li></ul></details>   | large language model |  Build_In |
+    | [Tigerbot](./llm/tigerbot/README.md) |   [huggingface](https://huggingface.co/TigerResearch)    |   <details> <summary>model name</summary><ul><li align="left">tigerbot-7b</li><li align="left">tigerbot-13b</li></ul></details>   | large language model |   Build_In   |
+    | [wizardlm](./llm/wizardlm/README.md) |   [huggingface](https://hf-mirror.com/dreamgen/WizardLM-2-7B)    |   <details> <summary>model name</summary><ul><li align="left">WizardLM-2-7B</li></ul></details>   | large language model |   Build_In   |
+    | [Yi](./llm/yi/README.md) |   [huggingface](https://huggingface.co/01-ai)    |   <details> <summary>model name</summary><ul><li align="left">yi-6b</li><li align="left">yi-9b</li><li align="left">yi-34b</li></ul></details>   | large language model |   Build_In   |
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :-----: |
-| [Qwen2.5](./llm/qwen2/README.md) | [huggingface](https://hf-mirror.com/Qwen)| <details> <summary>model name</summary><ul><li align="left">Qwen2.5-7B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-14B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-32B-Instruct-GPTQ-Int4</li></ul></details> | large language model | vLLM |
-| [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/Qwen)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li></ul> </details>   | large language model |   vLLM   |
-| [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li><li align="left">DeepSeek-V3.1-Terminus</li></ul></details>   | large language model |   vLLM   |
-| [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/deepseek-ai)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
+- vLLM
 
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    | [Qwen2.5](./llm/qwen2/README.md) | [huggingface](https://huggingface.co/collections/Qwen/qwen25)| <details> <summary>model name</summary><ul><li align="left">Qwen2.5-7B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-14B-Instruct-GPTQ-Int4</li><li align="left">Qwen2.5-32B-Instruct-GPTQ-Int4</li></ul></details> | large language model | vLLM |
+    | [Qwen3](./llm/qwen3/README.md) |   [huggingface](https://huggingface.co/collections/Qwen/qwen3)    |   <details> <summary>model name</summary><ul><li align="left">Qwen3-30B-A3B-FP8</li><li align="left">Qwen3-30B-A3B-Instruct-2507-FP8 </li><li align= "left" > Qwen3-30B-A3B-Thinking-2507-FP8 </li><li align="left">Qwen3-Coder-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-30B-A3B-GPTQ-Int4</li><li align="left">Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 </li><li align="left">Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 </li><li align="left">Qwen3-235B-A22B-FP8 </li><li align="left">Qwen3-235B-A22B-Instruct-2507-FP8 </li><li align="left">Qwen3-235B-A22B-Thinking-2507-FP8 </li></ul> </details>   | large language model |   vLLM   |
+    | [DeepSeek-V3](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-v3)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3-Base</li><li align="left">DeepSeek-V3</li><li align="left">DeepSeek-V3-0324</li></ul></details>   | large language model |   vLLM   |
+    | [DeepSeek-R1](./llm/deepseek_r1/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-r1)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-R1</li><li align="left">DeepSeek-R1-0528</li></ul></details>   | large language model |   vLLM   |
+    | [DeepSeek-V3.1](./llm/deepseek_v3/README.md) |   [huggingface](https://huggingface.co/collections/deepseek-ai/deepseek-v31)    |   <details> <summary>model name</summary><ul><li align="left">DeepSeek-V3.1</li><li align="left">DeepSeek-V3.1-Base</li><li align="left">DeepSeek-V3.1-Terminus</li></ul></details>   | large language model |   vLLM   |
 
-> 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习而来
+    > 以下模型为Domain-LLM专业领域模型（医疗、金融、DeepResearch等），一般基于General-LLM模型为基座+专业领域数据集微调+强化学习等后训练而来
 
-|  model |    codebase    |  model list |    model type | runtime | priority |
-| :------: | :------: | :------: | :------: | :-----: | :------: |
-|[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |LLM | vLLM | p1 |
-
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :-----: |
+    |[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |large language model | vLLM |
+    
 </details>
 
 <details><summary>VLM Models</summary>
 
-|  model |    codebase    |  model list |    model type | runtime |
-| :------: | :------: | :------: | :------: | :------: |
-| [CLIP](./vlm/clip/README.md)   |    [openai](https://github.com/openai/CLIP/tree/main)  |    <details> <summary>model name</summary><ul><li align="left">clip</li></ul></details>  |  vision-language model  |  Build_In   |
-| [Logics_Parsing](./vlm/logics_parsing/README.md) | [huggingface](https://hf-mirror.com/Logics-MLLM/Logics-Parsing)| <details> <summary>model name</summary><ul><li align="left">Logics-Parsing</li></ul></details> | vision-language model  |  Build_In |
-| [OCRFlux](./vlm/ocrflux/README.md) | [huggingface](https://hf-mirror.com/ChatDOC/OCRFlux-3B)| <details> <summary>model name</summary><ul><li align="left">OCRFlux-3B</li></ul></details> | vision-language model  |  Build_In |
-| [olmOCR2](./vlm/olmocr2/README.md) | [huggingface](https://hf-mirror.com/allenai/olmOCR-2-7B-1025)| <details> <summary>model name</summary><ul><li align="left">olmOCR-2-7B-1025</li></ul></details> | vision-language model  |  Build_In |
-| [Qwen2-VL](./vlm/qwen2_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen2-vl-66cee7455501d7126940800d) |  <details> <summary>model name</summary><ul><li align="left">Qwen2-VL-2B-Instruct</li><li align="left">Qwen2-VL-7B-Instruct</li></ul></details> | vision-language model  |  Build_In |
-| [Qwen2.5-VL](./vlm/qwen2_5_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen25-vl-6795ffac22b334a837c0f9a5) |  <details> <summary>model name</summary><ul><li align="left">Qwen2.5-VL-3B-Instruct</li><li align="left">Qwen2.5-VL-7B-Instruct</li><li align="left">Qwen2.5-VL-32B-Instruct</li></ul></details> | vision-language model  |  Build_In |
-| [RolmOCR](./vlm/rolmocr/README.md) | [huggingface](https://hf-mirror.com/reducto/RolmOCR)| <details> <summary>model name</summary><ul><li align="left">RolmOCR</li></ul></details> | vision-language model  |  Build_In |
-| [SigLip](./vlm/siglip/README.md)   |    [google](https://github.com/google-research/big_vision)  |    <details> <summary>model name</summary><ul><li align="left">siglip</li></ul></details>  | vision-language model  |  Build_In  |
+- Build_In
+
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :------: |
+    | [CLIP](./vlm/clip/README.md)   |    [openai](https://github.com/openai/CLIP/tree/main)  |    <details> <summary>model name</summary><ul><li align="left">clip</li></ul></details>  |  vision-language model  |  Build_In   |
+    | [SigLip](./vlm/siglip/README.md)   |    [google](https://github.com/google-research/big_vision)  |    <details> <summary>model name</summary><ul><li align="left">siglip</li></ul></details>  | vision-language model  |  Build_In  |
+    | [Qwen2-VL](./vlm/qwen2_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen2-vl-66cee7455501d7126940800d) |  <details> <summary>model name</summary><ul><li align="left">Qwen2-VL-2B-Instruct</li><li align="left">Qwen2-VL-7B-Instruct</li></ul></details> | vision-language model  |  Build_In |
+    | [Qwen2.5-VL](./vlm/qwen2_5_vl/README.md) | [huggingface](https://hf-mirror.com/collections/Qwen/qwen25-vl-6795ffac22b334a837c0f9a5) |  <details> <summary>model name</summary><ul><li align="left">Qwen2.5-VL-3B-Instruct</li><li align="left">Qwen2.5-VL-7B-Instruct</li><li align="left">Qwen2.5-VL-32B-Instruct</li></ul></details> | vision-language model  |  Build_In |
+
+
+    > 以下模型为Domain-VLM专业领域模型（文档解析等），一般基于General-VLM模型为基座+专业领域数据集微调+强化学习等后训练而来
+
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :------: |
+    | [Logics_Parsing](./vlm/logics_parsing/README.md) | [huggingface](https://hf-mirror.com/Logics-MLLM/Logics-Parsing)| <details> <summary>model name</summary><ul><li align="left">Logics-Parsing</li></ul></details> | vision-language model  |  Build_In |
+    | [OCRFlux](./vlm/ocrflux/README.md) | [huggingface](https://hf-mirror.com/ChatDOC/OCRFlux-3B)| <details> <summary>model name</summary><ul><li align="left">OCRFlux-3B</li></ul></details> | vision-language model  |  Build_In |
+    | [olmOCR2](./vlm/olmocr2/README.md) | [huggingface](https://hf-mirror.com/allenai/olmOCR-2-7B-1025)| <details> <summary>model name</summary><ul><li align="left">olmOCR-2-7B-1025</li></ul></details> | vision-language model  |  Build_In |
+    | [RolmOCR](./vlm/rolmocr/README.md) | [huggingface](https://hf-mirror.com/reducto/RolmOCR)| <details> <summary>model name</summary><ul><li align="left">RolmOCR</li></ul></details> | vision-language model  |  Build_In |
+
+
+
+- vLLM
+    |  model |    codebase    |  model list |    model type | runtime |
+    | :------: | :------: | :------: | :------: | :------: |
+    | [MinerU2.5](./vlm/mineru2_5/README.md)   |    [huggingface](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B)  |    <details> <summary>model name</summary><ul><li align="left">MinerU2.5-2509-1.2B</li></ul></details>  |  vision-language model  |  vLLM   |
+    | [Qwen3-VL-30B-A3B](./vlm/qwen3_vl/README.md)   |    [huggingface](https://hf-mirror.com/collections/Qwen/qwen3-vl)  |    <details> <summary>model name</summary><ul><li align="left">Qwen3-VL-30B-A3B-Instruct-FP8</li><li align="left">Qwen3-VL-30B-A3B-Thinking-FP8</li></ul></details>  |  vision-language model  |  vLLM   |
 
 </details>
 

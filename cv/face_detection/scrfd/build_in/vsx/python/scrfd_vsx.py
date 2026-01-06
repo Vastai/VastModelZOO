@@ -219,7 +219,7 @@ def post_process(net_outs, det_scale, img, thresh=0.5, use_kps=True, input_heigh
 
 parse = argparse.ArgumentParser(description="RUN Det WITH VSX")
 parse.add_argument("--file_path",type=str,default= "/path/to/widerface/val/images/",help="img or dir  path",)
-parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_scrfd_run_stream_int8/mod", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/official_scrfd_int8/mod", help="model info")
 parse.add_argument("--vdsp_params_info",type=str,default="insightface-scrfd_500m-vdsp_params.json", help="vdsp op info",)
 parse.add_argument("--device_id", type=int, default=0, help="device id")
 parse.add_argument("--batch", type=int, default=1, help="bacth size")

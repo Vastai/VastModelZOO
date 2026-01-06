@@ -109,7 +109,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 1. 根据具体模型，修改编译配置
     - [official_yolov10.yaml](./build_in/build/official_yolov10.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -123,22 +123,23 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
     ```
 
 ### step.4 模型推理
-1. runstream推理：[detection.py](../common/vsx/detection.py)
+
+- 推理参考：[detection.py](../common/vsx/detection.py)
     - 配置模型路径和测试数据路径等参数
 
     ```
     python ../../common/vsx/detection.py \
         --file_path path/to/coco_val2017 \
-        --model_prefix_path deploy_weights/official_yolov10_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/official_yolov10_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
         --label_txt ../../common/label/coco.txt \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
-    - 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
+- 精度评估，参考：[eval_map.py](../common/eval/eval_map.py)
     ```bash
-    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./runstream_output
+    python ../../common/eval/eval_map.py --gt path/to/instances_val2017.json --txt ./infer_output
     ```
 
     <details><summary>点击查看精度测试结果</summary>
@@ -185,11 +186,11 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 1. 性能测试
     - 配置[official-yolov10s-vdsp_params.json](./build_in/vdsp_params/official-yolov10s-vdsp_params.json)
     ```bash
-    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
+    vamp -m deploy_weights/official_yolov10_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json -i 1 p 1 -b 1 -d 0
     ```
 
 2. 精度测试
-    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；与前文基于runstream脚本形式评估精度效果一致
+    > **可选步骤**，通过vamp推理方式获得推理结果，然后解析及评估精度；
 
     - 数据准备，基于[image2npz.py](../common/utils/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     ```bash
@@ -201,7 +202,7 @@ commit: 6fbaf42b23f6709f4e34a51430587673e70e151d
 
     - vamp推理获取npz结果输出
     ```bash
-    vamp -m deploy_weights/official_yolov10_run_stream_int8/mod \
+    vamp -m deploy_weights/official_yolov10_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-yolov10s-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist path/to/npz_datalist.txt \

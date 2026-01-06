@@ -199,12 +199,12 @@ def set_config():
     parse.add_argument(
         "--model_prefix_path",
         type=str,
-        default="deploy_weights/official_u2net_run_stream_int8/mod",
+        default="deploy_weights/official_u2net_int8/mod",
         help="model info")
     parse.add_argument(
         "--vdsp_params_info",
         type=str,
-        default="../vacc_code/vdsp_params/official-u2net-vdsp_params.json",
+        default="../build_in/vdsp_params/official-u2net-vdsp_params.json",
         help="vdsp op info",
     )
     parse.add_argument(
@@ -336,8 +336,6 @@ u2netp-int8-percentile-1_3_320_320-vacc
 
 """
 Supervisely_Person_Dataset
-http://192.168.20.139:8888/vastml/dataset/seg/human_seg/Supervisely_Person_Dataset/src/ds1/img/
-http://192.168.20.139:8888/vastml/dataset/seg/human_seg/Supervisely_Person_Dataset/mask/ds1/
 
 u2net_human_seg_1_3_320_320.onnx
 | methods   |   mae |   maxfmeasure |   avgfmeasure |   adpfmeasure |   maxprecision |   avgprecision |   maxrecall |   avgrecall |   maxem |   avgem |   adpem |    sm |   wfm |

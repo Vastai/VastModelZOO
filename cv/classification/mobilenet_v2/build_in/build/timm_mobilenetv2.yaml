@@ -1,4 +1,4 @@
-name: timm_mobilenetv2_run_stream_int8
+name: timm_mobilenetv2_int8
 
 frontend:
   shape:

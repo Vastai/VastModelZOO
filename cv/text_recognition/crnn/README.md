@@ -124,7 +124,7 @@ tag: v2.6.0
 1. 根据具体模型修改配置文件
     -[resnet34_vd.yaml](./build_in/build/resnet34_vd.yaml)
 
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -136,24 +136,24 @@ tag: v2.6.0
     cd workspace
     vamc compile ../build_in/build/resnet34_vd.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/crnn_resnet34_vd_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/crnn_resnet34_vd_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[vsx脚本](./build_in/vsx/python/crnn_vsx.py)，修改参数并运行如下脚本
     ```bash
     python ../build_in/vsx/python/crnn_vsx.py \
         --file_path  path/to/CUTE80/img \
-        --model_prefix_path deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/crnn_resnet34_vd_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
         --label ../source_code/config/ic15_dict.txt \
-        --output_file cute80_runstream_pred.txt \
+        --output_file cute80_infer_pred.txt \
         --device_id 0
     ```
     - 注意替换命令行中--file_path为实际路径
 
 2. [crnn_eval.py](./source_code/crnn_eval.py)，精度统计，指定`CUTE80.txt`标签文件和上步骤中的txt保存路径，即可获得精度指标
    ```bash
-    python ../source_code/crnn_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_runstream_pred.txt
+    python ../source_code/crnn_eval.py --gt_file /path/to/CUTE80.txt --output_file ./cute80_infer_pred.txt
    ```
    - 测试精度如下：
    ```
@@ -174,7 +174,7 @@ tag: v2.6.0
     - 测试最大吞吐
     ```bash
     python3 ../build_in/vsx/python/crnn_prof.py \
-        -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
+        -m deploy_weights/crnn_resnet34_vd_int8/mod \
         --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
         --device_ids [0] \
         --batch_size 8 \
@@ -188,7 +188,7 @@ tag: v2.6.0
     - 测试最小时延
     ```bash
     python3 ../build_in/vsx/python/crnn_prof.py \
-    -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
+    -m deploy_weights/crnn_resnet34_vd_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     --device_ids [0] \
     --batch_size 1 \
@@ -202,7 +202,7 @@ tag: v2.6.0
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/crnn_resnet34_vd_run_stream_int8/mod \
+    vamp -m deploy_weights/crnn_resnet34_vd_int8/mod \
     --vdsp_params ../build_in/vdsp_params/ppocr-resnet34_vd-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \

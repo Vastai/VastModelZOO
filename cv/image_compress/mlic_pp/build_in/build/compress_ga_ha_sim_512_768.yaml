@@ -1,4 +1,4 @@
-name: compress_ga_ha_sim_512_768_run_stream_fp16
+name: compress_ga_ha_sim_512_768_fp16
 
 frontend:
   checkpoint: /path/to/compress_ga_ha_sim_512_768.onnx

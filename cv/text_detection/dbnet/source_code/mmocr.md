@@ -57,7 +57,7 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
 1. 根据具体模型修改配置文件
     - [mmocr_dbnet.yaml](../build_in/build/mmocr_dbnet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -69,14 +69,14 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     cd workspace
     vamc compile ../build_in/build/mmocr_dbnet.yaml
     ```
-    - 转换后将在当前目录下生成`deploy_weights/mmocr_dbnet_run_stream_int8`文件夹，其中包含转换后的模型文件。
+    - 转换后将在当前目录下生成`deploy_weights/mmocr_dbnet_int8`文件夹，其中包含转换后的模型文件。
 
 ### step.4 模型推理
 1. 参考[mmocr_dbnet_vsx.py](../build_in/vsx/python/mmocr_dbnet_vsx.py)，进行vsx推理和eval评估
     ```bash
     python ../build_in/vsx/python/mmocr_dbnet_vsx.py  \
         --file_path path/to/icdar2015/Challenge4/ch4_test_images \
-        --model_prefix_path deploy_weights/mmocr_dbnet_run_stream_int8/mod \
+        --model_prefix_path deploy_weights/mmocr_dbnet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json \
         --label_txt path/to/icdar2015/Challenge4/test_icdar2015_label.txt
     ```
@@ -96,12 +96,12 @@ commit: b18a09b2f063911a2de70f477aa21da255ff505d
     ```
 2. 性能测试，配置vdsp参数[mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json](../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json)，执行：
     ```bash
-    vamp -m deploy_weights/mmocr_dbnet_run_stream_int8/mod --vdsp_params ../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json  -i 1 p 1 -b 1
+    vamp -m deploy_weights/mmocr_dbnet_int8/mod --vdsp_params ../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json  -i 1 p 1 -b 1
     ```
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/mmocr_dbnet_run_stream_int8/mod \
+    vamp -m deploy_weights/mmocr_dbnet_int8/mod \
     --vdsp_params ../build_in/vdsp_params/mmocr-dbnet_resnet18_fpnc_1200e_icdar2015-vdsp_params.json \
     -i 1 p 1 -b 1 \
     --datalist npz_datalist.txt \

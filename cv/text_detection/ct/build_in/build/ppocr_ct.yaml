@@ -1,4 +1,4 @@
-name: ppocr_ct_run_stream_int8
+name: ppocr_ct_int8
 
 frontend:
   shape:

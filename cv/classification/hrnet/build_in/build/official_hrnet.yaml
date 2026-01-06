@@ -1,4 +1,4 @@
-name: official_hrnet_run_model_fp16
+name: official_hrnet_fp16
 
 frontend:
   shape:
@@ -12,7 +12,7 @@ frontend:
   dtype: fp32
 
 backend:
-  type: tvm_runmodel
+  type: tvm_vacc
   dtype: fp16
   compile:
     cluster_mode: 0

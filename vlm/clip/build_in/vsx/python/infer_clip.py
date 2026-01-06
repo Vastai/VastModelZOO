@@ -83,7 +83,7 @@ def argument_parser():
     )
     parser.add_argument(
         "--txtmod_vdsp_params",
-        default="../vacc_code/vdsp_params/openai-clip-vdsp_params.json",
+        default="../build_in/vdsp_params/openai-clip-vdsp_params.json",
         help="text model vdsp preprocess parameter file",
     )
     parser.add_argument(

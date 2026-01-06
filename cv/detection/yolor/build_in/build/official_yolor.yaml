@@ -1,4 +1,4 @@
-name: official_yolor_run_stream_int8
+name: official_yolor_int8
 
 frontend:
   checkpoint: /path/to/yolor_d6-640.torchscript.pt

@@ -37,11 +37,11 @@ parse.add_argument(
     default= "/path/to/ch4_test_images",
     help="img or dir  path",
 )
-parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ppocr_psenet_run_stream_fp16/mod", help="model info")
+parse.add_argument("--model_prefix_path", type=str, default="deploy_weights/ppocr_psenet_fp16/mod", help="model info")
 parse.add_argument(
     "--vdsp_params_info",
     type=str,
-    default="../vacc_code/vdsp_params/ppocr-det_r50_vd_pse-vdsp_params.json", 
+    default="../build_in/vdsp_params/ppocr-det_r50_vd_pse-vdsp_params.json", 
     help="vdsp op info",
 )
 parse.add_argument(

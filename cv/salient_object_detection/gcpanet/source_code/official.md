@@ -35,7 +35,7 @@ with torch.no_grad():
 1. 根据具体模型，修改编译配置
     - [official_gcpanet.yaml](../build_in/build/official_gcpanet.yaml)
     
-    > - runstream推理，编译参数`backend.type: tvm_vacc`
+    > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
     > - int8精度: 编译参数`backend.dtype: int8`，需要配置量化数据集和预处理算子
 
@@ -49,24 +49,24 @@ with torch.no_grad():
     ```
 
 ### step.4 模型推理
-1. runstream
-    - 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
+
+- 参考：[official_vsx_inference.py](../build_in/vsx/python/official_vsx_inference.py)
     ```bash
     python ../build_in/vsx/python/official_vsx_inference.py \
         --image_dir  /path/to/sod/ECSSD/image  \
-        --model_prefix_path deploy_weights/official_gcpanet_run_stream_fp16/mod \
+        --model_prefix_path deploy_weights/official_gcpanet_fp16/mod \
         --vdsp_params_info ../build_in/vdsp_params/official-gcpanet-vdsp_params.json \
-        --save_dir ./runstream_output \
+        --save_dir ./infer_output \
         --device 0
     ```
 
-    - 统计精度信息，基于[eval.py](../../common/eval/eval.py)
-        ```
-        python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/config_method.json
-        ```
-        - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
-        - 配置数据集路径：[config_dataset.json](../../common/eval/examples/config_dataset.json)
-        - 配置模型推理结果路径及图片格式：[config_method.json](../../common/eval/examples/config_method.json)
+- 统计精度信息，基于[eval.py](../../common/eval/eval.py)
+    ```
+    python ../../common/eval/eval.py --dataset-json path/to/config_dataset.json --method-json path/to/config_method.json
+    ```
+    - 来自[PySODEvalToolkit](https://github.com/lartpang/PySODEvalToolkit)工具箱
+    - 配置数据集路径：[config_dataset.json](../../common/eval/examples/config_dataset.json)
+    - 配置模型推理结果路径及图片格式：[config_method.json](../../common/eval/examples/config_method.json)
 
     <details><summary>点击查看精度统计结果</summary>
 
@@ -90,7 +90,7 @@ with torch.no_grad():
 1. 性能测试
     - 配置vdsp参数[official-gcpanet-vdsp_params.json](../build_in/vdsp_params/official-gcpanet-vdsp_params.json)
     ```
-    vamp -m deploy_weights/official_gcpanet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_gcpanet_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-gcpanet-vdsp_params.json \
         -i 1 p 1 -b 1
     ```
@@ -107,7 +107,7 @@ with torch.no_grad():
 
     - vamp推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_gcpanet_run_stream_int8/mod \
+    vamp -m deploy_weights/official_gcpanet_int8/mod \
         --vdsp_params ../build_in/vdsp_params/official-gcpanet-vdsp_params.json \
         -i 1 p 1 -b 1 \
         --datalist npz_datalist.txt \
