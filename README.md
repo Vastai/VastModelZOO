@@ -596,7 +596,7 @@
 
     |  model |    codebase    |  model list |    model type | runtime |
     | :------: | :------: | :------: | :------: | :-----: |
-    |[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-PF8</li></ul></details> |large language model | vLLM |
+    |[Tongyi-DeepResearch](llm/tongyi_deepresearch/README.md) | [huggingface](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8)| <details> <summary>model name</summary><ul><li align="left">Tongyi-DeepResearch-30B-A3B-FP8</li></ul></details> |large language model | vLLM |
     
 </details>
 
