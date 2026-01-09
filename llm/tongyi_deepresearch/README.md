@@ -15,8 +15,22 @@
   | :--- | :--- | :-- | :-- | :-- | :-- |
   |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 |LLM-MOE-GQA |
 
-> - `Alibaba-NLP/Tongyi-DeepResearch-30B-A3B`原始权重为BF16格式，暂未提供FP8权重
-> - `lancew/Tongyi-DeepResearch-30B-A3B-FP8`为按照下述流程量化至FP8格式，以支持VLLM_VACC
+> - [Alibaba-NLP/Tongyi-DeepResearch-30B-A3B](https://hf-mirror.com/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)，原始权重为BF16格式，暂未提供FP8权重
+> - [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8)，为按照下述流程量化至FP8格式，以支持VLLM_VACC
+
+## 使用限制
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 100k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+
 
 ## 模型下载
 
@@ -56,19 +70,6 @@
         --do_sample
     ```
 
-## 注意事项
-
-  | model | parallel | seq limit | mtp | tips|
-  |:--- |:--- | :-- | :-- | :-- |
-  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Tongyi-DeepResearch-30B-A3B-FP8 | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
-
-> - max-input-len: 最大输入长度
-> - max-model-len: 最大上下文长度
-> - mtp: Multi-Token Prediction，多token预测模式
-> - max-concurrency: 最大并发
-> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
-
 ## 启动模型服务
 
 1. 参考官方启动命令：[vllm](https://docs.vllm.ai/en/latest/cli/#bench)
@@ -96,6 +97,8 @@
   ```
 
 - 参数说明如下
+  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置。
+
   - `--tensor-parallel-size`：张量并行数，支持设置为2或4。
 
   - `--model`：原始模型权重所在路径。请根据实际情况替换。
@@ -105,8 +108,6 @@
   - `--served-model-name`：模型名称。
 
   - `--max-model-len`：模型最大上下文长度。
-
-  - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K。
 
 
 ## 模型性能测试

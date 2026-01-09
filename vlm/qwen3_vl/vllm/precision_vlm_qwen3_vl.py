@@ -28,22 +28,24 @@ task_cfg = TaskConfig(
         'vstar_bench',       # vision, grounding
         'blink'              # vision, multi-image
     ],
-    dataset_args={
-        'gpqa_diamond': {"filters": {"remove_until": "</think>"}},
-        'math_500': {"filters": {"remove_until": "</think>"}},
-        'live_code_bench': {
-            'subset_list': ['v6'],
-            # 'extra_params': {
-            #     'start_date': '2025-02-01',
-            #     'end_date': '2025-05-31'
-            # },
-            "filters": {"remove_until": "</think>"}
-        },
-        'math_vista': {"filters": {"remove_until": "</think>"}},
-        'ocr_bench_v2': {"filters": {"remove_until": "</think>"}},
-        'vstar_bench': {"filters": {"remove_until": "</think>"}},
-        'blink': {"filters": {"remove_until": "</think>"}},
-    },
+    
+    ## Thinking
+    # dataset_args={
+    #     'gpqa_diamond': {"filters": {"remove_until": "</think>"}},
+    #     'math_500': {"filters": {"remove_until": "</think>"}},
+    #     'live_code_bench': {
+    #         'subset_list': ['v6'],
+    #         # 'extra_params': {
+    #         #     'start_date': '2025-02-01',
+    #         #     'end_date': '2025-05-31'
+    #         # },
+    #         "filters": {"remove_until": "</think>"}
+    #     },
+    #     'math_vista': {"filters": {"remove_until": "</think>"}},
+    #     'ocr_bench_v2': {"filters": {"remove_until": "</think>"}},
+    #     'vstar_bench': {"filters": {"remove_until": "</think>"}},
+    #     'blink': {"filters": {"remove_until": "</think>"}},
+    # },
 
     eval_batch_size=4,
     repeats=1,
@@ -98,6 +100,7 @@ run_task(task_cfg=task_cfg)
 
 '''
 sudo docker run -it \
+      -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       -e VACC_VISIBLE_DEVICES=0,1,2,3 \
       --privileged=true --shm-size=256g \
       --name vllm_service \
@@ -111,6 +114,7 @@ vllm serve /weights/Qwen3-VL-30B-A3B-Instruct-FP8/ \
 --tensor-parallel-size 4 \
 --max-model-len 131072 \
 --enforce-eager \
+--media-io-kwargs '{"video": {"num_frames": -1}}' \
 --port 8013 \
 --served-model-name Qwen3-VL-30B-A3B-Instruct-FP8
 
@@ -119,6 +123,7 @@ vllm serve /weights/Qwen3-VL-30B-A3B-Thinking-FP8/ \
 --tensor-parallel-size 4 \
 --max-model-len 131072 \
 --enforce-eager \
+--media-io-kwargs '{"video": {"num_frames": -1}}' \
 --port 8020 \
 --served-model-name Qwen3-VL-30B-A3B-Thinking-FP8 \
 --reasoning-parser deepseek_r1
