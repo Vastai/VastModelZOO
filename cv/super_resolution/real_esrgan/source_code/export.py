@@ -15,17 +15,21 @@ from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 
 def main(args):
     # An instance of the model
-    # RealESRGAN_x4plus
     # RealESRNet_x4plus
-    model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
+    if args.model == 'RealESRGAN_x4plus':
+        model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
     # RealESRGAN_x4plus_anime_6B
-    # model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4)
+    elif args.model == 'RealESRGAN_x4plus_anime_6B':
+        model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4)
     # RealESRGAN_x2plus
-    # model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
+    elif args.model == 'RealESRGAN_x2plus':
+        model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
     # realesr-animevideov3
-    # model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=16, upscale=4, act_type='prelu')
+    elif args.model == 'realesr-animevideov3':
+        model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=16, upscale=4, act_type='prelu')
     # realesr-general-x4v3
-    # model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
+    elif args.model == 'realesr-general-x4v3':
+        model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
 
     if args.params:
         keyname = 'params'
@@ -47,7 +51,7 @@ def main(args):
     print("flops(G):", "%.3f" % (flops / 900000000 * 2))
     flops,params = clever_format([ flops / 900000000 * 2,params], "%.3f")
     print("params:", params)
-        # realesrgan
+    # realesrgan
     # flops(G): 653.675
     # params: 16.698M
 
@@ -107,6 +111,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--input', type=str, default='weights/realesr-general-x4v3.pth', help='Input model path')
+    parser.add_argument('--model', type=str, default='realesr-general-x4v3', help='Model name')
     parser.add_argument('--params', action='store_false', help='Use params instead of params_ema')
     args = parser.parse_args()
 
