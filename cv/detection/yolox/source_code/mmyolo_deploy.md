@@ -90,7 +90,9 @@ python ./projects/easydeploy/tools/export.py \
 ### step.6 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/mmyolo_yolox_int8/mod --vdsp_params ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/mmyolo_yolox_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/mmyolo-yolox_s-vdsp_params.json \
+    -i 2 p 2 -b 1
     ```
 
 
