@@ -3,7 +3,7 @@
     ```
     python tools/export_torchscript.py -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.torchscript.pt
     ```
-    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
+    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolox_darknet', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
     - `output-name`参数表示转换的torchscript模型保存路径
 
@@ -11,7 +11,7 @@
     ```
     python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.onnx
     ```
-    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
+    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolox_darknet', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
     - `output-name`参数表示转换的onnx模型保存路径
 
