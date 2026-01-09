@@ -149,13 +149,14 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
 2. 执行性能测试
     ```bash
-   vamp -m deploy_weights/roberta_base_mrpc-int8-max-mutil_input-vacc/roberta_base_mrpc \
+   vamp -m deploy_weights/roberta_base_cls_en/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
-        --iterations 1024 \
+        -t 10 \
         --batch_size 1 \
-        --instance 6 \
-        --processes 2 \
+        --instance 1 \
+        --processes 1 \
         --datalist npz_datalist.txt \
+        --shape [[1,128],[1,128],[1,128],[1,128],[1,128],[1,128]] \
         --path_output ./save/bert
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../common/vamp_info/) 目录下找到

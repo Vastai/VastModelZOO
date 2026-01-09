@@ -128,20 +128,6 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
    ```
 
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 1024 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./output
-    ```
-
-    > 可参考 [network.json](../../question_answering/common/sdk1.0/network.json) 进行修改
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 

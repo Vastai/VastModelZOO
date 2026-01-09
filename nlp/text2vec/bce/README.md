@@ -436,11 +436,14 @@ model arch为XLMRobertaForSequenceClassification, roberta(XLMRobertaModel)，以
 ### step.5 性能精度测试
 1. 性能测试
     - 配置vdsp参数：[embedding-vdsp_params.json](./build_in/vdsp_params/embedding-vdsp_params.json)
-
+    - 构建真实数据：[gen_vamp_data.py](../common/source_code/gen_vamp_data.py)，生成`vamp_npz_list.txt`
+    
     ```bash
     vamp -m vacc_deploy/bce-embedding-base_v1-512-fp16/mod \
     --vdsp_params ../../common/build_in/vdsp_params/embedding-vdsp_params.json \
-    -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
+    -d 0 -i 1 p 1 -b 1 \
+    -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] \
+    --datalist ./vamp_npz_list.txt
     ```
 2. 精度测试：[demo.py](./build_in/vsx/demo.py)
     - 配置模型路径等参数，指定`--eval_mode`参数为`True`，进行精度评估
