@@ -13,4 +13,5 @@ from ultralytics import YOLO
 model = YOLO("./yolov11/official/yolo11n-obb.pt")
 
 # 在yolo11n-obb.pt同级目录生成yolo11n-obb.onnx
+# onnx文件不包含后处理部分，输出有9个feature map
 path = model.export(format="onnx")

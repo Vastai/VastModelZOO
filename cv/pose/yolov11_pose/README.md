@@ -86,7 +86,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 
 - 获取原始仓库
 - 为适配VACC和导出onnx文件，需进行适当修改源码。
-    - 需要修改[Detect](https://github.com/ultralytics/ultralytics/blob/d17b305786ba1055c642b5e5e820749ca66f132e/ultralytics/nn/modules/head.py#L114)类的forward函数，替换成如下内容：
+    - 目前Compiler暂不支持四维softmax算子，yolov11中DFL模块包含四维softmax算子，但是由于其后的卷积层不参与训练，因此可以将该算子后的处理截断写在host侧。综上，转换模型时可以修改修改[Detect](https://github.com/ultralytics/ultralytics/blob/d17b305786ba1055c642b5e5e820749ca66f132e/ultralytics/nn/modules/head.py#L114)类的forward函数，替换成如下内容：
     ```python
     def forward(self, x: list[torch.Tensor], task_type="Detect") -> list[torch.Tensor] | tuple:
         """Concatenate and return predicted bounding boxes and class probabilities."""
@@ -110,7 +110,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
         y = self._inference(x)
         return y if self.export else (y, x)
     ```
-    - 需要修改[Pose](https://github.com/ultralytics/ultralytics/blob/d17b305786ba1055c642b5e5e820749ca66f132e/ultralytics/nn/modules/head.py#L322)类的forward函数，替换成如下内容：
+    - pose中关键点解码在build时存在问题，因此也需要放在host侧进行处理，需要修改[Pose](https://github.com/ultralytics/ultralytics/blob/d17b305786ba1055c642b5e5e820749ca66f132e/ultralytics/nn/modules/head.py#L322)类的forward函数，替换成如下内容：
     ```python
     def forward(self, x: list[torch.Tensor]) -> torch.Tensor | tuple:
         """Perform forward pass through YOLO model and return predictions."""
@@ -129,7 +129,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
         # return torch.cat([x, pred_kpt], 1) if self.export else (torch.cat([x[0], pred_kpt], 1), (x[1], kpt))
     ```
 - 按原仓库安装环境
-- 参考[export_onnx.py](./source_code/export_onnx.py)，导出onnx
+- 参考[export_onnx.py](./source_code/export_onnx.py)，导出onnx。onnx文件不包含后处理部分，输出有9个feature map。
 
 ### step.2 准备数据集
 > 注意标签文件为 person_keypoints_val2017
@@ -171,7 +171,9 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
     ```
 2. [eval.py](./source_code/eval.py)，精度统计，指定gt路径和上步骤中的txt保存路径，即可获得精度指标
     ```
-    python ../source_code/eval.py --gt path/to/person_keypoints_val2017.json --pred ./infer_output/predictions.json 
+    python ../source_code/eval.py \
+    --gt path/to/person_keypoints_val2017.json \
+    --pred ./infer_output/predictions.json 
     ```
     测试精度如下：
     ```
@@ -194,7 +196,9 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 
 ### step.5 性能测试
 ```bash
-vamp -m ./deploy_weights/ultralytics_yolo11n_pose_fp16/mod --vdsp_params ../build_in/vdsp_params/official-yolov11n-vdsp_params.json -i 1 -b 1 -d 0 -p 1
+vamp -m ./deploy_weights/ultralytics_yolo11n_pose_fp16/mod \
+--vdsp_params ../build_in/vdsp_params/official-yolov11n-vdsp_params.json \
+-i 1 -b 1 -d 0 -p 1
 ```
 
 ## Tips
