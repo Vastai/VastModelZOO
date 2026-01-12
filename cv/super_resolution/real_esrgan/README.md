@@ -78,6 +78,9 @@ Discriminator：使用有 spectral normalization(SN) 的 U-Net。使用 SN 是�
 | RealESRNET_x4plus |  -  |  -  | 24.582 | 0.721 |  3x128x128  |
 | RealESRNET_x4plus **vacc fp16** |  -  |  -  |  24.584 |0.721 |  3x128x128  |
 | RealESRNET_x4plus **vacc percentile int8** |  -  |  -  |  24.274 | 0.696 |  3x128x128  |
+| [RealESRGAN_x2plus](https://github.com/xinntao/Real-ESRGAN) |  163.466  |  16.703  |  29.652 | 0.858  |  source multi-shape  |
+| RealESRGAN_x2plus **vacc fp16** |  -  |  -  |  19.913 | 0.594 |  3x128x128  |
+| RealESRGAN_x2plus **vacc percentile int8** |  -  |  -  |  19.153 | 0.547 |  3x128x128  |
 
 > Tips
 >
