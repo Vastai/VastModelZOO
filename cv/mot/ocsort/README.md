@@ -100,9 +100,9 @@ std = (0.229, 0.224, 0.225)
 ### 评价指标说明
 
 
-![image](../../../images//cv/mot/bytetrack/9440fb6f-a71b-4724-b35c-c6c53a2c3a7d.png)
+![image](../../../images/cv/mot/bytetrack/9440fb6f-a71b-4724-b35c-c6c53a2c3a7d.png)
 
-![image](../../../images//cv/mot/bytetrack/90b58b99-8c60-4aef-94f1-7a525087ad42.png)
+![image](../../../images/cv/mot/bytetrack/90b58b99-8c60-4aef-94f1-7a525087ad42.png)
 
 #### Classical metrics
 

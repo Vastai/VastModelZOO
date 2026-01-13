@@ -1,4 +1,4 @@
-<div align=center><img src="../../images/ghostnet/flops.png"></div>
+<div align=center><img src="../../../images/cv/classification//ghostnet/flops.png"></div>
 
 # GhostNet
 
@@ -32,13 +32,13 @@ GhostNet系列网络的后处理操作是对网络输出进行softmax作为每�
 
 但是论文推测CNN的强大特征提取能力和这些相似的特征图（Ghost对）正相关，不去刻意的避免产生这种Ghost对，而是尝试利用简单的线性操作来获得更多的Ghost对。因此论文提出了Ghost Module（分为常规卷积、Ghost生成和特征图拼接三步），如下图
 
-<div align=center><img src="../../images/ghostnet/ghost-module.jpg"></div>
+<div align=center><img src="../../../images/cv/classification/ghostnet/ghost-module.jpg"></div>
 
 Ghost Module和深度分离卷积很类似，不同之处在于先进行PointwiseConv，后进行DepthwiseConv，另外增加了DepthwiseConv的数量，包括一个恒定映射。
 
 Ghost BottleNeck整体架构和Residual Block非常相似，也可以直接认为是将Residual Block中的卷积操作用Ghost Module（GM）替换得到，如下图：
 
-<div align=center><img src="../../images/ghostnet/ghost-block.png"></div>
+<div align=center><img src="../../../images/cv/classification/ghostnet/ghost-block.png"></div>
 
 ### head
 
