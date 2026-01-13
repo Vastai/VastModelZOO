@@ -137,7 +137,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     cd ../../common/vsx/python/
     python vsx_ner.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/roberta_base_ner_256/roberta_base_ner_256 \
+        --model_prefix_path ./build_deploy/roberta_base_ner_256/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
