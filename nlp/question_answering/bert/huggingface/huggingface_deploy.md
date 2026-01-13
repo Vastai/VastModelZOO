@@ -84,7 +84,7 @@
 2. 获得模型性能信息：
 
     ```bash
-   vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
+   vamp -m deploy_weights/bert_base_squad-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
@@ -95,7 +95,7 @@
 3. 执行测试：
 
     ```bash
-    vamp -m deploy_weights/bert_base_squad-int8-mse-mutil_input-vacc/bert_base_squad \
+    vamp -m deploy_weights/bert_base_squad-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

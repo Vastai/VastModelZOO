@@ -203,7 +203,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 1. 基于[sequence2npz.py](../../sentence_classification/common/utils/sequence2npz.py)，生成推理数据`npz`以及对应的`npz_datalist.txt`, 可参考 step.5
 2. 执行性能测试：
     ```bash
-    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max-mutil_input-vacc/bert_base_chinese_ner_256 \
+    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

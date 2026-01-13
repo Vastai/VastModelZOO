@@ -58,7 +58,7 @@ def wrtie_datalist(npz_path, save_dir):
     files_len = len(npz_files)
     with open(save_dir, 'w') as fw:
         for i in range(files_len):
-            path= os.path.join(npz_path, 'test_' + str(i) + '.txt')
+            path= os.path.join(npz_path, 'test_' + str(i) + '.npz')
             fw.write(path + '\n')
             print(path)
         
@@ -70,7 +70,7 @@ if __name__ == '__main__':
         "--npz_path",
         type=str,
         default="./code/modelzoo/model_test/datasets/dev408_3inputs",
-        help="MRPC-dev *.bin data path",
+        help="MRPC-dev data path",
     )
     parse.add_argument(
         "--save_path", 
