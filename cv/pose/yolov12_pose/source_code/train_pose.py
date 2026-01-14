@@ -9,5 +9,5 @@
 
 from ultralytics import YOLO
 
-model = YOLO("/path/to/yolo12n-pose.yaml")
+model = YOLO("/path/to/yolo12s-pose.yaml")
 results = model.train(data="coco-pose.yaml", epochs=100, imgsz=640)

@@ -151,8 +151,8 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
     ```
     python ../build_in/vsx/python/yolov12_pose_vsx.py \
         --file_path /path/to/coco/det_coco_val \
-        --model_prefix_path ./deploy_weights/ultralytics_yolov12n_pose_fp16/mod \
-        --vdsp_params_info ../build_in/vdsp_params/official-yolov12n-vdsp_params.json \
+        --model_prefix_path ./deploy_weights/ultralytics_yolov12s_pose_fp16/mod \
+        --vdsp_params_info ../build_in/vdsp_params/official-yolov12s-vdsp_params.json \
         --label_txt /path/to/coco.txt \
         --save_dir ./infer_output \
         --device 0
@@ -163,6 +163,25 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
     --gt path/to/person_keypoints_val2017.json \
     --pred ./infer_output/predictions.json 
     ```
+    测试精度如下：
+    ```
+    # yolov12s_pose_fp16
+    Evaluate annotation type *keypoints*
+    DONE (t=1.90s).
+    Accumulating evaluation results...
+    DONE (t=0.05s).
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets= 20 ] = 0.430
+    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets= 20 ] = 0.662
+    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets= 20 ] = 0.480
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets= 20 ] = 0.346
+    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets= 20 ] = 0.572
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 20 ] = 0.486
+    Average Recall     (AR) @[ IoU=0.50      | area=   all | maxDets= 20 ] = 0.688
+    Average Recall     (AR) @[ IoU=0.75      | area=   all | maxDets= 20 ] = 0.542
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets= 20 ] = 0.370
+    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets= 20 ] = 0.647
+    ```
+
 
 ### step.5 性能测试
 ```bash
