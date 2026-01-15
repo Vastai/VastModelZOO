@@ -25,6 +25,22 @@
   |Qwen3-235B-A22B-Instruct-2507-FP8 | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
   |Qwen3-235B-A22B-Thinking-2507-FP8 | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
 
+
+## 使用限制
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Qwen3-30B-A3B-* | tp2 | max-input-len 100k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-30B-A3B-* | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-235B-A22B-* | tp16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+
+
 ## 模型下载
 1. 通过hf-mirror下载
 
@@ -49,21 +65,7 @@
 ## 模型量化
 
 - 当前仅支持`Qwen3-30B-A3B`的`GPTQ-int4`量化
-- 量化过程及脚本请参考[Qwen3-30B-A3B GPTQ](./quant/README.md)
-
-## 注意事项
-
-  | model | parallel | seq limit | mtp | tips|
-  |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-30B-A3B-* | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-30B-A3B-* | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
-  | Qwen3-235B-A22B-* | tp16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
-
-> - max-input-len: 最大输入长度
-> - max-model-len: 最大上下文长度
-> - mtp: Multi-Token Prediction，多token预测模式
-> - max-concurrency: 最大并发
-> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+- 量化过程及脚本请参考：[Qwen3-30B-A3B GPTQ](./quant/README.md)
 
 
 ## 启动模型服务
@@ -91,7 +93,7 @@
   ```
 
 - 参数说明如下
-  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对Qwen3 235B系列模型测试100k输入时，需要设置该环境变量。
+  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置。
 
   - `--tensor-parallel-size`：张量并行数。
 

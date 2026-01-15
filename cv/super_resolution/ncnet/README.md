@@ -14,7 +14,7 @@ commit: 048486534a209c72ef6bbe991a4a926e61c18345
 
 ## Model Arch
 
-<div align=center><img src="../../../images/cv//super_resolution/ncnet/ncnet.png"></div>
+<div align=center><img src="../../../images/cv/super_resolution/ncnet/ncnet.png"></div>
 
 ### pre-processing
 

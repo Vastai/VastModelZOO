@@ -129,7 +129,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     cd ../../common/vsx/python/
     python vsx_sc.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/bert_base_128/bert_base_128 \
+        --model_prefix_path ./build_deploy/bert_base_128/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./result/dev408
@@ -141,7 +141,9 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
    基于[mrpc_eval.py](../common/eval/mrpc_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path /path/to/MRPC/dev.tsv
+   python ../../common/eval/mrpc_eval.py \
+        --result_dir ./result/dev408 \
+        --eval_path /path/to/MRPC/dev.tsv
    ```
 
 ### step.6 性能精度测试

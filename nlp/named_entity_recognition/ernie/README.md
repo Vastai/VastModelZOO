@@ -411,7 +411,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 2. 执行测试：
     ```bash
     export VSX_DISABLE_DEEPBIND=1
-    vamp -m deploy_weights/ernie2_base_chinese_ner_256-int8-max-mutil_input-vacc/ernie2_base_chinese_ner_256 \
+    vamp -m deploy_weights/ernie2_base_chinese_ner_256-int8-max/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

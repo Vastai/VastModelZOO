@@ -1,6 +1,6 @@
 # Evalscope修改细节
 
-## 以下1-6修改，可通过git-patch一次更新
+## 以下1-7修改，可通过git-patch一次更新
 
 - 参考：[evalscope.patch](./evalscope.patch)
 
@@ -371,5 +371,21 @@
                 revision=revision,
                 **kwargs,
             )
+    ```
+</details>
+
+## modify.7 在embedding.py中增加导入语句
+
+<details>
+<summary><b>查看具体修改内容</b></summary>
+
+- **修改**[evalscope/backend/rag_eval/utils/embedding.py#L17](https://github.com/modelscope/evalscope/blob/v1.3.0/evalscope/backend/rag_eval/utils/embedding.py#L17)，修改内容如下：
+
+    - 增加import导入语句
+    
+    ```python
+    import mteb
+    import json
+    import requests
     ```
 </details>

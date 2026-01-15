@@ -73,7 +73,7 @@
 
 2. 执行性能测试：
     ```bash
-   vamp -m deploy_weights/bert_base_sst2_telecom-int8-max-mutil_input-vacc/mod \
+   vamp -m deploy_weights/bert_base_128/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         -t 10 \
         --batch_size 1 \

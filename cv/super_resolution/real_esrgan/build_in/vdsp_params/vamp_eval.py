@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parse.add_argument("--input_shape", nargs='+', type=int, default=[128, 128], help="vamp input shape")
     parse.add_argument("--draw_dir", type=str, default="./npz_draw_result", help="vamp npz draw image reult folder")
     parse.add_argument("--vamp_flag", action='store_true', default=True, help="decode vamp or vamc result")
-
+    parse.add_argument("--model_type", type=str, default="x4plus", help="model type, x4plus or x2plus")
     args = parse.parse_args()
     print(args)
 
@@ -113,7 +113,10 @@ if __name__ == "__main__":
             cv2.imwrite(os.path.join(args.draw_dir, file_name), output)
 
             # eval
-            gt_path = os.path.join(args.gt_dir, file_name.replace("x4", ""))
+            if args.model_type == "x4plus":
+                gt_path = os.path.join(args.gt_dir, file_name.replace("x4", ""))
+            else:
+                gt_path = os.path.join(args.gt_dir, file_name.replace("x2", ""))
             image_gt = cv2.imread(gt_path, cv2.IMREAD_UNCHANGED)
             image_gt = cv2.resize(image_gt, output.shape[:2], interpolation=cv2.INTER_AREA)
             vacc_psnr = calculate_psnr(image_gt, output)

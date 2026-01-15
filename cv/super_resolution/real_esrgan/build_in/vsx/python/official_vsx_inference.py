@@ -320,10 +320,14 @@ if __name__ == '__main__':
         output = np.squeeze(result)
         output = np.transpose(output[[2, 1, 0], :, :], (1, 2, 0))  # HWC, BGR
         output = np.clip(output * 255, 0, 255)
-        # cv2.imwrite(os.path.join(args.save_dir, os.path.basename(image_path)), output)
+        cv2.imwrite(os.path.join(args.save_dir, os.path.basename(image_path)), output)
         
         # eval
-        image_gt = cv2.imread(os.path.join(args.hr_image_dir, os.path.basename(image_path).replace("x4", "")))
+        basename= os.path.basename(args.lr_image_dir)
+        if basename == "X4":
+            image_gt = cv2.imread(os.path.join(args.hr_image_dir, os.path.basename(image_path).replace("x4", "")))
+        elif basename == "X2":
+            image_gt = cv2.imread(os.path.join(args.hr_image_dir, os.path.basename(image_path).replace("x2", "")))
         image_gt = cv2.resize(image_gt, output.shape[:2][::-1]) # , interpolation=cv2.INTER_AREA
 
         vacc_psnr = calculate_psnr(image_gt, output)

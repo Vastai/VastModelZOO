@@ -80,7 +80,9 @@
 ### step.5 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_yolox_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/official_yolox_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
+    -i 2 p 2 -b 1
     ```
 
 2. 精度测试
@@ -96,8 +98,8 @@
     - vamp推理，获取npz结果输出
     ```bash
     vamp -m deploy_weights/official_yolox_int8/mod \
-        ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
-        -i 2 p 2 -b 1\
+        --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
+        -i 2 p 2 -b 1 \
         --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```

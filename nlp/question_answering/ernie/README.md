@@ -186,7 +186,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
     cd ../../common/vsx/python/
     python vsx_qa.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/ernie_base_qa_384/ernie_base_qa_384 \
+        --model_prefix_path ./build_deploy/ernie_base_qa_384/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
@@ -213,7 +213,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 2. 获得模型性能信息
 
     ```bash
-   vamp -m deploy_weights/ernie_base_qa-int8-mse-mutil_input-vacc/mod \
+   vamp -m deploy_weights/ernie_base_qa-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
@@ -224,7 +224,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 3. 执行测试：
 
     ```bash
-    vamp -m deploy_weights/ernie_base_squad-int8-mse-mutil_input-vacc/ernie_base_squad \
+    vamp -m deploy_weights/ernie_base_squad-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

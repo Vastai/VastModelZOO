@@ -187,7 +187,9 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 
    基于[mrpc_eval.py](../common/eval/mrpc_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path /path/to/MRPC/dev.tsv
+   python ../../common/eval/mrpc_eval.py \
+        --result_dir ./result/dev408 \
+        --eval_path /path/to/MRPC/dev.tsv
    ```
 
 ### step.6 性能精度测试
