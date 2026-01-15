@@ -82,7 +82,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 ### step.4 模型转换
 1. 根据具体模型修改配置文件
-    - [huggingface](./huggingface/build_in/build/huggingface_bert_ner.yaml)
+    - [huggingface_bert_ner_fp16.yaml](./huggingface/build_in/build/huggingface_bert_ner_fp16.yaml)
+    - [huggingface_bert_ner_int8.yaml](./huggingface/build_in/build/huggingface_bert_ner_int8.yaml)
 
     > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
@@ -94,8 +95,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     cd bert
     mkdir workspace
     cd workspace
-    vamc compile ../huggingface/build_in/build/huggingface_bert_ner.yaml
-    vamc compile ../huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
+    vamc compile ./huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
+    vamc compile ./huggingface/build_in/build/huggingface_bert_ner_int8.yaml
     ```
 
 ### step.5 模型推理
