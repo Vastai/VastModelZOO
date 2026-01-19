@@ -15,7 +15,7 @@
     const GITHUB_CONFIG = {
         user: 'vastai',           // 从URL检测: vastai.github.io
         repo: pathParts[0] || 'VastModelZOO',  // 仓库名
-        branch: 'main'                  // 默认分支
+        branch: 'dev'                  // 默认分支
     };
     
     // 构建GitHub base URL
