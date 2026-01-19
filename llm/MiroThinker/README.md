@@ -259,11 +259,11 @@ apt install aria2
     ```
 
 3. RUN
-
+  - [eval.py](./source_code/eval.py)
+  
     ```bash
     python eval.py
     ```
-
 
 ## Open WebUI界面服务
 
