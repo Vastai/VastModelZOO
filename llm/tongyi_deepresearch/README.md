@@ -22,7 +22,7 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 100k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Tongyi-DeepResearch-30B-A3B-FP8 | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 > - max-input-len: 最大输入长度
@@ -86,8 +86,7 @@
       harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.2_GR_1202 \
       vllm serve /weights/Tongyi-DeepResearch-30B-A3B-FP8 \
       --trust-remote-code \
-      --tensor-parallel-size 32 \
-      --pipeline-parallel-size 2 \
+      --tensor-parallel-size 4 \
       --max-model-len 131072 \
       --enforce-eager \
       --reasoning-parser deepseek_r1 \

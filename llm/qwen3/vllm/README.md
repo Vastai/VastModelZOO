@@ -30,7 +30,7 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-30B-A3B-* | tp2 | max-input-len 100k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-30B-A3B-* | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-30B-A3B-* | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-235B-A22B-* | tp16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 

@@ -97,7 +97,7 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-VL-30B-A3B-*-FP8 | tp2 | max-input-len 100k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-VL-30B-A3B-*-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-VL-30B-A3B-*-FP8 | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 > - max-input-len: 最大输入长度
