@@ -73,7 +73,16 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-* | TP2/4/8 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-0.6B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-1.7B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-4B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-4B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-8B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-8B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-14B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-14B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 - LLM-MOE-GQA
 
@@ -155,7 +164,11 @@
 
   - `--max-model-len`：模型最大上下文长度。
 
-  - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
+  - `--rope-scaling`：如模型支持RoPE长度外推，可开启此参数，使模型最大上下文长度超过原生长度
+    - `--rope-scaling '{"rope_type":"yarn","factor":4.0,"
+original_max_position_embeddings":32768}' --max-model-len 131072`
+    - 验证模型：Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8
+    - 验证模型：Qwen3-4B/8B/14B/32B
 
   > 思考和非思考模式，具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
