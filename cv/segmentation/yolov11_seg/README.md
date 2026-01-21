@@ -100,7 +100,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
     input_shape = (1, 3, 640, 640)
     img_tensor=torch.zeros(input_shape)
-    model = YOLO("yolov11n-seg.pt")
+    model = YOLO("yolo11n-seg.pt")
     model.to("cpu")
     scripted_model = torch.jit.trace(model.model, img_tensor, check_trace=False).eval()
 

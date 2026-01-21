@@ -13,4 +13,4 @@ from ultralytics import YOLO
 model = YOLO("./yolov11/official/yolo11n-cls.pt")
 
 # 在yolo11n-cls.pt同级目录生成yolo11n-cls.onnx
-model.export(format="onnx")
+model.export(format="onnx", imgsz=256)
