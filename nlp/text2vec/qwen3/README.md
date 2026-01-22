@@ -11,7 +11,7 @@
 - Qwen3 Embedding 系列模型基于Qwen3基础模型的不同规模（0.6B、4B、8B），成功训练出了三个文本Embedding模型与三个文本重排序模型。这些模型具备诸多实用特性，如Embedding模型支持灵活的维度表示，Embedding与重排序模型均支持自定义指令，能够更好地满足不同下游任务的需求。
 
 - Qwen3-Embedding（左）和Qwen3-Reranker（右）的模型架构
-![arch](../../../images/nlp/qwen3-0.6b/arch.png)
+![arch](../../../images/nlp/qwen3/arch.png)
 
 - 无论是Embedding还是重排序，核心目标都是评估文本间的相关性，而这种评估需要“任务感知”——即根据具体任务的指令来判断。例如，当用户输入“推荐科幻小说”时，模型需要根据“推荐”这一指令，判断文档是否属于科幻类别并适合推荐。
 
@@ -37,21 +37,21 @@ Embedding模型的目标是将文本转化为固定维度的向量，这个过�
 ### Reranker
 
 重排序模型的任务是在初步检索结果中进一步筛选更相关的文档，这需要更精细的语义匹配。Qwen3重排序模型采用了类似对话的输入模板，将问题转化为二进制分类（“文档是否符合查询和指令要求”）：
-![arch](../../../images/nlp/qwen3-0.6b/1.png)
+![arch](../../../images/nlp/qwen3/1.png)
 模型通过计算“yes”的概率生成相关性分数，这种设计如同让模型扮演一个“裁判”，根据给定的规则（指令）对文档进行打分。相较于Embedding模型，重排序模型更聚焦于`单一场景下的精准判断`，因此无需处理向量维度，而是直接利用LLM的生成能力完成分类。
 
 
 ## Model Training
 Qwen3-Embedding和重排序模型的训练流程如下：
-![arch](../../../images/nlp/qwen3-0.6b/model_training.png)
+![arch](../../../images/nlp/qwen3/model_training.png)
 
 Embedding模型与重排序模型的训练目标截然不同：
 
 - Embedding模型：采用改进的InfoNCE对比损失函数（公式1），核心是让正例查询-文档对的Embedding向量在空间中尽可能接近，负例对尽可能远离。这如同在向量空间中为相似文本“划圈”，让同类文本聚在一起，异类文本隔开。
-![arch](../../../images/nlp/qwen3-0.6b/2.png)
+![arch](../../../images/nlp/qwen3/2.png)
 
 - 重排序模型：使用监督微调（SFT）损失函数（公式2），将问题转化为二分类任务，判断文档是否相关。这更像是给模型一本“对错题集”，通过大量标注数据教会它精准判断相关性。
-![arch](../../../images/nlp/qwen3-0.6b/3.png)
+![arch](../../../images/nlp/qwen3/3.png)
 
 两种目标分别对应“聚类思维”与“判断思维”，前者注重全局语义分布，后者聚焦局部精准决策。
 
