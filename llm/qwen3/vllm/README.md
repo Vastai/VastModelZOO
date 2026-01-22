@@ -39,11 +39,11 @@
   | Qwen3-14B-FP8 | [Qwen/Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8) | [Qwen/Qwen3-14B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-14B-FP8) | 14B | FP8 | TP2/4/8 |
   | Qwen3-14B-AWQ | [JunHowie/Qwen3-14B-AWQ](https://huggingface.co/JunHowie/Qwen3-14B-AWQ) | [JunHowie/Qwen3-14B-AWQ](https://www.modelscope.cn/models/JunHowie/Qwen3-14B-AWQ) | 14B | INT4 | TP2/4/8 |
   | Qwen3-14B-GPTQ-Int4 | [JunHowie/Qwen3-14B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-14B-GPTQ-Int4) | [JunHowie/Qwen3-14B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-14B-GPTQ-Int4) | 14B | INT4 | TP2/4/8 |
+  | Qwen3-14B-int4-AutoRound-gptq-inc | - | [Intel/Qwen3-14B-int4-AutoRound-gptq-inc](https://www.modelscope.cn/models/Intel/Qwen3-14B-int4-AutoRound-gptq-inc) | 14B | INT4 | TP2/4/8 |
   | Qwen3-32B | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B) | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B) | 32B | BF16 | TP4/8 |
   | Qwen3-32B-FP8 | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8) | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8) | 32B | FP8 | TP4/8 |
   | Qwen3-32B-AWQ | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ) | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ) | 32B | INT4 | TP4/8 |
   | Qwen3-32B-GPTQ-Int4 | [JunHowie/Qwen3-32B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-32B-GPTQ-Int4) | [JunHowie/Qwen3-32B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-32B-GPTQ-Int4) | 32B | INT4 | TP4/8 |
-
 
   > - TIPS
   >    - INT4数据格式，此处均指`W4A16`
