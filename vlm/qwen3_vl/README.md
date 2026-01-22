@@ -91,7 +91,6 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
   |Qwen3-VL-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-VL-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-VL-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-VL-30B-A3B-Instruct-FP8](https://modelscope.cn/models/Qwen/Qwen3-VL-30B-A3B-Instruct-FP8) | 30B-A3B | FP8 |VLM-MOE-GQA |
   |Qwen3-VL-30B-A3B-Thinking-FP8 | [Qwen/Qwen3-VL-30B-A3B-Thinking-FP8](https://hf-mirror.com/Qwen/Qwen3-VL-30B-A3B-Thinking-FP8) | [Qwen/Qwen3-VL-30B-A3B-Thinking-FP8](https://modelscope.cn/models/Qwen/Qwen3-VL-30B-A3B-Thinking-FP8) | 30B-A3B | FP8 |VLM-MOE-GQA |
 
-> 截至2025/12/24，暂不支持视频输入，仅文本/图片输入
 
 ## 使用限制
 
