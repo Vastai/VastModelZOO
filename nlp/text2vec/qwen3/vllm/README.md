@@ -25,6 +25,26 @@
 > - `MRL Support` 表示嵌入模型是否支持自定义最终嵌入的维度。 
 > - `Instruction Aware` 标注了嵌入或重排序模型是否支持根据不同任务定制输入指令。
 
+## 使用限制
+
+- Embedding
+
+  | model | parallel | seq limit | tips|
+  |:--- |:--- | :-- | :-- | 
+  | Qwen3-Embedding-0.6B | TP1/2/4/8 | max-model-len 32k | max-concurrency 4|
+  | Qwen3-Embedding-4B | TP1/2/4/8 | max-model-len 32k | max-concurrency 4|
+  | Qwen3-Embedding-8B | TP2/4/8 | max-model-len 32k | max-concurrency 4|
+
+- ReRanker
+
+  | model | parallel | seq limit | tips|
+  |:--- |:--- | :-- | :-- |
+  | Qwen3-Reranker-0.6B | TP1/2/4/8 | max-model-len 32k | max-concurrency 4|
+  | Qwen3-Reranker-4B | TP1/2/4/8 | max-model-len 32k |max-concurrency 4|
+  | Qwen3-Reranker-8B | TP2/4/8 | max-model-len 32k | max-concurrency 4|
+
+
+
 ## 模型下载
 1. 通过hf-mirror下载
 
