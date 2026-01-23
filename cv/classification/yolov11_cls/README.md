@@ -15,7 +15,7 @@ commit: d17b305786ba1055c642b5e5e820749ca66f132e
 
 ### pre-processing
 
-yolov11_cls系列网络的预处理操作是：先对图片进行resize至288的尺寸，然后利用`CenterCrop`算子crop出256的图片对其进行归一化、减均值除方差等操作
+yolov11_cls系列网络的预处理操作是：先对图片进行resize，然后利用`CenterCrop`算子进行crop，最后对其进行归一化、减均值除方差等操作
 
 ### post-processing
 

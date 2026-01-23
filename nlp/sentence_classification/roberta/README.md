@@ -129,7 +129,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     cd ../../common/vsx/python/
     python vsx_sc.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/bert_base_128/bert_base_128 \
+        --model_prefix_path ./build_deploy/bert_base_128/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./result/dev408
@@ -141,7 +141,9 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
    基于[mrpc_eval.py](../common/eval/mrpc_eval.py)，解析npz结果，并评估精度
    ```bash
-   python ../../common/eval/mrpc_eval.py --result_dir ./result/dev408 --eval_path /path/to/MRPC/dev.tsv
+   python ../../common/eval/mrpc_eval.py \
+        --result_dir ./result/dev408 \
+        --eval_path /path/to/MRPC/dev.tsv
    ```
 
 ### step.6 性能精度测试
@@ -149,13 +151,14 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 
 2. 执行性能测试
     ```bash
-   vamp -m deploy_weights/roberta_base_mrpc-int8-max-mutil_input-vacc/roberta_base_mrpc \
+   vamp -m deploy_weights/roberta_base_cls_en/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
-        --iterations 1024 \
+        -t 10 \
         --batch_size 1 \
-        --instance 6 \
-        --processes 2 \
+        --instance 1 \
+        --processes 1 \
         --datalist npz_datalist.txt \
+        --shape [[1,128],[1,128],[1,128],[1,128],[1,128],[1,128]] \
         --path_output ./save/bert
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../common/vamp_info/) 目录下找到

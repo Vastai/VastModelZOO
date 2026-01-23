@@ -3,7 +3,7 @@
     ```
     python tools/export_torchscript.py -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.torchscript.pt
     ```
-    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
+    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolox_darknet', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
     - `output-name`参数表示转换的torchscript模型保存路径
 
@@ -11,7 +11,7 @@
     ```
     python tools/export_onnx.py --input input -n yolox_s -c /path/to/yolox.pth --output-name /path/to/save_model.onnx
     ```
-    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolov3', 'yolox_tiny', 'yolox_nano']
+    - `n`参数对应yolox的模型名字，可选值包括['yolox_s', 'yolox_m', 'yolox_l', 'yolox_x', 'yolox_darknet', 'yolox_tiny', 'yolox_nano']
     - `c`参数即要进行转换的模型路径
     - `output-name`参数表示转换的onnx模型保存路径
 
@@ -80,7 +80,9 @@
 ### step.5 性能精度测试
 1. 性能测试
     ```bash
-    vamp -m deploy_weights/official_yolox_int8/mod --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json -i 2 p 2 -b 1
+    vamp -m deploy_weights/official_yolox_int8/mod \
+    --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
+    -i 2 p 2 -b 1
     ```
 
 2. 精度测试
@@ -96,8 +98,8 @@
     - vamp推理，获取npz结果输出
     ```bash
     vamp -m deploy_weights/official_yolox_int8/mod \
-        ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
-        -i 2 p 2 -b 1\
+        --vdsp_params ../build_in/vdsp_params/official-yolox_s-vdsp_params.json \
+        -i 2 p 2 -b 1 \
         --datalist path/to/npz_datalist.txt \
         --path_output npz_output
     ```

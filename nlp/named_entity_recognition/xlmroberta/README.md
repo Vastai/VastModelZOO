@@ -84,21 +84,6 @@ XLM-RoBERTa 的改进
        --save_path npz_datalist.txt
    ```
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0/
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 1024 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./output
-    ```
-
-    > 可参考 [network.json](../../question_answering/common/sdk1.0/network.json) 进行修改
-
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
     运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 推理 结果，示例：
@@ -166,7 +151,7 @@ XLM-RoBERTa 的改进
 
 2. 执行测试：
     ```bash
-    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max-mutil_input-vacc/bert_base_chinese_ner_256 \
+    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

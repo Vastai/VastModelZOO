@@ -11,7 +11,6 @@ frontend:
     token_type_ids:
     - 1
     - 128
-    token_type_ids: [1, 384]
   type: pytorch
   dtype: int64
   checkpoint: ./model/bert_base_sst2_128_telecom_embedding.torchscript.pt

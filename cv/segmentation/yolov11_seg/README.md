@@ -100,7 +100,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
 
     input_shape = (1, 3, 640, 640)
     img_tensor=torch.zeros(input_shape)
-    model = YOLO("yolov11n-seg.pt")
+    model = YOLO("yolo11n-seg.pt")
     model.to("cpu")
     scripted_model = torch.jit.trace(model.model, img_tensor, check_trace=False).eval()
 
@@ -143,6 +143,7 @@ COCO数据集支持目标检测、关键点检测、实例分割、全景分割�
     python ../build_in/vsx/python/get_filelist.py --input_dir /path/to/det_coco_val --output_file ./det_coco_val_filelist.txt
 
     #推理
+    mkdir -p yolov11_seg_out
     python3 ../build_in/vsx/python/yolov11_seg_vsx.py \
         -m ./deploy_weights/yolo11n_seg_fp16/mod \
         --vdsp_params ../build_in/vdsp_params/ultralytics-yolov11n_seg-vdsp_params.json \

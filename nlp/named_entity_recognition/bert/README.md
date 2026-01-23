@@ -82,7 +82,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
 
 ### step.4 模型转换
 1. 根据具体模型修改配置文件
-    - [huggingface](./huggingface/build_in/build/huggingface_bert_ner.yaml)
+    - [huggingface_bert_ner_fp16.yaml](./huggingface/build_in/build/huggingface_bert_ner_fp16.yaml)
+    - [huggingface_bert_ner_int8.yaml](./huggingface/build_in/build/huggingface_bert_ner_int8.yaml)
 
     > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
@@ -94,8 +95,8 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
     cd bert
     mkdir workspace
     cd workspace
-    vamc compile ../huggingface/build_in/build/huggingface_bert_ner.yaml
-    vamc compile ../huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
+    vamc compile ./huggingface/build_in/build/huggingface_bert_ner_fp16.yaml
+    vamc compile ./huggingface/build_in/build/huggingface_bert_ner_int8.yaml
     ```
 
 ### step.5 模型推理
@@ -108,21 +109,6 @@ BERT的 Embedding 处理由三种 Embedding 求和而成：
    ```
 
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 1024 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./output
-    ```
-
-    > 可参考 [network.json](../../question_answering/common/sdk1.0/network.json) 进行修改
-
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
     运行 [vsx_ner.py](../common/vsx/python/vsx_ner.py) 脚本，获取 推理 结果，示例：

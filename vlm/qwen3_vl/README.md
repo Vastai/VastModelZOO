@@ -91,7 +91,19 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
   |Qwen3-VL-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-VL-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-VL-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-VL-30B-A3B-Instruct-FP8](https://modelscope.cn/models/Qwen/Qwen3-VL-30B-A3B-Instruct-FP8) | 30B-A3B | FP8 |VLM-MOE-GQA |
   |Qwen3-VL-30B-A3B-Thinking-FP8 | [Qwen/Qwen3-VL-30B-A3B-Thinking-FP8](https://hf-mirror.com/Qwen/Qwen3-VL-30B-A3B-Thinking-FP8) | [Qwen/Qwen3-VL-30B-A3B-Thinking-FP8](https://modelscope.cn/models/Qwen/Qwen3-VL-30B-A3B-Thinking-FP8) | 30B-A3B | FP8 |VLM-MOE-GQA |
 
-> 截至2025/12/24，暂不支持视频输入，仅文本/图片输入
+
+## 使用限制
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Qwen3-VL-30B-A3B-*-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-VL-30B-A3B-*-FP8 | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
 
 
 ## 模型下载
@@ -115,19 +127,6 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
   modelscope download --model Qwen/Qwen3-VL-30B-A3B-Instruct-FP8 --local_dir ./Qwen3-VL-30B-A3B-Instruct-FP8
   ```
 
-## 注意事项
-
-  | model | parallel | seq limit | mtp | tips|
-  |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-VL-30B-A3B-*-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-VL-30B-A3B-*-FP8 | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
-
-> - max-input-len: 最大输入长度
-> - max-model-len: 最大上下文长度
-> - mtp: Multi-Token Prediction，多token预测模式
-> - max-concurrency: 最大并发
-> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
-
 
 ## 启动模型服务
 
@@ -136,6 +135,7 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
   ```bash
   docker run \
       -e VACC_VISIBLE_DEVICES=0,1,2,3 \
+      -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       --privileged=true --shm-size=256g \
       --name vllm_service \
       -v /path/to/model:/weights/ \
@@ -147,6 +147,7 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
       --tensor-parallel-size 4 \
       --max-model-len 131072 \
       --enforce-eager \
+      --media-io-kwargs '{"video": {"num_frames": -1}}' \
       --host 0.0.0.0 \
       --port 8000 \
       --served-model-name Qwen3-VL-30B-A3B-Instruct-FP8

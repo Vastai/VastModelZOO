@@ -128,20 +128,6 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
    ```
 
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 1024 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./output
-    ```
-
-    > 可参考 [network.json](../../question_answering/common/sdk1.0/network.json) 进行修改
 
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
@@ -151,7 +137,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
     cd ../../common/vsx/python/
     python vsx_ner.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/roberta_base_ner_256/roberta_base_ner_256 \
+        --model_prefix_path ./build_deploy/roberta_base_ner_256/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
@@ -217,7 +203,7 @@ BERT中是准备训练数据时，每个样本只会进行一次随机mask（因
 1. 基于[sequence2npz.py](../../sentence_classification/common/utils/sequence2npz.py)，生成推理数据`npz`以及对应的`npz_datalist.txt`, 可参考 step.5
 2. 执行性能测试：
     ```bash
-    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max-mutil_input-vacc/bert_base_chinese_ner_256 \
+    vamp -m deploy_weights/bert_base_chinese_ner_256-int8-max/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --batch_size 1 \
         --instance 6 \

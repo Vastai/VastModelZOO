@@ -1,4 +1,4 @@
-# Internlm
+# StableLM
 
 ## Model Arch
 

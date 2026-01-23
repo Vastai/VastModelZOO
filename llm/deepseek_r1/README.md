@@ -17,6 +17,20 @@
   |DeepSeek-R1| [deepseek-ai/DeepSeek-R1](https://hf-mirror.com/deepseek-ai/DeepSeek-R1) | [deepseek-ai/DeepSeek-R1](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-R1) | 671B-A37B | FP8 |LLM-MOE-MLA |
   |DeepSeek-R1-0528| [deepseek-ai/DeepSeek-R1-0528](https://hf-mirror.com/deepseek-ai/DeepSeek-R1-0528) | [deepseek-ai/DeepSeek-R1](https://www.modelscope.cn/models/deepseek-ai/DeepSeek-R1-0528) | 671B-A37B | FP8 | LLM-MOE-MLA |
 
+## 使用限制
+
+  | parallel | seq limit | mtp | tips|
+  |:--- | :-- | :-- | :-- |
+  | tp32-pp2 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | tp32 | max-input-len 56k </br> max-model-len 64k | ✅ | max-concurrency 4|
+
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+> - `模型支持列表`内模型配置一致
+
 
 ## 模型下载
 1. 通过hf-mirror下载
@@ -38,20 +52,6 @@
   export PATH=$PATH:~/.local/bin
   modelscope download --model deepseek-ai/DeepSeek-R1 --local_dir ./DeepSeek-R1
   ```
-
-## 注意事项
-
-  | parallel | seq limit | mtp | tips|
-  |:--- | :-- | :-- | :-- |
-  | tp32-pp2 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
-  | tp32 | max-input-len 56k </br> max-model-len 64k | ✅ | max-concurrency 4|
-
-> - max-input-len: 最大输入长度
-> - max-model-len: 最大上下文长度
-> - mtp: Multi-Token Prediction，多token预测模式
-> - max-concurrency: 最大并发
-> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
-> - `模型支持列表`内模型配置一致
 
 
 ## 启动模型服务

@@ -10,7 +10,7 @@ commit: 5ca1078535923d485892caee7d7804380bfc87fd
 克隆原始仓库，参考[pytorch2onnx.py](https://github.com/xinntao/Real-ESRGAN/blob/master/scripts/pytorch2onnx.py)，将[export.py](./export.py)脚本放置在前述脚本相同目录，执行以下命令，进行模型导出为onnx和torchscript：
 ```bash
 # cd {Real-ESRGAN}
-python scripts/export.py
+python scripts/export.py --input /path/to/RealESRGAN_x4plus.pth --model RealESRGAN_x4plus
 ```
 
 ### step.2 准备数据集
@@ -18,7 +18,10 @@ python scripts/export.py
 
 ### step.3 模型转换
 1. 根据具体模型，修改编译配置
-    - [official_real_esrgan.yaml](../build_in/build/official_real_esrgan.yaml)
+    - [official_real_esrgan_x2plus_fp16.yaml](../build_in/build/official_real_esrgan_x2plus_fp16.yaml)
+    - [official_real_esrgan_x2plus_int8.yaml](../build_in/build/official_real_esrgan_x2plus_int8.yaml)
+    - [official_real_esrgan_x4plus_fp16.yaml](../build_in/build/official_real_esrgan_x4plus_fp16.yaml)
+    - [official_real_esrgan_x4plus_int8.yaml](../build_in/build/official_real_esrgan_x4plus_int8.yaml)
         
     > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
@@ -29,7 +32,10 @@ python scripts/export.py
     cd real_esrgan
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/official_real_esrgan.yaml
+    vamc compile ../build_in/build/official_real_esrgan_x2plus_fp16.yaml
+    vamc compile ../build_in/build/official_real_esrgan_x2plus_int8.yaml
+    vamc compile ../build_in/build/official_real_esrgan_x4plus_fp16.yaml
+    vamc compile ../build_in/build/official_real_esrgan_x4plus_int8.yaml
     ```
 
 ### step.4 模型推理
@@ -86,6 +92,7 @@ python scripts/export.py
     - 解析npz结果，统计精度：[vamp_eval.py](../build_in/vdsp_params/vamp_eval.py)
    ```bash
     python ../build_in/vdsp_params/vamp_eval.py \
+        --model_type x4plus \
         --gt_dir /path/to/DIV2K/DIV2K_valid_HR \
         --input_npz_path npz_datalist.txt \
         --out_npz_dir npz_output \

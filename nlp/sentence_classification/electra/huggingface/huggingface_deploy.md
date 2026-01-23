@@ -37,22 +37,8 @@
        --npz_path /path/to/MRPC/dev408 \
        --save_path npz_datalist.txt
    ```
+   
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 512 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./result/dev408
-    ```
-
-    > 可参考 [network.json](../../../question_answering/common/sdk1.0/network.json) 进行修改
-
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
     运行 [vsx_sc.py](../../common/vsx/python/vsx_sc.py) 脚本，获取 推理 结果，示例：
@@ -61,7 +47,7 @@
     cd ../../common/vsx/python/
     python vsx_sc.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/electra_base_128/electra_base_128 \
+        --model_prefix_path ./build_deploy/electra_base_128/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./result/dev408
@@ -81,14 +67,15 @@
 
 2. 执行性能测试：
     ```bash
-   vamp -m deploy_weights/electra_base_mrpc-int8-max-mutil_input-vacc/electra_base_mrpc \
+   vamp -m deploy_weights/electra_base_128/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
-        --iterations 1024 \
+        -t 10 \
         --batch_size 1 \
-        --instance 6 \
-        --processes 2 \
+        --instance 1 \
+        --processes 1 \
         --datalist npz_datalist.txt \
-        --path_output ./save/electra
+        --shape [[1,128],[1,128],[1,128],[1,128],[1,128],[1,128]] \
+        --path_output ./save/bert
     ```
     > 相应的 `vdsp_params` 等配置文件可在 [vamp_info](../../common/vamp_info/) 目录下找到
     >

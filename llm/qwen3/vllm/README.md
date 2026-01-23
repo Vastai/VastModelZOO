@@ -6,24 +6,99 @@
 
 | 模型规格 |  最低硬件配置要求|
 | --- | --- |
-| Qwen3-30B系列（FP8/INT4）| 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G)|
-| Qwen3-235B系列（FP8）| 单台 VA16（4*128G）服务器|
+| Qwen3-Dense系列（BF16/FP8/INT4）| 单卡 VA16 (128G)/ 单卡 VA1L (64G) / 单卡 VA10L (128G)|
+| Qwen3-30B-A3B系列（FP8/INT4）| 单卡 VA16 (128G)/ 单卡 VA1L (64G) / 单卡 VA10L (128G)|
+| Qwen3-235B-A22B系列（FP8）| 单台 VA16（4*128G）服务器|
+
 
 
 ## 模型支持
+- LLM-Dense-GQA
 
-  |model | huggingface  | modelscope | parameter | dtype| arch |
+  |model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 |LLM-MOE-GQA |
-  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 |LLM-MOE-GQA |
-  |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 |LLM-MOE-GQA |
-  |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
-  |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
-  |Qwen3-30B-A3B-Thinking-2507-FP8 | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
-  |Qwen3-Coder-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 |LLM-MOE-GQA |
-  |Qwen3-235B-A22B-FP8 | [Qwen/Qwen3-235B-A22B-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-FP8) | [Qwen/Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
-  |Qwen3-235B-A22B-Instruct-2507-FP8 | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
-  |Qwen3-235B-A22B-Thinking-2507-FP8 | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | 235B-A22B | FP8 |LLM-MOE-GQA |
+  | Qwen3-0.6B | [Qwen/Qwen3-0.6B](https://huggingface.co/Qwen/Qwen3-0.6B) | [Qwen/Qwen3-0.6B](https://www.modelscope.cn/models/Qwen/Qwen3-0.6B) | 0.6B | BF16 | TP2/4/8 |
+  | Qwen3-0.6B-FP8 | [Qwen/Qwen3-0.6B-FP8](https://huggingface.co/Qwen/Qwen3-0.6B-FP8) | [Qwen/Qwen3-0.6B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-0.6B-FP8) | 0.6B | FP8 | TP2/4/8 |
+  | Qwen3-0_6B_int4_awq | [AngelSlim/Qwen3-0_6B_int4_awq](https://huggingface.co/AngelSlim/Qwen3-0_6B_int4_awq) | [AngelSlim/Qwen3-0_6B_int4_awq](https://www.modelscope.cn/AngelSlim/Qwen3-0_6B_int4_awq) | 0.6B | INT4 | TP2/4/8 |
+  | Qwen3-0.6B-GPTQ-Int4 | [JunHowie/Qwen3-0.6B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-0.6B-GPTQ-Int4) | [JunHowie/Qwen3-0.6B-GPTQ-Int4](https://www.modelscope.cn/JunHowie/Qwen3-0.6B-GPTQ-Int4) | 0.6B | INT4 | TP2/4/8 |
+  | Qwen3-1.7B | [Qwen/Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B) | [Qwen/Qwen3-1.7B](https://www.modelscope.cn/models/Qwen/Qwen3-1.7B) | 1.7B | BF16 | TP2/4/8 |
+  | Qwen3-1.7B-FP8 | [Qwen/Qwen3-1.7B-FP8](https://huggingface.co/Qwen/Qwen3-1.7B-FP8) | [Qwen/Qwen3-1.7B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-1.7B-FP8) | 1.7B | FP8 | TP2/4/8 |
+  | Qwen3-1_7B_int4_awq | [AngelSlim/Qwen3-1_7B_int4_awq](https://huggingface.co/AngelSlim/Qwen3-1_7B_int4_awq) | [AngelSlim/Qwen3-1_7B_int4_awq](https://www.modelscope.cn/AngelSlim/Qwen3-1_7B_int4_awq) | 1.7B | INT4 | TP2/4/8 |
+  | Qwen3-1.7B-GPTQ-Int4 | [JunHowie/Qwen3-1.7B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-1.7B-GPTQ-Int4) | [JunHowie/Qwen3-1.7B-GPTQ-Int4](https://www.modelscope.cn/JunHowie/Qwen3-1.7B-GPTQ-Int4) | 1.7B | INT4 | TP2/4/8 |
+  | Qwen3-4B | [Qwen/Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) | [Qwen/Qwen3-4B](https://www.modelscope.cn/models/Qwen/Qwen3-4B) | 4B | BF16 | TP2/8 |
+  | Qwen3-4B-FP8 | [Qwen/Qwen3-4B-FP8](https://huggingface.co/Qwen/Qwen3-4B-FP8) | [Qwen/Qwen3-4B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-FP8) | 4B | FP8 | TP2/8 |
+  | Qwen3-4B-Instruct-2507-FP8 | [Qwen/Qwen3-4B-Instruct-2507-FP8](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507-FP8) | [Qwen/Qwen3-4B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-Instruct-2507-FP8) | 4B | FP8 | TP2/8 |
+  | Qwen3-4B-Thinking-2507-FP8 | [Qwen/Qwen3-4B-Thinking-2507-FP8](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507-FP8) | [Qwen/Qwen3-4B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-Thinking-2507-FP8) | 4B | FP8 | TP2/8 |
+  | Qwen3-4B-AWQ | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ) | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ) | 4B | INT4 | TP2/4* |
+  | Qwen3-4B-GPTQ-Int4 | [JunHowie/Qwen3-4B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-4B-GPTQ-Int4) | [JunHowie/Qwen3-4B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-4B-GPTQ-Int4) | 4B | INT4 | TP2/8 |
+  | Qwen3-8B | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | [Qwen/Qwen3-8B](https://www.modelscope.cn/models/Qwen/Qwen3-8B) | 8B | BF16 | TP2/8 |
+  | Qwen3-8B-FP8 | [Qwen/Qwen3-8B-FP8](https://huggingface.co/Qwen/Qwen3-8B-FP8) | [Qwen/Qwen3-8B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-8B-FP8) | 8B | FP8 | TP2/8 |
+  | Qwen3-8B-AWQ | [Qwen/Qwen3-8B-AWQ](https://huggingface.co/Qwen/Qwen3-8B-AWQ) | [Qwen/Qwen3-8B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-8B-AWQ) | 8B | INT4 | TP2/4/8 |
+  | Qwen3-8B-GPTQ-Int4 | [JunHowie/Qwen3-8B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-8B-GPTQ-Int4) | [JunHowie/Qwen3-8B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-8B-GPTQ-Int4) | 8B | INT4 | TP2/8 |
+  | Qwen3-14B | [Qwen/Qwen3-14B](https://huggingface.co/Qwen/Qwen3-14B) | [Qwen/Qwen3-14B](https://www.modelscope.cn/models/Qwen/Qwen3-14B) | 14B | BF16 | TP2/4/8 |
+  | Qwen3-14B-FP8 | [Qwen/Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8) | [Qwen/Qwen3-14B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-14B-FP8) | 14B | FP8 | TP2/4/8 |
+  | Qwen3-14B-AWQ | [JunHowie/Qwen3-14B-AWQ](https://huggingface.co/JunHowie/Qwen3-14B-AWQ) | [JunHowie/Qwen3-14B-AWQ](https://www.modelscope.cn/models/JunHowie/Qwen3-14B-AWQ) | 14B | INT4 | TP2/4/8 |
+  | Qwen3-14B-GPTQ-Int4 | [JunHowie/Qwen3-14B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-14B-GPTQ-Int4) | [JunHowie/Qwen3-14B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-14B-GPTQ-Int4) | 14B | INT4 | TP2/4/8 |
+  | Qwen3-14B-int4-AutoRound-gptq-inc | - | [Intel/Qwen3-14B-int4-AutoRound-gptq-inc](https://www.modelscope.cn/models/Intel/Qwen3-14B-int4-AutoRound-gptq-inc) | 14B | INT4 | TP2/4/8 |
+  | Qwen3-32B | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B) | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B) | 32B | BF16 | TP4/8 |
+  | Qwen3-32B-FP8 | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8) | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8) | 32B | FP8 | TP4/8 |
+  | Qwen3-32B-AWQ | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ) | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ) | 32B | INT4 | TP4/8 |
+  | Qwen3-32B-GPTQ-Int4 | [JunHowie/Qwen3-32B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-32B-GPTQ-Int4) | [JunHowie/Qwen3-32B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-32B-GPTQ-Int4) | 32B | INT4 | TP4/8 |
+
+  > - TIPS
+  >    - INT4数据格式，此处均指`W4A16`
+  >    - GPTQ-INT4量化模型，当前仅支持`desc_act=False`形式
+  >    - 其它符合上述要求的GPTQ模型均可支持
+  >    - *：Qwen3-4B-AWQ，TP8加载报错，参考官方解释：[Qwen-Troubleshooting](https://qwen.readthedocs.io/en/latest/quantization/gptq.html#troubleshooting)
+
+- LLM-MOE-GQA
+
+  |model | huggingface  | modelscope | parameter | dtype| parallel |
+  | :--- | :--- | :-- | :-- | :-- | :-- |
+  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 | TP2/4 |
+  |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4 |
+  |Qwen3-30B-A3B-Thinking-2507-FP8 | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | 30B-A3B | FP8 | TP2/4 |
+  |Qwen3-Coder-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4 |
+  |Qwen3-235B-A22B-FP8 | [Qwen/Qwen3-235B-A22B-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-FP8) | [Qwen/Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8) | 235B-A22B | FP8 | TP16/32 |
+  |Qwen3-235B-A22B-Instruct-2507-FP8 | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | 235B-A22B | FP8 | TP16/32 |
+  |Qwen3-235B-A22B-Thinking-2507-FP8 | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | 235B-A22B | FP8 | TP16/32 |
+
+
+## 使用限制
+
+- LLM-Dense-GQA
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Qwen3-0.6B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-1.7B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-4B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-4B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-8B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-8B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-14B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-14B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+
+- LLM-MOE-GQA
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  | Qwen3-30B-A3B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-30B-A3B-* | TP4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-235B-A22B-* | TP16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-235B-A22B-* | TP32 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+
+> - max-input-len: 最大输入长度
+> - max-model-len: 最大上下文长度
+> - mtp: Multi-Token Prediction，多token预测模式
+> - max-concurrency: 最大并发
+> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+
 
 ## 模型下载
 1. 通过hf-mirror下载
@@ -48,22 +123,8 @@
 
 ## 模型量化
 
-- 当前仅支持`Qwen3-30B-A3B`的`GPTQ-int4`量化
-- 量化过程及脚本请参考[Qwen3-30B-A3B GPTQ](./quant/README.md)
-
-## 注意事项
-
-  | model | parallel | seq limit | mtp | tips|
-  |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-30B-A3B-* | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-30B-A3B-* | tp4 | max-input-len 56k </br> max-model-len 128k | ❌ | max-concurrency 4|
-  | Qwen3-235B-A22B-* | tp16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
-
-> - max-input-len: 最大输入长度
-> - max-model-len: 最大上下文长度
-> - mtp: Multi-Token Prediction，多token预测模式
-> - max-concurrency: 最大并发
-> - 对于超过上下文长度的请求，内部会拦截不做处理，需要客户端自行处理
+> `GPTQ-INT4`量化
+- 量化过程及脚本请参考：[Qwen3-30B-A3B GPTQ](./quant/README.md)
 
 
 ## 启动模型服务
@@ -91,7 +152,7 @@
   ```
 
 - 参数说明如下
-  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置，仅针对Qwen3 235B系列模型测试100k输入时，需要设置该环境变量。
+  - `LLM_MAX_PREFILL_SEQ_LEN="102400"`：最大prefill长度环境变量设置。
 
   - `--tensor-parallel-size`：张量并行数。
 
@@ -103,7 +164,11 @@
 
   - `--max-model-len`：模型最大上下文长度。
 
-  - `--rope-scaling`：是否启动 Qwen3 模型的 RoPE 缩放功能，使模型最大上下文长度超过32K, 仅 Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8 模型需要设置该参数:--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}'。
+  - `--rope-scaling`：如模型支持RoPE长度外推，可开启此参数，使模型最大上下文长度超过原生长度
+    - `--rope-scaling '{"rope_type":"yarn","factor":4.0,"
+original_max_position_embeddings":32768}' --max-model-len 131072`
+    - 验证模型：Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8
+    - 验证模型：Qwen3-4B/8B/14B/32B
 
   > 思考和非思考模式，具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 

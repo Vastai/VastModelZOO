@@ -70,7 +70,7 @@ DeepLab_v3+的主要改进：
 |[DeepLabV3-MobileNet](https://github.com/VainF/DeepLabV3Plus-Pytorch)|13.372|5.114|70.100|fp16 67.816<br>int8 64.441|3×513×513|
 |[DeepLabV3-ResNet50](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|114.137|39.639|76.900|fp16 72.671<br>int8 72.330|3×513×513|
 |[DeepLabV3-ResNet101](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|160.224|58.631|77.300|fp16 75.289<br>int8 74.492|3×513×513|
-|[DeepLabV3Plus-MobileNet](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|37.799|5.226|71.100|fp16 3.589<br>int8 3.570|3×513×513|
+|[DeepLabV3Plus-MobileNet](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|37.799|5.226|71.100|fp16 70.648<br>int8 69.137|3×513×513|
 |[DeepLabV3Plus-ResNet50](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|139.293|39.76|77.200|fp16 72.723<br>int8 72.032|3×513×513|
 |[DeepLabV3Plus-ResNet101](https://github.com/VainF/DeepLabV3Plus-Pytorch)	|185.381|58.754|78.300|fp16 75.751<br>int8 75.143|3×513×513|
 

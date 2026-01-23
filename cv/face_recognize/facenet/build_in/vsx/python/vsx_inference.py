@@ -428,7 +428,12 @@ if __name__ == '__main__':
     embeddings = np.array([embeddings_dict[path] for path in path_list])
     tpr, fpr, accuracy, val, val_std, far, fp, fn = evaluate(embeddings, issame_list)
     auc = metrics.auc(fpr, tpr)
-    eer = brentq(lambda x: 1.0 - x - interpolate.interp1d(fpr, tpr)(x), 0.0, 1.0)
+    try:
+        eer = brentq(lambda x: 1.0 - x - interpolate.interp1d(fpr, tpr)(x), 0.0, 1.0)
+    except Exception as error:
+        print(f"[Warming]: interpolate.interp1d error: {error}, modify 'bounds_error' flag.")
+        interp = interpolate.interp1d(fpr, tpr, kind='linear', fill_value=(0.0, 1.0), bounds_error=False)
+        eer = brentq(lambda x: 1.0 - x - interp(x), 0.0, 1.0)
 
     print("Accuracy: %2.5f+-%2.5f" % (np.mean(accuracy), np.std(accuracy)))
     print("Validation rate: %2.5f+-%2.5f @ FAR=%2.5f" % (val, val_std, far))

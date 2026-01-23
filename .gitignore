@@ -132,3 +132,4 @@ dmypy.json
 .history/*
 deploy_weights/*
 output/*
+weights/*

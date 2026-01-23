@@ -1,0 +1,26 @@
+name: official_real_esrgan_x4plus_fp16
+
+frontend:
+  shape:
+    input:
+    - 1
+    - 3
+    - 128
+    - 128
+  type: onnx
+  checkpoint: /path/to/real_esrgan_x4plus.onnx
+  dtype: fp32
+
+backend:
+  type: tvm_vacc
+  dtype: fp16
+  compile:
+    data_transport_mode: 1
+   
+workspace:
+  path: ./deploy_weights/
+
+
+
+
+

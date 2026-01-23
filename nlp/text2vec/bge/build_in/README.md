@@ -84,11 +84,14 @@
 ### step.5 性能精度测试
 1. 性能测试
     - 配置vdsp参数：[embedding-vdsp_params.json](./vdsp_params/embedding-vdsp_params.json)
+    - 构建真实数据：[gen_vamp_data.py](../../common/source_code/gen_vamp_data.py)，生成`vamp_npz_list.txt`
 
     ```bash
     vamp -m vacc_deploy/bge-m3-512-fp16/mod \
-    --vdsp_params ../build_in/vdsp_params/embedding-vdsp_params.json  \
-    -i 1 p 1 -b 1 -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] --dtype uint32
+    --vdsp_params ../build_in/vdsp_params/embedding-vdsp_params.json \
+    -d 0 -i 1 p 1 -b 1 \
+    -s [[1,512],[1,512],[1,512],[1,512],[1,512],[1,512]] \
+    --datalist ./vamp_npz_list.txt
     ```
 
 2. 精度测试：[demo.py](./vsx/demo.py)

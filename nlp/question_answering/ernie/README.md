@@ -178,21 +178,6 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
    ```
 
 - 推理 运行
-  - `compiler version <= 1.5.0 并且 vastsream sdk == 1.X`
-
-    运行 [sample_nlp.py](../common/sdk1.0/sample_nlp.py) 脚本，获取 推理 结果，示例：
-
-    ```bash
-    cd ../../common/sdk1.0
-    python sample_nlp.py \
-        --model_info ./network.json \
-        --bytes_size 1536 \
-        --datalist_path npz_datalist.txt \
-        --save_dir ./output
-    ```
-
-    > 可参考 [network.json](../common/sdk1.0/network.json) 进行修改
-
   - `compiler version >= 1.5.2 并且 vastsream sdk == 2.X`
 
     运行 [vsx_sc.py](../common/vsx/python/vsx_qa.py) 脚本，获取 推理 结果，示例：
@@ -201,7 +186,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
     cd ../../common/vsx/python/
     python vsx_qa.py \
         --data_list npz_datalist.txt\
-        --model_prefix_path ./build_deploy/ernie_base_qa_384/ernie_base_qa_384 \
+        --model_prefix_path ./build_deploy/ernie_base_qa_384/mod \
         --device_id 0 \
         --batch 1 \
         --save_dir ./out
@@ -228,7 +213,7 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 2. 获得模型性能信息
 
     ```bash
-   vamp -m deploy_weights/ernie_base_qa-int8-mse-mutil_input-vacc/mod \
+   vamp -m deploy_weights/ernie_base_qa-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
         --iterations 1024 \
         --batch_size 1 \
@@ -239,9 +224,8 @@ ERNIE 2.0 用了不同的task id 来标示预训练任务，task id 从1 到N �
 3. 执行测试：
 
     ```bash
-    vamp -m deploy_weights/ernie_base_squad-int8-mse-mutil_input-vacc/ernie_base_squad \
+    vamp -m deploy_weights/ernie_base_squad-int8-mse/mod \
         --vdsp_params ../../common/vamp_info/bert_vdsp.json \
-        --hwconfig ../../common/vamp_info/bert_hw_config.bin \
         --batch_size 1 \
         --instance 6 \
         --processes 2

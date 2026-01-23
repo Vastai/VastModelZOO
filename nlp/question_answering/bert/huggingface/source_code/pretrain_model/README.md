@@ -1,16 +1,16 @@
 # Convert Pretrain Model
 
 ## step.1 修改 transformers 代码
+- transformers==4.26.1
+- 修改forward返回值：[src/transformers/models/bert/modeling_bert.py](https://github.com/huggingface/transformers/blob/v4.26.1/src/transformers/models/bert/modeling_bert.py#L1865-L1868)
 
-- 进入本地 transformers 库环境，修改 bert 模型输出代码
-
-    ```bash
-    cd /path/to/anaconda3/envs/bert_mult/lib/python3.7/site-packages/transformers/src/transformers/models/bert/
-
-    vim modeling_bert.py
-    ```
-- 修改 1865 - 1872行 代码为：
     ```python
+    # logits = self.qa_outputs(sequence_output)
+    # start_logits, end_logits = logits.split(1, dim=-1)
+    # start_logits = start_logits.squeeze(-1).contiguous()
+    # end_logits = end_logits.squeeze(-1).contiguous()
+
+    # modify
     logits = self.qa_outputs(sequence_output)
 
     if self.training:

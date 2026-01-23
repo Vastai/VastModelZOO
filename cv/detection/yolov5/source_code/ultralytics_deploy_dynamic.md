@@ -14,7 +14,7 @@
     ```
     然后运行如下命令转换生成onnx模型
     ```bash
-    python export.py --weights yolov5s.pt --include onnx 
+    python export.py --weights yolov5s.pt --include onnx --dynamic
     ```
 
 ### step.2 准备数据集
