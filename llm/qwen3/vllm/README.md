@@ -123,7 +123,7 @@
 
 ## 模型量化
 
-- 当前仅支持`Qwen3-30B-A3B`的`GPTQ-int4`量化
+> `GPTQ-INT4`量化
 - 量化过程及脚本请参考：[Qwen3-30B-A3B GPTQ](./quant/README.md)
 
 
