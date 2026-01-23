@@ -11,12 +11,40 @@ window.addEventListener('load', function() {
 
 // 切换大类内容显示/隐藏
 function toggleCategory(categoryId) {
+    console.log('toggleCategory called with:', categoryId);
     const content = document.getElementById(categoryId);
     const header = content.previousElementSibling;
     
+    if (!content) {
+        console.error('Content element not found for categoryId:', categoryId);
+        return;
+    }
+    
+    console.log('Current content classes:', content.className);
+    console.log('Current header classes:', header ? header.className : 'no header');
+    
+    const navIdMap = {
+        'cv-content': 'cv-sub',
+        'nlp-content': 'nlp-sub',
+        'llm-content': 'llm-sub',
+        'vlm-content': 'vlm-sub'
+    };
+    const categoryLinkMap = {
+        'cv-content': '#cv-models',
+        'nlp-content': '#nlp-models',
+        'llm-content': '#llm-models',
+        'vlm-content': '#vlm-models'
+    };
+    
     const isExpanding = !content.classList.contains('expanded');
+    console.log('isExpanding:', isExpanding);
     
     if (isExpanding) {
+        // 清除所有子分类链接的高亮
+        document.querySelectorAll('.subcategory-list a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
         // 折叠所有其他大类
         document.querySelectorAll('.subcategory-panel').forEach(panel => {
             if (panel.id !== categoryId) {
@@ -50,18 +78,6 @@ function toggleCategory(categoryId) {
         });
         
         // 展开左侧导航栏对应的子分类列表
-        const navIdMap = {
-            'cv-content': 'cv-sub',
-            'nlp-content': 'nlp-sub',
-            'llm-content': 'llm-sub',
-            'vlm-content': 'vlm-sub'
-        };
-        const categoryLinkMap = {
-            'cv-content': '#cv-models',
-            'nlp-content': '#nlp-models',
-            'llm-content': '#llm-models',
-            'vlm-content': '#vlm-models'
-        };
         const targetNavId = navIdMap[categoryId];
         const targetLink = categoryLinkMap[categoryId];
         if (targetNavId) {
@@ -88,6 +104,7 @@ function toggleCategory(categoryId) {
             }
         }
     } else {
+        console.log('Entering else branch (collapsing)');
         // 折叠当前大类时,同时折叠其内部的所有子类别
         content.querySelectorAll('.models-table-container').forEach(container => {
             container.classList.remove('expanded');
@@ -97,18 +114,53 @@ function toggleCategory(categoryId) {
             }
         });
         
+        // 同步折叠左侧导航栏对应的子分类列表
+        const targetNavId = navIdMap[categoryId];
+        console.log('targetNavId:', targetNavId);
+        if (targetNavId) {
+            const targetNavList = document.getElementById(targetNavId);
+            console.log('targetNavList:', targetNavList);
+            if (targetNavList) {
+                targetNavList.classList.remove('expanded');
+                console.log('Removed expanded from navList');
+                const navButton = targetNavList.previousElementSibling;
+                if (navButton && navButton.classList.contains('toggle-subcategories')) {
+                    const navIcon = navButton.querySelector('i');
+                    if (navIcon) {
+                        navIcon.className = 'fas fa-chevron-down';
+                    }
+                }
+                // 移除该列表下所有子类别链接的高亮
+                targetNavList.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('active');
+                });
+            }
+        }
+        
         // 移除左侧导航栏对应类别的高亮
         const targetLink = categoryLinkMap[categoryId];
+        console.log('targetLink:', targetLink);
         if (targetLink) {
             const targetLinkElement = document.querySelector(`.category-list > li > a[href="${targetLink}"]`);
+            console.log('targetLinkElement:', targetLinkElement);
             if (targetLinkElement) {
                 targetLinkElement.classList.remove('active');
             }
         }
     }
 
-    content.classList.toggle('expanded');
-    header.classList.toggle('active');
+    console.log('Before final class manipulation, isExpanding:', isExpanding);
+    if (isExpanding) {
+        content.classList.add('expanded');
+        header.classList.add('active');
+        console.log('Added expanded and active classes');
+    } else {
+        content.classList.remove('expanded');
+        header.classList.remove('active');
+        console.log('Removed expanded and active classes');
+    }
+    console.log('After manipulation, content classes:', content.className);
+    console.log('After manipulation, header classes:', header ? header.className : 'no header');
     
     // 如果是展开操作，滚动到该类别的正确位置
     if (isExpanding) {
