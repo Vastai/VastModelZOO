@@ -12,7 +12,7 @@
     | [BAAI/bge-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) |    768    |       512       |                        English model                         |
     | [BAAI/bge-large-en-v1.5](https://huggingface.co/BAAI/bge-large-en-v1.5) |   1024    |       512       |                      English model                         |
     | [BAAI/bge-small-zh-v1.5](https://huggingface.co/BAAI/bge-small-zh-v1.5) |    384    |       512       |                      Chinese model
-    | [BAAI/bge-base-zh-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) |    768    |       512       |                        Chinese model                         |
+    | [BAAI/bge-base-zh-v1.5](https://huggingface.co/BAAI/bge-base-zh-v1.5) |    768    |       512       |                        Chinese model                         |
     | [BAAI/bge-large-zh-v1.5](https://huggingface.co/BAAI/bge-large-zh-v1.5) |   1024    |       512       |                      Chinese model                         |
     
     >  base on XLMRobertaModel
