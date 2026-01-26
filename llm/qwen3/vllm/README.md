@@ -81,7 +81,7 @@
   | Qwen3-8B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-14B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-14B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
-  | Qwen3-32B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-32B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 - LLM-MOE-GQA
