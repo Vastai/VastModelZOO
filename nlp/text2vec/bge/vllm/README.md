@@ -5,8 +5,8 @@
 ## 模型支持
 
 - Embedding
-    |                          Model Name                          | Dimension | Sequence Length |                         Introduction                         |
-    | :----------------------------------------------------------: | :-------: | :-------------: | :----------------------------------------------------------: |
+    | Model  | Dimension | Sequence Length | Language |
+    | :------: | :-------: | :-------------: | :------: |
     |      [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3)       |   1024    |      8192       | multilingual; unified fine-tuning (dense, sparse, and colbert) </br> from bge-m3-unsupervised |
     | [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) |    384    |       512       |                      English model                         |
     | [BAAI/bge-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5) |    768    |       512       |                        English model                         |
@@ -19,11 +19,30 @@
 
 - ReRanker
 
-    | 模型 |   基础模型  |   语言   | Dimension | Sequence Length  | Note                                                         |
-    | :----------------------------------------------------------: | :----------------------------------------------------------: | :------: | :--: |:--: |:--: | 
-    | [BAAI/bge-reranker-base](https://huggingface.co/BAAI/bge-reranker-base) | [xlm-roberta-base](https://huggingface.co/xlm-roberta-base)  |  中英文  |  768 | 512 | 轻量级重排序模型，易于部署，推理速度快。                     |
-    | [BAAI/bge-reranker-large](https://huggingface.co/BAAI/bge-reranker-large) | [xlm-roberta-large](https://huggingface.co/FacebookAI/xlm-roberta-large) |  中英文  |   1024 | 512 | 轻量级重排序模型，易于部署，推理速度快。                     |
-    | [BAAI/bge-reranker-v2-m3](https://huggingface.co/BAAI/bge-reranker-v2-m3) |         [bge-m3](https://huggingface.co/BAAI/bge-m3)         | 多种语言 |   1024 | 8192 | 轻量级重排序模型，具有强大的多语言能力，易于部署，推理速度快。 |
+    | Model |   Base Model  |  Dimension | Sequence Length  | Note |Language |
+    | :------: | :------: | :------: | :--: |:--: |:--: | 
+    | [BAAI/bge-reranker-v2-m3](https://huggingface.co/BAAI/bge-reranker-v2-m3) |         [bge-m3](https://huggingface.co/BAAI/bge-m3)  |  1024 | 8192 | 轻量级重排序模型，具有强大的多语言能力，易于部署，推理速度快。 | 多种语言 | 
+    | [BAAI/bge-reranker-base](https://huggingface.co/BAAI/bge-reranker-base) | [xlm-roberta-base](https://huggingface.co/xlm-roberta-base)  | 768 | 512 | 轻量级重排序模型，易于部署，推理速度快。 | 中英文  |  
+    | [BAAI/bge-reranker-large](https://huggingface.co/BAAI/bge-reranker-large) | [xlm-roberta-large](https://huggingface.co/FacebookAI/xlm-roberta-large) |  1024 | 512 | 轻量级重排序模型，易于部署，推理速度快。 |  中英文  |
+
+## 使用限制
+
+- Embedding
+
+  | model | parallel | seq limit | tips|
+  |:--- |:--- | :-- | :-- | 
+  | bge-m3 | TP1/2/4/8 | max-model-len 8192 | max-concurrency 4|
+  | bge-small-* | TP1/2/4/8 | max-model-len 512 | max-concurrency 4|
+  | bge-base-* | TP1/2/4/8 | max-model-len 512 | max-concurrency 4|
+  | bge-large-* | TP1/2/4/8 | max-model-len 512 | max-concurrency 4|
+
+- ReRanker
+
+  | model | parallel | seq limit | tips|
+  |:--- |:--- | :-- | :-- | 
+  | bge-reranker-v2-m3 | TP1/2/4/8 | max-model-len 8192 | max-concurrency 4|
+  | bge-reranker-base | TP1/2/4/8 | max-model-len 512 | max-concurrency 4|
+  | bge-reranker-large | TP1/2/4/8 | max-model-len 512 | max-concurrency 4|
 
 
 ## 模型下载
