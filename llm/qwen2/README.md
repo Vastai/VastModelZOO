@@ -141,12 +141,20 @@
 
 ## vLLM Deploy
 
-### step.1 模型准备
+### 模型支持
 | models  | arch tips | deploy tips |
 | :--- | :--: | :--: |
 [Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP2/4 |
 [Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP2/4 |
 [Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4/)   | Dense，GQA | VA1L/VA16，TP4/8 |
 
-### step.2 模型推理
+
+### 使用限制
+| model | parallel | seq limit | mtp | tips|
+|:--- |:--- | :-- | :-- | :-- |
+| Qwen2.5-7B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+| Qwen2.5-14B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+| Qwen2.5-32B-* | TP4/8 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+
+### 模型推理
 - 参考：[vllm/README.md](../qwen3/vllm/README.md)
