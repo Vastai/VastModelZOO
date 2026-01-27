@@ -136,7 +136,7 @@
   | :--- | :--- | :-- | :-- | :-- | :-- |
   | Qwen2.5-7B-Instruct-GPTQ-Int4|[Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4/) | [Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4) | 7B | INT4 | TP2/4 |
   | Qwen2.5-14B-Instruct-GPTQ-Int4|[Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4/) | [Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4) | 14B | INT4 | TP2/4 |
-  | Qwen2.5-32-Instruct-GPTQ-Int4|[Qwen/Qwen2.5-32-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32-Instruct-GPTQ-Int4/) | [Qwen/Qwen2.5-32-Instruct-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen2.5-32-Instruct-GPTQ-Int4) | 32 | INT4 | TP2/4 |
+  | Qwen2.5-32B-Instruct-GPTQ-Int4|[Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4/) | [Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4) | 32B | INT4 | TP2/4 |
 
 
 #### Usage Limits
