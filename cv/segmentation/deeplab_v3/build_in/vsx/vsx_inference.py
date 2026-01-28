@@ -29,7 +29,7 @@ import vaststreamx as vsx
 
 import sys
 _cur_file_path = os.path.split(os.path.realpath(__file__))[0]
-sys.path.append(_cur_file_path + os.sep + '../../..')
+sys.path.append(_cur_file_path + os.sep + '../..')
 from source_code.vainf.score import SegmentationMetric
 
 
