@@ -107,24 +107,38 @@ DeepLab_v3+的主要改进：
     一般在原始仓库内进行模型转为onnx或torchscript。在原仓库test或val脚本内，如[predict.py#L102](https://github.com/VainF/DeepLabV3Plus-Pytorch/blob/master/predict.py#L102)，定义模型和加载训练权重后，添加以下脚本可实现：
 
     ```python
-    args.weights_test = "path/to/trained/weight.pth"
+    #L71添加：
+    #device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cpu')
+
+    #L102添加：
+    opts.weights_test = "path/to/trained/weight.pth"
+    if isinstance(model, torch.nn.DataParallel):
+        print("Model is wrapped with DataParallel, unwrapping...")
+        model = model.module  # 移除 DataParallel 包装
     model = model.eval()
     input_shape = (1, 3, 513, 513)
     shape_dict = [("input", input_shape)]
     input_data = torch.randn(input_shape)
     scripted_model = torch.jit.trace(model, input_data).eval()
-    scripted_model.save(args.weights_test.replace(".pth", ".torchscript.pt"))
-    scripted_model = torch.jit.load(args.weights_test.replace(".pth", ".torchscript.pt"))
+    scripted_model.save(opts.weights_test.replace(".pth", ".torchscript.pt"))
+    scripted_model = torch.jit.load(opts.weights_test.replace(".pth", ".torchscript.pt"))
 
     import onnx
-    torch.onnx.export(model, input_data, args.weights_test.replace(".pth", ".onnx"), input_names=["input"], output_names=["output"], opset_version=11,
+    torch.onnx.export(model, input_data, opts.weights_test.replace(".pth", ".onnx"), input_names=["input"], output_names=["output"], opset_version=11,
                 # dynamic_axes= {
                 #                 "input": {0: 'batch_size', 2 : 'in_height', 3: 'in_width'},
                 #                 "output": {0: 'batch_size', 2: 'out_height', 3:'out_width'}
                 #                 }
     )
     shape_dict = {"input": input_shape}
-    onnx_model = onnx.load(args.weights_test.replace(".pth", ".onnx"))
+    onnx_model = onnx.load(opts.weights_test.replace(".pth", ".onnx"))
+    ```
+
+    修改完成执行：
+
+    ```bash
+    python predict.py --model deeplabv3_resnet50 --input samples/114_image.png --ckpt best_deeplabv3_resnet50_voc_os16.pth
     ```
 
 ### step.2 准备数据集
@@ -167,7 +181,7 @@ DeepLab_v3+的主要改进：
 1. 基于[image2npz.py](./build_in/vdsp_params/image2npz.py)，将评估数据集转换为npz格式，生成对应的`npz_datalist.txt`
     > 注意只转换`VOC2012/ImageSets/Segmentation/val.txt`对应的验证集图像（配置相应路径）：
     ```bash
-    python ./build_in/vdsp_params/image2npz.py \
+    python ../build_in/vdsp_params/image2npz.py \
     --dataset_path VOC2012/JPEGImages \
     --target_path  VOC2012/JPEGImages_npz \
     --text_path npz_datalist.txt
@@ -184,7 +198,7 @@ DeepLab_v3+的主要改进：
 
 3. 精度测试，推理得到npz结果：
     ```bash
-    vamp -m deploy_weights/official_deeplab_v3_int8 \
+    vamp -m deploy_weights/official_deeplab_v3_int8/mod \
     --vdsp_params ../build_in/vdsp_params/vainf-deeplab_v3_resnet50-vdsp_params.json \
     -i 1 p 1 -b 1 -s [3,513,513] \
     --datalist npz_datalist.txt \
