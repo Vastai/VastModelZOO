@@ -138,7 +138,6 @@ body:
         请填写你实际使用的通用软件版本，每行一个
         - 如果版本与推荐一致，可以直接复制上面的推荐版本
         - 如果有其他软件，请在末尾添加
-    render: shell
     validations:
       required: false
 
@@ -154,7 +153,6 @@ body:
         - vaststreamx==2.8.6
       placeholder: |
         请填写你实际使用的VastAI相关软件版本，每行一个
-    render: shell
     validations:
       required: false
 
