@@ -1,0 +1,155 @@
+name: 🐛 Bug Report
+description: Create a bug report for VastModelZOO | VastModelZOO 的 Bug 反馈
+labels: bug
+
+# We omit `title: "..."` so that the field defaults to blank. If we set it to
+# empty string, Github seems to reject this .yml file.
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting a VastModelZOO 🐛 Bug Report! | 感谢您提交 VastModelZOO 🐛 Bug 反馈！
+
+  - type: checkboxes
+    attributes:
+      label: 🔎 Search before asking | 提交之前请先搜索
+      description: >
+        Please search the VastModelZOO [Readme](https://github.com/Vastai/VastModelZOO), [Issues](https://github.com/Vastai/VastModelZOO/issues) and [Discussions](https://github.com/Vastai/VastModelZOO/discussions) to see if a similar bug report already exists.
+      options:
+        - label: I have searched the VastModelZOO [Readme](https://github.com/Vastai/VastModelZOO) and found no similar bug report.
+          required: true
+        - label: I have searched the VastModelZOO [Issues](https://github.com/Vastai/VastModelZOO/issues) and found no similar bug report.
+          required: true
+        - label: I have searched the VastModelZOO [Discussions](https://github.com/Vastai/VastModelZOO/discussions) and found no similar bug report.
+          required: true
+
+  - type: checkboxes
+    attributes:
+      label: 🤖 Consult the online AI assistant for assistance | 在线 AI 助手咨询
+      description: >
+        This [online AI assistant](https://deepwiki.com/Vastai/VastModelZOO) is specifically trained to help with VastModelZOO and related topics.
+      options:
+        - label: I have consulted the [online AI assistant](https://deepwiki.com/Vastai/VastModelZOO) but was unable to obtain a solution to the issue.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the bug | 错误描述
+      description: |
+        Provide console output with error messages and/or screenshots of the bug. | 请提供详细报错信息或者截图
+      placeholder: |
+        💡 ProTip! Include as much information as possible (screenshots, logs, tracebacks etc.) to receive the most helpful response.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce the bug | 如何复现
+      
+      # Should not word-wrap this description here.
+      description: |
+        If you have questions about the infer samples or encounter errors during execution: | 如对模型部署示例有疑问或在运行中出现报错等异常:
+        * Provide a minimal reproducible example. | 请提供一个最小可复现的demo。 
+        * The demo should include the complete steps, code, and the file to be reference. | demo需要包含完整的操作步骤，代码，以及必要的示例文件。
+        
+    validations:
+      required: true
+
+
+  - type: dropdown
+    id: os_mode
+    attributes:
+      label: Operating System Mode | 操作系统类型
+      #multiple: true
+      options:
+        -
+        - Windows
+        - Linux
+        - MacOS
+    validations:
+      required: true
+
+  - type: textarea
+    id: os_name_version
+    attributes:
+      label: Operating System Version| 操作系统版本
+      #multiple: true
+      description: |
+        * 如果您使用的是Linux系统，请提供Linux系统的**发行版名称**和**版本号**来帮助开发人员排查问题。 
+        * If you are using a Linux system, please provide the Linux distribution and version number to help developers troubleshoot the issue.
+        * 如果您使用的是Windows或MacOS系统，请提供操作系统的**版本号**来帮助开发人员排查问题。
+        * If you are using a Windows or MacOS system, please provide the version number of the operating system to help developers troubleshoot the issue.
+        * 例如：Ubuntu 22.04, CentOS 7.9, MacOS 15.1, Windows 11
+        * For example: Ubuntu 22.04, CentOS 7.9, MacOS 15.1, Windows 11.
+
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device_type
+    attributes:
+      label: Device type | 设备类型
+      #multiple: true
+      options:
+        -
+        - cpu
+        - cuda
+        - ve1
+        - va1
+        - va10
+        - va16
+    validations:
+      required: true
+
+
+  - type: dropdown
+    id: python_version
+    attributes:
+      label: Python version | Python 版本
+      #multiple: true
+      # Need quotes around `3.10` otherwise it is treated as a number and shows as `3.1`.
+      options:
+        -
+        - "3.12"
+        - "3.11"
+        - "3.10"
+        - "3.8"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: general_software_version
+    attributes:
+      label: General Software version | 通用软件版本
+      #multiple: false
+      options:
+        -
+        - "`torch==2.1.0`"
+        - "`torchvision==0.16.1`"
+        - "`numpy==1.22.0`"
+        - "`datasets==2.15.0`"
+        - "`transformers==4.45.0`"
+        - "`onnx==1.14.0`"
+        - "`onnxruntime==1.13.1`"
+        - "`onnxsim==0.4.35`"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: vastai_software_version
+    attributes:
+      label: VastAI Software version | VastAI软件版本
+      #multiple: false
+      options:
+        -
+        - "`ai-v3.0.0-20250814`"
+        - "`vamc==3.4.2`"
+        - "`vastgenx==1.2.2`"
+        - "`vaststreamx==2.8.6`"
+    validations:
+      required: true
+
+
