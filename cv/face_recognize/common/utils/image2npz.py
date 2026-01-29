@@ -19,6 +19,8 @@ parse = argparse.ArgumentParser(description="MAKE DATA LIST")
 parse.add_argument("--dataset_path", type=str, default="./dataset/face/lfw_mtcnnpy_160")
 parse.add_argument("--target_path", type=str, default="./dataset/face/lfw_mtcnnpy_160_npz")
 parse.add_argument("--text_path", type=str, default="npz_datalist.txt")
+parse.add_argument("--suffix", type=str, default=".jpg")
+
 args = parse.parse_args()
 print(args)
 
@@ -27,7 +29,7 @@ def make_npz_text(args):
     if not os.path.exists(args.target_path):
         os.makedirs(args.target_path, exist_ok=True)
     with open(args.text_path, 'w') as f:
-        files_list = glob.glob(args.dataset_path + "/*/*png")
+        files_list = glob.glob(args.dataset_path + f"/*/*{suffix}")
 
         for img_file in tqdm(files_list):
             sub_folder =  os.path.split(img_file)[0].split("/")[-1]

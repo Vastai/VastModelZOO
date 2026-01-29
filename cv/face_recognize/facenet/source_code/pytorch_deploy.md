@@ -59,7 +59,6 @@ commit: 555aa4bec20ca3e7c2ead14e7e39d5bbce203e4b
         --model_prefix_path deploy_weights/pytorch_facenet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/pytorch-facenet_vggface2-vdsp_params.json \
         --lfw_pairs /path/to/pairs.txt \
-        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
