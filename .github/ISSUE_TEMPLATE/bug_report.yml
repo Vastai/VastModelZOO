@@ -120,36 +120,42 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: textarea
     id: general_software_version
     attributes:
       label: General Software version | 通用软件版本
-      #multiple: false
-      options:
-        -
-        - "`torch==2.1.0`"
-        - "`torchvision==0.16.1`"
-        - "`numpy==1.22.0`"
-        - "`datasets==2.15.0`"
-        - "`transformers==4.45.0`"
-        - "`onnx==1.14.0`"
-        - "`onnxruntime==1.13.1`"
-        - "`onnxsim==0.4.35`"
+      description: |
+        - torch==2.1.0
+        - torchvision==0.16.1
+        - numpy==1.22.0
+        - datasets==2.15.0
+        - transformers==4.45.0
+        - onnx==1.14.0
+        - onnxruntime==1.13.1
+        - onnxsim==0.4.35
+        - others
+      placeholder: |
+        请填写你实际使用的通用软件版本，每行一个
+        - 如果版本与推荐一致，可以直接复制上面的推荐版本
+        - 如果有其他软件，请在末尾添加
+    render: shell
     validations:
-      required: true
+      required: false
 
-  - type: dropdown
+  - type: textarea
     id: vastai_software_version
     attributes:
       label: VastAI Software version | VastAI软件版本
-      #multiple: false
-      options:
-        -
-        - "`ai-v3.0.0-20250814`"
-        - "`vamc==3.4.2`"
-        - "`vastgenx==1.2.2`"
-        - "`vaststreamx==2.8.6`"
+      description: |
+        - ai-v3.0.0-20250814 (cat /opt/vastai/vaststream/version.txt)
+        - Driver: 00.26.01.23 d3_3_v2_9_a3_1_sp1 (cat /dev/vastai0_version)
+        - vamc==3.4.2
+        - vastgenx==1.2.2
+        - vaststreamx==2.8.6
+      placeholder: |
+        请填写你实际使用的VastAI相关软件版本，每行一个
+    render: shell
     validations:
-      required: true
+      required: false
 
 
