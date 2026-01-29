@@ -109,21 +109,22 @@ body:
     id: python_version
     attributes:
       label: Python version | Python 版本
-      #multiple: true
-      # Need quotes around `3.10` otherwise it is treated as a number and shows as `3.1`.
       options:
         -
+        - "3.13"
         - "3.12"
         - "3.11"
         - "3.10"
+        - "3.9"
         - "3.8"
+        - "3.7"
     validations:
       required: true
 
   - type: textarea
     id: general_software_version
     attributes:
-      label: General Software version | 通用软件版本
+      label: General software version | 通用软件版本
       description: |
         - torch==2.1.0
         - torchvision==0.16.1
@@ -144,15 +145,17 @@ body:
   - type: textarea
     id: vastai_software_version
     attributes:
-      label: VastAI Software version | VastAI软件版本
+      label: VastAI software version | VastAI软件版本
       description: |
-        - ai-v3.0.0-20250814 (cat /opt/vastai/vaststream/version.txt)
-        - Driver: 00.26.01.23 d3_3_v2_9_a3_1_sp1 (cat /dev/vastai0_version)
+        - compiler: ai-v3.0.0-20250814 (cat /opt/vastai/vaststream/version.txt)
+        - driver: 00.26.01.23 d3_3_v2_9_a3_1_sp1 (cat /dev/vastai0_version)
         - vamc==3.4.2
         - vastgenx==1.2.2
         - vaststreamx==2.8.6
       placeholder: |
         请填写你实际使用的VastAI相关软件版本，每行一个
+        - 如果版本与推荐一致，可以直接复制上面的推荐版本
+        - 如果有其他软件，请在末尾添加
     validations:
       required: false
 
