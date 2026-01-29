@@ -25,7 +25,7 @@
 | :------------------------ | :------- | :------------------------------------------ | :--- | :---------------- |
 | MiroThinker-v1.5-30B-FP8  | tp2      | max-input-len 56k </br> max-model-len 64k   | ❌    | max-concurrency 4 |
 | MiroThinker-v1.5-30B-FP8  | tp4      | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
-| MiroThinker-v1.5-235B-FP8 | tp16     | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
+| MiroThinker-v1.5-235B-FP8 | tp16/32     | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
 
 > - max-input-len: 最大输入长度
 > - max-model-len: 最大上下文长度

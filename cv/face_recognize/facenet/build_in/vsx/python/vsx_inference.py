@@ -390,7 +390,6 @@ def set_config():
     )
     parse.add_argument("--device_id", type=int, default=0, help="device id")
     parse.add_argument("--batch", type=int, default=1, help="bacth size")
-    parse.add_argument("--save_dir", type=str, default="./vsx_results", help="save result")
     args = parse.parse_args()
 
     return args
@@ -407,8 +406,6 @@ if __name__ == '__main__':
                         model_output_op_name = "", 
                     )
     
-    os.makedirs(args.save_dir, exist_ok=True)
-
     # Test multiple images
     image_files = glob.glob(f"{args.image_dir}/*/*", recursive=True)
     # sort images

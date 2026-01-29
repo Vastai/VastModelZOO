@@ -61,8 +61,17 @@ function toggleCategory(categoryId) {
                     if (containerHeader) {
                         containerHeader.classList.remove('active');
                     }
+                    // 关闭该子类别内的所有模型列表
+                    container.querySelectorAll('.model-list-details').forEach(el => {
+                        el.style.display = 'none';
+                    });
                 });
             }
+        });
+        
+        // 关闭当前大类内的所有模型列表（确保展开时模型列表是折叠状态）
+        content.querySelectorAll('.model-list-details').forEach(el => {
+            el.style.display = 'none';
         });
         
         // 同步折叠左侧导航栏的所有子分类列表
@@ -112,6 +121,10 @@ function toggleCategory(categoryId) {
             if (containerHeader) {
                 containerHeader.classList.remove('active');
             }
+            // 关闭该子类别内的所有模型列表
+            container.querySelectorAll('.model-list-details').forEach(el => {
+                el.style.display = 'none';
+            });
         });
         
         // 同步折叠左侧导航栏对应的子分类列表
@@ -372,6 +385,25 @@ function toggleSubcategories(subId) {
                 targetLinkElement.classList.add('active');
             }
         }
+        
+        // 滚动到对应大类的位置，与点击文字链接的行为保持一致
+        const targetId = targetLink ? targetLink.substring(1) : null;
+        if (targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                // 使用预先计算的位置信息进行滚动
+                const targetTop = window.categoryPositions && window.categoryPositions.categories[targetId] 
+                    ? window.categoryPositions.categories[targetId] - 120 
+                    : targetElement.offsetTop - 120;
+                
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: targetTop,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+            }
+        }
     } else {
         // 折叠时移除当前列表下所有子类别链接的高亮
         sublist.querySelectorAll('a').forEach(link => {
@@ -449,21 +481,51 @@ function searchModels() {
     const allRows = document.querySelectorAll('.models-table tbody tr');
     
     allRows.forEach(row => {
-        totalCount++;
+        // 获取模型列表中的小模型名称
+        let modelListNames = '';
+        const modelListDetails = row.querySelector('.model-list-details');
+        if (modelListDetails) {
+            const modelItems = modelListDetails.querySelectorAll('li');
+            modelItems.forEach(item => {
+                modelListNames += item.textContent.toLowerCase() + ' ';
+                totalCount++; // 增加小模型计数
+            });
+        } else {
+            totalCount++; // 如果没有小模型列表，只增加1
+        }
+        
         const modelName = row.querySelector('.model-cell')?.textContent.toLowerCase() || '';
         const codebase = row.querySelector('.codebase-link')?.textContent.toLowerCase() || '';
         const modelType = row.querySelector('.type-badge')?.textContent.toLowerCase() || '';
         const runtime = row.querySelector('.runtime-badge')?.textContent.toLowerCase() || '';
-        
+                
         const matches = !searchTerm || 
             modelName.includes(searchTerm) || 
             codebase.includes(searchTerm) || 
             modelType.includes(searchTerm) || 
-            runtime.includes(searchTerm);
+            runtime.includes(searchTerm) ||
+            modelListNames.includes(searchTerm);
 
         if (matches) {
             row.style.display = '';
-            visibleCount++;
+            // 如果有搜索词且匹配，计算匹配的小模型数量
+            if (searchTerm && modelListDetails) {
+                let rowVisibleCount = 0;
+                const modelItems = modelListDetails.querySelectorAll('li');
+                modelItems.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(searchTerm)) {
+                        rowVisibleCount++;
+                    }
+                });
+                // 如果模型本身信息匹配但小模型都不匹配，至少计数1
+                if (rowVisibleCount === 0) {
+                    visibleCount++;
+                } else {
+                    visibleCount += rowVisibleCount;
+                }
+            } else {
+                visibleCount++;
+            }
         } else {
             row.style.display = 'none';
         }
@@ -472,7 +534,31 @@ function searchModels() {
     // 显示搜索结果计数
     if (searchTerm) {
         searchCount.style.display = 'block';
-        searchCount.textContent = `找到 ${visibleCount} 个结果 (共 ${totalCount} 个模型)`;
+        // 统计匹配的模型名称数量（主模型数量）
+        let matchedModelNameCount = 0;
+        document.querySelectorAll('.models-table tbody tr').forEach(row => {
+            if (row.style.display !== 'none') {
+                matchedModelNameCount++;
+            }
+        });
+        
+        // 检查搜索词是否匹配了模型类型或运行时
+        let isSearchingTypeOrRuntime = false;
+        const allRows = document.querySelectorAll('.models-table tbody tr');
+        allRows.forEach(row => {
+            const modelType = row.querySelector('.type-badge')?.textContent.toLowerCase() || '';
+            const runtime = row.querySelector('.runtime-badge')?.textContent.toLowerCase() || '';
+            if (modelType.includes(searchTerm) || runtime.includes(searchTerm)) {
+                isSearchingTypeOrRuntime = true;
+            }
+        });
+        
+        // 根据搜索内容类型显示不同的文案
+        if (isSearchingTypeOrRuntime) {
+            searchCount.textContent = `共搜索 ${visibleCount} 个结果`;
+        } else {
+            searchCount.textContent = `模型名称内找到 ${matchedModelNameCount} 个结果，模型列表内找到 ${visibleCount} 个结果`;
+        }
         
         // 自动展开所有包含结果的分类
         expandCategoriesWithResults();
@@ -561,7 +647,9 @@ function expandCategoriesWithResults() {
         }
     });
     
-    // 滚动到第一个有结果的子类别
+    // 移除自动滚动功能，保持页面当前位置
+    // 如需恢复自动滚动，请取消注释以下代码
+    /*
     setTimeout(() => {
         const firstVisibleSubcategory = document.querySelector('.subcategory-item:not([style*="display: none"])');
         if (firstVisibleSubcategory && window.categoryPositions && window.categoryPositions.subcategories) {
@@ -574,6 +662,7 @@ function expandCategoriesWithResults() {
             }
         }
     }, 300);
+    */
 }
 
 // 折叠所有分类

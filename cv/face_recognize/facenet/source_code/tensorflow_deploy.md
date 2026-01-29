@@ -44,7 +44,6 @@ commit: 096ed770f163957c1e56efa7feeb194773920f6e
         --model_prefix_path deploy_weights/tensorflow_facenet_int8/mod \
         --vdsp_params_info ../build_in/vdsp_params/tensorflow-facenet_vggface2-vdsp_params.json \
         --lfw_pairs /path/to/pairs.txt \
-        --save_dir ./infer_output \
         --device 0
     ```
     - 注意替换命令行中--file_path为实际路径
