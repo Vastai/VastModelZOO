@@ -124,7 +124,7 @@ body:
   - type: textarea
     id: general_software_version
     attributes:
-      label: General Software version | 通用软件版本
+      label: General software version | 通用软件版本
       description: |
         - torch==2.1.0
         - torchvision==0.16.1
@@ -145,7 +145,7 @@ body:
   - type: textarea
     id: vastai_software_version
     attributes:
-      label: VastAI Software version | VastAI软件版本
+      label: VastAI software version | VastAI软件版本
       description: |
         - compiler: ai-v3.0.0-20250814 (cat /opt/vastai/vaststream/version.txt)
         - driver: 00.26.01.23 d3_3_v2_9_a3_1_sp1 (cat /dev/vastai0_version)
