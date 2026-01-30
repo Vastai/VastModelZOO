@@ -2,8 +2,9 @@
 
 ![logo](./images/index/logo.png)
 [![License](https://img.shields.io/badge/license-Apache_2.0-yellow)](LICENSE)
-[![pages](https://img.shields.io/badge/vastai.github.io/VastModelZOO-pink)](https://vastai.github.io/VastModelZOO/)
-[![company](https://img.shields.io/badge/vastaitech.com-blue)](https://www.vastaitech.com/)
+[![company](https://img.shields.io/badge/company-vastaitech.com-blue)](https://www.vastaitech.com/)
+[![deepwiki](https://img.shields.io/badge/deepwiki-VastModelZOO-white)](https://deepwiki.com/Vastai/VastModelZOO/)
+[![pages](https://img.shields.io/badge/model_list-vastai.github.io/VastModelZOO-pink)](https://vastai.github.io/VastModelZOO/)
 
 </div>
 
