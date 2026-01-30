@@ -9,16 +9,16 @@
 
 ---
 
-`VastModelZOO`是瀚博半导体`VastAI`维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博GPU芯片上的部署、训练示例。
+`VastModelZOO`是`瀚博半导体VastAI`维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博GPU芯片上的部署、训练示例。
 
-`VastModelZOO`旨在基于瀚博半导体的硬件产品和软件SDK，展示最佳的编程实践，以达成模型的快速移植和最优性能。
+`VastModelZOO`旨在基于`瀚博半导体VastAI`的硬件产品和软件SDK，展示最佳的编程实践，以达成模型的快速移植和最优性能。
 
 为方便大家使用`VastModelZOO`，我们将持续增加典型模型和基础插件。
 
 
 ## 依赖软件
 
-- 基于`瀚博半导体`的硬件产品使用`VastModelZOO`前，需联系销售代表获取`瀚博开发者中心`版本权限
+- 基于`瀚博半导体VastAI`的硬件产品使用`VastModelZOO`前，需联系销售代表获取`瀚博开发者中心`版本权限
 
 - 访问[瀚博开发者中心](https://developer.vastaitech.com/downloads/vvi?version_uid=)，获取`VVI(Vastai Versatilve Inference)`部署软件包
 
