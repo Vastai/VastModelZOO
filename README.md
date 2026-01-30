@@ -18,16 +18,14 @@
 
 ## 依赖软件
 
-基于瀚博半导体的硬件产品使用`VastModelZOO`前，需联系销售代表获取部署软件包。
+- 基于`瀚博半导体`的硬件产品使用`VastModelZOO`前，需联系销售代表获取`瀚博开发者中心`版本权限
 
-- 访问[瀚博开发者中心](https://developer.vastaitech.com/downloads/vvi?version_uid=)，获取最新`VVI`软件包
+- 访问[瀚博开发者中心](https://developer.vastaitech.com/downloads/vvi?version_uid=)，获取`VVI(Vastai Versatilve Inference)`部署软件包
 
 
 ## 快速安装
 
-获取部署软件包后安装流程如下。详细安装及使用说明可参考对应组件的文档。
-
-> 其中，xxx表示版本相关信息，请根据实际情况替换。
+获取部署软件包后安装流程如下。
 
 <details><summary><b>步骤 1.</b> 安装驱动</summary>
 
@@ -142,6 +140,10 @@
 > 若 VLM 模型为 vLLM+Build_In 的混合部署方案，需安装 Build_In 后端模型运行环境部署中的1、2、3、4 和 vLLM 后端模型环境部署中的1、2
 
 </details>
+
+> 详细安装及使用说明可参考对应组件的文档。
+> 其中，xxx表示版本相关信息，请根据实际情况替换。
+
 
 ## 模型列表
 
