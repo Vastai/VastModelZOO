@@ -48,7 +48,7 @@
     vamc compile ../build_in/build/hf_wizardlm_int8.yaml
     ```
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../tools/vastgenx/README.md)
 
 
 ### Tips

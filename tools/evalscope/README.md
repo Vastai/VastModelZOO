@@ -16,7 +16,7 @@ EvalScope 是一个用于评估生成模型性能的工具，支持评估LLM和V
     - [precision_embedding.py](./precision_embedding.py)
     - [precision_reranker.py](./precision_reranker.py)
     ```bash
-    cd docs/evalscope
+    cd tools/evalscope
     #测试llm模型
     python precision_llm.py
     #测试vlm模型
@@ -35,7 +35,7 @@ EvalScope 是一个用于评估生成模型性能的工具，支持评估LLM和V
     - [pref_vlm.py](./pref_vlm.py)
 
     ```bash
-    cd docs/evalscope
+    cd tools/evalscope
     #测试llm模型
     python pref_llm.py
     # 测试vlm模型

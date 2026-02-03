@@ -230,7 +230,7 @@ Skywork 团队在常规的 RLHF（强化学习微调）基础上做了三项主�
     ```
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx](../../tools/vastgenx/README.md)
 
 ### Tips
 - **LLM模型请先查看概要指引**，[Tips🔔](../README.md)

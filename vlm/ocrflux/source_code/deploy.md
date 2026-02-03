@@ -32,8 +32,8 @@
     ```
 
 ### step.4 模型推理
-1. 获取大模型部署推理工具：[vastgenx](../../../docs/vastgenx/README.md)
-2. 精度评估参考：[vastgenx-精度测试](../../../docs/vastgenx/README.md#-精度测试)
+1. 获取大模型部署推理工具：[vastgenx](../../../tools/vastgenx/README.md)
+2. 精度评估参考：[vastgenx-精度测试](../../../tools/vastgenx/README.md#-精度测试)
 - 本例参考：
 ```bash
 vastgenx serve --model vamc_results/ocrflux_llm_fp16 \
@@ -44,7 +44,7 @@ vastgenx serve --model vamc_results/ocrflux_llm_fp16 \
 --min_pixels 78400 \
 --max_pixels 921600
 ```
-3. 性能评估参考：[vastgenx-性能测试](../../../docs/vastgenx/README.md#-性能测试)
+3. 性能评估参考：[vastgenx-性能测试](../../../tools/vastgenx/README.md#-性能测试)
 
 
 

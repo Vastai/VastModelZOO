@@ -41,5 +41,5 @@ vastgenx serve --model ai300/qwen2_vl_7b_llm_28layer_2048_4096_tp4_int8 \
 --min_pixels 78400 \
 --max_pixels 921600
 
-python VastModelZOO/docs/vastgenx/evalscope/pref_vlm.py
+python VastModelZOO/tools/vastgenx/evalscope/pref_vlm.py
 '''

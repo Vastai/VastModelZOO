@@ -81,9 +81,9 @@
 
 ### step.4 模型推理
 
-1. 获取大模型部署推理工具：[vastgenx](../../docs/vastgenx/README.md)
-2. 精度评估参考：[vastgenx-精度测试](../../docs/vastgenx/README.md#-精度测试)
-3. 性能评估参考：[vastgenx-性能测试](../../docs/vastgenx/README.md#-性能测试)
+1. 获取大模型部署推理工具：[vastgenx](../../tools/vastgenx/README.md)
+2. 精度评估参考：[vastgenx-精度测试](../../tools/vastgenx/README.md#-精度测试)
+3. 性能评估参考：[vastgenx-性能测试](../../tools/vastgenx/README.md#-性能测试)
 
 ### Tips
 - VACC部署中，拆分为两个模型进行推理，Visual部分不切分，LLM部分可TP切分

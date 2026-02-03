@@ -25,3 +25,6 @@
 
 - GQA模型中，设置模型切分`tp`数值，在一些情况下需要开启编译参数`${frontend.model_kwargs.align_qkv: true}`
     - 如模型参数`num_key_value_heads`能被`tp`整除，可关闭`align_qkv`
+
+## vLLM推理
+- 参考vLLM后端使用限制：[usage_limits.md](../tools/vllm/usage_limits.md)

@@ -133,4 +133,4 @@ DeepSeek使用DeepSeek-R1第三阶段生成800k数据，对LLaMa、Qwen的各种
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../tools/vastgenx/README.md)
