@@ -56,6 +56,7 @@
   > - TIPS
   >    - INT4数据格式，此处均指`W4A16`
   >    - GPTQ-INT4量化模型，当前仅支持`desc_act=False`形式
+  >       -  除官方量化INT4外，首推`kaitchup`和`Intel`来源的`AutoRound-GPTQ`量化权重
   >    - 其它符合上述要求的GPTQ模型均可支持
   >    - *：Qwen3-4B-AWQ，TP8加载报错，参考官方解释：[Qwen-Troubleshooting](https://qwen.readthedocs.io/en/latest/quantization/gptq.html#troubleshooting)
 
