@@ -20,30 +20,38 @@
   | Qwen3-0.6B | [Qwen/Qwen3-0.6B](https://huggingface.co/Qwen/Qwen3-0.6B) | [Qwen/Qwen3-0.6B](https://www.modelscope.cn/models/Qwen/Qwen3-0.6B) | 0.6B | BF16 | TP2/4/8 |
   | Qwen3-0.6B-FP8 | [Qwen/Qwen3-0.6B-FP8](https://huggingface.co/Qwen/Qwen3-0.6B-FP8) | [Qwen/Qwen3-0.6B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-0.6B-FP8) | 0.6B | FP8 | TP2/4/8 |
   | Qwen3-0_6B_int4_awq | [AngelSlim/Qwen3-0_6B_int4_awq](https://huggingface.co/AngelSlim/Qwen3-0_6B_int4_awq) | [AngelSlim/Qwen3-0_6B_int4_awq](https://www.modelscope.cn/AngelSlim/Qwen3-0_6B_int4_awq) | 0.6B | INT4 | TP2/4/8 |
+  | Qwen3-0.6B-autoround-4bit-gptq | [kaitchup/Qwen3-0.6B-autoround-4bit-gptq](https://huggingface.co/kaitchup/Qwen3-0.6B-autoround-4bit-gptq) | - | 0.6B | INT4 | TP2/4/8 |
   | Qwen3-0.6B-GPTQ-Int4 | [JunHowie/Qwen3-0.6B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-0.6B-GPTQ-Int4) | [JunHowie/Qwen3-0.6B-GPTQ-Int4](https://www.modelscope.cn/JunHowie/Qwen3-0.6B-GPTQ-Int4) | 0.6B | INT4 | TP2/4/8 |
   | Qwen3-1.7B | [Qwen/Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B) | [Qwen/Qwen3-1.7B](https://www.modelscope.cn/models/Qwen/Qwen3-1.7B) | 1.7B | BF16 | TP2/4/8 |
   | Qwen3-1.7B-FP8 | [Qwen/Qwen3-1.7B-FP8](https://huggingface.co/Qwen/Qwen3-1.7B-FP8) | [Qwen/Qwen3-1.7B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-1.7B-FP8) | 1.7B | FP8 | TP2/4/8 |
   | Qwen3-1_7B_int4_awq | [AngelSlim/Qwen3-1_7B_int4_awq](https://huggingface.co/AngelSlim/Qwen3-1_7B_int4_awq) | [AngelSlim/Qwen3-1_7B_int4_awq](https://www.modelscope.cn/AngelSlim/Qwen3-1_7B_int4_awq) | 1.7B | INT4 | TP2/4/8 |
+  | Qwen3-1.7B-autoround-4bit-gptq | [kaitchup/Qwen3-1.7B-autoround-4bit-gptq](https://huggingface.co/kaitchup/Qwen3-1.7B-autoround-4bit-gptq) | - | 1.7B | INT4 | TP2/4/8 |
   | Qwen3-1.7B-GPTQ-Int4 | [JunHowie/Qwen3-1.7B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-1.7B-GPTQ-Int4) | [JunHowie/Qwen3-1.7B-GPTQ-Int4](https://www.modelscope.cn/JunHowie/Qwen3-1.7B-GPTQ-Int4) | 1.7B | INT4 | TP2/4/8 |
   | Qwen3-4B | [Qwen/Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) | [Qwen/Qwen3-4B](https://www.modelscope.cn/models/Qwen/Qwen3-4B) | 4B | BF16 | TP2/8 |
   | Qwen3-4B-FP8 | [Qwen/Qwen3-4B-FP8](https://huggingface.co/Qwen/Qwen3-4B-FP8) | [Qwen/Qwen3-4B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-FP8) | 4B | FP8 | TP2/8 |
   | Qwen3-4B-Instruct-2507-FP8 | [Qwen/Qwen3-4B-Instruct-2507-FP8](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507-FP8) | [Qwen/Qwen3-4B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-Instruct-2507-FP8) | 4B | FP8 | TP2/8 |
   | Qwen3-4B-Thinking-2507-FP8 | [Qwen/Qwen3-4B-Thinking-2507-FP8](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507-FP8) | [Qwen/Qwen3-4B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-4B-Thinking-2507-FP8) | 4B | FP8 | TP2/8 |
   | Qwen3-4B-AWQ | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ) | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ) | 4B | INT4 | TP2/4* |
+  | Qwen3-4B-autoround-4bit-gptq | [kaitchup/Qwen3-4B-autoround-4bit-gptq](  https://huggingface.co/kaitchup/Qwen3-4B-autoround-4bit-gptq) | - | 4B | INT4 | TP2/8 |
   | Qwen3-4B-GPTQ-Int4 | [JunHowie/Qwen3-4B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-4B-GPTQ-Int4) | [JunHowie/Qwen3-4B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-4B-GPTQ-Int4) | 4B | INT4 | TP2/8 |
   | Qwen3-8B | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | [Qwen/Qwen3-8B](https://www.modelscope.cn/models/Qwen/Qwen3-8B) | 8B | BF16 | TP2/8 |
   | Qwen3-8B-FP8 | [Qwen/Qwen3-8B-FP8](https://huggingface.co/Qwen/Qwen3-8B-FP8) | [Qwen/Qwen3-8B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-8B-FP8) | 8B | FP8 | TP2/8 |
   | Qwen3-8B-AWQ | [Qwen/Qwen3-8B-AWQ](https://huggingface.co/Qwen/Qwen3-8B-AWQ) | [Qwen/Qwen3-8B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-8B-AWQ) | 8B | INT4 | TP2/4/8 |
+  | Qwen3-8B-autoround-4bit-gptq | [kaitchup/Qwen3-8B-autoround-4bit-gptq](https://huggingface.co/kaitchup/Qwen3-8B-autoround-4bit-gptq) | - | 8B | INT4 | TP2/8 |
   | Qwen3-8B-int4-AutoRound-gptq-inc | - | [Intel/Qwen3-8B-int4-AutoRound-gptq-inc](https://www.modelscope.cn/models/Intel/Qwen3-8B-int4-AutoRound-gptq-inc) | 8B | INT4 | TP2/8 |
   | Qwen3-8B-GPTQ-Int4 | [JunHowie/Qwen3-8B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-8B-GPTQ-Int4) | [JunHowie/Qwen3-8B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-8B-GPTQ-Int4) | 8B | INT4 | TP2/8 |
   | Qwen3-14B | [Qwen/Qwen3-14B](https://huggingface.co/Qwen/Qwen3-14B) | [Qwen/Qwen3-14B](https://www.modelscope.cn/models/Qwen/Qwen3-14B) | 14B | BF16 | TP2/4/8 |
   | Qwen3-14B-FP8 | [Qwen/Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8) | [Qwen/Qwen3-14B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-14B-FP8) | 14B | FP8 | TP2/4/8 |
+  | Qwen3-14B-autoround-4bit-gptq | [kaitchup/Qwen3-14B-autoround-4bit-gptq](https://huggingface.co/kaitchup/Qwen3-14B-autoround-4bit-gptq) | - | 14B | INT4 | TP2/4/8 |
   | Qwen3-14B-int4-AutoRound-gptq-inc | - | [Intel/Qwen3-14B-int4-AutoRound-gptq-inc](https://www.modelscope.cn/models/Intel/Qwen3-14B-int4-AutoRound-gptq-inc) | 14B | INT4 | TP2/4/8 |
   | Qwen3-14B-GPTQ-Int4 | [JunHowie/Qwen3-14B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-14B-GPTQ-Int4) | [JunHowie/Qwen3-14B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-14B-GPTQ-Int4) | 14B | INT4 | TP2/4/8 |
   | Qwen3-32B | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B) | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B) | 32B | BF16 | TP4/8 |
   | Qwen3-32B-FP8 | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8) | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8) | 32B | FP8 | TP4/8 |
   | Qwen3-32B-AWQ | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ) | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ) | 32B | INT4 | TP4/8 |
   | Qwen3-32B-GPTQ-Int4 | [JunHowie/Qwen3-32B-GPTQ-Int4](https://huggingface.co/JunHowie/Qwen3-32B-GPTQ-Int4) | [JunHowie/Qwen3-32B-GPTQ-Int4](https://www.modelscope.cn/models/JunHowie/Qwen3-32B-GPTQ-Int4) | 32B | INT4 | TP4/8 |
+  | Qwen3-32B-autoround-4bit-gptq | [kaitchup/Qwen3-32B-autoround-4bit-gptq](https://huggingface.co/kaitchup/Qwen3-32B-autoround-4bit-gptq) | - | 32B | INT4 | TP4/8 |
+
+
 
   > - TIPS
   >    - INT4数据格式，此处均指`W4A16`
