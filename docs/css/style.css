@@ -131,6 +131,45 @@ body {
     display: flex;
 }
 
+/* 语言切换器样式 */
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.lang-btn {
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #b0b8c1;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.lang-btn:hover {
+    background: rgba(88, 166, 255, 0.2);
+    color: white;
+    border-color: rgba(88, 166, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg, #58a6ff 0%, #8a63d2 100%);
+    color: white;
+    border-color: rgba(88, 166, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+    font-weight: 600;
+}
+
 /* 头部样式 */
 header {
     background: linear-gradient(135deg, #0f1419 0%, #1a2332 25%, #2a3f5f 50%, #1a2332 75%, #0f1419 100%);
@@ -1268,6 +1307,17 @@ footer {
 }
 
 @media (max-width: 768px) {
+    /* 语言切换器响应式 */
+    .language-switcher {
+        right: 16px;
+        top: 16px;
+    }
+
+    .lang-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
     .header-content h1 {
         font-size: 2.2rem;
         gap: 10px;

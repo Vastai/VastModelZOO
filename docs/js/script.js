@@ -1,3 +1,513 @@
+// 初始化 i18next
+// 直接内联翻译资源，确保翻译功能正常工作
+i18next.init({
+    lng: 'zh',
+    fallbackLng: 'zh',
+    resources: {
+        zh: {
+            translation: {
+                "loading": "加载中...",
+                "subtitle": "VastModelZOO提供人工智能多个领域（CV/NLP/LLM/MLLM等）的开源模型在瀚博GPU芯片上的部署示例",
+                "totalModels": "总模型数量",
+                "modelCategories": "模型分类（大类）",
+                "modelSubcategories": "模型分类（子类）",
+                "inferenceFrameworks": "推理框架",
+                "searchPlaceholder": "搜索模型名称、类型或推理框架...",
+                "modelClassification": "模型分类",
+                "computerVision": "计算机视觉模型",
+                "naturalLanguageProcessing": "自然语言处理模型",
+                "largeLanguageModel": "大语言模型",
+                "visionLanguageModel": "视觉语言模型",
+                "imageClassification": "图像分类",
+                "objectDetection": "目标检测",
+                "objectDetection3d": "3D目标检测",
+                "imageSegmentation": "图像分割",
+                "faceAlignment": "人脸对齐",
+                "faceDetection": "人脸检测",
+                "faceQuality": "人脸质量评估",
+                "faceRecognition": "人脸识别",
+                "facialAttribute": "人脸属性分析",
+                "imageColorization": "图像着色",
+                "imageCompression": "图像压缩",
+                "imageRetrieval": "图像检索",
+                "lowLightImageEnhancement": "低光照图像增强",
+                "multiObjectTracking": "多目标跟踪",
+                "poseEstimation": "姿态估计",
+                "reidentification": "重识别",
+                "salientObjectDetection": "显著性目标检测",
+                "superResolution": "超分辨率",
+                "textDetection": "文本检测",
+                "textRecognition": "文本识别",
+                "informationExtraction": "信息提取",
+                "namedEntityRecognition": "命名实体识别",
+                "questionAnswering": "问答系统",
+                "sentenceClassification": "句子分类",
+                "textVectorization": "文本向量化",
+                "reranker": "重排序",
+                "generalLLM": "通用大语言模型",
+                "domainLLM": "领域大语言模型",
+                "generalVLM": "通用视觉语言模型",
+                "domainVLM": "领域视觉语言模型",
+                "viewModels": "查看模型",
+                "cvModels": "CV Models - 计算机视觉模型",
+                "nlpModels": "NLP Models - 自然语言处理模型",
+                "llmModels": "LLM Models - 大语言模型",
+                "vlmModels": "VLM Models - 视觉语言模型",
+                "noModelsFound": "没有找到以 {{letter}} 开头的模型",
+                "searchResults": "共搜索 {{count}} 个结果",
+                "searchResultsWithDetails": "模型名称共找到 {{modelCount}} 个结果，模型列表共找到 {{listCount}} 个结果",
+                "language": "语言",
+                "chinese": "中文",
+                "english": "English",
+                "modelName": "模型名称",
+                "modelSource": "模型来源",
+                "modelList": "模型列表",
+                "modelType": "模型类型",
+                "runtime": "运行时",
+                "clearSearch": "清除搜索",
+                "searchResultsCount": "搜索结果统计",
+                "vastaiWebsite": "瀚博官网",
+                "pageUpdating": "© 2023-2026 VastModelZOO | 页面持续更新，与GitHub仓库模型列表同步",
+                "backToTop": "返回顶部",
+                "vastaiInferenceFramework": "瀚博自研推理框架",
+                "adaptedToVllm": "适配vLLM推理框架",
+                "performanceAccuracy": "性能/精度",
+                "comprehensiveEvaluation": "全面的模型推理、性能和精度评估流程"
+            }
+        },
+        en: {
+            translation: {
+                "loading": "Loading...",
+                "subtitle": "VastModelZOO provides deployment examples of open-source models across multiple AI domains (CV/NLP/LLM/MLLM, etc.) on Vastai GPU chips",
+                "totalModels": "Total Number of Models",
+                "modelCategories": "Model Classification (Major Types)",
+                "modelSubcategories": "Model Classification (Subtypes)",
+                "inferenceFrameworks": "Inference Frameworks",
+                "searchPlaceholder": "Search by model name, type, or inference framework...",
+                "modelClassification": "Model Classification",
+                "computerVision": "CV Models",
+                "naturalLanguageProcessing": "NLP Models",
+                "largeLanguageModel": "LLM Models",
+                "visionLanguageModel": "VLM Models",
+                "imageClassification": "Image Classification",
+                "objectDetection": "Object Detection",
+                "objectDetection3d": "3D Object Detection",
+                "imageSegmentation": "Image Segmentation",
+                "faceAlignment": "Face Alignment",
+                "faceDetection": "Face Detection",
+                "faceQuality": "Face Quality Assessment",
+                "faceRecognition": "Face Recognition",
+                "facialAttribute": "Facial Attribute Analysis",
+                "imageColorization": "Image Colorization",
+                "imageCompression": "Image Compression",
+                "imageRetrieval": "Image Retrieval",
+                "lowLightImageEnhancement": "Low-Light Image Enhancement",
+                "multiObjectTracking": "Multi-Object Tracking",
+                "poseEstimation": "Pose Estimation",
+                "reidentification": "Re-Identification",
+                "salientObjectDetection": "Salient Object Detection",
+                "superResolution": "Super Resolution",
+                "textDetection": "Text Detection",
+                "textRecognition": "Text Recognition",
+                "informationExtraction": "Information Extraction",
+                "namedEntityRecognition": "Named Entity Recognition",
+                "questionAnswering": "Question Answering",
+                "sentenceClassification": "Sentence Classification",
+                "textVectorization": "Embedding",
+                "reranker": "Reranker",
+                "generalLLM": "General LLM Models",
+                "domainLLM": "Domain LLM Models",
+                "generalVLM": "General VLM Models",
+                "domainVLM": "Domain VLM Models",
+                "viewModels": "View Models",
+                "cvModels": "CV Models - Computer Vision Models",
+                "nlpModels": "NLP Models - Natural Language Processing Models",
+                "llmModels": "LLM Models - Large Language Models",
+                "vlmModels": "VLM Models - Vision Language Models",
+                "noModelsFound": "No models found starting with {{letter}}",
+                "searchResults": "{{count}} result(s) found",
+                "searchResultsWithDetails": "{{modelCount}} result(s) found by model name, {{listCount}} result(s) found in model list",
+                "language": "Language",
+                "chinese": "中文",
+                "english": "English",
+                "modelName": "Model Name",
+                "modelSource": "Model Source",
+                "modelList": "Model List",
+                "modelType": "Model Type",
+                "runtime": "Runtime",
+                "clearSearch": "Clear Search",
+                "searchResultsCount": "Search Results",
+                "vastaiWebsite": "Vastai Website",
+                "pageUpdating": "© 2023-2026 VastModelZOO |Page continuously updated and synchronized with the GitHub repository model list",
+                "backToTop": "Back to top",
+                "vastaiInferenceFramework": "Vastai Proprietary Inference Framework",
+                "adaptedToVllm": "Adapted to vLLM Inference Framework",
+                "performanceAccuracy": "Performance/Accuracy",
+                "comprehensiveEvaluation": "Comprehensive model inference, performance and accuracy evaluation process"
+            }
+        }
+    }
+}, function(err, t) {
+    if (err) console.error('i18next initialization error:', err);
+    console.log('i18next initialized successfully');
+    console.log('Current language:', i18next.language);
+    console.log('Translation test on init:', i18next.t('loading'));
+    updateContent();
+});
+
+// 缓存DOM元素，避免重复查询
+const domElements = {
+    loaderText: document.querySelector('.loader-text'),
+    subtitle: document.querySelector('.subtitle-main'),
+    statLabels: document.querySelectorAll('.stat-label'),
+    searchInput: document.getElementById('model-search'),
+    modelClassification: document.querySelector('.sidebar-section h3'),
+    categoryLinks: document.querySelectorAll('.category-list > li > a'),
+    subcategoryLinks: document.querySelectorAll('.subcategory-list a'),
+    categoryHeaders: document.querySelectorAll('.category-header h2'),
+    subcategoryHeaders: document.querySelectorAll('.subcategory-header h3')
+};
+
+// 子分类键值映射（一次定义，多次使用）
+const subcategoryKeys = {
+    '图像分类': 'imageClassification',
+    '目标检测': 'objectDetection',
+    '3D目标检测': 'objectDetection3d',
+    '图像分割': 'imageSegmentation',
+    '人脸对齐': 'faceAlignment',
+    '人脸检测': 'faceDetection',
+    '人脸质量评估': 'faceQuality',
+    '人脸识别': 'faceRecognition',
+    '人脸属性分析': 'facialAttribute',
+    '图像着色': 'imageColorization',
+    '图像压缩': 'imageCompression',
+    '图像检索': 'imageRetrieval',
+    '低光照图像增强': 'lowLightImageEnhancement',
+    '多目标跟踪': 'multiObjectTracking',
+    '姿态估计': 'poseEstimation',
+    '重识别': 'reidentification',
+    '显著性目标检测': 'salientObjectDetection',
+    '超分辨率': 'superResolution',
+    '文本检测': 'textDetection',
+    '文本识别': 'textRecognition',
+    '信息提取': 'informationExtraction',
+    '命名实体识别': 'namedEntityRecognition',
+    '问答系统': 'questionAnswering',
+    '句子分类': 'sentenceClassification',
+    '文本向量化': 'textVectorization',
+    '重排序': 'reranker',
+    '通用大语言模型': 'generalLLM',
+    '领域大语言模型': 'domainLLM',
+    '通用视觉语言模型': 'generalVLM',
+    '领域视觉语言模型': 'domainVLM'
+};
+
+// 为子分类链接设置data-key属性（只执行一次）
+function setupSubcategoryKeys() {
+    domElements.subcategoryLinks.forEach(link => {
+        const originalText = link.textContent.trim();
+        if (subcategoryKeys[originalText]) {
+            link.setAttribute('data-key', subcategoryKeys[originalText]);
+        }
+    });
+}
+
+// 初始化时设置一次
+setupSubcategoryKeys();
+
+// 更新页面内容为当前语言
+function updateContent() {
+    // 更新加载动画文本
+    const loaderText = document.querySelector('.loader-text');
+    if (loaderText) loaderText.textContent = i18next.t('loading');
+    
+    // 更新副标题
+    const subtitle = document.querySelector('.subtitle-main');
+    if (subtitle) subtitle.textContent = i18next.t('subtitle');
+    
+    // 更新统计标签
+    const statLabels = document.querySelectorAll('.stat-label');
+    if (statLabels.length >= 4) {
+        statLabels[0].textContent = i18next.t('totalModels');
+        statLabels[1].textContent = i18next.t('modelCategories');
+        statLabels[2].textContent = i18next.t('modelSubcategories');
+        statLabels[3].textContent = i18next.t('inferenceFrameworks');
+    }
+    
+    // 更新搜索框占位符
+    const searchInput = document.getElementById('model-search');
+    if (searchInput) searchInput.placeholder = i18next.t('searchPlaceholder');
+    
+    // 更新模型分类标题
+    const modelClassification = document.querySelector('.sidebar-section h3');
+    if (modelClassification) modelClassification.innerHTML = `<i class="fas fa-list"></i> ${i18next.t('modelClassification')}`;
+    
+    // 更新分类链接
+    const categoryLinks = document.querySelectorAll('.category-list > li > a');
+    if (categoryLinks.length >= 4) {
+        categoryLinks[0].innerHTML = `<i class="fas fa-eye"></i> ${i18next.t('computerVision')}`;
+        categoryLinks[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('naturalLanguageProcessing')}`;
+        categoryLinks[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('largeLanguageModel')}`;
+        categoryLinks[3].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('visionLanguageModel')}`;
+    }
+    
+    // 更新子分类链接
+    const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
+    const subcategoryKeys = {
+        '图像分类': 'imageClassification',
+        '目标检测': 'objectDetection',
+        '3D目标检测': 'objectDetection3d',
+        '图像分割': 'imageSegmentation',
+        '人脸对齐': 'faceAlignment',
+        '人脸检测': 'faceDetection',
+        '人脸质量评估': 'faceQuality',
+        '人脸识别': 'faceRecognition',
+        '人脸属性分析': 'facialAttribute',
+        '图像着色': 'imageColorization',
+        '图像压缩': 'imageCompression',
+        '图像检索': 'imageRetrieval',
+        '低光照图像增强': 'lowLightImageEnhancement',
+        '多目标跟踪': 'multiObjectTracking',
+        '姿态估计': 'poseEstimation',
+        '重识别': 'reidentification',
+        '显著性目标检测': 'salientObjectDetection',
+        '超分辨率': 'superResolution',
+        '文本检测': 'textDetection',
+        '文本识别': 'textRecognition',
+        '信息提取': 'informationExtraction',
+        '命名实体识别': 'namedEntityRecognition',
+        '问答系统': 'questionAnswering',
+        '句子分类': 'sentenceClassification',
+        '文本向量化': 'textVectorization',
+        '重排序': 'reranker',
+        '通用大语言模型': 'generalLLM',
+        '领域大语言模型': 'domainLLM',
+        '通用视觉语言模型': 'generalVLM',
+        '领域视觉语言模型': 'domainVLM'
+    };
+    
+    // 为每个子分类链接设置data-key属性，用于后续翻译
+    subcategoryLinks.forEach(link => {
+        const originalText = link.textContent.trim();
+        if (subcategoryKeys[originalText]) {
+            link.setAttribute('data-key', subcategoryKeys[originalText]);
+        }
+    });
+    
+    // 根据当前语言更新子分类链接文本
+    subcategoryLinks.forEach(link => {
+        const key = link.getAttribute('data-key');
+        if (key) {
+            link.textContent = i18next.t(key);
+        }
+    });
+    
+    // 更新类别标题
+    const categoryHeaders = document.querySelectorAll('.category-header h2');
+    if (categoryHeaders.length >= 4) {
+        categoryHeaders[0].innerHTML = `<i class="fas fa-eye"></i> ${i18next.t('cvModels')}`;
+        categoryHeaders[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('nlpModels')}`;
+        categoryHeaders[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('llmModels')}`;
+        categoryHeaders[3].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('vlmModels')}`;
+    }
+    
+    // 更新子类别标题
+    const subcategoryHeaders = document.querySelectorAll('.subcategory-header h3');
+    subcategoryHeaders.forEach((header, index) => {
+        const icon = header.querySelector('i');
+        if (icon) {
+            // 为每个子类别标题设置固定的翻译键
+            const sectionId = header.closest('.subcategory-item').id;
+            let translationKey = null;
+            
+            // 根据sectionId映射到对应的翻译键
+            const sectionToKey = {
+                'cv-classification': 'imageClassification',
+                'cv-detection': 'objectDetection',
+                'cv-detection3d': 'objectDetection3d',
+                'cv-segmentation': 'imageSegmentation',
+                'cv-face-alignment': 'faceAlignment',
+                'cv-face-detection': 'faceDetection',
+                'cv-face-quality': 'faceQuality',
+                'cv-face-recognize': 'faceRecognition',
+                'cv-facial-attribute': 'facialAttribute',
+                'cv-image-colorization': 'imageColorization',
+                'cv-image-compress': 'imageCompression',
+                'cv-image-retrieval': 'imageRetrieval',
+                'cv-low-light-image-enhancement': 'lowLightImageEnhancement',
+                'cv-mot': 'multiObjectTracking',
+                'cv-pose': 'poseEstimation',
+                'cv-reid': 'reidentification',
+                'cv-salient-object-detection': 'salientObjectDetection',
+                'cv-super-resolution': 'superResolution',
+                'cv-text-detection': 'textDetection',
+                'cv-text-recognition': 'textRecognition',
+                'nlp-information-extraction': 'informationExtraction',
+                'nlp-named-entity-recognition': 'namedEntityRecognition',
+                'nlp-question-answering': 'questionAnswering',
+                'nlp-sentence-classification': 'sentenceClassification',
+                'nlp-text2vec': 'textVectorization',
+                'nlp-reranker': 'reranker',
+                'llm-general': 'generalLLM',
+                'llm-domain': 'domainLLM',
+                'vlm-general': 'generalVLM',
+                'vlm-domain': 'domainVLM'
+            };
+            
+            if (sectionToKey[sectionId]) {
+                translationKey = sectionToKey[sectionId];
+            }
+            
+            if (translationKey) {
+                header.innerHTML = `<i class="${icon.className}"></i> ${i18next.t(translationKey)}`;
+            }
+        }
+    });
+    
+    // 更新查看模型按钮
+    const viewModelButtons = document.querySelectorAll('.toggle-details');
+    viewModelButtons.forEach(button => {
+        button.innerHTML = `<i class="fas fa-list"></i> ${i18next.t('viewModels')}`;
+    });
+    
+    // 更新表格表头
+    const tables = document.querySelectorAll('.models-table');
+    tables.forEach(table => {
+        const tableHeaders = table.querySelectorAll('th');
+        if (tableHeaders.length >= 5) {
+            tableHeaders[0].textContent = i18next.t('modelName');
+            tableHeaders[1].textContent = i18next.t('modelSource');
+            tableHeaders[2].textContent = i18next.t('modelList');
+            tableHeaders[3].textContent = i18next.t('modelType');
+            tableHeaders[4].textContent = i18next.t('runtime');
+        }
+    });
+    
+    // 更新清除搜索按钮
+    const clearSearchBtn = document.querySelector('.clear-search');
+    if (clearSearchBtn) {
+        clearSearchBtn.setAttribute('title', i18next.t('clearSearch'));
+    }
+    
+    // 更新搜索结果计数
+    const searchCount = document.getElementById('search-count');
+    if (searchCount) {
+        searchCount.setAttribute('title', i18next.t('searchResultsCount'));
+        // 如果搜索结果计数可见，重新调用searchModels函数更新文本内容
+        // 这样可以利用现有的正确逻辑来计算和显示搜索结果
+        const searchInput = document.getElementById('model-search');
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm) {
+            // 重新调用searchModels函数，利用其正确的计算逻辑
+            searchModels();
+        }
+    }
+    
+    // 更新footer部分
+    const footerLinks = document.querySelectorAll('.footer-links a');
+    if (footerLinks.length >= 4) {
+        footerLinks[0].innerHTML = `<i class="fas fa-globe"></i> ${i18next.t('vastaiWebsite')}`;
+    }
+    
+    const footerCopyright = document.querySelector('.footer-copyright p:first-child');
+    if (footerCopyright) {
+        // 直接设置文本内容，确保翻译生效
+        footerCopyright.textContent = i18next.t('pageUpdating');
+    }
+    
+    // 更新返回顶部按钮
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        backToTopBtn.title = i18next.t('backToTop');
+    }
+    
+    // 更新三个功能卡片
+    const featureCards = document.querySelectorAll('div[style*="grid-template-columns"] > div');
+    if (featureCards.length >= 3) {
+        // 第一个卡片：Build_In
+        const buildInCard = featureCards[0];
+        const buildInDesc = buildInCard.querySelector('p');
+        if (buildInDesc) {
+            buildInDesc.textContent = i18next.t('vastaiInferenceFramework');
+        }
+        
+        // 第二个卡片：vLLM
+        const vllmCard = featureCards[1];
+        const vllmDesc = vllmCard.querySelector('p');
+        if (vllmDesc) {
+            vllmDesc.textContent = i18next.t('adaptedToVllm');
+        }
+        
+        // 第三个卡片：性能/精度
+        const perfCard = featureCards[2];
+        const perfTitle = perfCard.querySelector('h5');
+        const perfDesc = perfCard.querySelector('p');
+        if (perfTitle && perfDesc) {
+            perfTitle.textContent = i18next.t('performanceAccuracy');
+            perfDesc.textContent = i18next.t('comprehensiveEvaluation');
+        }
+    }
+    
+    // 更新footer中的瀚博官网
+    const vastaiLink = document.querySelector('.footer-links a:first-child');
+    if (vastaiLink) {
+        const currentLang = i18next.language;
+        if (currentLang === 'en') {
+            vastaiLink.innerHTML = `<i class="fas fa-globe"></i> ${i18next.t('vastaiWebsite')}`;
+            vastaiLink.href = 'https://www.vastai.com/en';
+        } else {
+            vastaiLink.innerHTML = `<i class="fas fa-globe"></i> 瀚博官网`;
+            vastaiLink.href = 'https://www.vastai.com';
+        }
+    }
+    
+    // 更新header中的瀚博官网链接
+    const headerVastaiLink = document.getElementById('vastai-website-link');
+    if (headerVastaiLink) {
+        const currentLang = i18next.language;
+        if (currentLang === 'en') {
+            headerVastaiLink.href = 'https://www.vastai.com/en';
+        } else {
+            headerVastaiLink.href = 'https://www.vastai.com';
+        }
+    }
+    
+    // 更新ModelScope链接
+    const modelscopeLink = document.getElementById('modelscope-link');
+    if (modelscopeLink) {
+        const currentLang = i18next.language;
+        if (currentLang === 'en') {
+            modelscopeLink.href = 'https://www.modelscope.cn/home';
+            modelscopeLink.title = 'Visit ModelScope Website';
+        } else {
+            modelscopeLink.href = 'https://www.modelscope.cn/home';
+            modelscopeLink.title = '访问ModelScope官网';
+        }
+    }
+}
+
+// 切换语言
+function changeLanguage(lang) {
+    console.log('Changing language to:', lang);
+    i18next.changeLanguage(lang, function(err, t) {
+        if (err) {
+            console.error('Language change error:', err);
+        } else {
+            console.log('Language changed successfully to:', i18next.language);
+            console.log('Translation test:', i18next.t('loading'));
+            console.log('Translation test 2:', i18next.t('subtitle'));
+            // 确保翻译文件加载完成后再更新页面内容
+            setTimeout(updateContent, 200); // 增加延迟确保翻译文件加载完成
+        }
+        
+        // 更新语言按钮的active状态
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.getElementById(`btn-${lang}`).classList.add('active');
+    });
+}
+
 // 页面加载完成后隐藏加载动画
 window.addEventListener('load', function() {
     const pageLoader = document.getElementById('pageLoader');
@@ -7,6 +517,20 @@ window.addEventListener('load', function() {
             document.body.classList.remove('loading');
         }, 300);
     }
+    
+    // 初始化语言按钮的active状态
+    setTimeout(() => {
+        const currentLang = i18next.language || 'zh';
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        const langBtn = document.getElementById(`btn-${currentLang}`);
+        if (langBtn) {
+            langBtn.classList.add('active');
+        } else {
+            document.getElementById('btn-zh').classList.add('active');
+        }
+    }, 100);
 });
 
 // 切换大类内容显示/隐藏
@@ -555,9 +1079,9 @@ function searchModels() {
         
         // 根据搜索内容类型显示不同的文案
         if (isSearchingTypeOrRuntime) {
-            searchCount.textContent = `共搜索 ${visibleCount} 个结果`;
+            searchCount.textContent = i18next.t('searchResults', { count: visibleCount });
         } else {
-            searchCount.textContent = `模型名称内找到 ${matchedModelNameCount} 个结果，模型列表内找到 ${visibleCount} 个结果`;
+            searchCount.textContent = i18next.t('searchResultsWithDetails', { modelCount: matchedModelNameCount, listCount: visibleCount });
         }
         
         // 自动展开所有包含结果的分类
@@ -817,7 +1341,7 @@ function scrollToLetter(letter) {
     }
     
     if (!found) {
-        alert(`没有找到以 "${letter}" 开头的模型`);
+        alert(i18next.t('noModelsFound', { letter: letter }));
     }
 }
 
