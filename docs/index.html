@@ -14,6 +14,14 @@
     <!-- Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
+
+    <!-- i18next dependencies -->
+    <!-- i18next - https://www.i18next.com/ -->
+    <!-- Licensed under the MIT License -->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@23.12.2/i18next.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@7.2.1/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@2.5.2/i18nextHttpBackend.min.js"></script>
 </head>
 
 <body>
@@ -28,7 +36,13 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <h1><a href="https://www.vastai.com" target="_blank" rel="noopener noreferrer"><img src="./css/vastai_html_white_full.png" alt="Vastai Logo" class="header-logo"></a></h1>
+                <div class="language-switcher">
+                    <button onclick="changeLanguage('zh')" class="lang-btn" id="btn-zh">中文</button>
+                    <button onclick="changeLanguage('en')" class="lang-btn" id="btn-en">English</button>
+                </div>
+                <h1><a href="https://www.vastai.com" target="_blank" rel="noopener noreferrer"
+                        id="vastai-website-link"><img src="./css/vastai_html_white_full.png" alt="Vastai Logo"
+                            class="header-logo"></a></h1>
                 <p class="subtitle-main">VastModelZOO提供人工智能多个领域（CV/NLP/LLM/MLLM等）的开源模型在瀚博GPU芯片上的部署示例</p>
                 <!--<p class="subtitle-main">瀚博半导体（Vastai）模型中心</p>-->
                 <!--<p class="subtitle-desc">提供人工智能多个领域（CV/NLP/LLM/MLLM等）的开源模型在瀚博GPU芯片上的部署/训练示例</p>-->
@@ -4869,8 +4883,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="https://github.com/ultralytics/ultralytics" class="codebase-link"
-                                                    target="_blank">
+                                                <a href="https://github.com/ultralytics/ultralytics"
+                                                    class="codebase-link" target="_blank">
                                                     <i class="fab fa-github"></i> ultralytics
                                                 </a>
                                             </td>
@@ -4898,8 +4912,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="https://github.com/ultralytics/ultralytics" class="codebase-link"
-                                                    target="_blank">
+                                                <a href="https://github.com/ultralytics/ultralytics"
+                                                    class="codebase-link" target="_blank">
                                                     <i class="fab fa-github"></i> ultralytics
                                                 </a>
                                             </td>
