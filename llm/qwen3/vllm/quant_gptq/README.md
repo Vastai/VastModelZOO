@@ -1,6 +1,7 @@
 # Qwen3-30B-A3B GPTQ
 
-> 分析 [Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) 可知量化参数 -> GPTQ-W4A16, 不量化 `mlp.gate` 和 `lm_head`
+> - 分析 [Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) 可知量化参数 -> GPTQ-W4A16, 不量化 `mlp.gate` 和 `lm_head`
+> - 使用`gptqmodel`库进行量化
 
 ```bash
 Qwen3MoeForCausalLM(
@@ -55,6 +56,7 @@ Qwen3MoeForCausalLM(
 ```
 
 ## Install
+- 参考依赖：[requirements.txt](./requirements.txt)
 
 ```bash
 pip install -r requirements.txt

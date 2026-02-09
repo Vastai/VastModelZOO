@@ -55,8 +55,8 @@
 
   > - TIPS
   >    - INT4数据格式，此处均指`W4A16`
+  >       - 针对`A16`中的不同格式：`"torch_dtype": "float16"`性能优于`"torch_dtype": "bfloat16"`，因此推荐使用`kaitchup`和`Intel`来源的`AutoRound-GPTQ`量化权重；自行量化可参考下文`## 模型量化`步骤
   >    - GPTQ-INT4量化模型，当前仅支持`desc_act=False`形式
-  >       -  除官方量化INT4外，首推`kaitchup`和`Intel`来源的`AutoRound-GPTQ`量化权重
   >    - 其它符合上述要求的GPTQ模型均可支持
   >    - *：Qwen3-4B-AWQ，TP8加载报错，参考官方解释：[Qwen-Troubleshooting](https://qwen.readthedocs.io/en/latest/quantization/gptq.html#troubleshooting)
 
@@ -132,8 +132,9 @@
 
 ## 模型量化
 
-> `GPTQ-INT4`量化
-- 量化过程及脚本请参考：[Qwen3-30B-A3B GPTQ](./quant/README.md)
+- `GPTQ-INT4`量化过程及脚本请参考：[quant_gptq/README.md](./quant_gptq/README.md)
+- `AutoRound-GPTQ-INT4/8`量化过程及脚本请参考：[quant_autoround_gptq/README.md](./quant_autoround_gptq/README.md)
+
 
 
 ## 启动模型服务
