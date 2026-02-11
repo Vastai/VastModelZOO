@@ -11,9 +11,9 @@
 
 ## 模型支持
 
-  |model | huggingface  | modelscope | parameter | dtype| arch |
+  |model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 |LLM-MOE-GQA |
+  |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 | TP2/4/8/16 |
 
 > - [Alibaba-NLP/Tongyi-DeepResearch-30B-A3B](https://hf-mirror.com/Alibaba-NLP/Tongyi-DeepResearch-30B-A3B)，原始权重为BF16格式，暂未提供FP8权重
 > - [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8)，为按照下述流程量化至FP8格式，以支持VLLM_VACC
@@ -22,8 +22,8 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Tongyi-DeepResearch-30B-A3B-FP8 | tp2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Tongyi-DeepResearch-30B-A3B-FP8 | tp4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | TP4/8/16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 > - max-input-len: 最大输入长度
 > - max-model-len: 最大上下文长度

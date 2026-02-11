@@ -190,10 +190,10 @@
   |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
-  |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 | TP2/4 |
-  |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4 |
-  |Qwen3-30B-A3B-Thinking-2507-FP8 | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | 30B-A3B | FP8 | TP2/4 |
-  |Qwen3-Coder-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | 30B-A3B | FP8 | TP2/4 |
+  |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
+  |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
+  |Qwen3-30B-A3B-Thinking-2507-FP8 | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | [Qwen/Qwen3-30B-A3B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
+  |Qwen3-Coder-30B-A3B-Instruct-FP8 | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://hf-mirror.com/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | [Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
   |Qwen3-235B-A22B-FP8 | [Qwen/Qwen3-235B-A22B-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-FP8) | [Qwen/Qwen3-235B-A22B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-FP8) | 235B-A22B | FP8 | TP16/32 |
   |Qwen3-235B-A22B-Instruct-2507-FP8 | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | [Qwen/Qwen3-235B-A22B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Instruct-2507-FP8) | 235B-A22B | FP8 | TP16/32 |
   |Qwen3-235B-A22B-Thinking-2507-FP8 | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | [Qwen/Qwen3-235B-A22B-Thinking-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8) | 235B-A22B | FP8 | TP16/32 |
@@ -205,23 +205,23 @@
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
-  | Qwen3-0.6B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
-  | Qwen3-1.7B-* | TP2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
-  | Qwen3-4B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
+  | Qwen3-0.6B-* | TP1/2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-1.7B-* | TP1/2/4/8 | max-model-len 32k | ❌ | max-concurrency 4|
+  | Qwen3-4B-* | TP1/2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-4B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-8B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-8B-* | TP4/8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-14B-* | TP2/4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
   | Qwen3-14B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-32B-* | TP4 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-32B-* | TP8 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-32B-* | TP8/16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 - LLM-MOE-GQA
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
   | Qwen3-30B-A3B-* | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Qwen3-30B-A3B-* | TP4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Qwen3-30B-A3B-* | TP4/8/16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-235B-A22B-* | TP16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
   | Qwen3-235B-A22B-* | TP32 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
@@ -233,7 +233,7 @@
 
   |model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 |TP2/4 |
+  |Tongyi-DeepResearch-30B-A3B-FP8 | [lancew/Tongyi-DeepResearch-30B-A3B-FP8](https://huggingface.co/lancew/Tongyi-DeepResearch-30B-A3B-FP8) | - | 30B-A3B | FP8 |TP2/4/8/16 |
 
 
 #### Usage Limits
@@ -241,7 +241,7 @@
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
   | Tongyi-DeepResearch-30B-A3B-FP8 | TP2 | max-input-len 56k </br> max-model-len 64k | ❌ | max-concurrency 4|
-  | Tongyi-DeepResearch-30B-A3B-FP8 | TP4 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
+  | Tongyi-DeepResearch-30B-A3B-FP8 | TP4/8/16 | max-input-len 100k </br> max-model-len 128k | ❌ | max-concurrency 4|
 
 
 ### MiroThinker-v1.5
@@ -250,7 +250,7 @@
 
   | model   | huggingface  | base_model  | parameter | dtype | parallel   |
   | :---- | :---- | :---- | :---- | :---- |:---- |
-  | MiroThinker-v1.5-30B-FP8  | [lancew/MiroThinker-v1.5-30B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-30B-FP8)   | Qwen3-30B-A3B-Thinking-2507   | 30B-A3B |FP8   | TP2/4 |
+  | MiroThinker-v1.5-30B-FP8  | [lancew/MiroThinker-v1.5-30B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-30B-FP8)   | Qwen3-30B-A3B-Thinking-2507   | 30B-A3B |FP8   | TP2/4/8/16 |
   | MiroThinker-v1.5-235B-FP8 | [lancew/MiroThinker-v1.5-235B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-235B-FP8) | Qwen3-235B-A22B-Thinking-2507 | 235B-A22B | FP8   | TP16/32 |
 
 
@@ -259,7 +259,7 @@
   | model   | parallel | seq limit | mtp  | tips  |
   | :---- | :---- | :---- | :---- | :---- |
   | MiroThinker-v1.5-30B-FP8  | TP2      | max-input-len 56k </br> max-model-len 64k   | ❌    | max-concurrency 4 |
-  | MiroThinker-v1.5-30B-FP8  | TP4      | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
+  | MiroThinker-v1.5-30B-FP8  | TP4/8/16      | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
   | MiroThinker-v1.5-235B-FP8 | TP16/TP32 | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
 
 
