@@ -259,7 +259,7 @@ function updateContent() {
         categoryLinks[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('naturalLanguageProcessing')}`;
         categoryLinks[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('largeLanguageModel')}`;
         categoryLinks[3].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('visionLanguageModel')}`;
-        categoryLinks[3].innerHTML = `<i class="fas fa-audio"></i> ${i18next.t('audioLanguageModel')}`;
+        categoryLinks[4].innerHTML = `<i class="fas fa-file-audio"></i> ${i18next.t('audioLanguageModel')}`;
     }
     
     // 更新子分类链接
@@ -322,7 +322,7 @@ function updateContent() {
         categoryHeaders[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('nlpModels')}`;
         categoryHeaders[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('llmModels')}`;
         categoryHeaders[3].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('vlmModels')}`;
-        categoryHeaders[4].innerHTML = `<i class="fas fa-audio"></i> ${i18next.t('almModels')}`;
+        categoryHeaders[4].innerHTML = `<i class="fas fa-file-audio"></i> ${i18next.t('almModels')}`;
     }
     
     // 更新子类别标题
