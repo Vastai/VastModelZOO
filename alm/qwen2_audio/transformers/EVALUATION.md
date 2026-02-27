@@ -16,11 +16,11 @@ pip install sed_eval
 pip install more_itertools
 pip install zhconv
 
-pip install transformers==4.57.4
+pip install transformers==4.57.4  # CUDA 版本
 ```
 
 ### Run Script
-按照以下命令执行 CUDA Transformers 精度测试：
+按照以下命令执行 CUDA Transformers 精度测试
 #### ASR 
 
 ```bash

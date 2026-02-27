@@ -1,6 +1,36 @@
-# Qwen2-Audio-7B Usage Guide
+# Qwen2-Audio Usage Guide
 
-This guide describes how to run Qwen2-Audio-7B on VastAI devices.
+This guide describes how to run Qwen2-Audio-7B/Qwen2-Audio-7B on VastAI devices.
+
+## model support
+
+  |model | huggingface  | modelscope | parameter | dtype| arch |
+  | :--- | :--- | :-- | :-- | :-- | :-- |
+  |Qwen2-Audio-7B| [Qwen/Qwen2-Audio-7B](https://hf-mirror.com/Qwen/Qwen2-Audio-7B) | [Qwen/Qwen2-Audio-7B](https://modelscope.cn/models/Qwen/Qwen2-Audio-7B) | 7B | BF16 | ALM-GQA |
+  |Qwen2-Audio-7B-Instruct | [Qwen/Qwen2-Audio-7B-Instruct](https://hf-mirror.com/Qwen/Qwen2-Audio-7B-Instruct) | [Qwen/Qwen2-Audio-7B-Instruct](https://modelscope.cn/models/Qwen/Qwen2-Audio-7B-Instruct) | 7B | BF16 | ALM-GQA |
+
+## model download
+1. hf-mirror download
+
+- reference[hf-mirror](https://hf-mirror.com/)
+  ```shell
+  wget https://hf-mirror.com/hfd/hfd.sh
+  chmod a+x hfd.sh
+  export HF_ENDPOINT=https://hf-mirror.com
+  apt install aria2
+  ./hfd.sh Qwen/Qwen2-Audio-7B -x 10 --local-dir Qwen/Qwen2-Audio-7B
+    ./hfd.sh Qwen/Qwen2-Audio-7B-Instruct -x 10 --local-dir Qwen/Qwen2-Audio-7B-Instruct
+  ```
+
+2. modelscope download
+
+- reference[modelscope](https://modelscope.cn/docs/models/download)
+  ```shell
+  pip install modelscope -i https://mirrors.ustc.edu.cn/pypi/web/simple
+  export PATH=$PATH:~/.local/bin
+  modelscope download --model Qwen/Qwen2-Audio-7B-Instruct --local_dir Qwen/Qwen2-Audio-7B-Instruct
+  ```
+
 
 ## Model Features
 

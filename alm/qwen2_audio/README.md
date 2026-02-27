@@ -433,7 +433,19 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
 
 
 ## Evaluation
-### Dataset 
+### Dataset Description
+
+|        数据集名称        | 任务类型 |       语言/规模       | 数据描述                                    | 典型用途                        |                                   资源链接                                   |
+| :-----------------: | :--: | :---------------: | :-------------------------------------- | :-------------------------- | :----------------------------------------------------------------------: |
+|   **LibriSpeech**   |  ASR (Automatic Speech Recognition) |   英语<br>~1000小时   | 开源有声书语音，16kHz，包含不同清晰度（clean/other）的朗读语音 | 英语语音识别基线测试、有声书 ASR          |                   [OpenSLR](https://www.openslr.org/12)                  |
+| **Common Voice 15** |  ASR |  多语言<br>(100+语种)  | Mozilla众包语音，涵盖多样化口音、年龄、性别，CC0开源协议       | 多语言 ASR、低资源语言研究、口音鲁棒性       | [HuggingFace](https://huggingface.co/datasets/fsicoli/common_voice_15_0) |
+|      **FLEURS**     |  ASR | 102种语言<br>~10h/语种 | 基于FLoRES-200的语音版本，句子级对齐，覆盖广泛语系          | 多语言语音识别、跨语言迁移学习、小样本评估       |       [HuggingFace](https://huggingface.co/datasets/google/fleurs)       |
+|     **CoVoST 2**    | S2TT |  多语言对<br>(如en→de) | 基于Common Voice的语音-翻译文本平行语料，支持端到端翻译      | 语音到文本翻译（S2TT）、级联 vs 端到端翻译对比 |      [HuggingFace](https://hf-mirror.com/datasets/fixie-ai/covost2)      |
+|       **MELD**      |  SER |   英语<br>1,400+对话  | 源自《老友记》的多模态数据，标注7种情感类别（含音频、文本、视频）       | 语音情感识别、多模态情感分析、对话情感理解       |                  [官网](https://affective-meld.github.io/)                 |
+|    **VocalSound**   |  VSC |  英语<br>~21,000样本  | 6类人声音效（笑、咳、喷嚏等），专注非语言人声事件               | 人声音效分类、语音事件检测、健康监测（咳嗽检测）    |            [GitHub](https://github.com/YuanGongND/vocalsound)            |
+
+
+### Data Download
 
 **FROM**: https://github.com/QwenLM/Qwen2-Audio/blob/main/eval_audio/EVALUATION.md
 
@@ -487,7 +499,7 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
   - MELD（SER）
     - https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-Audio/evaluation/meld_eval.jsonl
 
-#### **V**SC
+#### **VSC**
 
 - **Data url**
   - VocalSound
@@ -498,35 +510,21 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
     - https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-Audio/evaluation/vocalsound_eval.jsonl
 
 
-
 ### Run Scripts
 
 - **确保数据集均已下载到指定路径下**，参考官方评估说明：https://github.com/QwenLM/Qwen2-Audio/blob/main/eval_audio/EVALUATION.md
-- CUDA-Transformers 精度测试
+- 基于 Transformers 精度测试
   - 参考:  [transformers/EVALUATION.md](./transformers/EVALUATION.md)
-- CUDA-VLLM 精度测试
+- 基于 VLLM 精度测试
   - 参考:  [vllm/EVALUATION.md](./vllm/EVALUATION.md)
-
 
 
 ### Test Result
 
 - 官方精度测试结果：https://github.com/QwenLM/Qwen2-Audio/blob/main/README.md#evaluation
 
-- 本地 CUDA-Transformers 测试环境
-  - GPU：**RTX H800** × **8**
-  - NVIDIA Driver ：**535.161.08**
-  - CUDA： **12.8**
-  - pytorch:  **2.10**
-  - transformers: **4.57.4**
-- 本地 CUDA-VLLM 测试环境
-  - GPU：**RTX H800** × **8**
-  - NVIDIA Driver ：**535.161.08**
-  - CUDA： **12.6**
-  - pytorch:  **2.7.1**
-  - VLLM: **0.10.0**
 
-| **Task** | **Dataset**     | **Split**  | **Count** | **Metric** | Official-Transformers Score | CUDA-Transformers Score | CUDA-VLLM Score |
+| **Task** | **Dataset**     | **Split**  | **Count** | **Metric** | Official Score | Transformers Score | VLLM Score |
 | -------- | --------------- | ---------- | --------- | ---------- | ---------------------------- | ----------------------- | --------------- |
 | ASR      | Librispeech     | dev_clean  | 2694      | WER        | 1.7                          | 1.68                    | 2.24            |
 |          |                 | dev_other  | 2857      |            | 3.6                          | 3.65                    | 4.41            |
