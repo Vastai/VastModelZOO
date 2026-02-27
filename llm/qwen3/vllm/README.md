@@ -39,7 +39,7 @@
   | Qwen3-32B                  | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B)                                   | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B)                                   | 32B       | BF16  | TP4/8/16  |
   | Qwen3-32B-FP8              | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8)                           | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8)                           | 32B       | FP8   | TP4/8/16  |
   | Qwen3-32B-AWQ              | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ)                           | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ)                           | 32B       | INT4  | TP4/8     |
-  | Qwen3-32B-INT8             | [lancew/Qwen3-32B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-32B-GPTQ-INT8)           | -                                                                                                   | 32B       | INT8  | TP4/8/16  |
+  | Qwen3-32B-GPTQ-INT8             | [lancew/Qwen3-32B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-32B-GPTQ-INT8)           | -                                                                                                   | 32B       | INT8  | TP4/8/16  |
 
 
   > - TIPS
