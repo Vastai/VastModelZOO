@@ -133,7 +133,7 @@ def main():
     args = parser.parse_args()
     random.seed(args.seed)
 
-    base_dir = Path("/home/jies/code/extra/model/Qwen2-Audio-main")
+    base_dir = Path(args.asr_root)
     jsonl_path = (base_dir / ds_collections[args.dataset]["path"]).resolve()
     audio_root = (base_dir / args.audio_root).resolve()
 

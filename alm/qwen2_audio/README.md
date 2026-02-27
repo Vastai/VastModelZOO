@@ -425,9 +425,6 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
 - **声学混淆**：在嘈杂环境中，Chosen 应正确识别内容，Rejected 可能受噪声干扰产生误听
 - **语气理解**：对同一句话，Chosen 识别讽刺/真诚语气，Rejected 误判
 
-## Build_In Deploy
-
-- 参考：[build_in/README.md](./build_in/README.md)
 
 ## vLLM Deploy
 
@@ -436,27 +433,7 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
 
 
 ## Evaluation
-
-### Dependencies
-
-```cmd
-apt-get update
-apt-get install openjdk-8-jdk
-pip install evaluate
-pip install sacrebleu==1.5.1
-pip install edit_distance
-pip install editdistance
-pip install jiwer
-pip install scikit-image
-pip install textdistance
-pip install sed_eval
-pip install more_itertools
-pip install zhconv
-```
-
-安装精度测试所需的环境依赖
-
-### Dataset
+### Dataset 
 
 **FROM**: https://github.com/QwenLM/Qwen2-Audio/blob/main/eval_audio/EVALUATION.md
 
@@ -526,9 +503,9 @@ pip install zhconv
 
 - **确保数据集均已下载到指定路径下**，参考官方评估说明：https://github.com/QwenLM/Qwen2-Audio/blob/main/eval_audio/EVALUATION.md
 - CUDA-Transformers 精度测试
-  - 参考:  [transformers/README.md](./transformers/README.md)
+  - 参考:  [transformers/EVALUATION.md](./transformers/EVALUATION.md)
 - CUDA-VLLM 精度测试
-  - 参考:  [vllm/README.md](./transformers/README.md)
+  - 参考:  [vllm/EVALUATION.md](./vllm/EVALUATION.md)
 
 
 
@@ -549,7 +526,7 @@ pip install zhconv
   - pytorch:  **2.7.1**
   - VLLM: **0.10.0**
 
-| **Task** | **Dataset**     | **Split**  | **Count** | **Metric** | Official  Transformers Score | CUDA Transformers Score | CUDA VLLM Score |
+| **Task** | **Dataset**     | **Split**  | **Count** | **Metric** | Official-Transformers Score | CUDA-Transformers Score | CUDA-VLLM Score |
 | -------- | --------------- | ---------- | --------- | ---------- | ---------------------------- | ----------------------- | --------------- |
 | ASR      | Librispeech     | dev_clean  | 2694      | WER        | 1.7                          | 1.68                    | 2.24            |
 |          |                 | dev_other  | 2857      |            | 3.6                          | 3.65                    | 4.41            |
@@ -560,10 +537,10 @@ pip install zhconv
 |          |                 | test_yue   | 5593      |            | 5.9                          | 5.87                    | 6.06            |
 |          |                 | test_fr    | 16132     |            | 9.6                          | 9.55                    | 9.60            |
 |          |                 | test_en    | 16381     |            | 8.7                          | 8.76                    | 9.72            |
-| S2TT     | CoVoST2         | en_zh      | 30984     | BLEU       | 45.6                         |                         |                 |
-|          |                 | en_de      | 30883     |            | 29.6                         |                         |                 |
-|          |                 | de_en      | 27017     |            | 33.6                         |                         |                 |
-|          |                 | zh_en      | 9741      |            | 24.0                         |                         |                 |
+| S2TT     | CoVoST2         | en_zh      | 30984     | BLEU       | 45.6                         | 45.5                    | 45.6            |
+|          |                 | en_de      | 30883     |            | 29.6                         | 29.6                    | 29.8            |
+|          |                 | de_en      | 27017     |            | 33.6                         | 33.6                    | 35.4            |
+|          |                 | zh_en      | 9741      |            | 24.0                         | 23.9                    | 24.7            |
 | SER      | Meld            | test+dev   | 3716      | ACC        | 0.535                        | 0.541                   | 0.548           |
 | VSC      | VocalSound      | test+valid | 5446      | ACC        | 0.9395                       | 0.9329                  | 0.9342          |
 

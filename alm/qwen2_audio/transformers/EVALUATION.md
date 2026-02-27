@@ -15,18 +15,21 @@ pip install textdistance
 pip install sed_eval
 pip install more_itertools
 pip install zhconv
+
+pip install transformers==4.57.4
 ```
+
 ### Run Script
 按照以下命令执行 CUDA Transformers 精度测试：
 #### ASR 
 
 ```bash
- cd /your/path/to/VastModelZOO/alm/qwen2_audio/transformers
+ cd /your/path/to/VastModelZOO/alm/qwen2_audio
  for ds in "librispeech" "aishell2" "cv15_en" "cv15_zh" "cv15_yue" "cv15_fr" "fleurs_zh"
  do
      python -m torch.distributed.launch --use_env \
          --nproc_per_node ${NPROC_PER_NODE:-8} --nnodes 1 \
-         evaluate_asr.py \
+         transformers/evaluate_asr.py \
          --checkpoint $checkpoint \
          --dataset $ds \
          --batch-size 20 \
@@ -35,11 +38,11 @@ pip install zhconv
 ```
 #### S2TT
 ```bash
-cd /your/path/to/VastModelZOO/alm/qwen2_audio/transformers
+cd /your/path/to/VastModelZOO/alm/qwen2_audio
 ds="covost2"
 python -m torch.distributed.launch --use-env \
     --nproc_per_node ${NPROC_PER_NODE:-8} --nnodes 1 \
-    evaluate_st.py \
+    transformers/evaluate_st.py \
     --checkpoint $checkpoint \
     --dataset $ds \
     --batch-size 8 \
@@ -48,11 +51,11 @@ python -m torch.distributed.launch --use-env \
 
 #### SER
 ```bash
-cd /your/path/to/VastModelZOO/alm/qwen2_audio/transformers
+cd /your/path/to/VastModelZOO/alm/qwen2_audio
 ds="meld"
 python -m torch.distributed.launch --use-env \
     --nproc_per_node ${NPROC_PER_NODE:-8} --nnodes 1 \
-    evaluate_emotion.py \
+    transformers/evaluate_emotion.py \
     --checkpoint $checkpoint \
     --dataset $ds \
     --batch-size 8 \
@@ -62,11 +65,11 @@ python -m torch.distributed.launch --use-env \
 #### VSC
 
 ```bash
-cd /your/path/to/VastModelZOO/alm/qwen2_audio/transformers
+cd /your/path/to/VastModelZOO/alm/qwen2_audio
 ds="vocalsound"
 python -m torch.distributed.launch --use-env \
     --nproc_per_node ${NPROC_PER_NODE:-8} --nnodes 1 \
-    evaluate_aqa.py \
+    transformers/evaluate_aqa.py \
     --checkpoint $checkpoint \
     --dataset $ds \
     --batch-size 8 \

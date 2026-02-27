@@ -188,7 +188,7 @@ def main():
     args = parser.parse_args()
     random.seed(args.seed)
 
-    base_dir = Path("/home/jies/code/extra/model/Qwen2-Audio-main")
+    base_dir = Path(args.asr_root)
     asr_root = (base_dir / args.asr_root).resolve()
 
     if args.dataset not in ds_collections:
