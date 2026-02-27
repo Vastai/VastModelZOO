@@ -74,6 +74,8 @@ bash
 
 ```bash
 export VACC_VISIBLE_DEVICES=0,1
+export VNNL_CONV1D_DLC=1
+
 vllm serve /models/Qwen2-Audio-7B \
 --served-model-name Qwen2-Audio-7B \
 --trust-remote-code \
@@ -88,6 +90,8 @@ vllm serve /models/Qwen2-Audio-7B \
 
 ```bash
 export VACC_VISIBLE_DEVICES=0,1,2,3
+export VNNL_CONV1D_DLC=1
+
 vllm serve /models/Qwen2-Audio-7B \
 --served-model-name Qwen2-Audio-7B \
 --trust-remote-code \
@@ -318,6 +322,7 @@ if __name__ == "__main__":
 ```
 
 ```shell
+export VNNL_CONV1D_DLC=1
 python test.py -m /your/path/Qwen2-Audio-7B --audio_path ./glass-breaking-151256.mp3
 ```
 

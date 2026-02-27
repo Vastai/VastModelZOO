@@ -16,7 +16,7 @@ pip install sed_eval
 pip install more_itertools
 pip install zhconv
 
-pip install transformers==4.57.4  # CUDA 版本
+pip install transformers==4.57.4  # CUDA 环境下的版本
 ```
 
 ### Run Script
