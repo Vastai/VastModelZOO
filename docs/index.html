@@ -52,11 +52,11 @@
                         <div class="stat-label">总模型数量</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">4</div>
+                        <div class="stat-value">5</div>
                         <div class="stat-label">模型方向大类</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">32</div>
+                        <div class="stat-value">33</div>
                         <div class="stat-label">模型方向子类</div>
                     </div>
                     <div class="stat-item">
@@ -164,6 +164,17 @@
                             <ul class="subcategory-list" id="vlm-sub">
                                 <li><a href="#vlm-general">通用视觉语言模型</a></li>
                                 <li><a href="#vlm-domain">领域视觉语言模型</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#alm-models">
+                                <i class="fas fa-images"></i> 语音语言模型
+                            </a>
+                            <button class="toggle-subcategories" onclick="toggleSubcategories('alm-sub')">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <ul class="subcategory-list" id="alm-sub">
+                                <li><a href="#alm-general">通用语音语言模型</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -8851,6 +8862,74 @@
                         </div>
                     </div>
                 </div>
+
+
+                <!-- ALM 模型 -->
+                <div class="category-card" id="alm-models">
+                    <div class="category-header" onclick="toggleCategory('alm-content')">
+                        <h2><i class="fas fa-images"></i> ALM Models - 语音语言模型</h2>
+                        <div class="category-stats">
+                            <i class="fas fa-chevron-down toggle-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="subcategory-panel" id="alm-content">
+                        <!-- 通用ALM子类别 -->
+                        <div class="subcategory-item" id="alm-general">
+                            <div class="subcategory-header active" onclick="toggleSubcategory('alm-general-content')">
+                                <h3><i class="fas fa-eye"></i> 通用语音语言模型</h3>
+                                <div>
+                                    <i class="fas fa-chevron-right subcategory-arrow"></i>
+                                </div>
+                            </div>
+                            <div class="models-table-container" id="alm-general-content">
+                                <table class="models-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">模型名称</th>
+                                            <th width="15%">模型来源</th>
+                                            <th width="30%">模型列表</th>
+                                            <th width="20%">模型类型</th>
+                                            <th width="15%">运行时</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- vLLM 运行时模型 -->
+                                        <tr>
+                                            <td class="model-cell">
+                                                <a href="../alm/qwen2_audio/README.md" class="model-link">
+                                                    <i class="fas fa-file-alt"></i> Qwen2-Audio
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="https://hf-mirror.com/Qwen/Qwen2-Audio-7B"
+                                                    class="codebase-link" target="_blank">
+                                                    <i class="fab fa-github"></i> huggingface
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button class="toggle-details"
+                                                    onclick="toggleModelList('alm-vllm-1')">
+                                                    <i class="fas fa-list"></i> 查看模型
+                                                </button>
+                                                <div class="model-list-details" id="alm-vllm-1">
+                                                    <ul>
+                                                        <li>Qwen2-Audio-7B</li>
+                                                        <li>Qwen2-Audio-7B-Instruct</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td><span class="type-badge">Audio Language Model</span></td>
+                                            <td><span class="runtime-badge runtime-vllm">vLLM</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 领域ALM子类别 -->
+                        
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>

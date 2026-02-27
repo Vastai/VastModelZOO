@@ -18,6 +18,7 @@ i18next.init({
                 "naturalLanguageProcessing": "自然语言处理模型",
                 "largeLanguageModel": "大语言模型",
                 "visionLanguageModel": "视觉语言模型",
+                "audioLanguageModel": "语音语言模型",
                 "imageClassification": "图像分类",
                 "objectDetection": "目标检测",
                 "objectDetection3d": "3D目标检测",
@@ -48,11 +49,14 @@ i18next.init({
                 "domainLLM": "领域大语言模型",
                 "generalVLM": "通用视觉语言模型",
                 "domainVLM": "领域视觉语言模型",
+                "generalALM": "通用语音语言模型",
+                "domainALM": "领域语音语言模型",
                 "viewModels": "查看模型",
                 "cvModels": "CV Models - 计算机视觉模型",
                 "nlpModels": "NLP Models - 自然语言处理模型",
                 "llmModels": "LLM Models - 大语言模型",
                 "vlmModels": "VLM Models - 视觉语言模型",
+                "almModels": "ALM Models - 语音语言模型",
                 "noModelsFound": "没有找到以 {{letter}} 开头的模型",
                 "searchResults": "共搜索 {{count}} 个结果",
                 "searchResultsWithDetails": "模型名称共找到 {{modelCount}} 个结果，模型列表共找到 {{listCount}} 个结果",
@@ -89,6 +93,7 @@ i18next.init({
                 "naturalLanguageProcessing": "NLP Models",
                 "largeLanguageModel": "LLM Models",
                 "visionLanguageModel": "VLM Models",
+                "audioLanguageModel": "ALM Models",
                 "imageClassification": "Image Classification",
                 "objectDetection": "Object Detection",
                 "objectDetection3d": "3D Object Detection",
@@ -119,11 +124,14 @@ i18next.init({
                 "domainLLM": "Domain LLM Models",
                 "generalVLM": "General VLM Models",
                 "domainVLM": "Domain VLM Models",
+                "generalALM": "General ALM Models",
+                "domainALM": "Domain ALM Models",
                 "viewModels": "View Models",
                 "cvModels": "CV Models - Computer Vision Models",
                 "nlpModels": "NLP Models - Natural Language Processing Models",
                 "llmModels": "LLM Models - Large Language Models",
                 "vlmModels": "VLM Models - Vision Language Models",
+                "almModels": "ALM Models - Audio Language Models",
                 "noModelsFound": "No models found starting with {{letter}}",
                 "searchResults": "{{count}} result(s) found",
                 "searchResultsWithDetails": "{{modelCount}} result(s) found by model name, {{listCount}} result(s) found in model list",
@@ -199,7 +207,9 @@ const subcategoryKeys = {
     '通用大语言模型': 'generalLLM',
     '领域大语言模型': 'domainLLM',
     '通用视觉语言模型': 'generalVLM',
-    '领域视觉语言模型': 'domainVLM'
+    '领域视觉语言模型': 'domainVLM',
+    '通用语音语言模型': 'generalALM',
+    '领域语音语言模型': 'domainALM'
 };
 
 // 为子分类链接设置data-key属性（只执行一次）
@@ -283,7 +293,9 @@ function updateContent() {
         '通用大语言模型': 'generalLLM',
         '领域大语言模型': 'domainLLM',
         '通用视觉语言模型': 'generalVLM',
-        '领域视觉语言模型': 'domainVLM'
+        '领域视觉语言模型': 'domainVLM',
+        '通用语音语言模型': 'generalALM',
+        '领域语音语言模型': 'domainALM'
     };
     
     // 为每个子分类链接设置data-key属性，用于后续翻译
@@ -309,6 +321,7 @@ function updateContent() {
         categoryHeaders[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('nlpModels')}`;
         categoryHeaders[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('llmModels')}`;
         categoryHeaders[3].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('vlmModels')}`;
+        categoryHeaders[4].innerHTML = `<i class="fas fa-images"></i> ${i18next.t('almModels')}`;
     }
     
     // 更新子类别标题
@@ -351,7 +364,9 @@ function updateContent() {
                 'llm-general': 'generalLLM',
                 'llm-domain': 'domainLLM',
                 'vlm-general': 'generalVLM',
-                'vlm-domain': 'domainVLM'
+                'vlm-domain': 'domainVLM',
+                'alm-general': 'generalALM',
+                'alm-domain': 'domainALM'
             };
             
             if (sectionToKey[sectionId]) {
@@ -551,13 +566,15 @@ function toggleCategory(categoryId) {
         'cv-content': 'cv-sub',
         'nlp-content': 'nlp-sub',
         'llm-content': 'llm-sub',
-        'vlm-content': 'vlm-sub'
+        'vlm-content': 'vlm-sub',
+        'alm-content': 'alm-sub'
     };
     const categoryLinkMap = {
         'cv-content': '#cv-models',
         'nlp-content': '#nlp-models',
         'llm-content': '#llm-models',
-        'vlm-content': '#vlm-models'
+        'vlm-content': '#vlm-models',
+        'alm-content': '#alm-models'
     };
     
     const isExpanding = !content.classList.contains('expanded');
@@ -746,7 +763,8 @@ function toggleSubcategory(subcategoryId) {
                 'cv-models': 'cv-sub',
                 'nlp-models': 'nlp-sub',
                 'llm-models': 'llm-sub',
-                'vlm-models': 'vlm-sub'
+                'vlm-models': 'vlm-sub',
+                'alm-models': 'alm-sub'
             };
             currentCategoryId = categoryIdMap[currentCategoryCard.id];
         }
@@ -835,13 +853,15 @@ function toggleSubcategories(subId) {
         'cv-sub': 'cv-content',
         'nlp-sub': 'nlp-content',
         'llm-sub': 'llm-content',
-        'vlm-sub': 'vlm-content'
+        'vlm-sub': 'vlm-content',
+        'alm-sub': 'alm-content'
     };
     const subToCategoryLinkMap = {
         'cv-sub': '#cv-models',
         'nlp-sub': '#nlp-models',
         'llm-sub': '#llm-models',
-        'vlm-sub': '#vlm-models'
+        'vlm-sub': '#vlm-models',
+        'alm-sub': '#alm-models'
     };
     
     if (isExpanding) {
@@ -1369,7 +1389,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     'cv-models': 'cv-sub',
                     'nlp-models': 'nlp-sub',
                     'llm-models': 'llm-sub',
-                    'vlm-models': 'vlm-sub'
+                    'vlm-models': 'vlm-sub',
+                    'alm-models': 'alm-sub'
                 };
                 const targetNavListId = categoryIdMap[targetId];
                 
@@ -1586,7 +1607,7 @@ function calculateAllPositions() {
     };
 
     // 大类ID列表
-    const categoryIds = ['cv-models', 'nlp-models', 'llm-models', 'vlm-models'];
+    const categoryIds = ['cv-models', 'nlp-models', 'llm-models', 'vlm-models', 'alm-models'];
     
     // 子类别ID列表
     const subcategoryIds = [
@@ -1602,7 +1623,9 @@ function calculateAllPositions() {
         // LLM子类别
         'llm-general', 'llm-domain',
         // VLM子类别
-        'vlm-general', 'vlm-domain'
+        'vlm-general', 'vlm-domain',
+        // ALM子类别
+        'alm-general', 'alm-domain'
     ];
 
     // 计算大类位置
