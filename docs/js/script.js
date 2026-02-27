@@ -254,7 +254,7 @@ function updateContent() {
     
     // 更新分类链接
     const categoryLinks = document.querySelectorAll('.category-list > li > a');
-    if (categoryLinks.length >= 4) {
+    if (categoryLinks.length >= 5) {
         categoryLinks[0].innerHTML = `<i class="fas fa-eye"></i> ${i18next.t('computerVision')}`;
         categoryLinks[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('naturalLanguageProcessing')}`;
         categoryLinks[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('largeLanguageModel')}`;
@@ -317,7 +317,7 @@ function updateContent() {
     
     // 更新类别标题
     const categoryHeaders = document.querySelectorAll('.category-header h2');
-    if (categoryHeaders.length >= 4) {
+    if (categoryHeaders.length >= 5) {
         categoryHeaders[0].innerHTML = `<i class="fas fa-eye"></i> ${i18next.t('cvModels')}`;
         categoryHeaders[1].innerHTML = `<i class="fas fa-language"></i> ${i18next.t('nlpModels')}`;
         categoryHeaders[2].innerHTML = `<i class="fas fa-robot"></i> ${i18next.t('llmModels')}`;
