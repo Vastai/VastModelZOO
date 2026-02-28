@@ -10,7 +10,7 @@
 
 ---
 
-`VastModelZOO`是`瀚博半导体VastAI`维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博GPU芯片上的部署、训练示例。
+`VastModelZOO`是`瀚博半导体VastAI-AIS团队`维护的AI模型平台，提供了人工智能多个领域（CV、AUDIO、NLP、LLM、MLLM等）的开源模型在瀚博GPU芯片上的部署、训练示例。
 
 `VastModelZOO`旨在基于`瀚博半导体VastAI`的硬件产品和软件SDK，展示最佳的编程实践，以达成模型的快速移植和最优性能。
 
@@ -50,17 +50,10 @@
 
 4. 安装驱动
 
-- 部署LLM/VLM模型
-
     ```shell
-    sudo ./vastai_driver_install_xxx.run install --setkoparam "dpm=1"
+    sudo ./vastai_driver_install_xxx.run install --setkernelhook
     ```
 
-- 部署非LLM/VLM模型
-
-    ```shell
-    sudo ./vastai_driver_install_xxx.run install
-    ```
 
 </details>
 
@@ -72,9 +65,7 @@
     sudo vasmi list
     ```
 
-2. (可选) 开启 DPM
-
-    > 仅针对LLM/VLM模型需要开启 DPM
+2. 开启 DPM
 
     ```shell
     sudo vasmi setconﬁg dpm=enable -d all
