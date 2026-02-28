@@ -75,7 +75,7 @@ vastgenx webui --api_base_url http://127.0.0.1:9900/ --port 9600
     - [precision_llm.py](../evalscope/precision_llm.py)
     - [precision_vlm.py](../evalscope/precision_vlm.py)
     ```bash
-    cd docs/evalscope
+    cd tools/evalscope
     python precision_llm.py
     python precision_vlm.py
     ```
@@ -88,7 +88,7 @@ vastgenx webui --api_base_url http://127.0.0.1:9900/ --port 9600
     - [pref_vlm.py](../evalscope/pref_vlm.py)
 
     ```bash
-    cd docs/evalscope
+    cd tools/evalscope
     python pref_llm.py
     python pref_vlm.py
     ```
@@ -99,7 +99,7 @@ vastgenx webui --api_base_url http://127.0.0.1:9900/ --port 9600
     - [benchmark_vlm.sh](./script/benchmarks/benchmark_vlm.sh)
 
     ```bash
-    cd docs/vastgenx/script/benchmarks
+    cd tools/vastgenx/script/benchmarks
     ./benchmark_llm.sh
     ./benchmark_vlm.sh
     ```

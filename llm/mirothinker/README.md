@@ -7,15 +7,15 @@
 
   | 模型规格              | 最低硬件配置要求                                     |
   | :-------------------- | :--------------------------------------------------- |
-  | MiroThinker-v1.5-30B  | 单卡 VA16 (128G)/单卡 VA1L (64G) / 单卡 VA10L (128G) |
-  | MiroThinker-v1.5-235B | 四卡 VA16 (128G)                                     |
+  | MiroThinker-v1.5-30B  | 单卡 VA16 / 单卡 VA1L / 单卡 VA10L |
+  | MiroThinker-v1.5-235B | 四卡 VA16                                    |
 
 ## 模型支持
 
-| model                     | hub                                                                                         | base_model                    | dtype | arch        |
+| model                     | hub                                                                                         | base_model                    | dtype | parallel        |
 | :------------------------ | :------------------------------------------------------------------------------------------ | :---------------------------- | :---- | :---------- |
-| MiroThinker-v1.5-30B-FP8  | [lancew/MiroThinker-v1.5-30B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-30B-FP8)   | Qwen3-30B-A3B-Thinking-2507   | FP8   | LLM-MOE-GQA |
-| MiroThinker-v1.5-235B-FP8 | [lancew/MiroThinker-v1.5-235B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-235B-FP8) | Qwen3-235B-A22B-Thinking-2507 | FP8   | LLM-MOE-GQA |
+| MiroThinker-v1.5-30B-FP8  | [lancew/MiroThinker-v1.5-30B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-30B-FP8)   | Qwen3-30B-A3B-Thinking-2507   | FP8   | TP2/4/8/16 |
+| MiroThinker-v1.5-235B-FP8 | [lancew/MiroThinker-v1.5-235B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-235B-FP8) | Qwen3-235B-A22B-Thinking-2507 | FP8   | TP16/32 |
 
 > 原始权重为BF16格式，暂未提供FP8权重，如需复现，则按照下述流程量化至FP8格式
 
@@ -23,9 +23,9 @@
 
 | model                     | parallel | seq limit                                   | mtp  | tips              |
 | :------------------------ | :------- | :------------------------------------------ | :--- | :---------------- |
-| MiroThinker-v1.5-30B-FP8  | tp2      | max-input-len 56k </br> max-model-len 64k   | ❌    | max-concurrency 4 |
-| MiroThinker-v1.5-30B-FP8  | tp4      | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
-| MiroThinker-v1.5-235B-FP8 | tp16/32     | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
+| MiroThinker-v1.5-30B-FP8  | TP2      | max-input-len 56k </br> max-model-len 64k   | ❌    | max-concurrency 4 |
+| MiroThinker-v1.5-30B-FP8  | TP4/8/16      | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
+| MiroThinker-v1.5-235B-FP8 | TP16/32     | max-input-len 100k </br> max-model-len 128k | ❌    | max-concurrency 4 |
 
 > - max-input-len: 最大输入长度
 > - max-model-len: 最大上下文长度

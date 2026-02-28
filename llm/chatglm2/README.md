@@ -113,9 +113,9 @@
 
 
 ### step.4 模型推理
-1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../docs/vastgenx/README.md)
+1. 参考大模型部署推理工具：[vastgenx: v1.1.0+](../../tools/vastgenx/README.md)
 
-    **Note:** 基于[benchmark_llm.sh](../../docs/vastgenx/script/benchmarks/benchmark_llm.sh)测试性能时，需修改`benchmark_serveing.py`传入的参数，即添加`–-trust_remote_code`
+    **Note:** 基于[benchmark_llm.sh](../../tools/vastgenx/script/benchmarks/benchmark_llm.sh)测试性能时，需修改`benchmark_serveing.py`传入的参数，即添加`–-trust_remote_code`
 
 
 ### Tips

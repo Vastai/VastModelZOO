@@ -7,7 +7,7 @@
 
   |模型规格 | 最低硬件配置要求  |
   | :--- | :--- |
-  | DeepSeek-R1 系列 | 单台 VA16（8*128G）服务器 |
+  | DeepSeek-R1 系列 | 单台 VA16 服务器 |
 
 
 ## 模型支持
@@ -210,7 +210,7 @@
 
 1. 通过EvalScope进行模型精度测试，参考：[installation](https://evalscope.readthedocs.io/zh-cn/latest/get_started/installation.html)
 2. 启动 vLLM 模型服务
-3. 参考脚本：[precision_llm.py](../../docs/evalscope/precision_llm.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
+3. 参考脚本：[precision_llm.py](../../tools/evalscope/precision_llm.py)，配置测评数据集及采样参数等信息，执行脚本获取精度测评结果
 
   - 测评主要参数：
     - model：模型名称。该参数设置应与模型服务启动脚本中`--served-model-name`参数一致。

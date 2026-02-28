@@ -113,21 +113,21 @@
 
 3. 精度测试
 - Embedding模型
-参考脚本：[precision_embedding.py](../../../../docs/evalscope/precision_embedding.py)，配置测评数据集及评测参数等信息，执行脚本获取精度测评结果
+参考脚本：[precision_embedding.py](../../../../tools/evalscope/precision_embedding.py)，配置测评数据集及评测参数等信息，执行脚本获取精度测评结果
 
     ```bash
     export HF_ENDPOINT=https://hf-mirror.com
     #embedding模型测试
-    python ../../../../docs/evalscope/precision_embedding.py
+    python ../../../../tools/evalscope/precision_embedding.py
     ```
 
 - ReRanker模型
-参考脚本：[precision_reranker.py](../../../../docs/evalscope/precision_reranker.py)，配置测评数据集及评测参数等信息，执行脚本获取精度测评结果
+参考脚本：[precision_reranker.py](../../../../tools/evalscope/precision_reranker.py)，配置测评数据集及评测参数等信息，执行脚本获取精度测评结果
 
     ```bash
     export HF_ENDPOINT=https://hf-mirror.com
     #reranker模型测试
-    python ../../../../docs/evalscope/precision_reranker.py
+    python ../../../../tools/evalscope/precision_reranker.py
     ```
 
   - 测评主要参数：

@@ -14,6 +14,14 @@
     <!-- Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
+
+    <!-- i18next dependencies -->
+    <!-- i18next - https://www.i18next.com/ -->
+    <!-- Licensed under the MIT License -->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@23.12.2/i18next.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@7.2.1/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@2.5.2/i18nextHttpBackend.min.js"></script>
 </head>
 
 <body>
@@ -28,7 +36,13 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <h1><a href="https://www.vastai.com" target="_blank" rel="noopener noreferrer"><img src="./css/vastai_html_white_full.png" alt="Vastai Logo" class="header-logo"></a></h1>
+                <div class="language-switcher">
+                    <button onclick="changeLanguage('zh')" class="lang-btn" id="btn-zh">中文</button>
+                    <button onclick="changeLanguage('en')" class="lang-btn" id="btn-en">English</button>
+                </div>
+                <h1><a href="https://www.vastai.com" target="_blank" rel="noopener noreferrer"
+                        id="vastai-website-link"><img src="./css/vastai_html_white_full.png" alt="Vastai Logo"
+                            class="header-logo"></a></h1>
                 <p class="subtitle-main">VastModelZOO提供人工智能多个领域（CV/NLP/LLM/MLLM等）的开源模型在瀚博GPU芯片上的部署示例</p>
                 <!--<p class="subtitle-main">瀚博半导体（Vastai）模型中心</p>-->
                 <!--<p class="subtitle-desc">提供人工智能多个领域（CV/NLP/LLM/MLLM等）的开源模型在瀚博GPU芯片上的部署/训练示例</p>-->
@@ -38,11 +52,11 @@
                         <div class="stat-label">总模型数量</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">4</div>
+                        <div class="stat-value">5</div>
                         <div class="stat-label">模型方向大类</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">32</div>
+                        <div class="stat-value">33</div>
                         <div class="stat-label">模型方向子类</div>
                     </div>
                     <div class="stat-item">
@@ -150,6 +164,17 @@
                             <ul class="subcategory-list" id="vlm-sub">
                                 <li><a href="#vlm-general">通用视觉语言模型</a></li>
                                 <li><a href="#vlm-domain">领域视觉语言模型</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#alm-models">
+                                <i class="fas fa-file-audio"></i> 语音语言模型
+                            </a>
+                            <button class="toggle-subcategories" onclick="toggleSubcategories('alm-sub')">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <ul class="subcategory-list" id="alm-sub">
+                                <li><a href="#alm-general">通用语音语言模型</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -4869,8 +4894,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="https://github.com/ultralytics/ultralytics" class="codebase-link"
-                                                    target="_blank">
+                                                <a href="https://github.com/ultralytics/ultralytics"
+                                                    class="codebase-link" target="_blank">
                                                     <i class="fab fa-github"></i> ultralytics
                                                 </a>
                                             </td>
@@ -4898,8 +4923,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="https://github.com/ultralytics/ultralytics" class="codebase-link"
-                                                    target="_blank">
+                                                <a href="https://github.com/ultralytics/ultralytics"
+                                                    class="codebase-link" target="_blank">
                                                     <i class="fab fa-github"></i> ultralytics
                                                 </a>
                                             </td>
@@ -8283,31 +8308,27 @@
                                                     <ul>
                                                         <li>Qwen3-0.6B</li>
                                                         <li>Qwen3-0.6B-FP8</li>
-                                                        <li>Qwen3-0_6B_int4_awq</li>
-                                                        <li>Qwen3-0.6B-GPTQ-Int4</li>
+                                                        <li>Qwen3-0.6B-GPTQ-Int8</li>
                                                         <li>Qwen3-1.7B</li>
                                                         <li>Qwen3-1.7B-FP8</li>
-                                                        <li>Qwen3-1_7B_int4_awq</li>
-                                                        <li>Qwen3-1.7B-GPTQ-Int4</li>
+                                                        <li>Qwen3-1.7B-GPTQ-Int8</li>
                                                         <li>Qwen3-4B</li>
                                                         <li>Qwen3-4B-FP8</li>
                                                         <li>Qwen3-4B-Instruct-2507-FP8</li>
                                                         <li>Qwen3-4B-Thinking-2507-FP8</li>
                                                         <li>Qwen3-4B-AWQ</li>
-                                                        <li>Qwen3-4B-GPTQ-Int4</li>
                                                         <li>Qwen3-8B</li>
                                                         <li>Qwen3-8B-FP8</li>
                                                         <li>Qwen3-8B-AWQ</li>
-                                                        <li>Qwen3-8B-GPTQ-Int4</li>
+                                                        <li>Qwen3-8B-GPTQ-INT8</li>
                                                         <li>Qwen3-14B</li>
                                                         <li>Qwen3-14B-FP8</li>
                                                         <li>Qwen3-14B-AWQ</li>
-                                                        <li>Qwen3-14B-GPTQ-Int4</li>
-                                                        <li>Qwen3-14B-int4-AutoRound-gptq-inc</li>
+                                                        <li>Qwen3-14B-GPTQ-INT8</li>
                                                         <li>Qwen3-32B</li>
                                                         <li>Qwen3-32B-FP8</li>
                                                         <li>Qwen3-32B-AWQ</li>
-                                                        <li>Qwen3-32B-GPTQ-Int4</li>
+                                                        <li>Qwen3-32B-GPTQ-INT8</li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -8336,10 +8357,10 @@
                                                         <li>Qwen3-30B-A3B-FP8</li>
                                                         <li>Qwen3-30B-A3B-Instruct-2507-FP8</li>
                                                         <li>Qwen3-30B-A3B-Thinking-2507-FP8</li>
-                                                        <li>Qwen3-Coder-30B-A3B-Instruct-FP8</li>
                                                         <li>Qwen3-30B-A3B-GPTQ-Int4</li>
                                                         <li>Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4</li>
                                                         <li>Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4</li>
+                                                        <li>Qwen3-Coder-30B-A3B-Instruct-FP8</li>
                                                         <li>Qwen3-235B-A22B-FP8</li>
                                                         <li>Qwen3-235B-A22B-Instruct-2507-FP8</li>
                                                         <li>Qwen3-235B-A22B-Thinking-2507-FP8</li>
@@ -8841,6 +8862,74 @@
                         </div>
                     </div>
                 </div>
+
+
+                <!-- ALM 模型 -->
+                <div class="category-card" id="alm-models">
+                    <div class="category-header" onclick="toggleCategory('alm-content')">
+                        <h2><i class="fas fa-file-audio"></i> ALM Models - 语音语言模型</h2>
+                        <div class="category-stats">
+                            <i class="fas fa-chevron-down toggle-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="subcategory-panel" id="alm-content">
+                        <!-- 通用ALM子类别 -->
+                        <div class="subcategory-item" id="alm-general">
+                            <div class="subcategory-header active" onclick="toggleSubcategory('alm-general-content')">
+                                <h3><i class="fas fa-volume-up"></i> 通用语音语言模型</h3>
+                                <div>
+                                    <i class="fas fa-chevron-right subcategory-arrow"></i>
+                                </div>
+                            </div>
+                            <div class="models-table-container" id="alm-general-content">
+                                <table class="models-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">模型名称</th>
+                                            <th width="15%">模型来源</th>
+                                            <th width="30%">模型列表</th>
+                                            <th width="20%">模型类型</th>
+                                            <th width="15%">运行时</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- vLLM 运行时模型 -->
+                                        <tr>
+                                            <td class="model-cell">
+                                                <a href="../alm/qwen2_audio/README.md" class="model-link">
+                                                    <i class="fas fa-file-alt"></i> Qwen2-Audio
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="https://hf-mirror.com/Qwen/Qwen2-Audio-7B"
+                                                    class="codebase-link" target="_blank">
+                                                    <i class="fab fa-github"></i> huggingface
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button class="toggle-details"
+                                                    onclick="toggleModelList('alm-vllm-1')">
+                                                    <i class="fas fa-list"></i> 查看模型
+                                                </button>
+                                                <div class="model-list-details" id="alm-vllm-1">
+                                                    <ul>
+                                                        <li>Qwen2-Audio-7B</li>
+                                                        <li>Qwen2-Audio-7B-Instruct</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td><span class="type-badge">Audio Language Model</span></td>
+                                            <td><span class="runtime-badge runtime-vllm">vLLM</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 领域ALM子类别 -->
+                        
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>
