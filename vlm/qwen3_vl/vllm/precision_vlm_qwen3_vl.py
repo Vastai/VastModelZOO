@@ -28,7 +28,18 @@ task_cfg = TaskConfig(
         'vstar_bench',       # vision, grounding
         'blink'              # vision, multi-image
     ],
-    
+
+    ## Instruct
+    dataset_args={
+        'live_code_bench': {
+            'subset_list': ['v6'],
+            # 'extra_params': {
+            #     'start_date': '2025-02-01',
+            #     'end_date': '2025-05-31'
+            # },
+        },
+    },
+
     ## Thinking
     # dataset_args={
     #     'gpqa_diamond': {"filters": {"remove_until": "</think>"}},
