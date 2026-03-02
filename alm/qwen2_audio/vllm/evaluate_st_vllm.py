@@ -135,7 +135,7 @@ def main():
 
     random.seed(args.seed)
 
-    base_dir = Path(args.asr_root)
+    base_dir = Path(args.st_root)
     jsonl_path = (base_dir / ds_collections[args.dataset]["path"]).resolve()
     audio_root = (base_dir / args.st_root).resolve()
 
