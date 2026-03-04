@@ -331,3 +331,71 @@ python test.py -m /your/path/Qwen2-Audio-7B --audio_path ./glass-breaking-151256
 ```text
 Audio 0: A glass bottle shatters.
 ```
+
+
+### Performance Test of RTF (Real-Time Factor)
+
+```python
+from openai import OpenAI
+import base64
+import wave
+import librosa
+import time
+
+client = OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="EMPTY"
+)
+
+def make_audio_url(audio_file):
+    with open(audio_file,"rb") as f:
+      audio_base64 = base64.b64encode(f.read()).decode("utf-8")
+    return f"data:audio/wav;base64,{audio_base64}"
+
+
+audio_file = "guess_age_gender.wav"
+
+content=[
+    {'type':'audio_url','audio_url':{"url": make_audio_url(audio_file)}},
+    {'type':'text','text':"Please transcribe the audio. Just give me the transcription result without any explanation."}
+]
+messages = [
+    {"role": "system", "content": "you are a helpful assistant"},
+    {"role": "user", "content": content}
+]
+
+duration = librosa.get_duration(path=audio_file)
+
+start = time.time()
+response = client.chat.completions.create(
+    model="Qwen2-Audio-7B",
+    messages=messages,
+    max_tokens=1024,
+    stream=True,
+    temperature=0.6,
+)
+
+for chunk in response:
+    if chunk_content := chunk.choices[0].delta.content:
+        print(chunk_content, end="", flush=True)
+print("\n")
+
+end = time.time()
+cost = end - start
+
+rtf = cost / duration
+
+print(f"Audio duration: {duration:.2f} seconds")
+print(f"Total cost: {cost:.2f} seconds")
+print(f"Real-time factor: {rtf:.2f}")
+```
+
+**Output Example:**
+
+```text
+Audio 1: i heard that you can understand what people say and even though they are age and gender so can you guess my age and gender from my voice.
+
+Audio duration: 9.00 seconds
+Total cost: 4.76 seconds
+Real-time factor: 0.53
+```

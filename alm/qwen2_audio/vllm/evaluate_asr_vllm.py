@@ -41,7 +41,6 @@ chinese_normalizer = TextNorm(
 
 ds_collections = {
     "librispeech": {"path": "data/asr/librispeech_eval.jsonl", "language": "en"},
-    "aishell2": {"path": "data/asr/aishell2_eval.jsonl", "language": "zh"},
     "cv15_en": {"path": "data/asr/cv15_asr_en_eval.jsonl", "language": "en"},
     "cv15_zh": {"path": "data/asr/cv15_asr_zh_eval.jsonl", "language": "zh"},
     "cv15_yue": {"path": "data/asr/cv15_asr_yue_eval.jsonl", "language": "yue"},
@@ -181,7 +180,7 @@ def main():
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--asr-root", type=str, default="")
     parser.add_argument("--model-path", type=str, default="/cx8k/fs100/jies_data/llm/weights/Qwen/Qwen2-Audio-7B",)
-    parser.add_argument("--pad-audio", action="store_true", default=True)
+    parser.add_argument("--pad-audio", action="store_true", default=False)
     parser.add_argument("--out-dir", type=str, default="results_asr")
     parser.add_argument("--summary-file", type=str, default="summary_all.txt",)
 
