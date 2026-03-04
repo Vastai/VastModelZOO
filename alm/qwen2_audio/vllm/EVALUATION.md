@@ -1,6 +1,5 @@
-## Evaluation
-
-### Dependencies
+# Evaluation
+## Dependencies
 
 ```bash
 apt-get update
@@ -17,13 +16,13 @@ pip install more_itertools
 pip install zhconv
 
 ```
-### Run Script
+## Run Script
 按照以下命令执行 CUDA/VACC-VLLM 精度测试
 
-#### ASR 
+### ASR 
 
 ```bash
- cd /your/path/to/VastModelZOO/alm/qwen2_audio
+cd /your/path/to/VastModelZOO/alm/qwen2_audio
 
 export VACC_VISIBLE_DEVICES=0,1,2,3  ## 在进行 VACC-VLLM 精度测试时，需添加
 export VNNL_CONV1D_DLC=1             ## 在进行 VACC-VLLM 精度测试时，需添加
@@ -35,10 +34,9 @@ export VNNL_CONV1D_DLC=1             ## 在进行 VACC-VLLM 精度测试时，�
         --batch-size 16 \
         --tp 4 \
         --model-path $model_path \
-        --asr-root .
  done
 ```
-#### S2TT
+### S2TT
 ```bash
 cd /your/path/to/VastModelZOO/alm/qwen2_audio
 ds="covost2"
@@ -51,10 +49,9 @@ python vllm/evaluate_st_vllm.py \
     --batch-size 16 \
     --tp 4 \
     --model-path $model_path \
-    --asr-root .
 ```
 
-#### SER
+### SER
 ```bash
 cd /your/path/to/VastModelZOO/alm/qwen2_audio
 ds="meld"
@@ -67,10 +64,9 @@ python vllm/evaluate_emotion_vllm.py \
     --batch-size 16 \
     --tp 4 \
     --model-path $model_path \
-    --asr-root .
 ```
 
-#### VSC
+### VSC
 
 ```bash
 cd /your/path/to/VastModelZOO/alm/qwen2_audio
@@ -84,5 +80,6 @@ python vllm/evaluate_vocal_sound_vllm.py \
     --batch-size 16 \
     --tp 4 \
     --model-path $model_path \
-    --asr-root .
 ```
+
+> 需注意：测试精度时，默认关闭 `--pad-audio` 参数；
