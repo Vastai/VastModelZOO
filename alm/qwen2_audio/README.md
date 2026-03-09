@@ -1,6 +1,6 @@
 # Qwen2-Audio
 
-- blog: https://qwen.ai/blog?id=99f0335c4ad9ff6153e517418d48535ab6d8afef&from=research.latest-advancements-list
+- blog: https://qwen.ai/blog?id=qwen2-audio
 - report: https://arxiv.org/abs/2407.10759
 - code: https://github.com/QwenLM/Qwen2-Audio
 - huggingface: https://huggingface.co/Qwen/Qwen2-Audio-7B
