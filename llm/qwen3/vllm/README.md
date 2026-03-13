@@ -191,7 +191,6 @@ vllm bench serve \
     --random-output-len <output_len> \
     --max-concurrency <concurrency> \
     --served-model-name <model_name> \
-    --server-num <server_num> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -226,7 +225,6 @@ vllm bench serve \
 
   - `--result-filename`：测试结果文件名称。
 
-  - `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
 2. 测试示例
