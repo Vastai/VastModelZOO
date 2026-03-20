@@ -118,7 +118,7 @@ sudo docker run -it \
       -v /FS03/weights:/weights \
       --net=host \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1 bash
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 bash
 
 vllm serve /weights/Qwen3-VL-30B-A3B-Instruct-FP8/ \
 --trust-remote-code \

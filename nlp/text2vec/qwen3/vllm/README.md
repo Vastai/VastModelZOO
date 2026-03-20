@@ -80,7 +80,7 @@
       -v /path/to/model:/weights/ \
       -p 8000:8000 \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
       vllm serve /weights/Qwen3-Embedding-0.6B \
       --trust-remote-code \
       --enforce-eager \
@@ -99,7 +99,7 @@
       -v /path/to/model:/weights/ \
       -p 8001:8001 \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
       vllm serve /weights/Qwen3-Reranker-0.6B \
       --hf_overrides '{"architectures": ["Qwen3ForSequenceClassification"],"classifier_from_token": ["no", "yes"],"is_original_qwen3_reranker": true}' \
       --enforce-eager \
@@ -122,7 +122,7 @@
 
   - `--hf_overrides`：在加载模型时动态修改模型配置，`Qwen3-Reranker-0.6B`模型需要设置`--hf_overrides`参数。
 
-  - `harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1`：vllm_vacc镜像地址，请根据实际情况替换, 具体版本可从首页[依赖软件](../../../../README.md)中获取。
+  - `harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02`：vllm_vacc镜像地址，请根据实际情况替换, 具体版本可从首页[依赖软件](../../../../README.md)中获取。
 
 
 ## 模型精度测试
