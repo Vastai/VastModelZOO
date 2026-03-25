@@ -19,6 +19,8 @@ import json
 from threading import Thread, Event
 import time
 from queue import Queue
+from tqdm import tqdm
+
 
 parse = argparse.ArgumentParser(description="RUN Det WITH VSX")
 parse.add_argument(
@@ -355,8 +357,8 @@ if __name__ == '__main__':
         images = glob.glob(os.path.join(args.file_path, "*"))
         time_begin = time.time()
         results = detector.run_batch(images)
-        for (image, result) in zip(images, results):
-            print(f"{image} => {result}")
+        for (image, result) in tqdm(zip(images, results), total=len(images)):
+            # print(f"{image} => {result}")
             save_result(image, result, args.save_dir)
         time_end = time.time()
 
@@ -367,31 +369,9 @@ if __name__ == '__main__':
     print("test over")
     
 '''
-yolov8s-fp16:
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.435
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.599
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.468
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.238
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.484
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.598
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.340
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.535
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.559
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.335
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.617
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.729
+yolov12s 640 fp16
+{'bbox_mAP': 0.452, 'bbox_mAP_50': 0.62, 'bbox_mAP_75': 0.482, 'bbox_mAP_s': 0.253, 'bbox_mAP_m': 0.5, 'bbox_mAP_l': 0.636, 'bbox_mAP_copypaste': '0.452 0.620 0.482 0.253 0.500 0.636'}
 
-yolov8s-int8-percentile:
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.428
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.593
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.460
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.232
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.478
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.592
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.337
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.530
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.556
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.332
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.614
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.728
+yolov12s 640 int8 percentile
+{'bbox_mAP': 0.448, 'bbox_mAP_50': 0.616, 'bbox_mAP_75': 0.477, 'bbox_mAP_s': 0.25, 'bbox_mAP_m': 0.494, 'bbox_mAP_l': 0.63, 'bbox_mAP_copypaste': '0.448 0.616 0.477 0.250 0.494 0.630'}
 '''

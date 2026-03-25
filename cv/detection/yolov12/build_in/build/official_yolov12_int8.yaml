@@ -1,0 +1,60 @@
+name: official_yolov12s_int8_percentile
+frontend:
+  checkpoint: yolov12s.onnx
+  shape:
+    images:
+    - 1
+    - 3
+    - 640
+    - 640
+  type: onnx
+  dtype: fp32
+graph:
+  extra_ops:
+    type: yolov12_nms
+    params:
+      num_classes: 80
+      nms_threshold: 0.65
+      confidence_threshold: 0.001
+      strides:
+      - 8
+      - 16
+      - 32
+dataset:
+  type: tvm
+  path: COCO2017/det_coco_calib/
+  sampler:
+    suffix: jpg
+    get_data_num: 50
+  process_ops:
+  - type: DecodeImage
+  - type: Resize
+    size:
+    - 640
+    - -1
+    adaptive_side: long
+  - type: Pad
+    pad_to_square: true
+  - type: Normalize
+    div255: true
+    norm_type: null
+  - type: ToTensor
+backend:
+  type: tvm_vacc
+  dtype: int8
+  compile:
+    opt_level: 2
+    data_type: 0
+    data_transport_mode: 3
+    enable_float_to_half: true
+    stream_mode: true
+  quantize:
+    calibrate_mode: percentile
+    quantize_per_channel: true
+    skip_conv_layers: [0, 1, 2, 3, 4, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167,168, 169, 170, 171, 172, 173, 174] # only for yolov12s
+    quantize_operators: ["!nn.vacc_matmul", "!vacc_bert_proportion", "!nn.vacc_batch_matmul"]
+    requant_suppress: true
+    calibrate_chunk_by: -1
+    stream_mode: true
+workspace:
+  path: ./deploy_weights
