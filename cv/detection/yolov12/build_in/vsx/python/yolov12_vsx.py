@@ -374,4 +374,10 @@ yolov12s 640 fp16
 
 yolov12s 640 int8 percentile
 {'bbox_mAP': 0.448, 'bbox_mAP_50': 0.616, 'bbox_mAP_75': 0.477, 'bbox_mAP_s': 0.25, 'bbox_mAP_m': 0.494, 'bbox_mAP_l': 0.63, 'bbox_mAP_copypaste': '0.448 0.616 0.477 0.250 0.494 0.630'}
+
+yolov12m 640 fp16
+{'bbox_mAP': 0.503, 'bbox_mAP_50': 0.67, 'bbox_mAP_75': 0.544, 'bbox_mAP_s': 0.326, 'bbox_mAP_m': 0.563, 'bbox_mAP_l': 0.678, 'bbox_mAP_copypaste': '0.503 0.670 0.544 0.326 0.563 0.678'}
+
+yolov12m 640 int8 percentile
+{'bbox_mAP': 0.501, 'bbox_mAP_50': 0.666, 'bbox_mAP_75': 0.541, 'bbox_mAP_s': 0.314, 'bbox_mAP_m': 0.558, 'bbox_mAP_l': 0.678, 'bbox_mAP_copypaste': '0.501 0.666 0.541 0.314 0.558 0.678'}
 '''
