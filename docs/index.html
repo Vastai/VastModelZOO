@@ -8315,7 +8315,11 @@
                                                         <li>Qwen3-4B</li>
                                                         <li>Qwen3-4B-FP8</li>
                                                         <li>Qwen3-4B-Instruct-2507-FP8</li>
+                                                        <li>Qwen3-4B-Instruct-2507-GPTQ-INT8</li>
+                                                        <li>Qwen3-4B-Instruct-2507-GPTQ-INT4</li>
                                                         <li>Qwen3-4B-Thinking-2507-FP8</li>
+                                                        <li>Qwen3-4B-Thinking-2507-GPTQ-INT8</li>
+                                                        <li>Qwen3-4B-Thinking-2507-GPTQ-INT4</li>
                                                         <li>Qwen3-4B-AWQ</li>
                                                         <li>Qwen3-8B</li>
                                                         <li>Qwen3-8B-FP8</li>
@@ -8523,6 +8527,8 @@
                                                     <ul>
                                                         <li>MiroThinker-v1.5-30B-FP8</li>
                                                         <li>MiroThinker-v1.5-235B-FP8</li>
+                                                        <li>MiroThinker-1.7-mini-FP8</li>
+                                                        <li>MiroThinker-1.7-FP8</li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -8676,32 +8682,6 @@
                                         <!-- vLLM 运行时模型 -->
                                         <tr>
                                             <td class="model-cell">
-                                                <a href="../vlm/mineru2_5/README.md" class="model-link">
-                                                    <i class="fas fa-file-alt"></i> MinerU2.5
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B"
-                                                    class="codebase-link" target="_blank">
-                                                    <i class="fab fa-github"></i> huggingface
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <button class="toggle-details"
-                                                    onclick="toggleModelList('vlm-vision-language-vllm-1')">
-                                                    <i class="fas fa-list"></i> 查看模型
-                                                </button>
-                                                <div class="model-list-details" id="vlm-vision-language-vllm-1">
-                                                    <ul>
-                                                        <li>MinerU2.5-2509-1.2B</li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                            <td><span class="type-badge">Vision Language Model</span></td>
-                                            <td><span class="runtime-badge runtime-vllm">vLLM</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="model-cell">
                                                 <a href="../vlm/qwen3_vl/README.md" class="model-link">
                                                     <i class="fas fa-file-alt"></i> Qwen3-VL-30B-A3B
                                                 </a>
@@ -8714,10 +8694,10 @@
                                             </td>
                                             <td>
                                                 <button class="toggle-details"
-                                                    onclick="toggleModelList('vlm-vision-language-vllm-2')">
+                                                    onclick="toggleModelList('vlm-vision-language-vllm-1')">
                                                     <i class="fas fa-list"></i> 查看模型
                                                 </button>
-                                                <div class="model-list-details" id="vlm-vision-language-vllm-2">
+                                                <div class="model-list-details" id="vlm-vision-language-vllm-1">
                                                     <ul>
                                                         <li>Qwen3-VL-30B-A3B-Instruct-FP8</li>
                                                         <li>Qwen3-VL-30B-A3B-Thinking-FP8</li>
@@ -8856,6 +8836,32 @@
                                             <td><span class="type-badge">Vision Language Model</span></td>
                                             <td><span class="runtime-badge runtime-buildin">Build_In</span></td>
                                         </tr>
+                                        <tr>
+                                            <td class="model-cell">
+                                                <a href="../vlm/mineru2_5/README.md" class="model-link">
+                                                    <i class="fas fa-file-alt"></i> MinerU2.5
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B"
+                                                    class="codebase-link" target="_blank">
+                                                    <i class="fab fa-github"></i> huggingface
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button class="toggle-details"
+                                                    onclick="toggleModelList('vlm-vision-language-vllm-2')">
+                                                    <i class="fas fa-list"></i> 查看模型
+                                                </button>
+                                                <div class="model-list-details" id="vlm-vision-language-vllm-2">
+                                                    <ul>
+                                                        <li>MinerU2.5-2509-1.2B</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td><span class="type-badge">Vision Language Model</span></td>
+                                            <td><span class="runtime-badge runtime-vllm">vLLM</span></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -8988,10 +8994,10 @@
                     <a href="https://github.com/Vastai/VastModelZOO" target="_blank" title="访问GitHub仓库">
                         <i class="fab fa-github"></i> GitHub
                     </a>
-                    <a href="https://huggingface.co" target="_blank" title="访问Hugging Face">
+                    <a href="https://huggingface.co/vastai-ais" target="_blank" title="访问Hugging Face">
                         <i class="fas fa-heart"></i> Hugging Face
                     </a>
-                    <a href="https://www.modelscope.cn/home" target="_blank" title="访问ModelScope官网">
+                    <a href="https://www.modelscope.cn/organization/vastai-ais" target="_blank" title="访问ModelScope">
                         <i class="fas fa-cube"></i> ModelScope
                     </a>
                 </div>

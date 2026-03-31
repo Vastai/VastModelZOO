@@ -127,7 +127,7 @@ def main():
     parser.add_argument("--max-model-len", type=int, default=4096)
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--st-root", type=str, default="")
-    parser.add_argument("--pad-audio", action="store_true")
+    parser.add_argument("--pad-audio", action="store_true", default=False)
     parser.add_argument("--max-seconds", type=float, default=30.0)
     parser.add_argument("--out-dir", type=str, default="results_st")
     parser.add_argument("--summary-file", type=str, default="summary_all.txt")
@@ -135,7 +135,7 @@ def main():
 
     random.seed(args.seed)
 
-    base_dir = Path(args.asr_root)
+    base_dir = Path(args.st_root)
     jsonl_path = (base_dir / ds_collections[args.dataset]["path"]).resolve()
     audio_root = (base_dir / args.st_root).resolve()
 

@@ -16,8 +16,13 @@
 | :------------------------ | :------------------------------------------------------------------------------------------ | :---------------------------- | :---- | :---------- |
 | MiroThinker-v1.5-30B-FP8  | [lancew/MiroThinker-v1.5-30B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-30B-FP8)   | Qwen3-30B-A3B-Thinking-2507   | FP8   | TP2/4/8/16 |
 | MiroThinker-v1.5-235B-FP8 | [lancew/MiroThinker-v1.5-235B-FP8](https://huggingface.co/lancew/MiroThinker-v1.5-235B-FP8) | Qwen3-235B-A22B-Thinking-2507 | FP8   | TP16/32 |
+| MiroThinker-1.7-mini-FP8  | [vastai-ais/MiroThinker-1.7-mini-FP8](https://huggingface.co/vastai-ais/MiroThinker-1.7-mini-FP8)   | Qwen3-30B-A3B-Thinking-2507   | FP8   | TP2/4/8/16 |
+| MiroThinker-1.7-FP8 | [vastai-ais/MiroThinker-1.7-FP8](https://huggingface.co/vastai-ais/MiroThinker-1.7-FP8) | Qwen3-235B-A22B-Thinking-2507 | FP8   | TP16/32 |
 
-> 原始权重为BF16格式，暂未提供FP8权重，如需复现，则按照下述流程量化至FP8格式
+
+> - 原始权重为BF16格式，暂未提供FP8权重，如需复现，则按照下述流程量化至FP8格式
+> - MiroThinker-1.7结构同1.5，MiroThinker-1.7-mini对应MiroThinker-v1.5-30B，MiroThinker-1.7对应MiroThinker-v1.5-235B
+
 
 ## 使用限制
 

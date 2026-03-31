@@ -133,3 +133,4 @@ dmypy.json
 deploy_weights/*
 output/*
 weights/*
+.vscode/*

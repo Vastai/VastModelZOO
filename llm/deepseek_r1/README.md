@@ -67,7 +67,7 @@
       --ipc=host \
       -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       -e FUSE_ALL_DECODER_LAYERS="0" \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:AI3.2_GR_1202 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
       vllm serve /weights/DeepSeek-R1-0528 \
       --trust-remote-code \
       --tensor-parallel-size 32 \

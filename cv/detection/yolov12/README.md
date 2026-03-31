@@ -96,17 +96,19 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
 
 ### step.3 模型转换
 1. 根据具体模型，修改编译配置
-    - [official_yolov12.yaml](./build_in/build/official_yolov12.yaml)
-    
+    - [official_yolov12_fp16.yaml](./build_in/build/official_yolov12_fp16.yaml)
+    - [official_yolov12_int8.yaml](./build_in/build/official_yolov12_int8.yaml)
+
     > - 编译参数`backend.type: tvm_vacc`
     > - fp16精度: 编译参数`backend.dtype: fp16`
+    > - int8精度: 编译参数`backend.dtype: int8`
 
 2. 模型编译
     ```bash
     cd yolov12
     mkdir workspace
     cd workspace
-    vamc compile ../build_in/build/official_yolov12.yaml
+    vamc compile ../build_in/build/official_yolov12_fp16.yaml
     ```
 
 ### step.4 模型推理
@@ -132,23 +134,17 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
 
     ```
     # 模型名：yolov12s-640
+    yolov12s 640 fp16
+    {'bbox_mAP': 0.452, 'bbox_mAP_50': 0.62, 'bbox_mAP_75': 0.482, 'bbox_mAP_s': 0.253, 'bbox_mAP_m': 0.5, 'bbox_mAP_l': 0.636, 'bbox_mAP_copypaste': '0.452 0.620 0.482 0.253 0.500 0.636'}
 
-    # fp16
-    DONE (t=2.51s).
-    Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.462
-    Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.628
-    Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.497
-    Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.263
-    Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.512
-    Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.645
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.354
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.562
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.590
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.374
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.650
-    Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.777
-    {'bbox_mAP': 0.462, 'bbox_mAP_50': 0.628, 'bbox_mAP_75': 0.497, 'bbox_mAP_s': 0.263, 'bbox_mAP_m': 0.512, 'bbox_mAP_l': 0.645, 'bbox_mAP_copypaste': '0.462 0.628 0.497 0.263 0.512 0.645'}
+    yolov12s 640 int8 percentile
+    {'bbox_mAP': 0.448, 'bbox_mAP_50': 0.616, 'bbox_mAP_75': 0.477, 'bbox_mAP_s': 0.25, 'bbox_mAP_m': 0.494, 'bbox_mAP_l': 0.63, 'bbox_mAP_copypaste': '0.448 0.616 0.477 0.250 0.494 0.630'}
 
+    yolov12m 640 fp16
+    {'bbox_mAP': 0.503, 'bbox_mAP_50': 0.67, 'bbox_mAP_75': 0.544, 'bbox_mAP_s': 0.326, 'bbox_mAP_m': 0.563, 'bbox_mAP_l': 0.678, 'bbox_mAP_copypaste': '0.503 0.670 0.544 0.326 0.563 0.678'}
+
+    yolov12m 640 int8 percentile
+    {'bbox_mAP': 0.501, 'bbox_mAP_50': 0.666, 'bbox_mAP_75': 0.541, 'bbox_mAP_s': 0.314, 'bbox_mAP_m': 0.558, 'bbox_mAP_l': 0.678, 'bbox_mAP_copypaste': '0.501 0.666 0.541 0.314 0.558 0.678'}
     ```
 
     </details>
@@ -198,10 +194,9 @@ commit: 3a336a4adf3683d280e1a50d03fa24bbe7f24a5b
     ```
 
 ## Tips
-- YOLOv12当前仅提供fp16的模型，后续会提供int8模型
 - YOLO系列模型中，官方在精度测试和性能测试时，设定了不同的conf和iou参数
 - VACC在不同测试任务中，需要分别配置build yaml内的对应参数，分别进行build模型
 - `precision mode：--confidence_threshold 0.001 --nms_threshold 0.65`
 - `performance mode：--confidence_threshold 0.25 --nms_threshold 0.45`
-
 - yolov12含有Attention模块，GQA计算时，由于硬件限制seqlen需要是128的倍数；即输入分辨率需设置为128的倍数
+- INT8编译参数中的`backend.quantize.skip_conv_layers`对于不同规模模型是不一样的，注意区别

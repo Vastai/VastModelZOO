@@ -28,7 +28,18 @@ task_cfg = TaskConfig(
         'vstar_bench',       # vision, grounding
         'blink'              # vision, multi-image
     ],
-    
+
+    ## Instruct
+    dataset_args={
+        'live_code_bench': {
+            'subset_list': ['v6'],
+            # 'extra_params': {
+            #     'start_date': '2025-02-01',
+            #     'end_date': '2025-05-31'
+            # },
+        },
+    },
+
     ## Thinking
     # dataset_args={
     #     'gpqa_diamond': {"filters": {"remove_until": "</think>"}},
@@ -107,7 +118,7 @@ sudo docker run -it \
       -v /FS03/weights:/weights \
       --net=host \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1 bash
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 bash
 
 vllm serve /weights/Qwen3-VL-30B-A3B-Instruct-FP8/ \
 --trust-remote-code \

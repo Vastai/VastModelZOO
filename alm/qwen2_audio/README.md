@@ -1,6 +1,6 @@
 # Qwen2-Audio
 
-- blog: https://qwen.ai/blog?id=99f0335c4ad9ff6153e517418d48535ab6d8afef&from=research.latest-advancements-list
+- blog: https://qwen.ai/blog?id=qwen2-audio
 - report: https://arxiv.org/abs/2407.10759
 - code: https://github.com/QwenLM/Qwen2-Audio
 - huggingface: https://huggingface.co/Qwen/Qwen2-Audio-7B
@@ -404,9 +404,9 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
 其中：
 
 - *x* ：输入（音频 + 可选文本）
-- *y**w* ：人类偏好的优质回复（Chosen）
-- *y**l* ：较差的回复（Rejected）
-- *π*ref ：参考模型（SFT 阶段最终检查点，冻结参数）
+- *y*<sub>*w*</sub> ：人类偏好的优质回复（Chosen）
+- *y*<sub>*l*</sub> ：较差的回复（Rejected）
+- *π*<sub>*ref*</sub> ：参考模型（SFT 阶段最终检查点，冻结参数）
 - *β* ：温度系数（通常 0.1-0.5），控制与参考模型的偏离程度
 
 ####  偏好数据构建
@@ -519,26 +519,53 @@ Qwen2-Audio 引入 **DPO** 作为第三优化阶段，区别于传统 RLHF+PPO �
   - 参考:  [vllm/EVALUATION.md](./vllm/EVALUATION.md)
 
 
-### Test Result
+
+## Test Result
 
 - 官方精度测试结果：https://github.com/QwenLM/Qwen2-Audio/blob/main/README.md#evaluation
 
 
-| **Task** | **Dataset**     | **Split**  | **Count** | **Metric** | Official Score | Transformers Score | VLLM Score |
-| -------- | --------------- | ---------- | --------- | ---------- | ---------------------------- | ----------------------- | --------------- |
-| ASR      | Librispeech     | dev_clean  | 2694      | WER        | 1.7                          | 1.68                    | 2.24            |
-|          |                 | dev_other  | 2857      |            | 3.6                          | 3.65                    | 4.41            |
-|          |                 | test_clean | 2611      |            | 1.7                          | 1.70                    | 2.24            |
-|          |                 | test_other | 2932      |            | 4.0                          | 4.03                    | 4.69            |
-|          | Fleurs          | test_zh    | 944       |            | 7.0                          | 7.01                    | 7.33            |
-|          | Common Voice 15 | test_zh    | 10625     |            | 6.5                          | 6.89                    | 6.62            |
-|          |                 | test_yue   | 5593      |            | 5.9                          | 5.87                    | 6.06            |
-|          |                 | test_fr    | 16132     |            | 9.6                          | 9.55                    | 9.60            |
-|          |                 | test_en    | 16381     |            | 8.7                          | 8.76                    | 9.72            |
-| S2TT     | CoVoST2         | en_zh      | 30984     | BLEU       | 45.6                         | 45.5                    | 45.6            |
-|          |                 | en_de      | 30883     |            | 29.6                         | 29.6                    | 29.8            |
-|          |                 | de_en      | 27017     |            | 33.6                         | 33.6                    | 35.4            |
-|          |                 | zh_en      | 9741      |            | 24.0                         | 23.9                    | 24.7            |
-| SER      | Meld            | test+dev   | 3716      | ACC        | 0.535                        | 0.541                   | 0.548           |
-| VSC      | VocalSound      | test+valid | 5446      | ACC        | 0.9395                       | 0.9329                  | 0.9342          |
+| **Task** |   **Dataset**   |   **model**    | **Split**  | **Count** | **Metric** | Official Score | Transformers Score | VLLM Score |
+| :------: | :-------------: | :------------: | :--------: | :-------: | :--------: | :------------: | :----------------: | :--------: |
+|   ASR    |   Librispeech   | Qwen2-Audio-7B | dev_clean  |   2694    |    WER     |      1.7       |        1.68        |    1.61    |
+|          |                 |                | dev_other  |   2857    |            |      3.6       |        3.65        |    3.62    |
+|          |                 |                | test_clean |   2611    |            |      1.7       |        1.70        |    1.64    |
+|          |                 |                | test_other |   2932    |            |      4.0       |        4.03        |    3.92    |
+|          |     Fleurs      | Qwen2-Audio-7B |  test_zh   |    944    |            |      7.0       |        7.01        |    7.01    |
+|          | Common Voice 15 | Qwen2-Audio-7B |  test_zh   |   10625   |            |      6.5       |        6.89        |    6.52    |
+|          |                 |                |  test_yue  |   5593    |            |      5.9       |        5.87        |    5.85    |
+|          |                 |                |  test_fr   |   16132   |            |      9.6       |        9.55        |    9.54    |
+|          |                 |                |  test_en   |   16381   |            |      8.7       |        8.76        |    8.67    |
+|   S2TT   |     CoVoST2     | Qwen2-Audio-7B |   en_zh    |   15504   |    BLEU    |      45.6      |        45.5        |    45.7    |
+|          |                 |                |   en_de    |   15504   |            |      29.6      |        29.6        |    29.8    |
+|          |                 |                |   de_en    |   13508   |            |      33.6      |        33.6        |    35.4    |
+|          |                 |                |   zh_en    |   4898    |            |      24.0      |        23.9        |    24.9    |
+|   SER    |      Meld       | Qwen2-Audio-7B |  test+dev  |   3716    |    ACC     |     0.535      |       0.541        |   0.548    |
+|   VSC    |   VocalSound    | Qwen2-Audio-7B | test+valid |   5446    |    ACC     |     0.9395     |       0.9329       |   0.9352   |
+
+> 使用 `Qwen/Qwen2-Audio-7B`模型测评，与官方提供精度基本一致
+
+
+
+| **Task** |   **Dataset**   |        **model**        | **Split**  | **Count** | **Metric** | **VLLM Score** |
+| :------: | :-------------: | :---------------------: | :--------: | :-------: | :--------: | :--------: |
+|   ASR    |   Librispeech   | Qwen2-Audio-7B-Instruct | dev_clean  |   2694    |    WER     |    2.32    |
+|          |                 |                         | dev_other  |   2857    |            |    4.83    |
+|          |                 |                         | test_clean |   2611    |            |    2.20    |
+|          |                 |                         | test_other |   2932    |            |    4.76    |
+|          |     Fleurs      | Qwen2-Audio-7B-Instruct |  test_zh   |    944    |            |   63.95    |
+|          | Common Voice 15 | Qwen2-Audio-7B-Instruct |  test_zh   |   10625   |            |   176.62   |
+|          |                 |                         |  test_yue  |   5593    |            |   272.19   |
+|          |                 |                         |  test_fr   |   16132   |            |   99.95    |
+|          |                 |                         |  test_en   |   16381   |            |   51.22    |
+|   S2TT   |     CoVoST2     | Qwen2-Audio-7B-Instruct |   en_zh    |   15504   |    BLEU    |   38.18    |
+|          |                 |                         |   en_de    |   15504   |            |   24.82    |
+|          |                 |                         |   de_en    |   13508   |            |   28.91    |
+|          |                 |                         |   zh_en    |   4898    |            |   20.11    |
+|   SER    |      Meld       | Qwen2-Audio-7B-Instruct |  test+dev  |   3716    |    ACC     |     /      |
+|   VSC    |   VocalSound    | Qwen2-Audio-7B-Instruct | test+valid |   5446    |    ACC     |   0.758    |
+
+> 官方并未公布 `Qwen2-Audio-7B-Instruct` 测试精度，上述 `Qwen2-Audio-7B-Instruct` 为相同测试脚本所测，仅供参考
+
+> 注意：使用 `Qwen2-Audio-7B-Instruct` 进行精度测评时，在某些测试数据集上可能会出现较大的精度下降，详见: [ISSUE](https://github.com/QwenLM/Qwen2-Audio/issues/116)
 

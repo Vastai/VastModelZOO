@@ -141,7 +141,7 @@ Qwen3-VL 的目标，是让模型不仅能“看到”图像或视频，更能*
       -v /path/to/model:/weights/ \
       -p 8000:8000 \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-25.12.SP1 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
       vllm serve /weights/Qwen3-VL-30B-A3B-Instruct-FP8 \
       --trust-remote-code \
       --tensor-parallel-size 4 \
@@ -191,7 +191,6 @@ vllm bench serve \
     --ignore-eos \
     --max-concurrency <concurrency> \
     --served-model-name <model_name> \
-    --server-num <server_num> \
     --save-result \
     --result-dir <result> \
     --result-filename <result_name>
@@ -233,8 +232,6 @@ vllm bench serve \
   - `--result-dir`：测试结果保存目录。如果不设置，则保存至当前路径。
 
   - `--result-filename`：测试结果文件名称。
-
-  - `--server-num`: 服务数单服务填 1； 多服务则与 `--instance` 参数设置一致
 
 
 2. 测试示例
