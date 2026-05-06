@@ -31,7 +31,7 @@
   | Qwen3-4B-Instruct-2507-GPTQ-IN4               | [vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4](https://huggingface.co/vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4)                | [vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4)                | 4B        | INT4  | TP1/2/4/8  |
   | Qwen3-4B-Thinking-2507-GPTQ-INT8               | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8](https://huggingface.co/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8)                | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8)                | 4B        | INT8  | TP1/2/4/8  |
   | Qwen3-4B-Thinking-2507-GPTQ-IN4               | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4](https://huggingface.co/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4)                | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4)                | 4B        | INT4  | TP1/2/4/8  |
-  | Qwen3-4B-AWQ               | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ)                             | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ)                             | 4B        | INT4  | TP1/2/4*  |
+  | Qwen3-4B-AWQ               | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ)                             | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ)                             | 4B        | INT4  | TP1/2/4/8  |
   | Qwen3-8B                   | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B)                                     | [Qwen/Qwen3-8B](https://www.modelscope.cn/models/Qwen/Qwen3-8B)                                     | 8B        | BF16  | TP2/4/8   |
   | Qwen3-8B-FP8               | [Qwen/Qwen3-8B-FP8](https://huggingface.co/Qwen/Qwen3-8B-FP8)                             | [Qwen/Qwen3-8B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-8B-FP8)                             | 8B        | FP8   | TP2/4/8   |
   | Qwen3-8B-AWQ               | [Qwen/Qwen3-8B-AWQ](https://huggingface.co/Qwen/Qwen3-8B-AWQ)                             | [Qwen/Qwen3-8B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-8B-AWQ)                             | 8B        | INT4  | TP2/4/8   |
@@ -42,7 +42,7 @@
   | Qwen3-14B-GPTQ-INT8        | [lancew/Qwen3-14B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-14B-GPTQ-INT8)           | -                                                                                                   | 14B       | INT8  | TP2/4/8   |
   | Qwen3-32B                  | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B)                                   | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B)                                   | 32B       | BF16  | TP4/8/16  |
   | Qwen3-32B-FP8              | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8)                           | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8)                           | 32B       | FP8   | TP4/8/16  |
-  | Qwen3-32B-AWQ              | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ)                           | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ)                           | 32B       | INT4  | TP4/8     |
+  | Qwen3-32B-AWQ              | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ)                           | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ)                           | 32B       | INT4  | TP4/8/16     |
   | Qwen3-32B-GPTQ-INT8             | [lancew/Qwen3-32B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-32B-GPTQ-INT8)           | -                                                                                                   | 32B       | INT8  | TP4/8/16  |
 
 
@@ -51,7 +51,6 @@
   >       - 针对`A16`中的不同格式：`"torch_dtype": "float16"`性能优于`"torch_dtype": "bfloat16"`
   >    - GPTQ-INT4量化模型，当前仅支持`desc_act=False`形式
   >    - `lancew/*`权重由`VastAI-AIS`自行量化获得；量化步骤可参考下文章节描述，模型精度可参考对应的`Model card`
-  >    - *：Qwen3-4B-AWQ，TP8加载报错，参考官方解释：[Qwen-Troubleshooting](https://qwen.readthedocs.io/en/latest/quantization/gptq.html#troubleshooting)
 
 
 
