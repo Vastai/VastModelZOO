@@ -86,7 +86,6 @@
       --enforce-eager \
       --host 0.0.0.0 \
       --port 8000 \
-      --task embed \
       --served-model-name Qwen3-Embedding-0.6B
   ```
 
@@ -105,7 +104,6 @@
       --enforce-eager \
       --host 0.0.0.0 \
       --port 8001 \
-      --task score  \
       --served-model-name Qwen3-Reranker-0.6B
   ```
 

@@ -168,10 +168,12 @@
   - `--max-model-len`：模型最大上下文长度。
 
   - `--rope-scaling`：如模型支持RoPE长度外推，可开启此参数，使模型最大上下文长度超过原生长度
-    - `--rope-scaling '{"rope_type":"yarn","factor":4.0,"
-original_max_position_embeddings":32768}' --max-model-len 131072`
+    - `--rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}' --max-model-len 131072`
     - 验证模型：Qwen3-30B-A3B-FP8/Qwen3-30B-A3B-GPTQ-Int4/Qwen3-235B-A22B-FP8
     - 验证模型：Qwen3-4B/8B/14B/32B
+  
+  - `--hf-overrides`：重写huggingface模型参数
+    - 注意vLLM 0.14.0+版本中，旧的`--rope-scaling`参数已被移除，改为使用`--hf-overrides`参数来配置 RoPE (Rotary Position Embedding) 缩放，如`--hf-overrides "{"rope_parameters":{"factor":4,"original_max_position_embeddings":32768,"rope_theta":1000000,"rope_type":"yarn"}}" --max-model-len 131072`
 
   > 思考和非思考模式，具体可参考[Qwen官方文档说明](https://qwen.readthedocs.io/zh-cn/latest/inference/transformers.html#thinking-non-thinking-mode)
 
@@ -254,7 +256,9 @@ vllm bench serve \
       --result-dir ./benchmark_result \
       --result-filename result.json
   ```
+  
   - 其中，`vllm_service`为 vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；`host`为本机ip地址。
+  - 推荐指定采样参数，控制变量：`--temperature 0.0 --min-p 0.0 --top-k 0 --top-p 1.0`
 
 
 ## 性能结果指标说明

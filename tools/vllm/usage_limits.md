@@ -284,6 +284,8 @@
 
 ### MinerU
 
+> 对于超出模型默认支持长度时，vLLM服务前加参数：`export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`
+
 #### Supported Models
 
   | model | huggingface  | modelscope | parameter | dtype| parallel |
@@ -300,3 +302,4 @@
 
 ## TIPS
 - 对于超过上下文长度的请求，内部会拦截不做处理，需要用户端自行处理
+- 默认情况下，vLLM 会限制`--max-model-len`不超过模型配置中定义的`max_position_embeddings`。 当需要处理‌超长上下文，若模型本身支持更长序列，但 vLLM 因安全机制拒绝该值，‌设置`VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`可绕过此限制‌，强制启用长上下文推理
