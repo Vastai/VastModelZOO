@@ -163,3 +163,4 @@ train_data/icdar2015/text_localization/
 - [ppocr_v4](./source_code/ppocr_v4_det.md)
 - [official](./source_code/official.md)   
 - [mmocr](./source_code/mmocr.md)
+- [ppocr_v5](./source_code/ppocr_v5_det.md)
