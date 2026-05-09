@@ -168,7 +168,7 @@
   | Qwen3-4B-Thinking-2507-GPTQ-IN4               | [vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4](https://huggingface.co/vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4)                | [vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Instruct-2507-GPTQ-INT4)                | 4B        | INT4  | TP1/2/4/8  |
   | Qwen3-4B-Thinking-2507-GPTQ-INT8               | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8](https://huggingface.co/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8)                | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT8)                | 4B        | INT8  | TP1/2/4/8  |
   | Qwen3-4B-Thinking-2507-GPTQ-IN4               | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4](https://huggingface.co/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4)                | [vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4](https://www.modelscope.cn/models/vastai-ais/Qwen3-4B-Thinking-2507-GPTQ-INT4)                | 4B        | INT4  | TP1/2/4/8  |
-  | Qwen3-4B-AWQ | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ) | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ) | 4B | INT4 | TP1/2/4* |
+  | Qwen3-4B-AWQ | [Qwen/Qwen3-4B-AWQ](https://huggingface.co/Qwen/Qwen3-4B-AWQ) | [Qwen/Qwen3-4B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-4B-AWQ) | 4B | INT4 | TP1/2/4/8 |
   | Qwen3-8B | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | [Qwen/Qwen3-8B](https://www.modelscope.cn/models/Qwen/Qwen3-8B) | 8B | BF16 | TP2/4/8 |
   | Qwen3-8B-FP8 | [Qwen/Qwen3-8B-FP8](https://huggingface.co/Qwen/Qwen3-8B-FP8) | [Qwen/Qwen3-8B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-8B-FP8) | 8B | FP8 | TP2/4/8 |
   | Qwen3-8B-AWQ | [Qwen/Qwen3-8B-AWQ](https://huggingface.co/Qwen/Qwen3-8B-AWQ) | [Qwen/Qwen3-8B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-8B-AWQ) | 8B | INT4 | TP2/4/8 |
@@ -179,7 +179,7 @@
   | Qwen3-14B-GPTQ-INT8        | [lancew/Qwen3-14B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-14B-GPTQ-INT8)           | -    | 14B       | INT8  | TP2/4/8   |
   | Qwen3-32B | [Qwen/Qwen3-32B](https://huggingface.co/Qwen/Qwen3-32B) | [Qwen/Qwen3-32B](https://www.modelscope.cn/models/Qwen/Qwen3-32B) | 32B | BF16 | TP4/8/16 |
   | Qwen3-32B-FP8 | [Qwen/Qwen3-32B-FP8](https://huggingface.co/Qwen/Qwen3-32B-FP8) | [Qwen/Qwen3-32B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-32B-FP8) | 32B | FP8 | TP4/8/16 |
-  | Qwen3-32B-AWQ | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ) | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ) | 32B | INT4 | TP4/8 |
+  | Qwen3-32B-AWQ | [Qwen/Qwen3-32B-AWQ](https://huggingface.co/Qwen/Qwen3-32B-AWQ) | [Qwen/Qwen3-32B-AWQ](https://www.modelscope.cn/models/Qwen/Qwen3-32B-AWQ) | 32B | INT4 | TP4/8/16 |
   | Qwen3-32B-GPTQ-INT8             | [lancew/Qwen3-32B-GPTQ-INT8](https://huggingface.co/lancew/Qwen3-32B-GPTQ-INT8)           | -   | 32B       | INT8  | TP4/8/16  |
 
 
@@ -284,6 +284,8 @@
 
 ### MinerU
 
+> 对于超出模型默认支持长度时，vLLM服务前加参数：`export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`
+
 #### Supported Models
 
   | model | huggingface  | modelscope | parameter | dtype| parallel |
@@ -300,3 +302,4 @@
 
 ## TIPS
 - 对于超过上下文长度的请求，内部会拦截不做处理，需要用户端自行处理
+- 默认情况下，vLLM 会限制`--max-model-len`不超过模型配置中定义的`max_position_embeddings`。 当需要处理‌超长上下文，若模型本身支持更长序列，但 vLLM 因安全机制拒绝该值，‌设置`VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`可绕过此限制‌，强制启用长上下文推理

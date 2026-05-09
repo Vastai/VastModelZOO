@@ -104,6 +104,7 @@
   - `--max-model-len`：模型最大上下文长度。
 
   - `--speculative-config` : 是否开启MTP模式。若开启MTP，则设置参数：--speculative-config '{"method":"deepseek_mtp","num_speculative_tokens":1}'
+  - `--no-async-scheduling`: 关闭 vLLM 异步调度功能，请在使用`MTP`或`PP`切分模式下启用此参数
 
 
 ## 模型性能测试
@@ -182,7 +183,9 @@
       --result-dir ./benchmark_result \
       --result-filename result.json     
   ```
+  
   - 其中，`vllm_service`为vLLM 服务容器名称，可通过`docker ps |grep vLLM`查询；`host`为本机ip地址。
+  - 推荐指定采样参数，控制变量：`--temperature 0.0 --min-p 0.0 --top-k 0 --top-p 1.0`
 
 
 ## 性能结果指标说明
