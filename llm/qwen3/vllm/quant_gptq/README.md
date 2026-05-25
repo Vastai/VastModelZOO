@@ -93,18 +93,19 @@ Qwen3MoeForCausalLM(
 3. Eval Int4
 
     ```bash
-    CUDA_VISIBLE_DEVICES=0,1 vllm serve ./weights/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 \
+    CUDA_VISIBLE_DEVICES=0,1 vllm serve ./weights/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 \
     --max-model-len 131072 \
     --tensor-parallel-size 2 \
     --trust-remote-code \
     --host 0.0.0.0 \
     --port 8012 \
-    --served-model-name Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 \
+    --served-model-name Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 \
     --enforce-eager \
-    --reasoning-parser deepseek_r1
+    # parser
+    + --reasoning-parser deepseek_r1
 
     # instruct
-    python eval.py --temperature 0.7 --top_p 0.8  --max_tokens 16384 --model Qwen3-30B-A3B-Instruct-2507--GPTQ-Int4
+    python eval.py --temperature 0.7 --top_p 0.8  --max_tokens 16384 --model Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4
 
     # thinking
     python eval.py --temperature 0.6 --top_p 0.95  --max_tokens 81920 --model Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4
@@ -114,20 +115,20 @@ Qwen3MoeForCausalLM(
 
 - Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4
 
-| **id** | **Dataset**     | **Metric**              | **Samples** | **nv-score-bf16** | **nv-score-fp8** | **nv-score-w4a16** | **nv-score-w4a16-no-gate-linear** |
-| ------ | --------------- | ----------------------- | ----------- | ----------------- | ---------------- | ------------------ | --------------------------------- |
-| **1**  | aime25          | AveragePass@1           | 30          | 0.5666            | 0.594417         | **0.5**            | 0.6333                            |
-| **2**  | gpqa_diamond    | AveragePass@1           | 198         | 0.667             | 0.64848          | **0.6263**         | **0.6364**                        |
-| **3**  | mmlu_pro        | AverageAccuracy         | 1196        | 0.7751            | 0.7755           | **0.7466**         | 0.7676                            |
-| **4**  | ifeval          | prompt_level_strict_acc | 541         | 0.8355            | 0.83952          | 0.8429             | 0.8336                            |
-| **5**  | live_code_bench | Pass@1                  | 1055        | 0.563             | 0.56358          | **0.491**          | **0.5213**                        |
+| **id** | **Dataset**     | **Metric**              | **Samples** | **nv-score-bf16** | **nv-score-fp8** | **nv-score-w4a16** |**nv-score-w4a16-no-gate-linear** |
+| ------ | --------------- | ----------------------- | ----------- | ----------------- | ---------------- | ------------------ |------------------ |
+| **1**  | aime25          | AveragePass@1           | 30          | 0.5666            | 0.594417         | **0.5**            | 0.6333 |
+| **2**  | gpqa_diamond    | AveragePass@1           | 198         | 0.667             | 0.64848          | **0.6263**         | **0.6364**|
+| **3**  | mmlu_pro        | AverageAccuracy         | 1196        | 0.7751            | 0.7755           | **0.7466**         | 0.7676|
+| **4**  | ifeval          | prompt_level_strict_acc | 541         | 0.8355            | 0.83952          | 0.8429             | 0.8336|
+| **5**  | live_code_bench | Pass@1                  | 1055        | 0.563             | 0.56358          | **0.491**          | **0.5213**|
 
 - Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4
 
 | **id** | **Dataset**     | **Metric**              | **Samples** | **nv-score-bf16** | **nv-score-w4a16** | **nv-score-w4a16-no-gate-linear** |
-| ------ | --------------- | ----------------------- | ----------- | ----------------- | ------------------ | --------------------------------- |
-| **1**  | aime25          | AveragePass@1           | 30          | 0.7666            | 0.8334             | 0.9334                            |
-| **2**  | gpqa_diamond    | AveragePass@1           | 198         | 0.6869            | **0.6313**         | 0.7071                            |
-| **3**  | mmlu_pro        | AverageAccuracy         | 1196        | 0.7784            | 0.7617             | 0.7734                            |
-| **4**  | ifeval          | prompt_level_strict_acc | 541         | 0.8521            | 0.8503             | 0.8521                            |
-| **5**  | live_code_bench | Pass@1                  | 1055        | 0.7922            | **0.7687**         | **0.7782**                        |
+| ------ | --------------- | ----------------------- | ----------- | ----------------- | ------------------ |------------------ |
+| **1**  | aime25          | AveragePass@1           | 30          | 0.7666            |   0.8334           | 0.9334|
+| **2**  | gpqa_diamond    | AveragePass@1           | 198         | 0.6869            |   **0.6313**       | 0.7071|
+| **3**  | mmlu_pro        | AverageAccuracy         | 1196        | 0.7784            |   0.7617           | 0.7734|
+| **4**  | ifeval          | prompt_level_strict_acc | 541         | 0.8521            |   0.8503           | 0.8521|
+| **5**  | live_code_bench | Pass@1                  | 1055        | 0.7922            |   **0.7687**       | **0.7782**|
