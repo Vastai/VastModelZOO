@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+# gptqmodel==4.0.0
 
 import os
+import torch
 from datasets import load_dataset
 from gptqmodel import GPTQModel, QuantizeConfig
 from safetensors.torch import safe_open
 
-model_id = "/cx8k/fs101/share/models/Qwen/Qwen3-30B-A3B-Instruct-2507"
+model_id = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 quant_path = "./weights/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4"
 
 calibration_dataset = load_dataset(
@@ -18,7 +20,7 @@ calibration_dataset = load_dataset(
 quant_config = QuantizeConfig(
     bits=4,
     group_size=128,
-    damp_percent=0.05,
+    damp_percent=0.01,
     desc_act=False,
     mse=0.0,
     dynamic={
@@ -26,7 +28,7 @@ quant_config = QuantizeConfig(
     },
 )
 
-model = GPTQModel.load(model_id, quant_config)
+model = GPTQModel.load(model_id, quant_config,torch_dtype=torch.float16)
 
 
 # =========================
