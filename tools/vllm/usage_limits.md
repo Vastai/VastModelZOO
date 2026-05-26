@@ -187,8 +187,8 @@
 
   |model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
-  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | [vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://www.modelscope.cn/models/vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | [vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://www.modelscope.cn/vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
   |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
