@@ -107,8 +107,8 @@
     ```
 
 - 推理工具
-    > GLM-OCR，使用vLLM后端，部署在VACC-VA16
-    > [PP-DocLayoutV3](https://modelscope.cn/models/PaddlePaddle/PP-DocLayoutV3_safetensors)，使用transformer后端，部署在CPU
+    > - GLM-OCR，使用vLLM后端，部署在VACC-VA16
+    > - [PP-DocLayoutV3](https://modelscope.cn/models/PaddlePaddle/PP-DocLayoutV3_safetensors)，使用transformer后端，部署在CPU
 
     ```shell
     git clone https://github.com/zai-org/glm-ocr.git
@@ -182,7 +182,8 @@
 
 - 指标统计
 
-    > 以上步骤将在results_metric文件夹内生成数个jsonl文件；通过此处脚本提取最终指标
+    > - 以上步骤将在`results_metric`文件夹内生成数个jsonl文件
+    > - 通过此处脚本提取最终指标
 
     ```python
 
