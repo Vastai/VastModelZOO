@@ -59,3 +59,11 @@ MinerU2.5整体分三阶段训练
 - VACC基于vLLM部署方案，已提交至MinerU官方仓库
     - https://github.com/opendatalab/MinerU/blob/dev/docs/zh/usage/acceleration_cards/VastAI.md
     - https://opendatalab.github.io/MinerU/zh/usage/acceleration_cards/VastAI/
+
+- 支持模型
+
+  | model | huggingface  | modelscope | parameter | dtype| parallel |
+  | :--- | :--- | :-- | :-- | :-- | :-- |
+  | MinerU2.5-2509-1.2B | [opendatalab/MinerU2.5-2509-1.2B](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B) | [opendatalab/MinerU2.5-2509-1.2B](https://modelscope.cn/models/opendatalab/MinerU2.5-2509-1.2B) | 1.2B | BF16 | TP1/2 |
+  | MinerU2.5-Pro-2605-1.2B | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://huggingface.co/opendatalab/MinerU2.5-Pro-2605-1.2B) | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://modelscope.cn/models/OpenDataLab/MinerU2.5-Pro-2605-1.2B) | 1.2B | BF16 | TP1/2 |
+

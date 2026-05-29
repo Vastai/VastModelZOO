@@ -291,13 +291,14 @@
   | model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
   | MinerU2.5-2509-1.2B | [opendatalab/MinerU2.5-2509-1.2B](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B) | [opendatalab/MinerU2.5-2509-1.2B](https://modelscope.cn/models/opendatalab/MinerU2.5-2509-1.2B) | 1.2B | BF16 | TP1/2 |
-
+  | MinerU2.5-Pro-2605-1.2B | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://huggingface.co/opendatalab/MinerU2.5-Pro-2605-1.2B) | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://modelscope.cn/models/OpenDataLab/MinerU2.5-Pro-2605-1.2B) | 1.2B | BF16 | TP1/2 |
 
 #### Usage Limits
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
   |  MinerU2.5-2509-1.2B | TP1/2 | max-model-len 16k | ❌ | max-concurrency 4|
+  |  MinerU2.5-Pro-2605-1.2B | TP1/2 | max-model-len 32k | ❌ | max-concurrency 4|
 
 ### GLM-OCR
 
