@@ -110,4 +110,4 @@
     - [onnx_eval.py](../source_code/common/onnx_eval.py)
 - [PaddleX官方描述](https://paddlepaddle.github.io/PaddleX/3.4/module_usage/tutorials/ocr_modules/doc_img_orientation_classification.html#_3)
     - 精度指标：TOP-1 99.06%
-    - 应该不是上文中测试集测出来的精度指标；此数据集实测Paddle原始推理权重及PaddleOCR后端指标为：Top-1 76.67%
+    - 应该不是上文中测试集测出来的精度指标；此数据集实测Paddle原始推理权重及PaddleOCR后端指标为：TOP-1 76.67%
