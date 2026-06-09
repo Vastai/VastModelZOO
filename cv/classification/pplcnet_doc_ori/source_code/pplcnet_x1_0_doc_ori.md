@@ -70,7 +70,7 @@
 
 - 测试结论
     - paddle官方预处理为: target_short_edge=256, crop=224
-    - vacc没有target_short_edge操作, 尝试resize和resize-crop, 实测直接resze优于resize-crop
+    - vacc没有target_short_edge操作, 尝试resize和resize-crop, 实测直接resize优于resize-crop
     - fp16, vacc和onnx对齐
     - int8, mse量化方式精度最好
 
