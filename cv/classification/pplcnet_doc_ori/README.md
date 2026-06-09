@@ -3,7 +3,7 @@
 
 ## Model Arch
 
-`PP-LCNet_x1_0_doc_ori`模型是基于`PP-LCNet_x1_0`微调的文档图像分类模型，含有四个类别，即0度，90度，180度，270度。
+`PP-LCNet_x1_0_doc_ori`模型是基于`PP-LCNet_x1_0`微调的文档图像方向分类模型，含有四个类别，即0度，90度，180度，270度。
 
 - [文档图像方向分类模块使用教程](https://www.paddleocr.ai/latest/version3.x/module_usage/doc_img_orientation_classification.html)
 - [预处理](https://github.com/PaddlePaddle/PaddleX/blob/release/3.6/paddlex/inference/models/image_classification/predictor.py#L107)
