@@ -60,7 +60,7 @@
 - 参考：[vsx_infer.py](../build_in/vsx/python/vsx_infer.py)
     ```bash
     python cv/classification/pplcnet_doc_ori/build_in/vsx/python/vsx_infer.py \
-    --file_path datasets/text_image_orientation \
+    --image_dir datasets/text_image_orientation \
     --label_file datasets/text_image_orientation/val.txt \
     --num_images -1 \
     --model_prefix_path deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc/mod \
@@ -71,27 +71,26 @@
 - 测试结论
     - paddle官方预处理为: target_short_edge=256, crop=224
     - vacc没有target_short_edge操作, 尝试resize和resize-crop, 实测直接resize优于resize-crop
-    - fp16, vacc和onnx对齐
-    - int8, mse量化方式精度最好
+    - vacc fp16精度, vacc和onnx对齐
+    - vacc int8精度, 有掉点，mse量化方式精度相对更好
 
-    ```
-    # Paddle
-    Top-1: 76.67%
+    | weights | backend | preprocess | metric | tips |
+    | :---: | :---: | :---: | :---: | :---: |
+    | [PP-LCNet_x1_0_doc_ori_infer.tar](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-LCNet_x1_0_doc_ori_infer.tar) | paddleocr/paddlex | target_short_edge=256, crop=224 | Top-1: 76.67% | [paddle_eval.py](../source_code/common/paddle_eval.py) |
+    | PP-LCNet_x1_0_doc_ori_infer_inference.onnx | onnx/onnxruntime | target_short_edge=256, crop=224 | Top-1: 74.51% | [onnx_eval.py](../source_code/common/onnx_eval.py) |
+    | PP-LCNet_x1_0_doc_ori_infer_inference.onnx | onnx/onnxruntime | resize=256, crop=224 | Top-1: 74.93% |
+    | PP-LCNet_x1_0_doc_ori_infer_inference.onnx | onnx/onnxruntime | resize=224 | Top-1: 75.16% | baseline |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_fp16| vacc | resize=256, crop=224 | Top-1: 74.59% |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_fp16| vacc | resize=224 | Top-1: **75.78%** |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_int8_mse| vacc | resize=224 | Top-1: **71.65%** |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_int8_max| vacc | resize=224 | Top-1: 64.33% |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_int8_percentile| vacc | resize=224 | Top-1: 70.34% |
+    | PP-LCNet_x1_0_doc_ori_infer_inference_vacc_int8_kl_divergence| vacc | resize=224 | Top-1: 71.42% |
 
-    # 以下直接resize=224
-    # ONNX
-    Top-1: 75.90%
-
-    # VACC-FP16
-    Top-1: 75.78%
-
-    # VACC-INT8-MSE
-    Top-1: 71.65%
-    ```
 
 ## step.5 性能精度测试
 1. 性能测试
-- 配置[pplcnet_x1_0_doc_ori-vdsp_params-resize.json](../build_in/vdsp_params/pplcnet_x1_0_doc_ori-vdsp_params-resize.json)
+- VDSP配置：[pplcnet_x1_0_doc_ori-vdsp_params-resize.json](../build_in/vdsp_params/pplcnet_x1_0_doc_ori-vdsp_params-resize.json)
 
     ```bash
     vamp -m deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc/mod \

@@ -1,13 +1,13 @@
+import argparse
+import json
 import os
 import time
-import json
-import argparse
 from queue import Queue
 from threading import Event, Thread
 
 import cv2
-import tqdm
 import numpy as np
+import tqdm
 
 import vaststreamx as vsx
 
@@ -193,27 +193,26 @@ class Classification:
 
 
 parser = argparse.ArgumentParser(description="PP-LCNet doc orientation classification — VSX accuracy benchmark")
-parser.add_argument("--image_dir", type=str, default="datasets/text_image_orientation",
+parser.add_argument("--image_dir", type=str, default="datasets/textline_orientation_example_data",
                     help="Dataset root (joined with relative paths in label_file)")
-parser.add_argument("--label_file", type=str, default="datasets/text_image_orientation/val.txt",
+parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_int8_kl_divergence/mod",
+                    help="VSX model prefix path")
+parser.add_argument("--vdsp_params_info", type=str, default="vacc_deploy_cls_textline/vdsp_resize.json",
+                    help="VS DSP operator JSON config")
+parser.add_argument("--output_file", type=str, default="vsx_pred.txt", help="Output file for predictions")
+parser.add_argument("--label_file", type=str, default="datasets/textline_orientation_example_data/val.txt",
                     help="Label file (format: <relative_path> <label_index>) for accuracy evaluation")
 parser.add_argument("--num_images", type=int, default=-1,
                     help="Number of images to test; -1 means all")
-parser.add_argument("--model_prefix_path", type=str, default="deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc/mod",
-                    help="VSX model prefix path")
-parser.add_argument("--vdsp_params_info", type=str, default="cv/classification/pplcnet_doc_ori/build_in/vdsp_params/pplcnet_x1_0_doc_ori-vdsp_params-resize.json",
-                    help="VS DSP operator JSON config")
-parser.add_argument("--output_file", type=str, default="vsx_pred.txt", help="Output file for predictions")
 parser.add_argument("--device_id", type=int, default=0, help="VSX device ID")
 parser.add_argument("--batch", type=int, default=1, help="Batch size")
 args = parser.parse_args()
-
 
 if __name__ == '__main__':
     # ── Read image list and labels from label_file ──
     images = []
     labels_dict = {}
-    label_list = ["0", "90", "180", "270"]
+    label_list = ["0", "180"]
 
     with open(args.label_file) as f:
         for line in f:
@@ -252,7 +251,6 @@ if __name__ == '__main__':
             basename = os.path.splitext(os.path.basename(img_path))[0]
             gt_label = labels_dict.get(os.path.basename(img_path), -1)
             if gt_label < 0:
-                print(f"Warning: image gt_label invalid: {gt_label}, skipping: {img_path}")
                 continue
             total += 1
 
@@ -281,76 +279,84 @@ if __name__ == '__main__':
         print(f"Time  : {time_end - time_begin:.2f}s ({total / (time_end - time_begin):.2f} img/s)")
         print("====================================\n")
 
-'''
-一些测试结论：
-- paddle官方预处理为: target_short_edge=256, crop=224
-- vacc没有target_short_edge操作, 尝试resize和resize-crop, 实测直接resze优于resize-crop
-- fp16, vacc和onnx对齐
-- int8, mse量化方式精度最好
-'''
 
 
 '''
-unset VACM_LOG_CFG
-FP16
-deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc
+此处测试精度基于: https://paddle-model-ecology.bj.bcebos.com/paddlex/data/textline_orientation_example_data.tar
 
-vacc_deploy_cls/vdsp_crop_resize.json
+h80 w160
+
+PP-LCNet_x0_25_textline_ori_infer_inference_sim_vacc_fp16
 ========== Top-1 Accuracy ==========
-VSX   Top-1: 74.59%
-Total : 2593
-Time  : 9.98s (259.84 img/s)
+VSX   Top-1: 90.00%
+Total : 200
+Time  : 0.29s (680.34 img/s)
 ====================================
 
-vacc_deploy_cls/vdsp_resize.json
+PP-LCNet_x0_25_textline_ori_infer_inference_sim_vacc_int8_kl_divergence
 ========== Top-1 Accuracy ==========
-VSX   Top-1: 75.78%
-Total : 2593
-Time  : 9.93s (261.21 img/s)
-====================================
-'''
-
-
-
-'''
-deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_int8_vacc/mod
-
-vacc_deploy_cls/vdsp_crop_resize.json
-========== Top-1 Accuracy ==========
-VSX   Top-1: 69.26%
-Total : 2593
-Time  : 9.47s (273.95 img/s)
-===================================
-
-
-vacc_deploy_cls/vdsp_resize.json
-========== Top-1 Accuracy ==========
-VSX   Top-1: 70.34%
-Total : 2593
-Time  : 9.15s (283.49 img/s)
-====================================
-'''
-
-'''
-vacc_deploy_cls/vdsp_resize.json
-deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc_int8_kl_divergence/mod
-========== Top-1 Accuracy ==========
-VSX   Top-1: 71.42%
-Total : 2593
-Time  : 9.47s (273.89 img/s)
+VSX   Top-1: 68.00%
+Total : 200
+Time  : 0.32s (629.49 img/s)
 ====================================
 
-deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc_int8_max/mod
+
+PP-LCNet_x0_25_textline_ori_infer_inference_sim_vacc_int8_mse
 ========== Top-1 Accuracy ==========
-VSX   Top-1: 64.33%
-Total : 2593
-Time  : 9.63s (269.14 img/s)
+VSX   Top-1: 49.00%
+Total : 200
+Time  : 0.36s (561.28 img/s)
 ====================================
 
-deploy_weights/PP-LCNet_x1_0_doc_ori_infer_inference_sim_vacc_int8_mse/mod
+PP-LCNet_x0_25_textline_ori_infer_inference_sim_vacc_int8_max
 ========== Top-1 Accuracy ==========
-VSX   Top-1: 71.65%
-Total : 2593
-Time  : 9.53s (272.09 img/s)
+VSX   Top-1: 51.50%
+Total : 200
+Time  : 0.42s (475.82 img/s)
+====================================
+
+PP-LCNet_x0_25_textline_ori_infer_inference_sim_vacc_int8_percentile
+========== Top-1 Accuracy ==========
+VSX   Top-1: 57.50%
+Total : 200
+Time  : 0.31s (639.29 img/s)
+====================================
+
+'''
+
+'''
+PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_fp16
+========== Top-1 Accuracy ==========
+VSX   Top-1: 86.50%
+Total : 200
+Time  : 0.87s (228.99 img/s)
+====================================
+
+PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_int8_kl_divergence
+========== Top-1 Accuracy ==========
+VSX   Top-1: 84.00%
+Total : 200
+Time  : 0.89s (224.40 img/s)
+====================================
+
+PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_int8_max
+========== Top-1 Accuracy ==========
+VSX   Top-1: 62.00%
+Total : 200
+Time  : 0.99s (201.23 img/s)
+====================================
+
+PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_int8_mse
+========== Top-1 Accuracy ==========
+VSX   Top-1: 77.00%
+Total : 200
+Time  : 1.08s (185.65 img/s)
+====================================
+
+PP-LCNet_x1_0_textline_ori_infer_inference_sim_vacc_int8_percentile
+========== Top-1 Accuracy ==========
+VSX   Top-1: 73.50%
+Total : 200
+Time  : 0.97s (205.89 img/s)
 ====================================
 '''

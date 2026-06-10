@@ -6,10 +6,9 @@ from PIL import Image
 import onnxruntime as ort
 
 
-def get_image_data(image_file, input_shape = [1, 3, 224, 224], hints = [256, 256], target_short_edge=256):
+def get_image_data(image_file, input_shape = [1, 3, 80, 160]):
     """Load image, resize, normalize, convert to NCHW format."""
     size = [input_shape[2], input_shape[3]] # h,w
-    # hints = [] # h,w
 
     # https://github.com/PaddlePaddle/PaddleX/blob/release/3.6/paddlex/inference/models/image_classification/predictor.py#L155
     mean = [
@@ -27,29 +26,7 @@ def get_image_data(image_file, input_shape = [1, 3, 224, 224], hints = [256, 256
     if image.mode != "RGB":
         image = image.convert("RGB")
     
-    if target_short_edge:
-        # INTER_LINEAR
-        w, h = image.size
-        scale = target_short_edge / min(h, w)
-        h_resize = round(h * scale)
-        w_resize = round(w * scale)
-        image = image.resize((w_resize, h_resize), Image.Resampling.BILINEAR)
-
-        y1 = max(0, int(round((hints[0] - size[0]) / 2.0)))
-        x1 = max(0, int(round((hints[1] - size[1]) / 2.0)))
-        y2 = min(hints[0], y1 + size[0])
-        x2 = min(hints[1], x1 + size[1])
-        image = image.crop((x1, y1, x2, y2))
-
-    elif len(hints) != 0:
-        y1 = max(0, int(round((hints[0] - size[0]) / 2.0)))
-        x1 = max(0, int(round((hints[1] - size[1]) / 2.0)))
-        y2 = min(hints[0], y1 + size[0])
-        x2 = min(hints[1], x1 + size[1])
-        image = image.resize(hints, Image.Resampling.BILINEAR)
-        image = image.crop((x1, y1, x2, y2))
-    else:
-        image = image.resize((size[1], size[0]), Image.Resampling.BILINEAR)
+    image = image.resize((size[1], size[0]), Image.Resampling.BILINEAR)
 
     image = np.ascontiguousarray(image)
     if mean[0] < 1 and std[0] < 1:
@@ -70,11 +47,11 @@ def parse_int_list(value):
 
 
 parser = argparse.ArgumentParser(description="PP-LCNet doc orientation classification — ONNX accuracy benchmark")
-parser.add_argument("--image_dir", type=str, default="datasets/text_image_orientation", help="Dataset root (joined with relative paths in label_file)")
-parser.add_argument("--model_input_shape", type=parse_int_list, default=[1, 3, 224, 224], help="model input shape NCHW")
-parser.add_argument("--onnx_model_path", type=str, default="weights/PP-LCNet_x1_0_doc_ori_infer_inference.onnx", help="ONNX model file path; skip ONNX evaluation if empty")
-parser.add_argument("--output_file", type=str, default="cls_pred.txt", help="Output file for predictions")
-parser.add_argument("--label_file", type=str, default="datasets/text_image_orientation/val.txt", help="Label file (format: <relative_path> <label_index>) for accuracy evaluation")
+parser.add_argument("--image_dir", type=str, default="datasets/textline_orientation_example_data", help="Dataset root (joined with relative paths in label_file)")
+parser.add_argument("--model_input_shape", type=parse_int_list, default=[1, 3, 80, 160], help="model input shape NCHW")
+parser.add_argument("--onnx_model_path", type=str, default="weights/PP-LCNet_x1_0_textline_ori_infer_inference_sim.onnx", help="ONNX model file path; skip ONNX evaluation if empty")
+parser.add_argument("--output_file", type=str, default="0cls_pred.txt", help="Output file for predictions")
+parser.add_argument("--label_file", type=str, default="datasets/textline_orientation_example_data/val.txt", help="Label file (format: <relative_path> <label_index>) for accuracy evaluation")
 parser.add_argument("--num_images", type=int, default=-1, help="Number of images to test; -1 means all")
 args = parser.parse_args()
 
@@ -83,7 +60,7 @@ if __name__ == '__main__':
     # ── Read image list and labels from label_file ──
     images = []
     labels_dict = {}
-    label_list = ["0", "90", "180", "270"]
+    label_list = ["0", "180"]
     
     with open(args.label_file) as f:
         for line in f:
@@ -94,6 +71,7 @@ if __name__ == '__main__':
             img_rel, gt_label = parts[0], int(parts[1])
             images.append(os.path.join(args.image_dir, img_rel))
             labels_dict[os.path.basename(img_rel)] = gt_label
+
 
     # ── Load ONNX model ──
     use_onnx = False
@@ -115,26 +93,20 @@ if __name__ == '__main__':
         images = images[:args.num_images]
 
     correct, total = 0, 0
+
     with open(args.output_file, "w") as outfile:
         for img_path in tqdm.tqdm(images, desc="Evaluating"):
             if not os.path.exists(img_path):
                 print(f"Warning: image not found, skipping: {img_path}")
                 continue
-            # img_path = 'datasets/text_image_orientation/images/Snipaste_2026-06-09_10-32-03.png'
             basename = os.path.splitext(os.path.basename(img_path))[0]
             gt_label = labels_dict.get(os.path.basename(img_path), -1)
             if gt_label < 0:
-                print(f"Warning: image gt_label invalid: {gt_label}, skipping: {img_path}")
                 continue
-
             total += 1
 
-            # # target_short_edge
-            # img = get_image_data(img_path, input_shape=args.model_input_shape, hints=[256, 256], target_short_edge=256)
-            # # resize-crop
-            # img = get_image_data(img_path, input_shape=args.model_input_shape, hints=[256, 256], target_short_edge=None)
             # resize
-            img = get_image_data(img_path, input_shape=args.model_input_shape, hints=[], target_short_edge=None)
+            img = get_image_data(img_path, input_shape=args.model_input_shape)
 
             parts = []
             if use_onnx:
@@ -159,24 +131,21 @@ if __name__ == '__main__':
         print("====================================\n")
 
 
+
 '''
-resize=224
+此处测试精度基于: https://paddle-model-ecology.bj.bcebos.com/paddlex/data/textline_orientation_example_data.tar
+
+h80 w160
+
+PP-LCNet_x0_25_textline_ori_infer_inference_sim.onnx
 ========== Top-1 Accuracy ==========
-ONNX  Top-1: 75.16%
-Total  : 2593
+ONNX  Top-1: 91.00%
+Total : 200
 ====================================
 
-resize=256
-crop=224
+PP-LCNet_x1_0_textline_ori_infer_inference_sim.onnx
 ========== Top-1 Accuracy ==========
-ONNX  Top-1: 74.93%
-Total  : 2593
-====================================
-
-target_short_edge=256
-crop=224
-========== Top-1 Accuracy ==========
-ONNX  Top-1: 74.51%
-Total  : 2593
+ONNX  Top-1: 85.50%
+Total  : 200
 ====================================
 '''
