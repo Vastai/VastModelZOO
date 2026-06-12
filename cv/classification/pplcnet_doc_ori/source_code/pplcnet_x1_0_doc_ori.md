@@ -15,6 +15,7 @@
     paddleocr                 3.2.0
     paddlepaddle-gpu          3.0.0
     paddlex                   3.2.1
+    paddle2onnx               2.0.0
     onnx                      1.17.0
     onnx_graphsurgeon         0.5.8
     onnxoptimizer             0.3.13
