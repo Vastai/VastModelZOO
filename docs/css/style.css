@@ -152,6 +152,8 @@ body {
     font-weight: 500;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
+    min-width: 80px;
+    text-align: center;
 }
 
 .lang-btn:hover {
@@ -1316,6 +1318,8 @@ footer {
     .lang-btn {
         padding: 6px 12px;
         font-size: 0.8rem;
+        min-width: 70px;
+        text-align: center;
     }
 
     .header-content h1 {

@@ -187,8 +187,8 @@
 
   |model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
-  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
-  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/lancew/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | / | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4 | [vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://huggingface.co/vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | [vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4](https://www.modelscope.cn/models/vastai-ais/Qwen3-30B-A3B-Instruct-2507-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
+  |Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4 | [vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://huggingface.co/vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | [vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4](https://www.modelscope.cn/vastai-ais/Qwen3-30B-A3B-Thinking-2507-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-GPTQ-Int4 | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | [Qwen/Qwen3-30B-A3B-GPTQ-Int4](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-GPTQ-Int4) | 30B-A3B | INT4 | TP2/4 |
   |Qwen3-30B-A3B-FP8 | [Qwen/Qwen3-30B-A3B-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-FP8) | [Qwen/Qwen3-30B-A3B-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
   |Qwen3-30B-A3B-Instruct-2507-FP8 | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://hf-mirror.com/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | [Qwen/Qwen3-30B-A3B-Instruct-2507-FP8](https://www.modelscope.cn/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8) | 30B-A3B | FP8 | TP2/4/8/16 |
@@ -291,13 +291,31 @@
   | model | huggingface  | modelscope | parameter | dtype| parallel |
   | :--- | :--- | :-- | :-- | :-- | :-- |
   | MinerU2.5-2509-1.2B | [opendatalab/MinerU2.5-2509-1.2B](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B) | [opendatalab/MinerU2.5-2509-1.2B](https://modelscope.cn/models/opendatalab/MinerU2.5-2509-1.2B) | 1.2B | BF16 | TP1/2 |
-
+  | MinerU2.5-Pro-2605-1.2B | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://huggingface.co/opendatalab/MinerU2.5-Pro-2605-1.2B) | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://modelscope.cn/models/OpenDataLab/MinerU2.5-Pro-2605-1.2B) | 1.2B | BF16 | TP1/2 |
 
 #### Usage Limits
 
   | model | parallel | seq limit | mtp | tips|
   |:--- |:--- | :-- | :-- | :-- |
   |  MinerU2.5-2509-1.2B | TP1/2 | max-model-len 16k | ❌ | max-concurrency 4|
+  |  MinerU2.5-Pro-2605-1.2B | TP1/2 | max-model-len 32k | ❌ | max-concurrency 4|
+
+### GLM-OCR
+
+> 对于超出模型默认支持长度时，vLLM服务前加参数：`export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`
+
+#### Supported Models
+
+  |model | huggingface  | modelscope | parameter | dtype| parallel |
+  | :--- | :--- | :-- | :-- | :-- | :-- |
+  |GLM-OCR | [zai-org/GLM-OCR](https://huggingface.co/zai-org/GLM-OCR) | [ZhipuAI/GLM-OCR](https://modelscope.cn/models/ZhipuAI/GLM-OCR) | 0.9B | BF16 | TP1/2/4 |
+  |GLM-OCR-FP8 | [vastai-ais/GLM-OCR-FP8](https://huggingface.co/vastai-ais/GLM-OCR-FP8) | [vastai-ais/GLM-OCR-FP8](https://modelscope.cn/models/vastai-ais/GLM-OCR-FP8) | 0.9B | FP8 | TP1/2/4 |
+
+#### Usage Limits
+
+  | model | parallel | seq limit | mtp | tips|
+  |:--- |:--- | :-- | :-- | :-- |
+  |  GLM-OCR* | TP1/2/4 | max-model-len 128k | ❌ | max-concurrency 4|
 
 
 ## TIPS
