@@ -5,6 +5,7 @@
 [![company](https://img.shields.io/badge/company-vastaitech.com-blue)](https://www.vastaitech.com/)
 [![deepwiki](https://img.shields.io/badge/deepwiki-VastModelZOO-white)](https://deepwiki.com/Vastai/VastModelZOO/)
 [![pages](https://img.shields.io/badge/model_list-vastai.github.io/VastModelZOO-pink)](https://vastai.github.io/VastModelZOO/)
+[![recipes](https://img.shields.io/badge/vllm-recipes-vastai.github.io/VastModelZOO-teal)](https://vllm-vacc.vastaitech.com/)
 
 </div>
 
@@ -140,6 +141,7 @@
 ## 模型列表
 
 - 检索模型列表，请访问：[📚 vastai.github.io/VastModelZOO](https://vastai.github.io/VastModelZOO/)
+    - 基于vLLM框架部署Recipes，请访问：[🏷️ vllm-vacc.vastaitech.com](https://vllm-vacc.vastaitech.com/)
 
 
 ## 免责声明
