@@ -5,7 +5,7 @@
 [![company](https://img.shields.io/badge/company-vastaitech.com-blue)](https://www.vastaitech.com/)
 [![deepwiki](https://img.shields.io/badge/deepwiki-VastModelZOO-white)](https://deepwiki.com/Vastai/VastModelZOO/)
 [![pages](https://img.shields.io/badge/model_list-vastai.github.io/VastModelZOO-pink)](https://vastai.github.io/VastModelZOO/)
-[![recipes](https://img.shields.io/badge/vllm-recipes-vastai.github.io/VastModelZOO-teal)](https://vllm-vacc.vastaitech.com/)
+[![vllm_recipes](https://img.shields.io/badge/vllm_recipes-vllm_vacc.vastaitech.com-teal)](https://vllm-vacc.vastaitech.com/)
 
 </div>
 
