@@ -63,7 +63,7 @@
       -v /path/to/model:/weights/ \
       -p 8000:8000 \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.05 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
       vllm serve /weights/Qwen/Qwen3Guard-Gen-0.6B \
       --trust-remote-code \
       --tensor-parallel-size 2 \

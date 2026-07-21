@@ -77,7 +77,7 @@ apt install aria2
       --ipc=host \
       -e LLM_MAX_PREFILL_SEQ_LEN="102400" \
       -e FUSE_ALL_DECODER_LAYERS="0" \
-      harbor.vastaitech.com/ai_deliver/VVI-25.12.SP2 \
+      harbor.vastaitech.com/ai_deliver/VVI-26.02 \
       vllm serve /weights/MiroThinker-v1.5-30B-FP8 \
       --trust-remote-code \
       --tensor-parallel-size 4 \
