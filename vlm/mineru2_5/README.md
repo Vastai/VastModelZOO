@@ -67,3 +67,5 @@ MinerU2.5整体分三阶段训练
   | MinerU2.5-2509-1.2B | [opendatalab/MinerU2.5-2509-1.2B](https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B) | [opendatalab/MinerU2.5-2509-1.2B](https://modelscope.cn/models/opendatalab/MinerU2.5-2509-1.2B) | 1.2B | BF16 | TP1/2 |
   | MinerU2.5-Pro-2605-1.2B | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://huggingface.co/opendatalab/MinerU2.5-Pro-2605-1.2B) | [opendatalab/MinerU2.5-Pro-2605-1.2B](https://modelscope.cn/models/OpenDataLab/MinerU2.5-Pro-2605-1.2B) | 1.2B | BF16 | TP1/2 |
 
+## Tis
+- 加载`MinerU2.5-Pro`模型时如出现报错`language_model.lm_head.weight`，考虑切换版本：`transformer==4.57.3`
