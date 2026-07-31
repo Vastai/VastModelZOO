@@ -153,3 +153,7 @@
 ## 使用许可
 - `VastModelZOO`提供的模型，如原始模型有许可证描述，请以该许可证为准
 - `VastModelZOO`遵循[Apache 2.0](LICENSE)许可证许可
+
+## 获取支持
+- 如需社区支持或咨询，请通过`ais-support@vastaitech.com`联系我们
+- For community support or inquiries, please contact us at `ais-support@vastaitech.com`
