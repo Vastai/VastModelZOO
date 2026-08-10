@@ -132,7 +132,7 @@
     --set pipeline.result_format.enable_merge_formula_numbers false \
     --set pipeline.layout.model_dir ./PaddlePaddle/PP-DocLayoutV3_safetensors \
     --layout-device cpu \
-    --output ./results_samples/
+    --output ./results/
     ```
 
 - 精度测评
@@ -144,40 +144,42 @@
 
     ```shell
     # OmniDocBench工具中CDM指标测评依赖库安装比较复杂，建议使用docker方式测评，此步骤无需显卡
-    # /cx8k/fs101/GLM-OCR/datasets/OmniDocBench/OmniDocBench.json：原始数据集标签
-    # /cx8k/fs101/GLM-OCR/results_md：`copy md`步骤的md文件夹路径
-    # /cx8k/fs101/GLM-OCR/results_metric：此工具生成文件保存路径
+    # /path/to/local/OmniDocBench/OmniDocBench.json：原始数据集标签
+    # /path/to/local/results_md：`copy md`步骤的md文件夹路径
+    # /path/to/local/results_md_metric：此为工具生成文件保存路径
 
+    # 如以下命令报yaml格式问题（某些场景拷贝出现缩进异常），请直接进入容器，手动保存为yaml文件后，执行python命令
     sudo docker run -it \
-    --entrypoint bash \
-    -v /cx8k/fs101/GLM-OCR/datasets/OmniDocBench/OmniDocBench.json:/workspace/gt/your_gt.json:ro \
-    -v /cx8k/fs101/GLM-OCR/results_md:/workspace/data_md/predictions:ro \
-    -v /cx8k/fs101/GLM-OCR/results_metric:/workspace/result \
-    docker.gh-proxy.org/ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
-    -c 'cat > configs/custom.yaml << "EOF"
-    end2end_eval:
-    metrics:
-        text_block:
-        metric: [Edit_dist]
-        display_formula:
-        metric: [Edit_dist, CDM]
-        table:
-        metric: [TEDS, Edit_dist]
-        reading_order:
-        metric: [Edit_dist]
-    dataset:
-        dataset_name: end2end_dataset
-        ground_truth:
-        data_path: ./gt/your_gt.json
-        prediction:
-        data_path: ./data_md/predictions
-        match_method: quick_match
-        match_workers: 4
-        quick_match_truncated_timeout_sec: 300
-        timeout_fallback_max_chunk_span: 10
-        timeout_fallback_order_penalty: 0.10
-    EOF
-    python pdf_validation.py --config configs/custom.yaml'
+        -v /path/to/local/OmniDocBench/OmniDocBench.json:/workspace/gt/your_gt.json:ro \
+        -v /path/to/local/results_md:/workspace/data_md/predictions:ro \
+        -v /path/to/local/results_md_metric:/workspace/result \
+        --entrypoint bash \
+        docker.gh-proxy.org/ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
+        -c '
+    printf "end2end_eval:
+        metrics:
+            text_block:
+                metric: [Edit_dist]
+            display_formula:
+                metric: [Edit_dist, CDM]
+            table:
+                metric: [TEDS, Edit_dist]
+            reading_order:
+                metric: [Edit_dist]
+        dataset:
+            dataset_name: end2end_dataset
+            ground_truth:
+                data_path: /workspace/gt/your_gt.json
+            prediction:
+                data_path: /workspace/data_md/predictions
+            match_method: quick_match
+            match_workers: 4
+            quick_match_truncated_timeout_sec: 300
+            timeout_fallback_max_chunk_span: 10
+            timeout_fallback_order_penalty: 0.10
+    " > configs/custom.yaml && \
+    python -c "import sys; sys.setrecursionlimit(10000); exec(open(\"pdf_validation.py\").read())" --config configs/custom.yaml
+    '
     ```
 
 - 指标统计
