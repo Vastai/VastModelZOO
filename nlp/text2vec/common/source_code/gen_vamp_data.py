@@ -51,13 +51,14 @@ with open('vamp_npz_list.txt', 'w') as f:
         attention_mask = inputs['attention_mask']
         token_type_ids = torch.zeros_like(attention_mask)
 
-        save_data = {'input_ids': input_ids.numpy().astype(np.int32),
-                    'attention_mask': attention_mask.numpy().astype(np.int32),
-                    'token_type_ids': token_type_ids.numpy().astype(np.int32),
-                    'attention_mask1': attention_mask.numpy().astype(np.int32),
-                    'attention_mask2': attention_mask.numpy().astype(np.int32),
-                    'attention_mask3': attention_mask.numpy().astype(np.int32)
-                    }
+        save_data = {
+            'input_0': input_ids.numpy().astype(np.int32),
+            'input_1': attention_mask.numpy().astype(np.int32),
+            'input_2': token_type_ids.numpy().astype(np.int32),
+            'input_3': attention_mask.numpy().astype(np.int32),
+            'input_4': attention_mask.numpy().astype(np.int32),
+            'input_5': attention_mask.numpy().astype(np.int32)
+            }
         file_path = os.path.join(npz_save_path, f"{index}.npz")
         f.write(file_path + '\n')
         np.savez(file_path, **save_data)
