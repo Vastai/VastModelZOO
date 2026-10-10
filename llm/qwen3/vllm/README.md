@@ -143,7 +143,7 @@
       -v /path/to/model:/weights/ \
       -p 8000:8000 \
       --ipc=host \
-      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.02 \
+      harbor.vastaitech.com/ai_deliver/vllm_vacc:VVI-26.08 \
       vllm serve /weights/Qwen3-235B-A22B-Instruct-2507-FP8 \
       --trust-remote-code \
       --tensor-parallel-size 16 \
