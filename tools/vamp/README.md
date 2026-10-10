@@ -6,7 +6,6 @@ VAMP集成于VVI（Vastai Versatile Inference）软件包的**vastpipe**组件�
 
 - VAMP版本：`2.5.2_03603c8b`（2026-01-08）
 - 所属VastPipe版本：`2.7.3`
-- 源码仓库：[model_profiler](http://gitlabdev.vastai.com/AIS/VVI-SV100/model_profiler/-/blob/master/README.md)
 
 ## 特性
 
@@ -31,9 +30,8 @@ VAMP集成于VVI（Vastai Versatile Inference）软件包的**vastpipe**组件�
 
 | 项目 | 说明 |
 | :--- | :--- |
-| 适配VVI版本 | VVI-26.02 |
+| 适配VVI版本 | [瀚博开发者中心 - VVI-26.02](https://developer.vastaitech.com/downloads/vvi?version_uid=535409016185163776)  |
 | 不兼容版本 | VVI-26.08 |
-| 下载地址 | [瀚博开发者中心 - VVI-26.02](https://developer.vastaitech.com/downloads/vvi?version_uid=535409016185163776) |
 
 > **注意：** VAMP当前版本基于VVI-26.02发布，依赖该版本中的vsx、VastStream等组件，**不兼容VVI-26.08**。使用VVI-26.08环境运行VAMP可能导致功能异常或无法运行，请确保使用VVI-26.02版本。
 
