@@ -60,7 +60,7 @@
     --tensor-parallel-size 1 \
     --max-model-len 131072 \
     --trust-remote-code \
-    --enforce_eager \
+    --enforce-eager \
     --no-async-scheduling \
     --port 8000
   ```
